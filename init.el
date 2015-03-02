@@ -1629,6 +1629,10 @@ Disable the highlighting of overlong lines."
   :ensure t
   :defer t)
 
+(use-package thrift                     ; Thrift interface files
+  :ensure t
+  :defer t)
+
 
 ;;; Proof General
 (use-package proof-site
