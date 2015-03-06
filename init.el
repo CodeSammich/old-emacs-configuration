@@ -1178,8 +1178,15 @@ Disable the highlighting of overlong lines."
   :mode ("/itsalltext/.*\\.md\\'" . gfm-mode)
   :config
   (progn
-    ;; Use Pandoc to process Markdown
-    (setq markdown-command "pandoc -s -f markdown -t html5")
+    ;; Process Markdown with Pandoc, using a custom stylesheet for nice output
+    (let ((stylesheet (expand-file-name
+                       (locate-user-emacs-file "etc/pandoc.css"))))
+      (setq markdown-command
+            (mapconcat #'shell-quote-argument
+                       `("pandoc" "--toc" "--section-divs"
+                         "--css" ,(concat "file://" stylesheet)
+                         "--standalone" "-f" "markdown" "-t" "html5")
+                       " ")))
 
     ;; No filling in GFM, because line breaks are significant.
     (add-hook 'gfm-mode-hook #'turn-off-auto-fill)
