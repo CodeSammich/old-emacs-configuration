@@ -222,6 +222,7 @@ Homebrew: brew install trash")))
   :init (unicode-fonts-setup))
 
 (use-package solarized                  ; My colour theme
+  :disabled t
   :ensure solarized-theme
   :defer t
   :init (load-theme 'solarized-light 'no-confirm)
@@ -236,6 +237,11 @@ Homebrew: brew install trash")))
         solarized-height-plus-2 1.0
         solarized-height-plus-3 1.0
         solarized-height-plus-4 1.0))
+
+(use-package zenburn
+  :ensure zenburn-theme
+  :defer t
+  :init (load-theme 'zenburn 'no-confirm))
 
 (bind-key "C-c t v" #'variable-pitch-mode)
 
