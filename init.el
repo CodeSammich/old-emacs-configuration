@@ -1644,7 +1644,7 @@ Disable the highlighting of overlong lines."
   :defer t)
 
 
-;;; Proof General
+;;; Proof General & Coq
 (use-package proof-site
   :load-path "vendor/ProofGeneral/generic"
   :config
@@ -1668,6 +1668,11 @@ Disable the highlighting of overlong lines."
   ;; Don't highlight overlong lines in Isar, since Unicode Tokens conceal the
   ;; true line length
   (add-hook 'isar-mode-hook #'lunaryorn-whitespace-style-no-long-lines 'append))
+
+(use-package company-coq
+  :ensure t
+  :defer t
+  :init (add-hook 'coq-mode-hook #'company-coq-initialize))
 
 
 ;;; Databases
