@@ -5,23 +5,20 @@
 /elpa/
 /vendor/ProofGeneral*
 
-# Cask directory
-/.cask/
-
-# Recovery directory
+# Recovery and backup directories
 /auto-save-list/
-# Backup directory
 /.backup/
-# Tutorial states
-/tutorial/
+
+# Files which are downloaded automatically by init.el
+/logo.png
+/scalastyle*.jar
 
 # Cache files and settings for packages
+/tutorial/
 /.emacs.desktop*
 /.mc-lists.el
-/.org-id-locations
 /smex-items
 /bookmarks
-/frame-restore-parameters
 /history
 /ido.last
 /places
@@ -36,10 +33,8 @@
 /var/
 /abbrev_defs
 /cider-repl-history
-/marmalade-upload.json
 /eww-bookmarks
 /.sx
 
-# Files which are downloaded automatically by init.el
-/logo.png
-/scalastyle*.jar
+# Cache file from marmalade-upload tool
+/marmalade-upload.json
