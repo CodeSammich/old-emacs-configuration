@@ -1400,7 +1400,8 @@ A pair of `(VERSION . SCALA-VERSION)'.")
         (url-copy-file lunaryorn-scalastyle-url filename))
 
       (with-eval-after-load 'flycheck
-        (setq flycheck-scalastyle-jar (expand-file-name filename))))))
+        (setq flycheck-scalastyle-jar (expand-file-name filename)
+              flycheck-scalastylerc "scalastyle-config.xml")))))
 
 (use-package sbt-mode                   ; Scala build tool
   :ensure t
