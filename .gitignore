@@ -15,7 +15,7 @@
 # Tutorial states
 /tutorial/
 
-# Various caches and settings
+# Cache files and settings for packages
 /.emacs.desktop*
 /.mc-lists.el
 /.org-id-locations
@@ -39,4 +39,7 @@
 /marmalade-upload.json
 /eww-bookmarks
 /.sx
+
+# Files which are downloaded automatically by init.el
 /logo.png
+/scalastyle*.jar
