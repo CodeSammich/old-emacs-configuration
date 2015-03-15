@@ -3,6 +3,7 @@
 
 # Installed packages
 /elpa/
+/.cask/
 /vendor/ProofGeneral*
 
 # Recovery and backup directories
