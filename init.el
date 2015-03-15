@@ -434,10 +434,10 @@ mouse-3: go to end"))))
   :defer t)
 
 (use-package windmove                   ; Move between windows with Shift+Arrow
-  :bind (((kbd "S-<left>")  . windmove-left)
-         ((kbd "S-<right>") . windmove-right)
-         ((kbd "S-<up>")    . windmove-up)
-         ((kbd "S-<down>")  . windmove-down)))
+  :bind (("S-<left>"  . windmove-left)
+         ("S-<right>" . windmove-right)
+         ("S-<up>"    . windmove-up)
+         ("S-<down>"  . windmove-down)))
 
 (use-package winner                     ; Undo and redo window configurations
   :init (winner-mode))
