@@ -359,7 +359,7 @@ mouse-3: go to end"))))
 
 (use-package smex                       ; Better M-x
   :ensure t
-  :bind (([remap execute-extended-command] . smex)
+  :bind (("<remap> <execute-extended-command>" . smex)
          ("M-X" . smex-major-mode-commands)))
 
 
@@ -396,7 +396,7 @@ mouse-3: go to end"))))
   :config (setq uniquify-buffer-name-style 'forward))
 
 (use-package ibuffer                    ; Better buffer list
-  :bind (([remap list-buffers] . ibuffer))
+  :bind (("<remap> <list-buffers>" . ibuffer))
   ;; Show VC Status in ibuffer
   :config (setq ibuffer-formats
                 '((mark modified read-only vc-status-mini " "
@@ -629,12 +629,12 @@ mouse-3: go to end"))))
 
 (use-package lunaryorn-simple           ; Personal editing helpers
   :load-path "lisp/"
-  :bind (([remap kill-whole-line]        . lunaryorn-smart-kill-whole-line)
-         ([remap move-beginning-of-line] . lunaryorn-back-to-indentation-or-beginning-of-line)
-         ("C-<backspace>"                . lunaryorn-smart-backward-kill-line)
-         ("C-S-j"                        . lunaryorn-smart-open-line)
+  :bind (("<remap> <kill-whole-line>"        . lunaryorn-smart-kill-whole-line)
+         ("<remap> <move-beginning-of-line>" . lunaryorn-back-to-indentation-or-beginning-of-line)
+         ("C-<backspace>"   . lunaryorn-smart-backward-kill-line)
+         ("C-S-j"           . lunaryorn-smart-open-line)
          ;; Additional utilities
-         ("C-c u d"                      . lunaryorn-insert-current-date))
+         ("C-c u d"         . lunaryorn-insert-current-date))
   :commands (lunaryorn-auto-fill-comments-mode)
   ;; Auto-fill comments in programming modes
   :init (add-hook 'prog-mode-hook #'lunaryorn-auto-fill-comments-mode))
@@ -682,8 +682,11 @@ mouse-3: go to end"))))
 
 (use-package easy-kill                  ; Easy killing and marking on C-w
   :ensure t
-  :bind (([remap kill-ring-save] . easy-kill)
-         ([remap mark-sexp]      . easy-mark)))
+  :bind (("<remap> <kill-ring-save>" . easy-kill)
+         ("<remap> <mark-sexp>"      . easy-mark)
+         ("M-w"                      . easy-kill)
+         ("C-M-SPC"                  . easy-mark)
+         ("C-M-@"                    . easy-mark)))
 
 (use-package align                      ; Align text in buffers
   :bind (("C-c A a" . align)
@@ -871,7 +874,8 @@ Disable the highlighting of overlong lines."
 (setq completion-cycle-threshold 5)
 
 (use-package hippie-exp                 ; Powerful expansion and completion
-  :bind (([remap dabbrev-expand] . hippie-expand))
+  :bind (("<remap> <dabbrev-expand>" . hippie-expand)
+         ("M-/"                      . hippie-expand))
   :config
   (setq hippie-expand-try-functions-list
         '(try-expand-dabbrev
