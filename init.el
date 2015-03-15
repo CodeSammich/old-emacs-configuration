@@ -514,7 +514,7 @@ mouse-3: go to end"))))
             (concat dired-listing-switches " --group-directories-first -v")))))
 
 (use-package dired-x                    ; Additional tools for Dired
-  :defer t
+  :bind (("C-x C-j" . dired-jump))
   :config
   (progn
     (setq dired-omit-verbose nil)        ; Shut up, dired
