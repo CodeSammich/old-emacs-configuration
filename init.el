@@ -80,7 +80,7 @@
 (use-package exec-path-from-shell
   :ensure t
   :if (and (eq system-type 'darwin) (display-graphic-p))
-  :init
+  :config
   (progn
     (when (string-match-p "/zsh$" (getenv "SHELL"))
       ;; Use a non-interactive shell.  We use a login shell, even though we have
@@ -138,7 +138,7 @@
   :if (eq system-type 'darwin)
   :load-path "lisp/"
   :defines (lunaryorn-darwin-trash-tool)
-  :init
+  :config
   (if (executable-find lunaryorn-darwin-trash-tool)
       (defalias 'system-move-file-to-trash 'lunaryorn-darwin-move-file-to-trash)
     (warn "Trash support not available!
@@ -1565,7 +1565,7 @@ A pair of `(VERSION . SCALA-VERSION)'.")
 ;;; OCaml
 (use-package opam                       ; Initialize Emacs with OPAM env
   :load-path "lisp/"
-  :init (opam-init))
+  :config (opam-init))
 
 (use-package tuareg                     ; OCaml editing
   :ensure t
@@ -1581,8 +1581,7 @@ A pair of `(VERSION . SCALA-VERSION)'.")
 (use-package merlin                     ; Powerful Emacs backend for OCaml
   :ensure t
   :defer t
-  :init
-  (add-hook 'tuareg-mode-hook #'merlin-mode)
+  :init (add-hook 'tuareg-mode-hook #'merlin-mode)
   :config
   ;; Use Merlin from current OPAM env
   (setq merlin-command 'opam
@@ -1709,6 +1708,7 @@ A pair of `(VERSION . SCALA-VERSION)'.")
 ;;; Version control
 (use-package vc-hooks                   ; Simple version control
   :defer t
+  :config
   ;; Always follow symlinks to files in VCS repos
   (setq vc-follow-symlinks t))
 
