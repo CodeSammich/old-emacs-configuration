@@ -536,12 +536,14 @@ mouse-3: go to end"))))
 (use-package ignoramus                  ; Ignore uninteresting files everywhere
   :ensure t
   :defer t
-  :idle (ignoramus-setup))
+  :idle (ignoramus-setup)
+  :idle-priority 5)
 
 (use-package hardhat                    ; Protect user-writable files
   :ensure t
   :defer t
-  :idle (global-hardhat-mode))
+  :idle (global-hardhat-mode)
+  :idle-priority 5)
 
 (use-package bookmark                   ; Bookmarks for Emacs buffers
   :bind (("C-c l b" . list-bookmarks))
@@ -551,6 +553,7 @@ mouse-3: go to end"))))
 (use-package recentf                    ; Save recently visited files
   :defer t
   :idle (recentf-mode)
+  :idle-priority 5
   :config
   (setq recentf-max-saved-items 200
         recentf-max-menu-items 15
@@ -578,7 +581,8 @@ mouse-3: go to end"))))
 (use-package launch                     ; Open files in external programs
   :ensure t
   :defer t
-  :idle (global-launch-mode))
+  :idle (global-launch-mode)
+  :idle-priority 5)
 
 (use-package ido-load-library           ; Load libraries with IDO
   :ensure t
@@ -734,7 +738,8 @@ mouse-3: go to end"))))
 
 (use-package server                     ; The server of `emacsclient'
   :defer t
-  :idle (server-start))
+  :idle (server-start)
+  :idle-priority 5)
 
 ;; Additional keybindings
 (bind-key [remap just-one-space] #'cycle-spacing)
@@ -897,6 +902,7 @@ Disable the highlighting of overlong lines."
   :ensure t
   :defer t
   :idle (global-company-mode)
+  :idle-priority 5
   :config
   (progn
     ;; Use Company for completion
@@ -1007,6 +1013,7 @@ Disable the highlighting of overlong lines."
   :ensure t
   :bind (("C-c T t" . typo-mode))
   :idle (typo-global-mode)
+  :idle-priority 5
   :init (dolist (hook '(markdown-mode-hook
                         rst-mode-hook))
           (add-hook hook 'typo-mode)))
