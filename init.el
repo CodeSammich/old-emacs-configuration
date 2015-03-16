@@ -172,12 +172,11 @@ Homebrew: brew install trash")))
 (use-package lunaryorn-scratch          ; My logo in the scratch buffer
   :commands (lunaryorn-insert-logo
              lunaryorn-insert-logo-into-scratch)
-  :init
-  (add-hook 'after-init-hook #'lunaryorn-insert-logo-into-scratch))
+  :init (add-hook 'after-init-hook #'lunaryorn-insert-logo-into-scratch))
 
 (use-package dynamic-fonts              ; Select best available font
   :ensure t
-  :init
+  :config
   (progn
     (setq dynamic-fonts-preferred-monospace-fonts
           '(
@@ -330,9 +329,7 @@ mouse-3: go to end"))))
                 savehist-autosave-interval 180))
 
 (use-package ido                        ; Better minibuffer completion
-  :init (progn
-          (ido-mode)
-          (ido-everywhere))
+  :init (progn (ido-mode) (ido-everywhere))
   :config
   (setq ido-enable-flex-matching t      ; Match characters if string doesn't
                                         ; match
@@ -370,25 +367,23 @@ mouse-3: go to end"))))
 
 (use-package frame
   :bind (("C-c T F" . toggle-frame-fullscreen))
-  :init
-  (progn
-    ;; Kill `suspend-frame'
-    (global-set-key (kbd "C-z") nil)
-    (global-set-key (kbd "C-x C-z") nil))
+  :init (progn
+          ;; Kill `suspend-frame'
+          (global-set-key (kbd "C-z") nil)
+          (global-set-key (kbd "C-x C-z") nil))
   :config (add-to-list 'initial-frame-alist '(fullscreen . maximized)))
 
 (use-package lunaryorn-buffers          ; Personal buffer tools
   :load-path "lisp/"
   :commands (lunaryorn-force-save-some-buffers
              lunaryorn-do-not-kill-important-buffers)
-  :init
-  (progn
-    (add-hook 'kill-buffer-query-functions
-              #'lunaryorn-do-not-kill-important-buffers)
+  :init (progn
+          (add-hook 'kill-buffer-query-functions
+                    #'lunaryorn-do-not-kill-important-buffers)
 
-    ;; Autosave buffers when focus is lost, see
-    ;; http://emacsredux.com/blog/2014/03/22/a-peek-at-emacs-24-dot-4-focus-hooks/
-    (add-hook 'focus-out-hook #'lunaryorn-force-save-some-buffers)))
+          ;; Autosave buffers when focus is lost, see
+          ;; http://emacsredux.com/blog/2014/03/22/a-peek-at-emacs-24-dot-4-focus-hooks/
+          (add-hook 'focus-out-hook #'lunaryorn-force-save-some-buffers)))
 
 (use-package uniquify                   ; Make buffer names unique
   :config (setq uniquify-buffer-name-style 'forward))
@@ -817,9 +812,8 @@ mouse-3: go to end"))))
 ;;; Highlights
 (use-package whitespace                 ; Highlight bad whitespace
   :bind (("C-c T w" . whitespace-mode))
-  :init
-  (dolist (hook '(prog-mode-hook text-mode-hook conf-mode-hook))
-    (add-hook hook #'whitespace-mode))
+  :init (dolist (hook '(prog-mode-hook text-mode-hook conf-mode-hook))
+          (add-hook hook #'whitespace-mode))
   :config
   ;; Highlight tabs, empty lines at beg/end, trailing whitespaces and overlong
   ;; portions of lines via faces.  Also indicate tabs via characters
@@ -903,11 +897,10 @@ Disable the highlighting of overlong lines."
 (use-package company-math               ; Completion for Math symbols
   :ensure t
   :defer t
-  :init
-  ;; Add backend for math characters
-  (with-eval-after-load 'company
-    (add-to-list 'company-backends 'company-math-symbols-unicode)
-    (add-to-list 'company-backends 'company-math-symbols-latex)))
+  :init (with-eval-after-load 'company
+          ;; Add backends for math characters
+          (add-to-list 'company-backends 'company-math-symbols-unicode)
+          (add-to-list 'company-backends 'company-math-symbols-latex)))
 
 
 ;;; Spelling and syntax checking
@@ -929,11 +922,9 @@ Disable the highlighting of overlong lines."
 
 (use-package flyspell                   ; On-the-fly spell checking
   :bind (("C-c T s" . flyspell-mode))
-  :init
-  (progn
-    (dolist (hook '(text-mode-hook message-mode-hook))
-      (add-hook hook 'turn-on-flyspell))
-    (add-hook 'prog-mode-hook 'flyspell-prog-mode))
+  :init (progn (dolist (hook '(text-mode-hook message-mode-hook))
+                 (add-hook hook 'turn-on-flyspell))
+               (add-hook 'prog-mode-hook 'flyspell-prog-mode))
   :config
   (progn
     (setq flyspell-use-meta-tab nil
@@ -961,8 +952,9 @@ Disable the highlighting of overlong lines."
 (use-package flycheck-pos-tip           ; Show Flycheck messages in popups
   :ensure t
   :defer t
-  :init
-  (setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
+  :init (with-eval-after-load 'flycheck
+          (setq flycheck-display-errors-function
+                #'flycheck-pos-tip-error-messages)))
 
 (use-package lunaryorn-flycheck         ; Personal Flycheck helpers
   :defer t
@@ -980,27 +972,23 @@ Disable the highlighting of overlong lines."
 ;;; Text editing
 (use-package tildify
   :bind (("C-c u t" . tildify-region))
-  :init
-  (progn
-    (dolist (hook '(markdown-mode-hook
-                    latex-mode-hook
-                    rst-mode-hook))
-      (add-hook hook #'tildify-mode))
-
-    ;; Use the right space for LaTeX
-    (add-hook 'latex-mode-hook
-              (lambda () (setq-local tildify-space-string "~")))))
+  :init (dolist (hook '(markdown-mode-hook
+                        latex-mode-hook
+                        rst-mode-hook))
+          (add-hook hook #'tildify-mode))
+  ;; Use the right space for LaTeX
+  :config (add-hook 'latex-mode-hook
+                    (lambda () (setq-local tildify-space-string "~"))))
 
 (use-package typo
   :ensure t
   :bind (("C-c T t" . typo-mode))
-  :init
-  (progn
-    (typo-global-mode)
+  :init (progn
+          (typo-global-mode)
 
-    (dolist (hook '(markdown-mode-hook
-                    rst-mode-hook))
-      (add-hook hook 'typo-mode))))
+          (dolist (hook '(markdown-mode-hook
+                          rst-mode-hook))
+            (add-hook hook 'typo-mode))))
 
 
 ;;; LaTeX with AUCTeX
@@ -1238,8 +1226,7 @@ Disable the highlighting of overlong lines."
 (use-package highlight-numbers          ; Fontify number literals
   :ensure t
   :defer t
-  :init
-  (add-hook 'prog-mode-hook #'highlight-numbers-mode))
+  :init (add-hook 'prog-mode-hook #'highlight-numbers-mode))
 
 (use-package rainbow-mode               ; Fontify color values in code
   :ensure t
@@ -1254,12 +1241,10 @@ Disable the highlighting of overlong lines."
    ("C-c s n" . highlight-symbol-next-in-defun)
    ("C-c s o" . highlight-symbol-occur)
    ("C-c s p" . highlight-symbol-prev-in-defun))
-  :init
-  (progn
-    ;; Navigate occurrences of the symbol under point with M-n and M-p
-    (add-hook 'prog-mode-hook #'highlight-symbol-nav-mode)
-    ;; Highlight symbol occurrences
-    (add-hook 'prog-mode-hook #'highlight-symbol-mode))
+  ;; Navigate occurrences of the symbol under point with M-n and M-p, and
+  ;; highlight symbol occurrences
+  :init (progn (add-hook 'prog-mode-hook #'highlight-symbol-nav-mode)
+               (add-hook 'prog-mode-hook #'highlight-symbol-mode))
   :config
   (setq highlight-symbol-idle-delay 0.4     ; Highlight almost immediately
         highlight-symbol-on-navigation-p t) ; Highlight immediately after
@@ -1296,13 +1281,11 @@ Disable the highlighting of overlong lines."
 (use-package paredit                    ; Balanced sexp editing
   :ensure t
   :defer t
-  :init
-  (progn
-    (dolist (hook '(eval-expression-minibuffer-setup-hook
-                    emacs-lisp-mode-hook
-                    inferior-emacs-lisp-mode-hook
-                    clojure-mode-hook))
-      (add-hook hook #'paredit-mode)))
+  :init (dolist (hook '(eval-expression-minibuffer-setup-hook
+                        emacs-lisp-mode-hook
+                        inferior-emacs-lisp-mode-hook
+                        clojure-mode-hook))
+          (add-hook hook #'paredit-mode))
   :config
   (progn
     ;; Free M-s.  There are some useful bindings in that prefix map.
@@ -1335,10 +1318,9 @@ Disable the highlighting of overlong lines."
 (use-package macrostep                  ; Interactively expand macros in code
   :ensure t
   :defer t
-  :init
-  (with-eval-after-load 'lisp-mode
-    (bind-key "C-c e" #'macrostep-expand emacs-lisp-mode-map)
-    (bind-key "C-c e" #'macrostep-expand lisp-interaction-mode-map)))
+  :init (with-eval-after-load 'lisp-mode
+          (bind-key "C-c e" #'macrostep-expand emacs-lisp-mode-map)
+          (bind-key "C-c e" #'macrostep-expand lisp-interaction-mode-map)))
 
 (use-package ielm                       ; Emacs Lisp REPL
   :bind (("C-c u z" . ielm)))
@@ -1355,12 +1337,12 @@ Disable the highlighting of overlong lines."
   :load-path "lisp/"
   :commands (lunaryorn-find-cask-file
              lunaryorn-add-use-package-to-imenu)
-  :init
-  (progn
-    (add-hook 'emacs-lisp-mode-hook #'lunaryorn-add-use-package-to-imenu)
+  :init (progn
+          (add-hook 'emacs-lisp-mode-hook #'lunaryorn-add-use-package-to-imenu)
 
-    (with-eval-after-load 'lisp-mode
-      (bind-key "C-c f c" #'lunaryorn-find-cask-file emacs-lisp-mode-map))))
+          (with-eval-after-load 'lisp-mode
+            (bind-key "C-c f c" #'lunaryorn-find-cask-file
+                      emacs-lisp-mode-map))))
 
 (bind-key "C-c T d" #'toggle-debug-on-error)
 
@@ -1433,9 +1415,8 @@ A pair of `(VERSION . SCALA-VERSION)'.")
 (use-package company-anaconda           ; Python backend for Company
   :ensure t
   :defer t
-  :init
-  (with-eval-after-load 'company
-    (add-to-list 'company-backends 'company-anaconda)))
+  :init (with-eval-after-load 'company
+          (add-to-list 'company-backends 'company-anaconda)))
 
 (use-package pip-requirements           ; requirements.txt files
   :ensure t
@@ -1446,8 +1427,7 @@ A pair of `(VERSION . SCALA-VERSION)'.")
 (use-package inf-ruby                   ; Ruby REPL
   :ensure t
   :defer t
-  :init
-  (add-hook 'ruby-mode-hook #'inf-ruby-minor-mode)
+  :init (add-hook 'ruby-mode-hook #'inf-ruby-minor-mode)
   :config
   ;; Easily switch to Inf Ruby from compilation modes to Inf Ruby
   (inf-ruby-switch-setup))
@@ -1716,16 +1696,15 @@ A pair of `(VERSION . SCALA-VERSION)'.")
 (use-package diff-hl                    ; Highlight hunks in fringe
   :ensure t
   :defer t
-  :init
-  (progn
-    ;; Highlight changes to the current file in the fringe
-    (global-diff-hl-mode)
-    ;; Highlight changed files in the fringe of Dired
-    (add-hook 'dired-mode-hook 'diff-hl-dired-mode)
+  :init (progn
+          ;; Highlight changes to the current file in the fringe
+          (global-diff-hl-mode)
+          ;; Highlight changed files in the fringe of Dired
+          (add-hook 'dired-mode-hook 'diff-hl-dired-mode)
 
-    ;; Fall back to the display margin, if the fringe is unavailable
-    (unless (display-graphic-p)
-      (diff-hl-margin-mode))))
+          ;; Fall back to the display margin, if the fringe is unavailable
+          (unless (display-graphic-p)
+            (diff-hl-margin-mode))))
 
 (use-package magit                      ; The one and only Git frontend
   :ensure t
