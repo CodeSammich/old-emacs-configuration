@@ -298,8 +298,7 @@ Homebrew: brew install trash")))
 (use-package fancy-battery              ; Fancy battery info for mode line
   :ensure t
   :defer t
-  :idle (fancy-battery-mode)
-  :idle-priority 10)
+  :init (fancy-battery-mode))
 
 (use-package anzu                       ; Position/matches count for isearch
   :ensure t
@@ -308,9 +307,7 @@ Homebrew: brew install trash")))
   :diminish anzu-mode)
 
 (use-package which-func                 ; Current function name in header line
-  :defer t
-  :idle (which-function-mode)
-  :idle-priority 1
+  :init (which-function-mode)
   :config
   (setq which-func-unknown "⊥" ; The default is really boring…
         which-func-format
@@ -534,15 +531,11 @@ mouse-3: go to end"))))
 
 (use-package ignoramus                  ; Ignore uninteresting files everywhere
   :ensure t
-  :defer t
-  :idle (ignoramus-setup)
-  :idle-priority 5)
+  :init (ignoramus-setup))
 
 (use-package hardhat                    ; Protect user-writable files
   :ensure t
-  :defer t
-  :idle (global-hardhat-mode)
-  :idle-priority 5)
+  :init (global-hardhat-mode))
 
 (use-package bookmark                   ; Bookmarks for Emacs buffers
   :bind (("C-c l b" . list-bookmarks))
@@ -550,9 +543,7 @@ mouse-3: go to end"))))
   :config (setq bookmark-save-flag 1))
 
 (use-package recentf                    ; Save recently visited files
-  :defer t
-  :idle (recentf-mode)
-  :idle-priority 5
+  :init (recentf-mode)
   :config
   (setq recentf-max-saved-items 200
         recentf-max-menu-items 15
@@ -579,9 +570,7 @@ mouse-3: go to end"))))
 
 (use-package launch                     ; Open files in external programs
   :ensure t
-  :defer t
-  :idle (global-launch-mode)
-  :idle-priority 5)
+  :init (global-launch-mode))
 
 (use-package ido-load-library           ; Load libraries with IDO
   :ensure t
@@ -737,8 +726,7 @@ mouse-3: go to end"))))
 
 (use-package server                     ; The server of `emacsclient'
   :defer t
-  :idle (server-start)
-  :idle-priority 5)
+  :init (server-start))
 
 ;; Additional keybindings
 (bind-key [remap just-one-space] #'cycle-spacing)
@@ -899,9 +887,7 @@ Disable the highlighting of overlong lines."
 
 (use-package company                    ; Graphical (auto-)completion
   :ensure t
-  :defer t
-  :idle (global-company-mode)
-  :idle-priority 5
+  :init (global-company-mode)
   :config
   (progn
     ;; Use Company for completion
@@ -1011,11 +997,13 @@ Disable the highlighting of overlong lines."
 (use-package typo
   :ensure t
   :bind (("C-c T t" . typo-mode))
-  :idle (typo-global-mode)
-  :idle-priority 5
-  :init (dolist (hook '(markdown-mode-hook
-                        rst-mode-hook))
-          (add-hook hook 'typo-mode)))
+  :init
+  (progn
+    (typo-global-mode)
+
+    (dolist (hook '(markdown-mode-hook
+                    rst-mode-hook))
+      (add-hook hook 'typo-mode))))
 
 
 ;;; LaTeX with AUCTeX
@@ -1345,9 +1333,7 @@ Disable the highlighting of overlong lines."
 
 (use-package pcre2el                    ; Convert regexps to RX and back
   :ensure t
-  :defer t
-  :idle (rxt-global-mode)
-  :idle-priority 10)
+  :init (rxt-global-mode))
 
 (use-package macrostep                  ; Interactively expand macros in code
   :ensure t
@@ -1786,10 +1772,11 @@ A pair of `(VERSION . SCALA-VERSION)'.")
   :ensure t
   :defer t
   :init (projectile-global-mode)
-  :idle (projectile-cleanup-known-projects)
-  :idle-priority 10
   :config
   (progn
+    ;; Remove dead projects when Emacs is idle
+    (run-with-idle-timer 10 nil #'projectile-cleanup-known-projects)
+
     (setq projectile-completion-system 'ido
           projectile-find-dir-includes-top-level t
           projectile-mode-line '(:propertize
