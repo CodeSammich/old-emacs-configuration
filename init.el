@@ -1662,8 +1662,13 @@ A pair of `(VERSION . SCALA-VERSION)'.")
 
 
 ;;; Proof General & Coq
+(defun lunaryorn-have-proofgeneral-p ()
+  "Determine whether we have Proof General installed."
+  (file-exists-p (locate-user-emacs-file "vendor/ProofGeneral/generic")))
+
 (use-package proof-site
   :load-path "vendor/ProofGeneral/generic"
+  :if (lunaryorn-have-proofgeneral-p)
   :config
   (setq proof-three-window-enable nil   ; More predictable window management
         ;; Automatically process the script up to point when inserting a
@@ -1675,11 +1680,13 @@ A pair of `(VERSION . SCALA-VERSION)'.")
 (setq coq-one-command-per-line nil)
 
 (use-package proof-script
+  :if (lunaryorn-have-proofgeneral-p)
   :defer t
   :config
   (add-hook 'proof-mode-hook (lambda () (run-hooks 'prog-mode-hook))))
 
 (use-package isar                       ; Isabelle syntax for PG
+  :if (lunaryorn-have-proofgeneral-p)
   :defer t
   :config
   ;; Don't highlight overlong lines in Isar, since Unicode Tokens conceal the
@@ -1687,6 +1694,7 @@ A pair of `(VERSION . SCALA-VERSION)'.")
   (add-hook 'isar-mode-hook #'lunaryorn-whitespace-style-no-long-lines 'append))
 
 (use-package company-coq
+  :if (lunaryorn-have-proofgeneral-p)
   :ensure t
   :defer t
   :init (add-hook 'coq-mode-hook #'company-coq-initialize))
