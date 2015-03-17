@@ -1833,7 +1833,8 @@ A pair of `(VERSION . SCALA-VERSION)'.")
   :bind (("C-c w b" . eww-list-bookmarks)
          ("C-c w w" . eww)))
 
-(use-package sx                         ; StackExchange client for Emacs
+(use-package sx-tab                     ; StackExchange client for Emacs
+  :ensure sx
   :ensure t
   :bind (("C-c w s" . sx-tab-frontpage)
          ("C-c w S" . sx-tab-newest)
