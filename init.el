@@ -222,11 +222,10 @@ Homebrew: brew install trash")))
   :init (unicode-fonts-setup))
 
 (use-package solarized                  ; My colour theme
-  :disabled t
   :ensure solarized-theme
   :defer t
   :init (load-theme 'solarized-light 'no-confirm)
-  :config t
+  :config
   ;; Disable variable pitch fonts in Solarized theme
   (setq solarized-use-variable-pitch nil
         ;; Don't add too much colours to the fringe
@@ -239,6 +238,7 @@ Homebrew: brew install trash")))
         solarized-height-plus-4 1.0))
 
 (use-package zenburn
+  :disabled t
   :ensure zenburn-theme
   :defer t
   :init (load-theme 'zenburn 'no-confirm))
