@@ -50,10 +50,14 @@
   (package-refresh-contents)
   (package-install 'use-package))
 
-(require 'use-package)
-
 
 ;;; Requires
+
+(eval-when-compile
+  (require 'use-package))
+
+(require 'bind-key)
+(require 'diminish)
 
 (require 'subr-x)
 (require 'rx)
