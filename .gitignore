@@ -1,6 +1,12 @@
 # Elisp byte code
 *.elc
 
+# Customization settings.  We ignore these because they are automatically
+# generated, and sometimes contain “local” information (e.g. safe themes,
+# automatically installed packages).  And all of my real settings are in init.el
+# anyway
+/custom.el
+
 # Installed packages
 /elpa/
 /.cask/
