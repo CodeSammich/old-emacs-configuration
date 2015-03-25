@@ -1645,6 +1645,12 @@ A pair of `(VERSION . SCALA-VERSION)'.")
   :ensure t
   :defer t)
 
+(use-package swift-mode                 ; Swift sources
+  :ensure t
+  :defer t
+  :config (with-eval-after-load 'flycheck
+            (add-to-list 'flycheck-checkers 'swift)))
+
 
 ;;; Proof General & Coq
 (defun lunaryorn-have-proofgeneral-p ()
