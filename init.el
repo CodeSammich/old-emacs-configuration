@@ -1829,6 +1829,9 @@ A pair of `(VERSION . SCALA-VERSION)'.")
                                   ("America/New_York" "New York (USA)")
                                   ("Asia/Tokyo"       "Tokyo (JP)"))))
 
+(use-package bug-hunter                 ; Search init file for bugs
+  :ensure t)
+
 
 ;;; Terminal emulation and shells
 (use-package shell                      ; Dump shell in Emacs
