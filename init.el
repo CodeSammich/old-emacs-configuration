@@ -1825,6 +1825,7 @@ A pair of `(VERSION . SCALA-VERSION)'.")
   (setq display-time-world-time-format "%H:%M %Z, %d. %b"
         display-time-world-list '(("Europe/Berlin"    "Berlin")
                                   ("Europe/London"    "London")
+                                  ("Europe/Istanbul"  "Istanbul")
                                   ("America/Winnipeg" "Winnipeg (CA)")
                                   ("America/New_York" "New York (USA)")
                                   ("Asia/Tokyo"       "Tokyo (JP)"))))
