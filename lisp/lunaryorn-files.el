@@ -33,8 +33,9 @@
 
 (require 'subr-x)
 
-;; We only access this variable if recentf is loaded
+;; We only access these variables if the corresponding library is loaded
 (defvar recentf-list)
+(defvar projectile-require-project-root)
 
 ;; Assert the byte compiler that dired functions are defined, because we never
 ;; call them for non-dired buffers, so we can be sure that dired is always
@@ -57,13 +58,20 @@ The file is the buffer's file name, or the `default-directory' in
 
 With a zero prefix arg, copy the absolute file name.  With
 \\[universal-argument], copy the file name relative to the
-current buffer's `default-directory'.  Otherwise copy the
-non-directory part only."
+current Projectile project, or to the current buffer's
+`default-directory', if the file is not part of any project.
+Otherwise copy the non-directory part only."
   (interactive "P")
-  (if-let ((filename (lunaryorn-current-file))
-           (name-to-copy (cond ((zerop (prefix-numeric-value arg)) filename)
-                               ((consp arg) (file-relative-name filename))
-                               (t (file-name-nondirectory filename)))))
+  (if-let ((file-name (lunaryorn-current-file))
+           (name-to-copy
+            (cond
+             ((zerop (prefix-numeric-value arg)) file-name)
+             ((consp arg)
+              (let* ((projectile-require-project-root nil)
+                     (directory (and (fboundp 'projectile-project-root)
+                                     (projectile-project-root))))
+                (file-relative-name file-name directory)))
+             (t (file-name-nondirectory file-name)))))
       (progn
         (kill-new name-to-copy)
         (message "%s" name-to-copy))
