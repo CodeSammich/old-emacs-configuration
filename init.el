@@ -1720,7 +1720,8 @@ A pair of `(VERSION . SCALA-VERSION)'.")
   :ensure t
   :bind (("C-c g"   . magit-status)
          ("C-c v g" . magit-status)
-         ("C-c v v" . magit-status))
+         ("C-c v v" . magit-status)
+         ("C-c v g" . magit-blame-mode))
   :config
   (progn
     ;; Shut up, Magit!
