@@ -1580,11 +1580,7 @@ A pair of `(VERSION . SCALA-VERSION)'.")
 (use-package js2-mode                   ; Javascript editing
   :ensure t
   :mode "\\.js\\(?:on\\)?\\'"
-  :config (progn
-            ;; Cycle through possible indentations for the current line
-            (setq js2-bounce-indent-p t)
-
-            (setq-default js2-basic-offset 2)))
+  :config (setq-default js2-basic-offset 2))
 
 (use-package css-mode
   :defer t
