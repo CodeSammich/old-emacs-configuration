@@ -599,9 +599,6 @@ mouse-3: go to end"))))
 ;; Make Tab complete if the line is indented
 (setq tab-always-indent 'complete)
 
-(use-package electric                   ; Electric code layout
-  :init (electric-layout-mode))
-
 (use-package elec-pair                  ; Electric pairs
   :init (electric-pair-mode))
 
