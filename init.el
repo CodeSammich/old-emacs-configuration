@@ -333,7 +333,8 @@ mouse-3: go to end"))))
                 savehist-autosave-interval 180))
 
 (use-package ido                        ; Better minibuffer completion
-  :init (progn (ido-mode) (ido-everywhere))
+  :init (progn (ido-mode 1)             ; IDO mode is no proper minor mode :|
+               (ido-everywhere))
   :config
   (setq ido-enable-flex-matching t      ; Match characters if string doesn't
                                         ; match
