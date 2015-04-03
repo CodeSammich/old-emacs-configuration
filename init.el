@@ -723,7 +723,6 @@ mouse-3: go to end"))))
 
 ;; Additional keybindings
 (bind-key [remap just-one-space] #'cycle-spacing)
-(bind-key "M-Z" #'zap-up-to-char)
 
 
 ;;; Navigation and scrolling
