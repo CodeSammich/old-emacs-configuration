@@ -1963,6 +1963,12 @@ A pair of `(VERSION . SCALA-VERSION)'.")
   :init (add-hook 'yaml-mode-hook #'ansible-doc-mode)
   :diminish ansible-doc-mode)
 
+(use-package dash-at-point
+  :ensure t
+  :defer t
+  :bind (("C-c h d" . dash-at-point)
+         ("C-c h D" . dash-at-point-with-docset)))
+
 (bind-key "C-c h b" #'describe-personal-keybindings)
 
 ;; Local Variables:
