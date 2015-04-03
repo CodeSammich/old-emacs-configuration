@@ -652,9 +652,7 @@ mouse-3: go to end"))))
 (use-package visual-fill-column
   :ensure t
   :defer t
-  :init (add-hook 'visual-line-mode-hook #'visual-fill-column-mode)
-  ;; Keep the fringe
-  :config (setq visual-fill-column-disable-fringe nil))
+  :init (add-hook 'visual-line-mode-hook #'visual-fill-column-mode))
 
 (use-package visual-regexp              ; Regexp replace with in-buffer display
   :ensure t
