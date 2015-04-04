@@ -371,7 +371,7 @@ mouse-3: go to end"))))
                   (abbreviate-file-name (buffer-file-name)) "%b")))
 
 (use-package frame
-  :bind (("C-c T F" . toggle-frame-fullscreen))
+  :bind (("C-c t F" . toggle-frame-fullscreen))
   :init (progn
           ;; Kill `suspend-frame'
           (global-set-key (kbd "C-z") nil)
@@ -459,7 +459,7 @@ mouse-3: go to end"))))
 
 (use-package writeroom-mode             ; Distraction-free editing
   :ensure t
-  :bind (("C-c T R" . writeroom-mode)))
+  :bind (("C-c t R" . writeroom-mode)))
 
 
 ;;; File handling
@@ -635,7 +635,7 @@ mouse-3: go to end"))))
 
 (use-package whitespace-cleanup-mode    ; Cleanup whitespace in buffers
   :ensure t
-  :bind (("C-c T W" . whitespace-cleanup-mode))
+  :bind (("C-c t c" . whitespace-cleanup-mode))
   :init (dolist (hook '(prog-mode-hook text-mode-hook conf-mode-hook))
           (add-hook hook #'whitespace-cleanup-mode))
   :diminish whitespace-cleanup-mode)
@@ -706,7 +706,7 @@ mouse-3: go to end"))))
 
 (use-package nlinum                     ; Line numbers in display margin
   :ensure t
-  :bind (("C-c T l" . nlinum-mode)))
+  :bind (("C-c t l" . nlinum-mode)))
 
 ;; Give us narrowing back!
 (put 'narrow-to-region 'disabled nil)
@@ -810,7 +810,7 @@ mouse-3: go to end"))))
 
 ;;; Highlights
 (use-package whitespace                 ; Highlight bad whitespace
-  :bind (("C-c T w" . whitespace-mode))
+  :bind (("C-c t w" . whitespace-mode))
   :init (dolist (hook '(prog-mode-hook text-mode-hook conf-mode-hook))
           (add-hook hook #'whitespace-mode))
   :config
@@ -920,7 +920,7 @@ Disable the highlighting of overlong lines."
       (warn "No spell checker available.  Install Hunspell or ASpell for OS X."))))
 
 (use-package flyspell                   ; On-the-fly spell checking
-  :bind (("C-c T s" . flyspell-mode))
+  :bind (("C-c t s" . flyspell-mode))
   :init (progn (dolist (hook '(text-mode-hook message-mode-hook))
                  (add-hook hook 'turn-on-flyspell))
                (add-hook 'prog-mode-hook 'flyspell-prog-mode))
@@ -938,7 +938,7 @@ Disable the highlighting of overlong lines."
 (use-package flycheck                   ; On-the-fly syntax checking
   :ensure t
   :bind (("C-c l e" . list-flycheck-errors)
-         ("C-c T f" . flycheck-mode))
+         ("C-c t f" . flycheck-mode))
   :init (global-flycheck-mode)
   :config
   (progn
@@ -981,7 +981,7 @@ Disable the highlighting of overlong lines."
 
 (use-package typo
   :ensure t
-  :bind (("C-c T t" . typo-mode))
+  :bind (("C-c t t" . typo-mode))
   :init (progn
           (typo-global-mode)
 
@@ -1229,7 +1229,7 @@ Disable the highlighting of overlong lines."
 
 (use-package rainbow-mode               ; Fontify color values in code
   :ensure t
-  :bind (("C-c T r" . rainbow-mode))
+  :bind (("C-c t r" . rainbow-mode))
   :config (add-hook 'css-mode-hook #'rainbow-mode))
 
 (use-package highlight-symbol           ; Highlighting and commands for symbols
@@ -1343,7 +1343,7 @@ Disable the highlighting of overlong lines."
             (bind-key "C-c f c" #'lunaryorn-find-cask-file
                       emacs-lisp-mode-map))))
 
-(bind-key "C-c T d" #'toggle-debug-on-error)
+(bind-key "C-c t d" #'toggle-debug-on-error)
 
 
 ;;; Scala
