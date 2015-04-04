@@ -27,6 +27,21 @@
 
 ;; Emacs configuration of Sebastian Wiesner, functional programmer and Flycheck
 ;; maintainer.
+;;
+;; User key prefixes:
+;;
+;; - C-c A: Align
+;; - C-c a: Ag
+;; - C-c d: Data stuff
+;; - C-c f: Files
+;; - C-c h: Help and documentation
+;; - C-c l: List things
+;; - C-c m: Multiple cursors
+;; - C-c s: Symbol commands
+;; - C-c t: Toggle things and skeletons
+;; - C-c u: Miscellaneous utilities
+;; - C-c v: Version control
+;; - C-c w: Web stuff
 
 ;;; Code:
 
