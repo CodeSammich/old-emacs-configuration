@@ -111,6 +111,7 @@ Otherwise copy the non-directory part only."
   (interactive)
   (find-file-other-window user-init-file))
 
+;;;###autoload
 (defun lunaryorn-ido-find-recentf ()
   "Find a recent file with IDO."
   (interactive)
@@ -119,6 +120,7 @@ Otherwise copy the non-directory part only."
   (when-let (file (ido-completing-read "Find recent file: " recentf-list nil t))
     (find-file file)))
 
+;;;###autoload
 (defun lunaryorn-launch-dwim ()
   "Open the current file externally."
   (interactive)
