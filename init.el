@@ -465,9 +465,8 @@ mouse-3: go to end"))))
 (use-package desktop                    ; Save buffers, windows and frames
   :init (desktop-save-mode)
   :config (progn
-            ;; Don't autosave desktops, it's too expensive.  Desktops aren't
-            ;; that precious, and Emacs will save the desktop on exit anyway.
-            (setq desktop-auto-save-timeout nil)
+            ;; Save desktops a minute after Emacs was idle.
+            (setq desktop-auto-save-timeout 60)
 
             (dolist (mode '(magit-mode git-commit-mode))
               (add-to-list 'desktop-modes-not-to-save mode))))
