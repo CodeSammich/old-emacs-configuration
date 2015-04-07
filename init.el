@@ -594,11 +594,12 @@ mouse-3: go to end"))))
 (use-package lunaryorn-files            ; Personal file tools
   :load-path "lisp/"
   :bind (("C-c f D" . lunaryorn-delete-file-and-buffer)
-         ("C-c f i" . lunaryorn-find-user-init-file-other-window)
+         ("C-c f i" . lunaryorn-open-in-intellij)
          ("C-c f o" . lunaryorn-launch-dwim)
          ("C-c f r" . lunaryorn-ido-find-recentf)
          ("C-c f R" . lunaryorn-rename-file-and-buffer)
-         ("C-c f w" . lunaryorn-copy-filename-as-kill)))
+         ("C-c f w" . lunaryorn-copy-filename-as-kill)
+         ("C-c f u" . lunaryorn-find-user-init-file-other-window)))
 
 ;;; Additional bindings for built-ins
 (bind-key "C-c f v d" #'add-dir-local-variable)

@@ -31,6 +31,7 @@
 
 ;;; Code:
 
+(require 'lunaryorn-osx)
 (require 'subr-x)
 
 ;; We only access these variables if the corresponding library is loaded
@@ -132,6 +133,37 @@ Otherwise copy the non-directory part only."
     (if (buffer-file-name)
         (launch-file (buffer-file-name))
       (user-error "The current buffer is not visiting a file"))))
+
+(defun lunaryorn-intellij-project-directory ()
+  "Get the path to the current IntelliJ project directory."
+  (when-let (file-name (buffer-file-name))
+    (locate-dominating-file
+     file-name
+     (lambda (dir)
+       (and (file-directory-p dir)
+            (directory-files dir nil (rx ".iml" string-end)
+                             'nosort))))))
+
+(defun lunaryorn-intellij-launcher ()
+  "Get the IntelliJ launcher for the current system."
+  (pcase system-type
+    (`darwin
+     (when-let (bundle (lunaryorn-path-of-bundle "com.jetbrains.intellij"))
+       (expand-file-name "Contents/MacOS/idea" bundle)))
+    (_ (user-error "No launcher for system %S" system-type))))
+
+;;;###autoload
+(defun lunaryorn-open-in-intellij ()
+  "Open the current file in IntelliJ IDEA."
+  (interactive)
+  (let ((project-dir (lunaryorn-intellij-project-directory))
+        (launcher (lunaryorn-intellij-launcher)))
+    (unless project-dir
+      (user-error "No IntelliJ project found for the current buffer"))
+    (start-process "*intellij*" nil launcher
+                   (expand-file-name project-dir)
+                   "--line" (number-to-string (line-number-at-pos))
+                   (expand-file-name (buffer-file-name)))))
 
 (provide 'lunaryorn-files)
 
