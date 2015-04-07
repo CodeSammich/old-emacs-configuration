@@ -1214,6 +1214,11 @@ Disable the highlighting of overlong lines."
   :config
   (setq graphviz-dot-indent-width 4))
 
+(use-package json-reformat              ; Reformat JSON
+  :ensure t
+  :defer t
+  :bind (("C-c u j" . json-reformat-region)))
+
 
 ;;; Programming utilities
 (use-package compile                    ; Compile from Emacs
