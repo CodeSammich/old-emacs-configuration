@@ -1597,7 +1597,10 @@ A pair of `(VERSION . SCALA-VERSION)'.")
 (use-package js2-mode                   ; Javascript editing
   :ensure t
   :mode "\\.js\\(?:on\\)?\\'"
-  :config (setq-default js2-basic-offset 2))
+  :config (progn
+            (setq-default js2-basic-offset 2)
+
+            (setq js2-global-externs '("angular"))))
 
 (use-package css-mode
   :defer t
