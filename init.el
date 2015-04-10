@@ -1376,6 +1376,7 @@ Disable the highlighting of overlong lines."
 
 (use-package flycheck-auto-scalastyle   ; Scalastyle setup
   :load-path "lisp/"
+  :defer t
   :commands (flycheck-auto-scalastyle-configure
              flycheck-auto-scalastyle-setup)
   :init (with-eval-after-load 'scala-mode2
