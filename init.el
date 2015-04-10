@@ -1876,6 +1876,9 @@ Disable the highlighting of overlong lines."
 
 
 ;;; Net & Web
+(use-package browse-url                 ; Browse URLs
+  :bind (("C-c w u" . browse-url)))
+
 (use-package eww                        ; Emacs' built-in web browser
   :bind (("C-c w b" . eww-list-bookmarks)
          ("C-c w w" . eww)))
