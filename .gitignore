@@ -18,7 +18,7 @@
 
 # Files which are downloaded automatically by init.el
 /logo.png
-/scalastyle*.jar
+/scalastyle/
 
 # Cache files and settings for packages
 /tutorial/

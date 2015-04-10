@@ -1367,35 +1367,17 @@ Disable the highlighting of overlong lines."
 
 
 ;;; Scala
-(defconst lunaryorn-scalastyle-version '("0.6.0" . "2.10")
-  "Version of scala style to use for Flycheck.
-
-A pair of `(VERSION . SCALA-VERSION)'.")
-
-(defconst lunaryorn-scalastyle-jar
-  (pcase-let ((`(,version . ,scala-version) lunaryorn-scalastyle-version))
-    (format "scalastyle_%s-%s-batch.jar" scala-version version))
-  "Name of the scalastyle JAR.")
-
-(defconst lunaryorn-scalastyle-url
-  (pcase-let ((`(,version . ,scala-version) lunaryorn-scalastyle-version))
-    (format "https://oss.sonatype.org/content/repositories/releases/org/scalastyle/scalastyle_%s/%s/%s"
-            scala-version version lunaryorn-scalastyle-jar))
-  "URL to get scalastyle from.")
 
 (use-package scala-mode2                ; Scala editing
   :ensure t
-  :defer t
-  :config
-  (progn
-    (let ((filename (locate-user-emacs-file lunaryorn-scalastyle-jar)))
-      (unless (file-exists-p filename)
-        (message "Downloading scalastyle JAR")
-        (url-copy-file lunaryorn-scalastyle-url filename))
+  :defer t)
 
-      (with-eval-after-load 'flycheck
-        (setq flycheck-scalastyle-jar (expand-file-name filename)
-              flycheck-scalastylerc "scalastyle-config.xml")))))
+(use-package flycheck-auto-scalastyle   ; Scalastyle setup
+  :load-path "lisp/"
+  :commands (flycheck-auto-scalastyle-configure
+             flycheck-auto-scalastyle-setup)
+  :init (with-eval-after-load 'scala-mode2
+          (add-hook 'flycheck-mode-hook #'flycheck-auto-scalastyle-setup)))
 
 (use-package sbt-mode                   ; Scala build tool
   :ensure t
