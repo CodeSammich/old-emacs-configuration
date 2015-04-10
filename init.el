@@ -1391,11 +1391,17 @@ Disable the highlighting of overlong lines."
 (use-package ensime                     ; Scala interaction mode
   :ensure t
   :defer t
-  :config
-  ;; Disable Flycheck in Ensime, since Ensime features its own error checking.
-  ;; TODO: Maybe write a Flycheck checker for Ensime
-  (with-eval-after-load 'flycheck
-    (add-hook 'ensime-mode-hook (lambda () (flycheck-mode -1)))))
+  :config (progn
+            ;; Disable Flycheck in Ensime, since Ensime features its own error
+            ;; checking.  TODO: Maybe write a Flycheck checker for Ensime
+            (with-eval-after-load 'flycheck
+              (add-hook 'ensime-mode-hook (lambda () (flycheck-mode -1))))
+
+            ;; Free M-n and M-p again
+            (bind-key "M-n" nil ensime-mode-map)
+            (bind-key "M-p" nil ensime-mode-map)
+            (bind-key "C-c M-n" #'ensime-forward-note ensime-mode-map)
+            (bind-key "C-c M-p" #'ensime-backward-note ensime-mode-map)))
 
 (use-package ensime-sbt
   :ensure ensime
