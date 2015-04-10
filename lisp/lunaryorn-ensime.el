@@ -21,19 +21,16 @@
 ;;; Commentary:
 
 ;; Enhancements to Ensime
-;;
-;; Graciously taken from https://github.com/syl20bnr/spacemacs/blob/master/contrib/lang/scala/packages.el
 
 ;;; Code:
 
 (require 'ensime)
 
-(defun lunaryorn-ensime-gen-and-restart ()
-  "Generate `.ensime' and restart Ensime."
+(defun lunaryorn-ensime-gen-and-reload ()
+  "Generate `.ensime' and reload Ensime."
   (interactive)
   (sbt-command "gen-ensime")
-  (ensime-shutdown)
-  (ensime))
+  (ensime-reload))
 
 (provide 'lunaryorn-ensime)
 
