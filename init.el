@@ -1390,6 +1390,11 @@ Disable the highlighting of overlong lines."
   :ensure t
   :defer t)
 
+(use-package lunaryorn-ensime
+  :load-path "lisp/"
+  :defer t
+  :commands (lunaryorn-ensime-gen-and-restart))
+
 
 ;;; Python
 (use-package python
