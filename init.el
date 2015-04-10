@@ -824,17 +824,6 @@ mouse-3: go to end"))))
 
 
 ;;; Highlights
-(use-package whitespace                 ; Highlight bad whitespace
-  :bind (("C-c t w" . whitespace-mode))
-  :init (dolist (hook '(prog-mode-hook text-mode-hook conf-mode-hook))
-          (add-hook hook #'whitespace-mode))
-  :config
-  ;; Highlight tabs, empty lines at beg/end, trailing whitespaces and overlong
-  ;; portions of lines via faces.  Also indicate tabs via characters
-  (setq whitespace-style '(face indentation space-after-tab space-before-tab
-                                tab-mark empty trailing lines-tail)
-        whitespace-line-column nil)     ; Use `fill-column' for overlong lines
-  :diminish whitespace-mode)
 
 ;; A function to disable highlighting of long lines in modes
 (defun lunaryorn-whitespace-style-no-long-lines ()
@@ -842,10 +831,23 @@ mouse-3: go to end"))))
 
 Disable the highlighting of overlong lines."
   (setq-local whitespace-style (-difference whitespace-style
-                                            '(lines lines-tail)))
-  (when whitespace-mode
-    (whitespace-mode -1)
-    (whitespace-mode 1)))
+                                            '(lines lines-tail))))
+
+(defun lunaryorn-whitespace-mode-local ()
+  "Enable `whitespace-mode' after local variables where set up."
+  (add-hook 'hack-local-variables-hook #'whitespace-mode nil 'local))
+
+(use-package whitespace                 ; Highlight bad whitespace
+  :bind (("C-c t w" . whitespace-mode))
+  :init (dolist (hook '(prog-mode-hook text-mode-hook conf-mode-hook))
+          (add-hook hook #'lunaryorn-whitespace-mode-local))
+  :config
+  ;; Highlight tabs, empty lines at beg/end, trailing whitespaces and overlong
+  ;; portions of lines via faces.  Also indicate tabs via characters
+  (setq whitespace-style '(face indentation space-after-tab space-before-tab
+                                tab-mark empty trailing lines-tail)
+        whitespace-line-column nil)     ; Use `fill-column' for overlong lines
+  :diminish whitespace-mode)
 
 (use-package hl-line                    ; Highlight the current line
   :init (global-hl-line-mode 1))
