@@ -42,6 +42,7 @@
 /cider-repl-history
 /eww-bookmarks
 /.sx
+/ensime/
 
 # Cache file from marmalade-upload tool
 /marmalade-upload.json
