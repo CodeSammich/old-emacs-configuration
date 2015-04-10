@@ -1391,6 +1391,7 @@ Disable the highlighting of overlong lines."
 (use-package ensime                     ; Scala interaction mode
   :ensure t
   :defer t
+  :init (add-hook 'scala-mode-hook #'ensime-scala-mode-hook)
   :config (progn
             ;; Disable Flycheck in Ensime, since Ensime features its own error
             ;; checking.  TODO: Maybe write a Flycheck checker for Ensime
