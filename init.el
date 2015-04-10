@@ -1395,6 +1395,12 @@ Disable the highlighting of overlong lines."
   (with-eval-after-load 'flycheck
     (add-hook 'ensime-mode-hook (lambda () (flycheck-mode -1)))))
 
+(use-package ensime-sbt
+  :ensure ensime
+  :defer t
+  ;; Compile on save.  My projects are small enough :)
+  :config (setq ensime-sbt-perform-on-save "compile"))
+
 (use-package lunaryorn-ensime
   :load-path "lisp/"
   :defer t
