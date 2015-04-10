@@ -1386,9 +1386,9 @@ Disable the highlighting of overlong lines."
   :ensure t
   :defer t)
 
-(use-package ensime
+(use-package ensime                     ; Scala interaction mode
   :ensure t
-  :disabled t)
+  :defer t)
 
 
 ;;; Python
