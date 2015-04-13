@@ -1805,6 +1805,8 @@ Disable the highlighting of overlong lines."
     (run-with-idle-timer 10 nil #'projectile-cleanup-known-projects)
 
     (setq projectile-completion-system 'ido
+          projectile-buffers-filter-function
+          #'projectile-buffers-with-file-or-process
           projectile-find-dir-includes-top-level t
           projectile-mode-line '(:propertize
                                  (:eval (concat " " (projectile-project-name)))
