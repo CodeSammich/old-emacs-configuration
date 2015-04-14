@@ -1421,7 +1421,7 @@ Disable the highlighting of overlong lines."
   :ensure ensime
   :defer t
   ;; Compile on save.  My projects are small enough :)
-  :config (setq ensime-sbt-perform-on-save "compile"))
+  :config (setq ensime-sbt-perform-on-save "test:compile"))
 
 (use-package lunaryorn-ensime
   :load-path "lisp/"
