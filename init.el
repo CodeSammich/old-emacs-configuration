@@ -1386,7 +1386,12 @@ Disable the highlighting of overlong lines."
 
 (use-package sbt-mode                   ; Scala build tool
   :ensure t
-  :defer t)
+  :defer t
+  :config (setq sbt:sbt-prompt-regexp
+                (rx bol (or (and (optional "scala") ">")  ; Default prompt
+                            ;; Sbt Prompt plugin
+                            (and "[" (1+ (not (any "]")))"] " (1+ word) ":"))
+                    (0+ " "))))
 
 (use-package ensime                     ; Scala interaction mode
   :ensure t
