@@ -1395,7 +1395,22 @@ Disable the highlighting of overlong lines."
                       (0+ " ")))
 
             (with-eval-after-load 'scala-mode2
-              (bind-key "C-c c" #'sbt-command scala-mode-map))))
+              (bind-key "C-c c" #'sbt-command scala-mode-map))
+
+            (defun lunaryorn-sbt-buffer-p (buffer-name &rest _)
+              "Determine whether BUFFER-OR-NAME denotes an SBT buffer."
+              (string-prefix-p sbt:buffer-name-base buffer-name))
+
+            ;; Get SBT buffers under control: Display them below the current
+            ;; window, at a third of the height of the current window, but try
+            ;; to reuse any existing and visible window for the SBT buffer
+            ;; first.
+            (add-to-list 'display-buffer-alist
+                         '(lunaryorn-sbt-buffer-p
+                           (display-buffer-reuse-window
+                            display-buffer-below-selected)
+                           (window-height . 0.33)
+                           (reusable-frames . visible)))))
 
 (use-package ensime                     ; Scala interaction mode
   :ensure t
