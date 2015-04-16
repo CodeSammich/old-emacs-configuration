@@ -1441,11 +1441,6 @@ Disable the highlighting of overlong lines."
   ;; Compile on save.  My projects are small enough :)
   :config (setq ensime-sbt-perform-on-save "test:compile"))
 
-(use-package lunaryorn-ensime
-  :load-path "lisp/"
-  :defer t
-  :commands (lunaryorn-ensime-gen-and-reload))
-
 
 ;;; Python
 (use-package python
