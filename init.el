@@ -1792,10 +1792,7 @@ Disable the highlighting of overlong lines."
           ;; Except when you ask something useful…
           magit-set-upstream-on-push t
           ;; Use IDO for completion
-          magit-completing-read-function #'magit-ido-completing-read)
-
-    ;; Auto-revert files after Magit operations
-    (magit-auto-revert-mode))
+          magit-completing-read-function #'magit-ido-completing-read))
   :diminish magit-auto-revert-mode)
 
 (use-package git-commit-mode            ; Git commit message mode
