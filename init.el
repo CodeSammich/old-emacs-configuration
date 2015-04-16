@@ -1787,6 +1787,8 @@ Disable the highlighting of overlong lines."
     (setq magit-save-some-buffers 'dontask
           magit-stage-all-confirm nil
           magit-unstage-all-confirm nil
+          ;; Seriously, Magit?!
+          magit-last-seen-setup-instructions "1.4.0"
           ;; Except when you ask something useful…
           magit-set-upstream-on-push t
           ;; Use IDO for completion
