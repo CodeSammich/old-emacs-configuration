@@ -1779,14 +1779,16 @@ Disable the highlighting of overlong lines."
          ("C-c v g" . magit-status)
          ("C-c v v" . magit-status)
          ("C-c v g" . magit-blame-mode))
+  :init
+  ;; Seriously, Magit?! Set this variable before Magit is loaded to silence the
+  ;; most stupid warning ever
+  (setq magit-last-seen-setup-instructions "1.4.0")
   :config
   (progn
     ;; Shut up, Magit!
     (setq magit-save-some-buffers 'dontask
           magit-stage-all-confirm nil
           magit-unstage-all-confirm nil
-          ;; Seriously, Magit?!
-          magit-last-seen-setup-instructions "1.4.0"
           ;; Except when you ask something useful…
           magit-set-upstream-on-push t
           ;; Use IDO for completion
