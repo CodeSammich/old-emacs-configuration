@@ -1418,9 +1418,7 @@ Disable the highlighting of overlong lines."
   :config (progn
             ;; Automatically open new Ensime sessions if needed
             (setq ensime-auto-connect 'always
-                  ;; TODO: Test and enable.  Currently blocked by
-                  ;; https://github.com/ensime/ensime-server/issues/792
-                  ensime-auto-generate-config nil)
+                  ensime-auto-generate-config t)
 
             ;; Enable Ensime for all Scala buffers.  We don't do this in :init,
             ;; because `ensime-mode' isn't autoloaded, and ensime-mode makes no
