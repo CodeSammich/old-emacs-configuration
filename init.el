@@ -906,6 +906,7 @@ Disable the highlighting of overlong lines."
   :diminish company-mode)
 
 (use-package company-quickhelp          ; Documentation popups for Company
+  :disabled t
   :ensure t
   :defer t
   :init (add-hook 'global-company-mode-hook #'company-quickhelp-mode))
