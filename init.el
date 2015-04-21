@@ -2052,7 +2052,9 @@ Disable the highlighting of overlong lines."
   :ensure t
   :defer t
   :bind (("C-c h d" . dash-at-point)
-         ("C-c h D" . dash-at-point-with-docset)))
+         ("C-c h D" . dash-at-point-with-docset))
+  :config (add-to-list 'dash-at-point-mode-alist
+                       '(swift-mode . "ios,swift")))
 
 (bind-key "C-c h b" #'describe-personal-keybindings)
 
