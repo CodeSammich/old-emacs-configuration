@@ -1460,11 +1460,7 @@ Disable the highlighting of overlong lines."
 
       (if ipython
           (setq python-shell-interpreter ipython)
-        (warn "IPython is missing, falling back to default python"))
-
-      ;; Use a decent syntax and style checker
-      (setq python-check-command "pylint"
-            python-shell-interpreter-args "-i"))))
+        (warn "IPython is missing, falling back to default python")))))
 
 (use-package flycheck-virtualenv        ; Setup Flycheck by virtualenv
   :load-path "lisp/"
