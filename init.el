@@ -1456,11 +1456,15 @@ Disable the highlighting of overlong lines."
     (add-hook 'python-mode-hook (lambda () (setq fill-column 79)))
     (add-hook 'python-mode-hook #'subword-mode)
 
-    ;; Use a decent syntax and style checker
-    (setq python-check-command "pylint"
-          ;; Use IPython as interpreter
-          python-shell-interpreter "ipython"
-          python-shell-interpreter-args "-i")))
+    (let ((ipython (executable-find "ipython")))
+
+      (if ipython
+          (setq python-shell-interpreter ipython)
+        (warn "IPython is missing, falling back to default python"))
+
+      ;; Use a decent syntax and style checker
+      (setq python-check-command "pylint"
+            python-shell-interpreter-args "-i"))))
 
 (use-package flycheck-virtualenv        ; Setup Flycheck by virtualenv
   :load-path "lisp/"
