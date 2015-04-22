@@ -960,13 +960,16 @@ Disable the highlighting of overlong lines."
   :init (global-flycheck-mode)
   :config
   (progn
-    (setq flycheck-completion-system 'ido)
+    (setq flycheck-completion-system 'ido
+          flycheck-display-errors-function
+          #'flycheck-display-error-messages-unless-error-list)
 
     ;; Use italic face for checker name
     (set-face-attribute 'flycheck-error-list-checker-name nil :inherit 'italic))
   :diminish flycheck-mode)
 
 (use-package flycheck-pos-tip           ; Show Flycheck messages in popups
+  :disabled t
   :ensure t
   :defer t
   :init (with-eval-after-load 'flycheck
