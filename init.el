@@ -958,14 +958,14 @@ Disable the highlighting of overlong lines."
   :bind (("C-c l e" . list-flycheck-errors)
          ("C-c t f" . flycheck-mode))
   :init (global-flycheck-mode)
-  :config
-  (progn
-    (setq flycheck-completion-system 'ido
-          flycheck-display-errors-function
-          #'flycheck-display-error-messages-unless-error-list)
+  :config (progn
+            (setq flycheck-completion-system 'ido
+                  flycheck-display-errors-function
+                  #'flycheck-display-error-messages-unless-error-list)
 
-    ;; Use italic face for checker name
-    (set-face-attribute 'flycheck-error-list-checker-name nil :inherit 'italic))
+            ;; Use italic face for checker name
+            (set-face-attribute 'flycheck-error-list-checker-name nil
+                                :inherit 'italic))
   :diminish flycheck-mode)
 
 (use-package flycheck-pos-tip           ; Show Flycheck messages in popups
