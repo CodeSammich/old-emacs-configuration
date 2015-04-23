@@ -970,8 +970,9 @@ Disable the highlighting of overlong lines."
             (add-to-list 'display-buffer-alist
                          `(,(rx bos "*Flycheck errors*" eos)
                            (display-buffer-reuse-window
-                            display-buffer-below-selected)
-                           (window-height . 0.25))))
+                            display-buffer-in-side-window)
+                           (side . bottom)
+                           (reusable-frames . visible))))
   :diminish flycheck-mode)
 
 (use-package flycheck-pos-tip           ; Show Flycheck messages in popups
@@ -1418,8 +1419,8 @@ Disable the highlighting of overlong lines."
             (add-to-list 'display-buffer-alist
                          '(lunaryorn-sbt-buffer-p
                            (display-buffer-reuse-window
-                            display-buffer-below-selected)
-                           (window-height . 0.33)
+                            display-buffer-in-side-window)
+                           (side . bottom)
                            (reusable-frames . visible)))))
 
 (use-package ensime                     ; Scala interaction mode
