@@ -1238,14 +1238,18 @@ Disable the highlighting of overlong lines."
 (use-package compile                    ; Compile from Emacs
   :bind (("C-c c" . compile)
          ("C-c C" . recompile))
-  :config
-  (progn
-    (setq compilation-ask-about-save nil ; Just save before compiling
-          compilation-always-kill t     ; Just kill old compile processes before
-                                        ; starting the new one
-          compilation-scroll-output 'first-error ; Automatically scroll to first
-                                        ; error
-          )))
+  :config (progn
+            (setq compilation-ask-about-save nil
+                  ;; Kill old compilation processes before starting new ones,
+                  ;; and automatically scroll up to the first error.
+                  compilation-scroll-output 'first-error)
+
+            (add-to-list 'display-buffer-alist
+                         `(,(rx bos "*compilation")
+                           (display-buffer-reuse-window
+                            display-buffer-in-side-window)
+                           (side . bottom)
+                           (reusable-frames . visible)))))
 
 (use-package lunaryorn-compile          ; Personal helpers for compilation
   :load-path "lisp/"
@@ -1924,7 +1928,13 @@ Disable the highlighting of overlong lines."
 
 ;;; Terminal emulation and shells
 (use-package shell                      ; Dump shell in Emacs
-  :bind ("C-c u s" . shell))
+  :bind ("C-c u s" . shell)
+  :config (add-to-list 'display-buffer-alist
+                       `(,(rx bos "*shell")
+                         (display-buffer-reuse-window
+                          display-buffer-in-side-window
+                          (side . bottom)
+                          (reusable-frames . visible)))))
 
 (use-package term                       ; Terminal emulator in Emacs
   :bind ("C-c u S" . ansi-term))
