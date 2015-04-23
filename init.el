@@ -965,7 +965,13 @@ Disable the highlighting of overlong lines."
 
             ;; Use italic face for checker name
             (set-face-attribute 'flycheck-error-list-checker-name nil
-                                :inherit 'italic))
+                                :inherit 'italic)
+
+            (add-to-list 'display-buffer-alist
+                         `(,(rx bos "*Flycheck errors*" eos)
+                           (display-buffer-reuse-window
+                            display-buffer-below-selected)
+                           (window-height . 0.25))))
   :diminish flycheck-mode)
 
 (use-package flycheck-pos-tip           ; Show Flycheck messages in popups
