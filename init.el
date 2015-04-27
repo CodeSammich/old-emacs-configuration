@@ -32,6 +32,7 @@
 ;;
 ;; - C-c A: Align
 ;; - C-c a: Ag
+;; - C-c b: Helm commands (b for "browse")
 ;; - C-c d: Data stuff
 ;; - C-c f: Files
 ;; - C-c h: Help and documentation
@@ -798,12 +799,12 @@ mouse-3: go to end"))))
          ("M-y"       . helm-show-kill-ring)
          ("C-x r i"   . helm-register)
          ;; Special helm bindings
-         ("C-c c b"   . helm-resume)
-         ("C-c c c"   . helm-mini)
-         ("C-c c C"   . helm-colors)
-         ("C-c c *"   . helm-calcul-expression)
-         ("C-c c 8"   . helm-ucs)
-         ("C-c c M-:" . helm-eval-expression-with-eldoc)
+         ("C-c b b"   . helm-resume)
+         ("C-c b c"   . helm-mini)
+         ("C-c b C"   . helm-colors)
+         ("C-c b *"   . helm-calcul-expression)
+         ("C-c b 8"   . helm-ucs)
+         ("C-c b M-:" . helm-eval-expression-with-eldoc)
          ;; Helm features in other maps
          ("C-c i"     . helm-semantic-or-imenu)
          ("C-c h a"   . helm-apropos)
@@ -1247,6 +1248,8 @@ Disable the highlighting of overlong lines."
 
 ;;; Programming utilities
 (use-package compile                    ; Compile from Emacs
+  :bind (("C-c c" . compile)
+         ("C-c C" . recompile))
   :config (progn
             (setq compilation-ask-about-save nil
                   ;; Kill old compilation processes before starting new ones,
