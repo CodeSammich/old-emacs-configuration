@@ -1851,8 +1851,8 @@ Disable the highlighting of overlong lines."
   :bind (("C-c v t" . git-timemachine)))
 
 
-;;; Tools and utilities
-(use-package projectile                 ; Project management
+;;; Project management with Projectile
+(use-package projectile
   :ensure t
   :defer t
   :init (projectile-global-mode)
@@ -1885,6 +1885,14 @@ Disable the highlighting of overlong lines."
     (bind-key "s K" #'ag-kill-buffers projectile-command-map))
   :diminish projectile-mode)
 
+(use-package helm-projectile
+  :ensure t
+  :defer t
+  :init (with-eval-after-load 'projectile (helm-projectile-on))
+  :config (setq projectile-switch-project-action #'helm-projectile))
+
+
+;;; Tools and utilities
 (use-package bug-reference              ; Turn bug references into buttons
   :defer t
   :init (progn (add-hook 'prog-mode-hook #'bug-reference-prog-mode)
