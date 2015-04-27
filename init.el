@@ -1361,6 +1361,7 @@ Disable the highlighting of overlong lines."
   :init (with-eval-after-load 'flycheck (flycheck-package-setup)))
 
 (use-package pcre2el                    ; Convert regexps to RX and back
+  :disabled t
   :ensure t
   :init (rxt-global-mode))
 
