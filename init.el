@@ -417,6 +417,11 @@ mouse-3: go to end"))))
   :ensure t
   :defer t)
 
+(use-package lunaryorn-window
+  :load-path "lisp/"
+  :defer t
+  :bind ("C-c q" . lunaryorn-quit-bottom-side-windows))
+
 (use-package windmove                   ; Move between windows with Shift+Arrow
   :bind (("S-<left>"  . windmove-left)
          ("S-<right>" . windmove-right)
