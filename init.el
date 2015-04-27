@@ -921,12 +921,6 @@ Disable the highlighting of overlong lines."
           company-show-numbers t))
   :diminish company-mode)
 
-(use-package company-quickhelp          ; Documentation popups for Company
-  :disabled t
-  :ensure t
-  :defer t
-  :init (add-hook 'global-company-mode-hook #'company-quickhelp-mode))
-
 (use-package company-math               ; Completion for Math symbols
   :ensure t
   :defer t
@@ -993,14 +987,6 @@ Disable the highlighting of overlong lines."
 (use-package helm-flycheck
   :ensure t
   :bind (("C-c ! L" . helm-flycheck)))
-
-(use-package flycheck-pos-tip           ; Show Flycheck messages in popups
-  :disabled t
-  :ensure t
-  :defer t
-  :init (with-eval-after-load 'flycheck
-          (setq flycheck-display-errors-function
-                #'flycheck-pos-tip-error-messages)))
 
 (use-package lunaryorn-flycheck         ; Personal Flycheck helpers
   :defer t
