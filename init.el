@@ -1304,10 +1304,6 @@ Disable the highlighting of overlong lines."
                                         ; navigation
   :diminish highlight-symbol-mode)
 
-(use-package lunaryorn-symbols          ; Personal symbol tools
-  :load-path "lisp/"
-  :bind (("C-c s a" . highlight-symbol-ag)))
-
 (use-package elide-head                 ; Elide lengthy GPL headers
   :bind (("C-c u h" . elide-head))
   :init (add-hook 'prog-mode-hook #'elide-head))
