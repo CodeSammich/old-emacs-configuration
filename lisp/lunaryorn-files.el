@@ -113,15 +113,6 @@ Otherwise copy the non-directory part only."
   (find-file-other-window user-init-file))
 
 ;;;###autoload
-(defun lunaryorn-ido-find-recentf ()
-  "Find a recent file with IDO."
-  (interactive)
-  (unless (bound-and-true-p recentf-mode)
-    (user-error "Recentf Mode disabled"))
-  (when-let (file (ido-completing-read "Find recent file: " recentf-list nil t))
-    (find-file file)))
-
-;;;###autoload
 (defun lunaryorn-launch-dwim ()
   "Open the current file externally."
   (interactive)

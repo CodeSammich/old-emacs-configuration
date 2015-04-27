@@ -347,36 +347,6 @@ mouse-3: go to end"))))
   :config (setq savehist-save-minibuffer-history t
                 savehist-autosave-interval 180))
 
-(use-package ido                        ; Better minibuffer completion
-  :init (progn (ido-mode 1)             ; IDO mode is no proper minor mode :|
-               (ido-everywhere))
-  :config
-  (setq ido-enable-flex-matching t      ; Match characters if string doesn't
-                                        ; match
-        ido-create-new-buffer 'always   ; Create a new buffer if nothing matches
-        ido-use-filename-at-point 'guess
-        ;; Visit buffers and files in the selected window
-        ido-default-file-method 'selected-window
-        ido-default-buffer-method 'selected-window
-        ido-use-faces nil))             ; Prefer flx ido faces
-
-(use-package ido-ubiquitous             ; IDO everywhere, really!
-  :ensure t
-  :init (ido-ubiquitous-mode))
-
-(use-package flx-ido                    ; Flex matching for IDO
-  :ensure t
-  :init (flx-ido-mode))
-
-(use-package ido-vertical-mode          ; Vertical interface for IDO
-  :ensure t
-  :init (ido-vertical-mode))
-
-(use-package smex                       ; Better M-x
-  :ensure t
-  :bind (([remap execute-extended-command] . smex)
-         ("M-X" . smex-major-mode-commands)))
-
 
 ;;; Buffer, Windows and Frames
 
@@ -587,16 +557,11 @@ mouse-3: go to end"))))
   :ensure t
   :init (global-launch-mode))
 
-(use-package ido-load-library           ; Load libraries with IDO
-  :ensure t
-  :bind ("C-c f l" . ido-load-library-find))
-
 (use-package lunaryorn-files            ; Personal file tools
   :load-path "lisp/"
   :bind (("C-c f D" . lunaryorn-delete-file-and-buffer)
          ("C-c f i" . lunaryorn-open-in-intellij)
          ("C-c f o" . lunaryorn-launch-dwim)
-         ("C-c f r" . lunaryorn-ido-find-recentf)
          ("C-c f R" . lunaryorn-rename-file-and-buffer)
          ("C-c f w" . lunaryorn-copy-filename-as-kill)
          ("C-c f u" . lunaryorn-find-user-init-file-other-window)))
@@ -771,8 +736,9 @@ mouse-3: go to end"))))
   :diminish outline-minor-mode)
 
 (use-package imenu-anywhere             ; IDO-based imenu across open buffers
+  :disabled t
   :ensure t
-  :bind (("C-c i" . imenu-anywhere)))
+  :bind (("C-c i" . helm-imenu-anywhere)))
 
 
 ;;; Search
@@ -800,9 +766,7 @@ mouse-3: go to end"))))
 
 (use-package ag                         ; Search code in files/projects
   :ensure t
-  :bind (("C-c a a" . ag-regexp)
-         ("C-c a A" . ag)
-         ("C-c a d" . ag-dired-regexp)
+  :bind (("C-c a d" . ag-dired-regexp)
          ("C-c a D" . ag-dired)
          ("C-c a f" . ag-files)
          ("C-c a k" . ag-kill-other-buffers)
@@ -821,6 +785,58 @@ mouse-3: go to end"))))
 (use-package wgrep-ag                   ; Wgrep for ag
   :ensure t
   :defer t)
+
+
+;;; Helm
+
+(use-package helm
+  :ensure t
+  :bind (
+         ;; Replace some standard bindings with Helm equivalents
+         ("M-s o"     . helm-occur)
+         ("M-x"       . helm-M-x)
+         ("M-y"       . helm-show-kill-ring)
+         ("C-x r i"   . helm-register)
+         ;; Special helm bindings
+         ("C-c c b"   . helm-resume)
+         ("C-c c c"   . helm-mini)
+         ("C-c c C"   . helm-colors)
+         ("C-c c *"   . helm-calcul-expression)
+         ("C-c c 8"   . helm-ucs)
+         ("C-c c M-:" . helm-eval-expression-with-eldoc)
+         ;; Helm features in other maps
+         ("C-c i"     . helm-semantic-or-imenu)
+         ("C-c h a"   . helm-apropos)
+         ("C-c h e"   . helm-info-emacs)
+         ("C-c h i"   . helm-info-at-point)
+         ("C-c h m"   . helm-man-woman)
+         ("C-c f r"   . helm-recentf)
+         ("C-c f f"   . helm-find-files)
+         ("C-c f l"   . helm-locate-library)
+         )
+  :init  (helm-mode 1)
+  :config (setq helm-split-window-in-side-p t ; Split helm from current window
+                ))
+
+(use-package helm-files
+  :ensure helm
+  :defer t
+  :config (setq helm-recentf-fuzzy-match t
+                ;; Use recentf to find recent files
+                helm-ff-file-name-history-use-recentf t
+                ;; Find library from `require', `declare-function' and friends
+                helm-ff-search-library-in-sexp t))
+
+(use-package helm-buffers
+  :ensure helm
+  :defer t
+  :config (setq helm-buffers-fuzzy-matching t))
+
+(use-package helm-ag
+  :ensure t
+  :bind (("C-c a a" . helm-do-ag)
+         ("C-c a A" . helm-ag))
+  :config (setq helm-ag-fuzzy-match t))
 
 
 ;;; Highlights
@@ -959,8 +975,7 @@ Disable the highlighting of overlong lines."
          ("C-c t f" . flycheck-mode))
   :init (global-flycheck-mode)
   :config (progn
-            (setq flycheck-completion-system 'ido
-                  flycheck-display-errors-function
+            (setq flycheck-display-errors-function
                   #'flycheck-display-error-messages-unless-error-list)
 
             ;; Use italic face for checker name
@@ -1236,8 +1251,6 @@ Disable the highlighting of overlong lines."
 
 ;;; Programming utilities
 (use-package compile                    ; Compile from Emacs
-  :bind (("C-c c" . compile)
-         ("C-c C" . recompile))
   :config (progn
             (setq compilation-ask-about-save nil
                   ;; Kill old compilation processes before starting new ones,
@@ -1861,7 +1874,7 @@ Disable the highlighting of overlong lines."
     ;; Remove dead projects when Emacs is idle
     (run-with-idle-timer 10 nil #'projectile-cleanup-known-projects)
 
-    (setq projectile-completion-system 'ido
+    (setq projectile-completion-system 'helm
           projectile-buffers-filter-function
           #'projectile-buffers-with-file-or-process
           projectile-find-dir-includes-top-level t
@@ -2050,9 +2063,6 @@ Disable the highlighting of overlong lines."
          ("C-x K"   . find-function-on-key)
          ("C-x V"   . find-variable)
          ("C-x 4 V" . find-variable-other-window)))
-
-(use-package apropos                    ; Search symbols for documentation
-  :bind (("C-c h a" . apropos)))
 
 (use-package info                       ; Info manual viewer
   :defer t
