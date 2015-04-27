@@ -990,6 +990,10 @@ Disable the highlighting of overlong lines."
                            (reusable-frames . visible))))
   :diminish flycheck-mode)
 
+(use-package helm-flycheck
+  :ensure t
+  :bind (("C-c ! L" . helm-flycheck)))
+
 (use-package flycheck-pos-tip           ; Show Flycheck messages in popups
   :disabled t
   :ensure t
