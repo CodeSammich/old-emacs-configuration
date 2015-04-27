@@ -2052,6 +2052,10 @@ Disable the highlighting of overlong lines."
   (set-face-attribute 'Info-quoted nil :family 'unspecified
                       :inherit font-lock-type-face))
 
+(use-package helm-descbinds
+  :ensure t
+  :init (helm-descbinds-mode))
+
 (use-package ansible-doc                ; Documentation lookup for Ansible
   :ensure t
   :defer t
