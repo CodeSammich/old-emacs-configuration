@@ -1566,8 +1566,6 @@ Disable the highlighting of overlong lines."
     (add-to-list 'haskell-process-args-cabal-repl "--with-ghc=ghci-ng")
 
     (bind-key "C-c h d" #'haskell-describe haskell-mode-map)
-    (bind-key "C-c h h" #'haskell-hayoo haskell-mode-map)
-    (bind-key "C-c h H" #'haskell-hoogle haskell-mode-map)
     (bind-key "C-c u i" #'haskell-navigate-imports haskell-mode-map)
     (bind-key "C-c f c" #'haskell-cabal-visit-file haskell-mode-map)))
 
@@ -1604,6 +1602,18 @@ Disable the highlighting of overlong lines."
   :ensure t
   :defer t
   :init (add-hook 'flycheck-mode-hook #'flycheck-haskell-setup))
+
+(use-package helm-hayoo
+  :ensure t
+  :defer t
+  :init (with-eval-after-load 'haskell-mode
+          (bind-key "C-c h h" #'helm-hayoo haskell-mode-map)))
+
+(use-package helm-hoogle
+  :ensure t
+  :defer t
+  :init (with-eval-after-load 'haskell-mode
+          (bind-key "C-c h H" #'helm-hoogle haskell-mode-map)))
 
 
 ;;; OCaml
@@ -1826,6 +1836,7 @@ Disable the highlighting of overlong lines."
               #'lunaryorn-magit-set-repo-dirs-from-projectile))
 
   :diminish magit-auto-revert-mode)
+
 (use-package git-commit-mode            ; Git commit message mode
   :ensure t
   :defer t)
