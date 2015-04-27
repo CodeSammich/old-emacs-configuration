@@ -1867,22 +1867,7 @@ Disable the highlighting of overlong lines."
           projectile-find-dir-includes-top-level t
           projectile-mode-line '(:propertize
                                  (:eval (concat " " (projectile-project-name)))
-                                 face font-lock-constant-face))
-
-    ;; Replace Ack with Ag in Projectile commander
-    (def-projectile-commander-method ?a
-      "Find ag on project."
-      (call-interactively 'projectile-ag))
-
-    ;; Use ag to search in Projectile projects
-    (bind-key "s a" #'ag-project-regexp projectile-command-map)
-    (bind-key "s A" #'ag-project projectile-command-map)
-    (bind-key "s d" #'ag-project-dired-regexp projectile-command-map)
-    (bind-key "s D" #'ag-project-dired projectile-command-map)
-    (bind-key "s f" #'ag-project-files projectile-command-map)
-    ;; For symmetry with `lunaryorn-ag-map'
-    (bind-key "s k" #'ag-kill-other-buffers projectile-command-map)
-    (bind-key "s K" #'ag-kill-buffers projectile-command-map))
+                                 face font-lock-constant-face)))
   :diminish projectile-mode)
 
 (use-package helm-projectile
