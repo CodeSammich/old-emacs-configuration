@@ -1880,7 +1880,14 @@ Disable the highlighting of overlong lines."
 
     (setq projectile-completion-system 'helm
           projectile-buffers-filter-function
-          #'projectile-buffers-with-file-or-process
+          ;; Include buffers with files, processes or Dired
+          #'(lambda (buffers)
+              (seq-filter (lambda (buffer)
+                            (or (buffer-file-name buffer)
+                                (get-buffer-process buffer)
+                                (with-current-buffer buffer
+                                  (derived-mode-p 'dired-mode))))
+                          buffers))
           projectile-find-dir-includes-top-level t
           projectile-mode-line '(:propertize
                                  (:eval (concat " " (projectile-project-name)))
