@@ -913,9 +913,6 @@ Disable the highlighting of overlong lines."
   :init (global-company-mode)
   :config
   (progn
-    ;; Use Company for completion
-    (bind-key [remap completion-at-point] #'company-complete company-mode-map)
-
     (setq company-tooltip-align-annotations t
           ;; Easy navigation to candidates with M-<n>
           company-show-numbers t))
@@ -928,6 +925,15 @@ Disable the highlighting of overlong lines."
           ;; Add backends for math characters
           (add-to-list 'company-backends 'company-math-symbols-unicode)
           (add-to-list 'company-backends 'company-math-symbols-latex)))
+
+(use-package helm-company
+  :ensure t
+  :defer t
+  :init (with-eval-after-load 'company
+          ;; Use Company for completion
+          (bind-key [remap completion-at-point] #'helm-company company-mode-map)
+          (bind-key "C-:" #'helm-company company-mode-map)
+          (bind-key "C-:" #'helm-company company-active-map)))
 
 
 ;;; Spelling and syntax checking
