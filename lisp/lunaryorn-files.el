@@ -33,6 +33,8 @@
 
 (require 'lunaryorn-osx)
 (require 'subr-x)
+(require 'lisp-mnt)
+(require 'find-func)
 
 ;; We only access these variables if the corresponding library is loaded
 (defvar recentf-list)
@@ -155,6 +157,26 @@ Otherwise copy the non-directory part only."
                    (expand-file-name project-dir)
                    "--line" (number-to-string (line-number-at-pos))
                    (expand-file-name (buffer-file-name)))))
+
+(defun lunaryorn-browse-feature-url (feature)
+  "Browse the URL of the given FEATURE.
+
+Interactively, use the symbol at point, or prompt, if there is
+none."
+  (interactive
+   (let ((symbol (or (symbol-at-point)
+                     (completing-read "Feature: " features nil
+                                      'require-match))))
+     (list symbol)))
+  (let* ((library (if (symbolp feature) (symbol-name feature) feature))
+         (library-file (find-library-name library)))
+    (when library-file
+      (with-temp-buffer
+        (insert-file-contents library-file)
+        (let ((url (lm-header "URL")))
+          (if url
+              (browse-url url)
+            (user-error "Library %s has no URL header" library)))))))
 
 (provide 'lunaryorn-files)
 

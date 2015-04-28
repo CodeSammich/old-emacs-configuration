@@ -570,7 +570,8 @@ mouse-3: go to end"))))
          ("C-c f o" . lunaryorn-launch-dwim)
          ("C-c f R" . lunaryorn-rename-file-and-buffer)
          ("C-c f w" . lunaryorn-copy-filename-as-kill)
-         ("C-c f u" . lunaryorn-find-user-init-file-other-window)))
+         ("C-c f u" . lunaryorn-find-user-init-file-other-window)
+         ("C-c w U" . lunaryorn-browse-feature-url)))
 
 ;;; Additional bindings for built-ins
 (bind-key "C-c f v d" #'add-dir-local-variable)
