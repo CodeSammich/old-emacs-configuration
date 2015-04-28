@@ -1827,7 +1827,8 @@ Disable the highlighting of overlong lines."
   :bind (("C-c g"   . magit-status)
          ("C-c v g" . magit-status)
          ("C-c v v" . magit-status)
-         ("C-c v g" . magit-blame-mode))
+         ("C-c v g" . magit-blame-mode)
+         ("C-c v l" . magit-file-log))
   :init
   ;; Seriously, Magit?! Set this variable before Magit is loaded to silence the
   ;; most stupid warning ever
