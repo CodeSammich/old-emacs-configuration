@@ -827,7 +827,11 @@ mouse-3: go to end"))))
           (setq helm-command-prefix-key nil)
 
           (helm-mode 1))
-  :config (setq helm-split-window-in-side-p t)) ; Split helm from current window
+  :config (add-to-list 'display-buffer-alist
+                    `(,(rx bos "*helm" (* not-newline) "*" eos)
+                         (display-buffer-in-side-window)
+                         (inhibit-same-window . t)
+                         (window-height . 0.4))))
 
 (use-package helm-files
   :ensure helm
