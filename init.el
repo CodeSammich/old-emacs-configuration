@@ -997,8 +997,9 @@ Disable the highlighting of overlong lines."
                          `(,(rx bos "*Flycheck errors*" eos)
                            (display-buffer-reuse-window
                             display-buffer-in-side-window)
-                           (side . bottom)
-                           (reusable-frames . visible))))
+                           (side            . bottom)
+                           (reusable-frames . visible)
+                           (window-height   . 0.4))))
   :diminish flycheck-mode)
 
 (use-package helm-flycheck
@@ -1270,8 +1271,9 @@ Disable the highlighting of overlong lines."
                          `(,(rx bos "*compilation")
                            (display-buffer-reuse-window
                             display-buffer-in-side-window)
-                           (side . bottom)
-                           (reusable-frames . visible)))))
+                           (side            . bottom)
+                           (reusable-frames . visible)
+                           (window-height   . 0.4)))))
 
 (use-package lunaryorn-compile          ; Personal helpers for compilation
   :load-path "lisp/"
@@ -1443,8 +1445,9 @@ Disable the highlighting of overlong lines."
                          '(lunaryorn-sbt-buffer-p
                            (display-buffer-reuse-window
                             display-buffer-in-side-window)
-                           (side . bottom)
-                           (reusable-frames . visible)))))
+                           (side            . bottom)
+                           (reusable-frames . visible)
+                           (window-height   . 0.4)))))
 
 (use-package ensime                     ; Scala interaction mode
   :ensure t
@@ -1962,8 +1965,9 @@ Disable the highlighting of overlong lines."
                        `(,(rx bos "*shell")
                          (display-buffer-reuse-window
                           display-buffer-in-side-window
-                          (side . bottom)
-                          (reusable-frames . visible)))))
+                          (side            . bottom)
+                          (reusable-frames . visible)
+                          (window-height   . 0.4)))))
 
 (use-package term                       ; Terminal emulator in Emacs
   :bind ("C-c u S" . ansi-term))
