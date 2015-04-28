@@ -1864,6 +1864,11 @@ Disable the highlighting of overlong lines."
 
   :diminish magit-auto-revert-mode)
 
+(use-package magit-gh-pulls
+  :ensure t
+  :defer t
+  :init (add-hook 'magit-mode-hook #'turn-on-magit-gh-pulls))
+
 (use-package git-commit-mode            ; Git commit message mode
   :ensure t
   :defer t)
