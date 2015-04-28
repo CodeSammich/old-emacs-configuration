@@ -1880,7 +1880,6 @@ Disable the highlighting of overlong lines."
 ;;; Project management with Projectile
 (use-package projectile
   :ensure t
-  :defer t
   :init (projectile-global-mode)
   :config
   (progn
