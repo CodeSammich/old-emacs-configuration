@@ -821,9 +821,13 @@ mouse-3: go to end"))))
          ("C-c f f"   . helm-find-files)
          ("C-c f l"   . helm-locate-library)
          )
-  :init  (helm-mode 1)
-  :config (setq helm-split-window-in-side-p t ; Split helm from current window
-                ))
+  :init (progn
+          ;; Shut up, f****** `helm-config'
+          (defvar helm-command-prefix-key)
+          (setq helm-command-prefix-key nil)
+
+          (helm-mode 1))
+  :config (setq helm-split-window-in-side-p t)) ; Split helm from current window
 
 (use-package helm-files
   :ensure helm
