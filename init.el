@@ -1836,9 +1836,7 @@ Disable the highlighting of overlong lines."
           magit-stage-all-confirm nil
           magit-unstage-all-confirm nil
           ;; Except when you ask something useful…
-          magit-set-upstream-on-push t
-          ;; Use IDO for completion
-          magit-completing-read-function #'magit-ido-completing-read)
+          magit-set-upstream-on-push t)
 
     ;; Set Magit's repo dirs for `magit-status' from Projectile's known
     ;; projects.  Initialize the `magit-repo-dirs' immediately after Projectile
