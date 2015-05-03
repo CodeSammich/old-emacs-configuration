@@ -30,16 +30,15 @@
 
 (require 'subr-x)
 
-(defun opam-init ()
-  "Initialize OPAM in this Emacs.
+(defun opam-env ()
+  "Get the OPAM environment.
 
-See URL `http://opam.ocamlpro.com/' for more information about
-OPAM."
+Return an alist mapping environment variables to their value."
   (with-temp-buffer
     (when-let (opam (executable-find "opam"))
       (let ((exit-code (call-process "opam" nil t nil "config" "env" "--sexp")))
         (if (not (equal exit-code 0))
-            (lwarn 'opam :warning "opam config env failed with exit code %S and output:
+            (error "opam config env failed with exit code %S and output:
 %s" exit-code (buffer-substring-no-properties (point-min) (point-max)))
           (goto-char (point-min))
           (let ((sexps (read (current-buffer))))
@@ -47,9 +46,17 @@ OPAM."
             (unless (eobp)
               (lwarn 'opam :warning "Trailing text in opam config env:\n%S"
                      (buffer-substring-no-properties (point) (point-max))))
-            (pcase-dolist (`(,var ,value) sexps)
-              (setenv var value)))))))
-  ;; Now update `exec-path' and `load-path'
+            (mapcar (lambda (exp) (cons (car exp) (cadr exp))) sexps)))))))
+
+;;;###autoload
+(defun opam-init ()
+  "Initialize OPAM in this Emacs.
+
+See URL `http://opam.ocamlpro.com/' for more information about
+OPAM."
+  (pcase-dolist (`(,var . ,value) (opam-env))
+    (setenv var value))
+  ;; Update exec path
   (setq exec-path (append (parse-colon-path (getenv "PATH"))
                           (list exec-directory))))
 
