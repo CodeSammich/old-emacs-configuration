@@ -1580,11 +1580,13 @@ Disable the highlighting of overlong lines."
           ;; it's networked, but it covers all of hackage, which is really an
           ;; advantage.
           haskell-process-suggest-hoogle-imports nil
-          haskell-process-suggest-hayoo-imports t
-          ;; Use GHCI NG from https://github.com/chrisdone/ghci-ng
-          haskell-process-path-ghci "ghci-ng")
+          haskell-process-suggest-hayoo-imports t)
 
-    (add-to-list 'haskell-process-args-cabal-repl "--with-ghc=ghci-ng")
+    (when-let (ghci-ng (executable-find "ghci-ng"))
+      ;; Use GHCI NG from https://github.com/chrisdone/ghci-ng
+      (setq haskell-process-path-ghci ghci-ng)
+      (add-to-list 'haskell-process-args-cabal-repl
+                   (concat "--with-ghc=" ghci-ng)))
 
     (bind-key "C-c h d" #'haskell-describe haskell-mode-map)
     (bind-key "C-c u i" #'haskell-navigate-imports haskell-mode-map)
