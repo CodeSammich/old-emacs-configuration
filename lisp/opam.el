@@ -28,25 +28,25 @@
 
 ;;; Code:
 
-(require 'subr-x)
-
 (defun opam-env ()
   "Get the OPAM environment.
 
 Return an alist mapping environment variables to their value."
   (with-temp-buffer
-    (when-let (opam (executable-find "opam"))
-      (let ((exit-code (call-process "opam" nil t nil "config" "env" "--sexp")))
-        (if (not (equal exit-code 0))
-            (error "opam config env failed with exit code %S and output:
+    (let ((opam (executable-find "opam")))
+      (when opam
+        (let ((exit-code (call-process "opam" nil t nil
+                                       "config" "env" "--sexp")))
+          (if (not (equal exit-code 0))
+              (error "opam config env failed with exit code %S and output:
 %s" exit-code (buffer-substring-no-properties (point-min) (point-max)))
-          (goto-char (point-min))
-          (let ((sexps (read (current-buffer))))
-            (skip-chars-forward "[:space:]")
-            (unless (eobp)
-              (lwarn 'opam :warning "Trailing text in opam config env:\n%S"
-                     (buffer-substring-no-properties (point) (point-max))))
-            (mapcar (lambda (exp) (cons (car exp) (cadr exp))) sexps)))))))
+            (goto-char (point-min))
+            (let ((sexps (read (current-buffer))))
+              (skip-chars-forward "[:space:]")
+              (unless (eobp)
+                (lwarn 'opam :warning "Trailing text in opam config env:\n%S"
+                       (buffer-substring-no-properties (point) (point-max))))
+              (mapcar (lambda (exp) (cons (car exp) (cadr exp))) sexps))))))))
 
 ;;;###autoload
 (defun opam-init ()
