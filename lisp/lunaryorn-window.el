@@ -26,6 +26,7 @@
 
 ;;; Code:
 
+;;;###autoload
 (defun lunaryorn-quit-bottom-side-windows ()
   "Quit side windows of the current frame."
   (interactive)
