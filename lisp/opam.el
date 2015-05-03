@@ -1,9 +1,12 @@
-;;; opam.el --- OPAM tools for Emacs                 -*- lexical-binding: t; -*-
+;;; opam.el --- OPAM tools                 -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2014-2015  Sebastian Wiesner <swiesner@lunaryorn.com>
 
 ;; Author: Sebastian Wiesner <swiesner@lunaryorn.com>
+;; URL: https://github.com/lunaryorn/opam.el
 ;; Keywords: convenience
+;; Version: 0.1-cvs
+;; Package-Requires: ((emacs "24.1"))
 
 ;; This file is not part of GNU Emacs.
 
