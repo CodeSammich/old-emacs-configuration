@@ -1613,8 +1613,14 @@ Disable the highlighting of overlong lines."
 
 (use-package haskell-simple-indent      ; Primitive Haskell indentation
   :ensure haskell-mode
+  :disabled t
   :defer t
   :init (add-hook 'haskell-mode-hook #'haskell-simple-indent-mode))
+
+(use-package haskell-indentation
+  :ensure haskell-mode
+  :defer t
+  :init (add-hook 'haskell-mode-hook #'haskell-indentation-mode))
 
 (use-package hindent                    ; Automated Haskell indentation
   :ensure t
