@@ -1647,6 +1647,7 @@ Disable the highlighting of overlong lines."
 
 ;;; OCaml
 (use-package opam                       ; Initialize Emacs with OPAM env
+  :ensure t
   :init (opam-init))
 
 (use-package tuareg                     ; OCaml editing
