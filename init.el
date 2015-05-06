@@ -646,10 +646,6 @@ mouse-3: go to end"))))
   :bind (("C-c r" . vr/query-replace)
          ("C-c R" . vr/replace)))
 
-(use-package browse-kill-ring           ; Browse kill ring interactively
-  :ensure t
-  :bind (("C-c y" . browse-kill-ring)))
-
 (use-package zop-to-char
   :ensure t
   :bind (("M-z" . zop-to-char)
@@ -819,8 +815,7 @@ mouse-3: go to end"))))
          ("C-c h m"   . helm-man-woman)
          ("C-c f r"   . helm-recentf)
          ("C-c f f"   . helm-find-files)
-         ("C-c f l"   . helm-locate-library)
-         )
+         ("C-c f l"   . helm-locate-library))
   :init (progn
           ;; Shut up, f****** `helm-config'
           (defvar helm-command-prefix-key)
