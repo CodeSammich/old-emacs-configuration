@@ -1473,6 +1473,11 @@ Disable the highlighting of overlong lines."
   ;; Compile on save.  My projects are small enough :)
   :config (setq ensime-sbt-perform-on-save "test:compile"))
 
+(use-package flycheck-ensime
+  :disabled t
+  :load-path "lisp/"
+  :defer t)
+
 
 ;;; Python
 (use-package python
