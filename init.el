@@ -1906,17 +1906,6 @@ Disable the highlighting of overlong lines."
     (run-with-idle-timer 10 nil #'projectile-cleanup-known-projects)
 
     (setq projectile-completion-system 'helm
-          projectile-buffers-filter-function
-          ;; Include buffers with files, processes or Dired
-          #'(lambda (buffers)
-              (seq-filter (lambda (buffer)
-                            (or (buffer-file-name buffer)
-                                (get-buffer-process buffer)
-                                (with-current-buffer buffer
-                                  (derived-mode-p 'dired-mode
-                                                  'magit-status-mode
-                                                  'magit-log-mode))))
-                          buffers))
           projectile-find-dir-includes-top-level t
           projectile-mode-line '(:propertize
                                  (:eval (concat " " (projectile-project-name)))
