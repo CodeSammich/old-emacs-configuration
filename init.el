@@ -1913,7 +1913,9 @@ Disable the highlighting of overlong lines."
                             (or (buffer-file-name buffer)
                                 (get-buffer-process buffer)
                                 (with-current-buffer buffer
-                                  (derived-mode-p 'dired-mode))))
+                                  (derived-mode-p 'dired-mode
+                                                  'magit-status-mode
+                                                  'magit-log-mode))))
                           buffers))
           projectile-find-dir-includes-top-level t
           projectile-mode-line '(:propertize
