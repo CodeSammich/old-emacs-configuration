@@ -718,14 +718,18 @@ mouse-3: go to end"))))
       mouse-wheel-progressive-speed nil
       mouse-wheel-scroll-amount '(1))
 
-(use-package ace-jump-mode              ; Jump to characters in buffers
+(use-package ace-window                 ; Fast window switching
   :ensure t
-  :bind (("C-c SPC" . ace-jump-mode)
-         ("C-c j"   . ace-jump-mode)
-         ("C-c J"   . ace-jump-mode-pop-mark))
-  :config
-  ;; Sync marks with Emacs built-in commands
-  (ace-jump-mode-enable-mark-sync))
+  :bind (("C-x o" . ace-window)
+         ("C-c o" . ace-window)))
+
+(use-package avy-jump                   ; Jump to characters in buffers
+  :ensure ace-window
+  :bind (("C-c j s" . avi-isearch)
+         ("C-c j j" . avi-goto-word-1)
+         ("C-c j c" . avi-goto-char-1)
+         ("C-c j 2" . avi-goto-char-2)))
+
 
 (use-package page-break-lines           ; Turn page breaks into lines
   :ensure t
