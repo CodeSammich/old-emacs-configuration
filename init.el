@@ -36,6 +36,7 @@
 ;; - C-c d: Data stuff
 ;; - C-c f: Files
 ;; - C-c h: Help and documentation
+;; - C-c j: Jumping
 ;; - C-c l: List things
 ;; - C-c m: Multiple cursors
 ;; - C-c s: Symbol commands
