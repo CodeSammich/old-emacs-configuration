@@ -719,16 +719,16 @@ mouse-3: go to end"))))
       mouse-wheel-progressive-speed nil
       mouse-wheel-scroll-amount '(1))
 
-(use-package ace-window                 ; Fast window switching
-  :ensure t
-  :bind (("C-x o" . ace-window)
-         ("C-c o" . ace-window)))
-
 (use-package avy-jump                   ; Jump to characters in buffers
   :ensure avy
   :bind (("C-c j s" . avy-isearch)
          ("C-c j j" . avy-goto-char-2)
          ("C-c j w" . avy-goto-word-1)))
+
+(use-package ace-window                 ; Fast window switching
+  :ensure t
+  :bind (("C-x o" . ace-window)
+         ("C-c o" . ace-window)))
 
 (use-package page-break-lines           ; Turn page breaks into lines
   :ensure t
