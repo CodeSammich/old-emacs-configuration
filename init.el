@@ -725,12 +725,10 @@ mouse-3: go to end"))))
          ("C-c o" . ace-window)))
 
 (use-package avy-jump                   ; Jump to characters in buffers
-  :ensure ace-window
-  :bind (("C-c j s" . avi-isearch)
-         ("C-c j j" . avi-goto-word-1)
-         ("C-c j c" . avi-goto-char-1)
-         ("C-c j 2" . avi-goto-char-2)))
-
+  :ensure avy
+  :bind (("C-c j s" . avy-isearch)
+         ("C-c j j" . avy-goto-char-2)
+         ("C-c j w" . avy-goto-word-1)))
 
 (use-package page-break-lines           ; Turn page breaks into lines
   :ensure t
