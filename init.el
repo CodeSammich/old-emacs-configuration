@@ -725,6 +725,16 @@ mouse-3: go to end"))))
          ("C-c j j" . avy-goto-char-2)
          ("C-c j w" . avy-goto-word-1)))
 
+(use-package ace-link                   ; Fast link jumping
+  :ensure t
+  :defer t
+  :init (progn (with-eval-after-load 'info
+                 (bind-key "C-c j l" #'ace-link-info Info-mode-map))
+
+               (with-eval-after-load 'help-mode
+                 (defvar help-mode-map)  ; Silence the byte compiler
+                 (bind-key "C-c j l" #'ace-link-help help-mode-map))))
+
 (use-package ace-window                 ; Fast window switching
   :ensure t
   :bind (("C-x o" . ace-window)
