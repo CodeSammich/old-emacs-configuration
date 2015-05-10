@@ -835,7 +835,8 @@ mouse-3: go to end"))))
           (setq helm-command-prefix-key nil)
 
           (helm-mode 1))
-  :config (setq helm-split-window-in-side-p t))
+  :config (setq helm-split-window-in-side-p t)
+  :diminish (helm-mode))
 
 (use-package helm-files
   :ensure helm
