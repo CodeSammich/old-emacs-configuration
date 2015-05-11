@@ -1698,6 +1698,7 @@ Disable the highlighting of overlong lines."
 (use-package web-mode                   ; Template editing
   :ensure t
   :defer t
+  :mode "/templates?/.*\\.\\(php\\|html\\)\\'"
   :config
   (setq web-mode-markup-indent-offset 2))
 
