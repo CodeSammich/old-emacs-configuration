@@ -46,9 +46,9 @@
 (defun lunaryorn-insert-logo-into-scratch ()
   "Insert my logo into the scratch buffer."
   (with-current-buffer "*scratch*"
-    (goto-char (point-max))
-    (insert "\n")
-    (lunaryorn-insert-logo)))
+    (goto-char (point-min))
+    (lunaryorn-insert-logo)
+    (insert "\n")))
 
 (provide 'lunaryorn-scratch)
 ;;; lunaryorn-scratch.el ends here
