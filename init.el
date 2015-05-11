@@ -752,6 +752,7 @@ mouse-3: go to end"))))
   :diminish outline-minor-mode)
 
 (use-package imenu-anywhere             ; IDO-based imenu across open buffers
+  ;; The Helm matching doesn't seem to work properly…
   :disabled t
   :ensure t
   :bind (("C-c i" . helm-imenu-anywhere)))
