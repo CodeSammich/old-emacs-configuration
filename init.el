@@ -1266,6 +1266,10 @@ Disable the highlighting of overlong lines."
   :defer t
   :bind (("C-c u j" . json-reformat-region)))
 
+(use-package systemd                    ; Mode for systemd unit files
+  :ensure t
+  :defer t)
+
 
 ;;; Programming utilities
 (use-package compile                    ; Compile from Emacs
