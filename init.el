@@ -564,6 +564,10 @@ mouse-3: go to end"))))
   :ensure t
   :defer t)
 
+(use-package reveal-in-finder           ; Reveal current buffer in finder
+  :ensure t
+  :bind (("C-c f f" . reveal-in-finder)))
+
 (use-package lunaryorn-files            ; Personal file tools
   :load-path "lisp/"
   :bind (("C-c f D" . lunaryorn-delete-file-and-buffer)
