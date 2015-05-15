@@ -811,8 +811,9 @@ mouse-3: go to end"))))
   :bind (
          ;; Replace some standard bindings with Helm equivalents
          ([remap execute-extended-command] . helm-M-x)
-         ([remap yank-pop]                 . helm-show-kill-ring)
+         ([remap find-file]                . helm-find-files)
          ([remap switch-to-buffer]         . helm-mini)
+         ([remap yank-pop]                 . helm-show-kill-ring)
          ([remap insert-register]          . helm-register)
          ([remap occur]                    . helm-occur)
          ;; Special helm bindings
@@ -828,7 +829,6 @@ mouse-3: go to end"))))
          ("C-c h i"                        . helm-info-at-point)
          ("C-c h m"                        . helm-man-woman)
          ("C-c f r"                        . helm-recentf)
-         ("C-c f f"                        . helm-find-files)
          ("C-c f l"                        . helm-locate-library))
   :init (progn (helm-mode 1)
 
