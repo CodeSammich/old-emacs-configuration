@@ -941,6 +941,11 @@ Disable the highlighting of overlong lines."
           company-show-numbers t))
   :diminish company-mode)
 
+(use-package company-statistics
+  :ensure t
+  :defer t
+  :init (company-statistics-mode))
+
 (use-package company-math               ; Completion for Math symbols
   :ensure t
   :defer t

@@ -20,6 +20,9 @@
 /logo.png
 /scalastyle/
 
+# Cache file from marmalade-upload tool
+/marmalade-upload.json
+
 # Cache files and settings for packages
 /tutorial/
 /.emacs.desktop*
@@ -43,6 +46,4 @@
 /eww-bookmarks
 /.sx
 /ensime/
-
-# Cache file from marmalade-upload tool
-/marmalade-upload.json
+/company-statistics-cache.el
