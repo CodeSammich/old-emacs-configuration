@@ -562,7 +562,7 @@ mouse-3: go to end"))))
 
 (use-package launch                     ; Open files in external programs
   :ensure t
-  :init (global-launch-mode))
+  :defer t)
 
 (use-package lunaryorn-files            ; Personal file tools
   :load-path "lisp/"
