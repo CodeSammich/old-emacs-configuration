@@ -810,32 +810,30 @@ mouse-3: go to end"))))
   :ensure t
   :bind (
          ;; Replace some standard bindings with Helm equivalents
-         ("M-s o"     . helm-occur)
-         ("M-x"       . helm-M-x)
-         ("M-y"       . helm-show-kill-ring)
-         ("C-x r i"   . helm-register)
-         ("C-x b"     . helm-mini)
+         ([remap execute-extended-command] . helm-M-x)
+         ([remap yank-pop]                 . helm-show-kill-ring)
+         ([remap switch-to-buffer]         . helm-mini)
+         ([remap insert-register]          . helm-register)
+         ([remap occur]                    . helm-occur)
          ;; Special helm bindings
-         ("C-c b b"   . helm-resume)
-         ("C-c b C"   . helm-colors)
-         ("C-c b *"   . helm-calcul-expression)
-         ("C-c b 8"   . helm-ucs)
-         ("C-c b M-:" . helm-eval-expression-with-eldoc)
+         ("C-c b b"                        . helm-resume)
+         ("C-c b C"                        . helm-colors)
+         ("C-c b *"                        . helm-calcul-expression)
+         ("C-c b 8"                        . helm-ucs)
+         ("C-c b M-:"                      . helm-eval-expression-with-eldoc)
          ;; Helm features in other maps
-         ("C-c i"     . helm-semantic-or-imenu)
-         ("C-c h a"   . helm-apropos)
-         ("C-c h e"   . helm-info-emacs)
-         ("C-c h i"   . helm-info-at-point)
-         ("C-c h m"   . helm-man-woman)
-         ("C-c f r"   . helm-recentf)
-         ("C-c f f"   . helm-find-files)
-         ("C-c f l"   . helm-locate-library))
-  :init (progn
-          ;; Shut up, f****** `helm-config'
-          (defvar helm-command-prefix-key)
-          (setq helm-command-prefix-key nil)
+         ("C-c i"                          . helm-semantic-or-imenu)
+         ("C-c h a"                        . helm-apropos)
+         ("C-c h e"                        . helm-info-emacs)
+         ("C-c h i"                        . helm-info-at-point)
+         ("C-c h m"                        . helm-man-woman)
+         ("C-c f r"                        . helm-recentf)
+         ("C-c f f"                        . helm-find-files)
+         ("C-c f l"                        . helm-locate-library))
+  :init (progn (helm-mode 1)
 
-          (helm-mode 1))
+               (with-eval-after-load 'helm-config
+                 (warn "`helm-config' loaded! Get rid of it ASAP!")))
   :config (setq helm-split-window-in-side-p t)
   :diminish (helm-mode))
 
