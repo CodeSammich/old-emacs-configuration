@@ -1428,8 +1428,8 @@ Disable the highlighting of overlong lines."
 (use-package scala-mode2                ; Scala editing
   :ensure t
   :defer t
-  :config '(setq scala-indent:default-run-on-strategy
-                 scala-indent:operator-strategy))
+  :config (setq scala-indent:default-run-on-strategy
+                scala-indent:operator-strategy))
 
 (use-package flycheck-auto-scalastyle   ; Scalastyle setup
   :load-path "lisp/"
