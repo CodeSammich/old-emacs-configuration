@@ -1407,9 +1407,7 @@ Disable the highlighting of overlong lines."
   :defer t
   :interpreter ("emacs" . emacs-lisp-mode)
   :mode ("/Cask\\'" . emacs-lisp-mode)
-  :config
-  (progn
-    (require 'ert)))
+  :config (require 'ert))
 
 (use-package lunaryorn-lisp             ; Personal tools for Emacs Lisp
   :load-path "lisp/"
