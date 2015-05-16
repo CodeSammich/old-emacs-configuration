@@ -1401,7 +1401,7 @@ Disable the highlighting of overlong lines."
           (bind-key "C-c e" #'macrostep-expand lisp-interaction-mode-map)))
 
 (use-package ielm                       ; Emacs Lisp REPL
-  :bind (("C-c u z" . ielm)))
+  :bind (("C-c z" . ielm)))
 
 (use-package lisp-mode                  ; Emacs Lisp editing
   :defer t
