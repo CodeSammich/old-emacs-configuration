@@ -34,9 +34,10 @@
 ;; - C-c a: Ag
 ;; - C-c b: Helm commands (b for "browse")
 ;; - C-c d: Data stuff
+;; - C-c e: Edit commands, general and mode specific
 ;; - C-c f: Files
 ;; - C-c h: Help and documentation
-;; - C-c j: Jumping
+;; - C-c j: Jumping and navigation
 ;; - C-c l: List things
 ;; - C-c m: Multiple cursors
 ;; - C-c s: Symbol commands
@@ -514,7 +515,7 @@ mouse-3: go to end"))))
 
 (use-package copyright                  ; Deal with copyright notices
   :defer t
-  :bind (("C-c u C" . copyright-update))
+  :bind (("C-c e c" . copyright-update))
   ;; Update copyright when visiting files
   :init (add-hook 'find-file-hook #'copyright-update)
   ;; Use ranges to denote consecutive years
@@ -616,7 +617,7 @@ mouse-3: go to end"))))
          ("C-<backspace>"                . lunaryorn-smart-backward-kill-line)
          ("C-S-j"                        . lunaryorn-smart-open-line)
          ;; Additional utilities
-         ("C-c u d"                      . lunaryorn-insert-current-date))
+         ("C-c e d"                      . lunaryorn-insert-current-date))
   :commands (lunaryorn-auto-fill-comments-mode)
   ;; Auto-fill comments in programming modes
   :init (add-hook 'prog-mode-hook #'lunaryorn-auto-fill-comments-mode))
@@ -1038,7 +1039,7 @@ Disable the highlighting of overlong lines."
 
 ;;; Text editing
 (use-package tildify
-  :bind (("C-c u t" . tildify-region))
+  :bind (("C-c e t" . tildify-region))
   :init (dolist (hook '(markdown-mode-hook
                         latex-mode-hook
                         rst-mode-hook))
@@ -1271,7 +1272,7 @@ Disable the highlighting of overlong lines."
 (use-package json-reformat              ; Reformat JSON
   :ensure t
   :defer t
-  :bind (("C-c u j" . json-reformat-region)))
+  :bind (("C-c e j" . json-reformat-region)))
 
 (use-package systemd                    ; Mode for systemd unit files
   :ensure t
@@ -1397,8 +1398,8 @@ Disable the highlighting of overlong lines."
   :ensure t
   :defer t
   :init (with-eval-after-load 'lisp-mode
-          (bind-key "C-c e" #'macrostep-expand emacs-lisp-mode-map)
-          (bind-key "C-c e" #'macrostep-expand lisp-interaction-mode-map)))
+          (bind-key "C-c e e" #'macrostep-expand emacs-lisp-mode-map)
+          (bind-key "C-c e e" #'macrostep-expand lisp-interaction-mode-map)))
 
 (use-package ielm                       ; Emacs Lisp REPL
   :bind (("C-c z" . ielm)))
@@ -1615,7 +1616,7 @@ Disable the highlighting of overlong lines."
                    (concat "--with-ghc=" ghci-ng)))
 
     (bind-key "C-c h d" #'haskell-describe haskell-mode-map)
-    (bind-key "C-c u i" #'haskell-navigate-imports haskell-mode-map)
+    (bind-key "C-c j i" #'haskell-navigate-imports haskell-mode-map)
     (bind-key "C-c f c" #'haskell-cabal-visit-file haskell-mode-map)))
 
 (use-package haskell
@@ -1974,7 +1975,7 @@ Disable the highlighting of overlong lines."
 
 (use-package time                       ; Show current time
   :bind (("C-c u i" . emacs-init-time)
-         ("C-c u T" . display-time-world))
+         ("C-c u t" . display-time-world))
   :config
   (setq display-time-world-time-format "%H:%M %Z, %d. %b"
         display-time-world-list '(("Europe/Berlin"    "Berlin")
