@@ -663,9 +663,9 @@ mouse-3: go to end"))))
          ([remap mark-sexp]      . easy-mark)))
 
 (use-package align                      ; Align text in buffers
-  :bind (("C-c A a" . align)
-         ("C-c A c" . align-current)
-         ("C-c A r" . align-regexp)))
+  :bind (("C-c e a" . align)
+         ("C-c e c" . align-current)
+         ("C-c e r" . align-regexp)))
 
 (use-package multiple-cursors           ; Edit text with multiple cursors
   :ensure t
