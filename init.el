@@ -1988,6 +1988,10 @@ Disable the highlighting of overlong lines."
 (use-package bug-hunter                 ; Search init file for bugs
   :ensure t)
 
+(use-package auto-insert                ; Automatic insertion into new files
+  :defer t
+  :bind (("C-c e i" . auto-insert)))
+
 
 ;;; Terminal emulation and shells
 (use-package shell                      ; Dump shell in Emacs
