@@ -515,7 +515,7 @@ mouse-3: go to end"))))
 
 (use-package copyright                  ; Deal with copyright notices
   :defer t
-  :bind (("C-c e c" . copyright-update))
+  :bind (("C-c e C" . copyright-update))
   ;; Update copyright when visiting files
   :init (add-hook 'find-file-hook #'copyright-update)
   ;; Use ranges to denote consecutive years
