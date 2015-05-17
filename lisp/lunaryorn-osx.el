@@ -26,16 +26,6 @@
 
 ;;; Code:
 
-;; Trash support for OS X.  On OS X, Emacs doesn't support the system trash
-;; properly, so we try to work around it by providing our own trashing function.
-;; If that fails, disable trashing and warn!
-(defconst lunaryorn-darwin-trash-tool "trash"
-  "A CLI tool to trash files.")
-
-(defun lunaryorn-darwin-move-file-to-trash (file)
-  "Move FILE to trash on OS X."
-  (call-process lunaryorn-darwin-trash-tool nil nil nil (expand-file-name file)))
-
 ;; Utility functions for OS X
 (defun lunaryorn-id-of-bundle (bundle)
   "Get the ID of a BUNDLE.

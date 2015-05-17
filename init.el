@@ -159,13 +159,12 @@
 (use-package lunaryorn-osx              ; Personal OS X tools
   :if (eq system-type 'darwin)
   :load-path "lisp/"
-  :defines (lunaryorn-darwin-trash-tool)
-  :config
-  (if (executable-find lunaryorn-darwin-trash-tool)
-      (defalias 'system-move-file-to-trash 'lunaryorn-darwin-move-file-to-trash)
-    (warn "Trash support not available!
-Install Trash from https://github.com/ali-rantakari/trash!
-Homebrew: brew install trash")))
+  :defer t)
+
+(use-package osx-trash                  ; Trash support for OS X
+  :if (eq system-type 'darwin)
+  :ensure t
+  :init (osx-trash-setup))
 
 
 ;;; User interface
@@ -461,10 +460,7 @@ mouse-3: go to end"))))
       auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
 
 ;; Delete files to trash
-(setq delete-by-moving-to-trash
-      (or (not (eq system-type 'darwin)) ; Trash is well supported on other
-                                        ; systems
-          (fboundp 'system-move-file-to-trash)))
+(setq delete-by-moving-to-trash t)
 
 (use-package files
   :bind (("C-c f u" . revert-buffer))
