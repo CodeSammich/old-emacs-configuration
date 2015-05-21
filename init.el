@@ -1241,7 +1241,9 @@ Disable the highlighting of overlong lines."
 
   (bind-key "C-=" nil rst-mode-map)
   ;; For similarity with AUCTeX
-  (bind-key  "C-c C-j" #'rst-insert-list rst-mode-map))
+  (bind-key "C-c C-j" #'rst-insert-list rst-mode-map)
+  ;; …and with Markdown Mode
+  (bind-key "M-RET" #'rst-insert-list rst-mode-map))
 
 (use-package markdown-mode              ; Markdown
   :ensure t
