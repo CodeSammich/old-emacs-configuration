@@ -300,6 +300,7 @@
                 ;; - Paredit
                 ;; - Dired Omit Mode
                 (paredit-mode (:propertize " ()" face bold))
+                (smartparens-strict-mode (:propertize " ()" face bold))
                 (dired-omit-mode " ●")
                 ;; Warn if whitespace isn't highlighted or cleaned in this
                 ;; buffer.
@@ -693,9 +694,6 @@ mouse-3: go to end"))))
 ;; Make Tab complete if the line is indented
 (setq tab-always-indent 'complete)
 
-(use-package elec-pair                  ; Electric pairs
-  :init (electric-pair-mode))
-
 ;; Indicate empty lines at the end of a buffer in the fringe, but require a
 ;; final new line
 (setq indicate-empty-lines t
@@ -819,9 +817,50 @@ mouse-3: go to end"))))
 (bind-key [remap just-one-space] #'cycle-spacing)
 
 
-;;; Highlights and fontification
+;;; Paired delimiters
+(use-package elec-pair                  ; Electric pairs
+  :disabled t
+  :init (electric-pair-mode))
 
-;; A function to disable highlighting of long lines in modes
+(use-package paren                      ; Highlight paired delimiters
+  :disabled t
+  :init (show-paren-mode)
+  :config (setq show-paren-when-point-inside-paren t
+                show-paren-when-point-in-periphery t))
+
+(use-package paredit                    ; Balanced sexp editing
+  :disabled t
+  :ensure t
+  :defer t
+  :init (dolist (hook '(eval-expression-minibuffer-setup-hook
+                        emacs-lisp-mode-hook
+                        inferior-emacs-lisp-mode-hook
+                        clojure-mode-hook))
+          (add-hook hook #'paredit-mode))
+  :config
+  (progn
+    ;; Free M-s.  There are some useful bindings in that prefix map.
+    (define-key paredit-mode-map (kbd "M-s") nil)
+    (define-key paredit-mode-map (kbd "M-S-<up>") #'paredit-splice-sexp))
+  :diminish paredit-mode)
+
+(use-package smartparens                ; Parenthesis editing and balancing
+  :ensure t
+  :init (progn (smartparens-global-mode)
+               (show-smartparens-global-mode)
+
+               (dolist (hook '(inferior-emacs-lisp-mode-hook
+                               emacs-lisp-mode-hook))
+                 (add-hook hook #'smartparens-strict-mode)))
+  :config (setq sp-autoskip-closing-pair 'always
+                ;; Don't kill entire symbol on C-k
+                sp-hybrid-kill-entire-symbol nil))
+
+(use-package lunaryorn-smartparens      ; Personal Smartparens extensions
+  :load-path "lisp/")
+
+
+;;; Highlights and fontification
 (defun lunaryorn-whitespace-style-no-long-lines ()
   "Configure `whitespace-mode' for Org.
 
@@ -847,11 +886,6 @@ Disable the highlighting of overlong lines."
 
 (use-package hl-line                    ; Highlight the current line
   :init (global-hl-line-mode 1))
-
-(use-package paren                      ; Highlight paired delimiters
-  :init (show-paren-mode)
-  :config (setq show-paren-when-point-inside-paren t
-                show-paren-when-point-in-periphery t))
 
 (use-package rainbow-delimiters         ; Highlight delimiters by depth
   :ensure t
@@ -1309,23 +1343,6 @@ Disable the highlighting of overlong lines."
   :defer t
   :init (with-eval-after-load 'company
           (add-to-list 'company-backends 'company-restclient)))
-
-
-;;; Generic Lisp
-(use-package paredit                    ; Balanced sexp editing
-  :ensure t
-  :defer t
-  :init (dolist (hook '(eval-expression-minibuffer-setup-hook
-                        emacs-lisp-mode-hook
-                        inferior-emacs-lisp-mode-hook
-                        clojure-mode-hook))
-          (add-hook hook #'paredit-mode))
-  :config
-  (progn
-    ;; Free M-s.  There are some useful bindings in that prefix map.
-    (define-key paredit-mode-map (kbd "M-s") nil)
-    (define-key paredit-mode-map (kbd "M-S-<up>") #'paredit-splice-sexp))
-  :diminish paredit-mode)
 
 
 ;;; Emacs Lisp
