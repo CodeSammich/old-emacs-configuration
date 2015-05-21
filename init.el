@@ -126,7 +126,7 @@
           (add-to-list 'Info-directory-list dir))))))
 
 
-;;; Customization interface
+;;; Customization, init file and package management
 (defconst lunaryorn-custom-file (locate-user-emacs-file "custom.el")
   "File used to store settings from Customization UI.")
 
@@ -140,6 +140,22 @@
         custom-unlispify-tag-names nil
         custom-unlispify-menu-entries nil)
   :init (load lunaryorn-custom-file 'no-error 'no-message))
+
+(use-package paradox                    ; Better package menu
+  :ensure t
+  :bind (("C-c l p" . paradox-list-packages)
+         ("C-c l P" . package-list-packages-no-fetch))
+  :config
+  ;; Don't ask for a token, please, and don't bug me about asynchronous updates
+  (setq paradox-github-token t
+        paradox-execute-asynchronously nil))
+
+(use-package bug-hunter                 ; Search init file for bugs
+  :ensure t)
+
+(use-package server                     ; The server of `emacsclient'
+  :defer t
+  :init (server-start))
 
 
 ;;; OS X support
@@ -341,7 +357,7 @@ mouse-2: toggle rest visibility\n\
 mouse-3: go to end"))))
 
 
-;;; The minibuffer
+;;; Minibuffer and Helm
 (setq history-length 1000)              ; Store more history
 
 (use-package savehist                   ; Save minibuffer history
@@ -349,9 +365,39 @@ mouse-3: go to end"))))
   :config (setq savehist-save-minibuffer-history t
                 savehist-autosave-interval 180))
 
+(use-package helm
+  :ensure t
+  :bind (
+         ;; Replace some standard bindings with Helm equivalents
+         ([remap execute-extended-command] . helm-M-x)
+         ([remap find-file]                . helm-find-files)
+         ([remap switch-to-buffer]         . helm-mini)
+         ([remap yank-pop]                 . helm-show-kill-ring)
+         ([remap insert-register]          . helm-register)
+         ([remap occur]                    . helm-occur)
+         ;; Special helm bindings
+         ("C-c b b"                        . helm-resume)
+         ("C-c b C"                        . helm-colors)
+         ("C-c b *"                        . helm-calcul-expression)
+         ("C-c b 8"                        . helm-ucs)
+         ("C-c b M-:"                      . helm-eval-expression-with-eldoc)
+         ;; Helm features in other maps
+         ("C-c i"                          . helm-semantic-or-imenu)
+         ("C-c h a"                        . helm-apropos)
+         ("C-c h e"                        . helm-info-emacs)
+         ("C-c h i"                        . helm-info-at-point)
+         ("C-c h m"                        . helm-man-woman)
+         ("C-c f r"                        . helm-recentf)
+         ("C-c f l"                        . helm-locate-library))
+  :init (progn (helm-mode 1)
+
+               (with-eval-after-load 'helm-config
+                 (warn "`helm-config' loaded! Get rid of it ASAP!")))
+  :config (setq helm-split-window-in-side-p t)
+  :diminish (helm-mode))
+
 
 ;;; Buffer, Windows and Frames
-
 (setq frame-resize-pixelwise t          ; Resize by pixels
       frame-title-format
       '(:eval (if (buffer-file-name)
@@ -379,6 +425,11 @@ mouse-3: go to end"))))
 
 (use-package uniquify                   ; Make buffer names unique
   :config (setq uniquify-buffer-name-style 'forward))
+
+(use-package helm-buffers
+  :ensure helm
+  :defer t
+  :config (setq helm-buffers-fuzzy-matching t))
 
 (use-package ibuffer                    ; Better buffer list
   :bind (([remap list-buffers] . ibuffer))
@@ -509,14 +560,14 @@ mouse-3: go to end"))))
       ;; OS X bsdtar is mostly compatible with GNU Tar
       (setq dired-guess-shell-gnutar "tar"))))
 
-(use-package copyright                  ; Deal with copyright notices
+(use-package helm-files
+  :ensure helm
   :defer t
-  :bind (("C-c e C" . copyright-update))
-  ;; Update copyright when visiting files
-  :init (add-hook 'find-file-hook #'copyright-update)
-  ;; Use ranges to denote consecutive years
-  :config (setq copyright-year-ranges t
-                copyright-names-regexp (regexp-quote user-full-name)))
+  :config (setq helm-recentf-fuzzy-match t
+                ;; Use recentf to find recent files
+                helm-ff-file-name-history-use-recentf t
+                ;; Find library from `require', `declare-function' and friends
+                helm-ff-search-library-in-sexp t))
 
 (use-package ignoramus                  ; Ignore uninteresting files everywhere
   :ensure t
@@ -579,6 +630,59 @@ mouse-3: go to end"))))
 (bind-key "C-c f v d" #'add-dir-local-variable)
 (bind-key "C-c f v l" #'add-file-local-variable)
 (bind-key "C-c f v p" #'add-file-local-variable-prop-line)
+
+
+;;; Navigation and scrolling
+(setq scroll-margin 0                   ; Drag the point along while scrolling
+      scroll-conservatively 1000        ; Never recenter the screen while scrolling
+      scroll-error-top-bottom t         ; Move to beg/end of buffer before
+                                        ; signalling an error
+      ;; These settings make trackpad scrolling on OS X much more predictable
+      ;; and smooth
+      mouse-wheel-progressive-speed nil
+      mouse-wheel-scroll-amount '(1))
+
+(use-package avy-jump                   ; Jump to characters in buffers
+  :ensure avy
+  :bind (("C-c j s" . avy-isearch)
+         ("C-c j j" . avy-goto-char-2)
+         ("C-c j w" . avy-goto-word-1)))
+
+(use-package ace-link                   ; Fast link jumping
+  :ensure t
+  :defer t
+  :init (progn (with-eval-after-load 'info
+                 (bind-key "C-c j l" #'ace-link-info Info-mode-map))
+
+               (with-eval-after-load 'help-mode
+                 (defvar help-mode-map)  ; Silence the byte compiler
+                 (bind-key "C-c j l" #'ace-link-help help-mode-map))))
+
+(use-package ace-window                 ; Fast window switching
+  :ensure t
+  :bind (("C-x o" . ace-window)
+         ("C-c o" . ace-window)))
+
+(use-package page-break-lines           ; Turn page breaks into lines
+  :ensure t
+  :init (global-page-break-lines-mode)
+  :diminish page-break-lines-mode)
+
+(use-package outline                    ; Navigate outlines in buffers
+  :defer t
+  :init (dolist (hook '(text-mode-hook prog-mode-hook))
+          (add-hook hook #'outline-minor-mode))
+  :diminish outline-minor-mode)
+
+(use-package imenu-anywhere             ; IDO-based imenu across open buffers
+  ;; The Helm matching doesn't seem to work properly…
+  :disabled t
+  :ensure t
+  :bind (("C-c i" . helm-imenu-anywhere)))
+
+(use-package nlinum                     ; Line numbers in display margin
+  :ensure t
+  :bind (("C-c t l" . nlinum-mode)))
 
 
 ;;; Basic editing
@@ -689,10 +793,6 @@ mouse-3: go to end"))))
   :init (global-undo-tree-mode)
   :diminish undo-tree-mode)
 
-(use-package nlinum                     ; Line numbers in display margin
-  :ensure t
-  :bind (("C-c t l" . nlinum-mode)))
-
 ;; Give us narrowing back!
 (put 'narrow-to-region 'disabled nil)
 (put 'narrow-to-page 'disabled nil)
@@ -702,164 +802,24 @@ mouse-3: go to end"))))
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
 
-(use-package server                     ; The server of `emacsclient'
+(use-package auto-insert                ; Automatic insertion into new files
   :defer t
-  :init (server-start))
+  :bind (("C-c e i" . auto-insert)))
+
+(use-package copyright                  ; Deal with copyright notices
+  :defer t
+  :bind (("C-c e C" . copyright-update))
+  ;; Update copyright when visiting files
+  :init (add-hook 'find-file-hook #'copyright-update)
+  ;; Use ranges to denote consecutive years
+  :config (setq copyright-year-ranges t
+                copyright-names-regexp (regexp-quote user-full-name)))
 
 ;; Additional keybindings
 (bind-key [remap just-one-space] #'cycle-spacing)
 
 
-;;; Navigation and scrolling
-(setq scroll-margin 0                   ; Drag the point along while scrolling
-      scroll-conservatively 1000        ; Never recenter the screen while scrolling
-      scroll-error-top-bottom t         ; Move to beg/end of buffer before
-                                        ; signalling an error
-      ;; These settings make trackpad scrolling on OS X much more predictable
-      ;; and smooth
-      mouse-wheel-progressive-speed nil
-      mouse-wheel-scroll-amount '(1))
-
-(use-package avy-jump                   ; Jump to characters in buffers
-  :ensure avy
-  :bind (("C-c j s" . avy-isearch)
-         ("C-c j j" . avy-goto-char-2)
-         ("C-c j w" . avy-goto-word-1)))
-
-(use-package ace-link                   ; Fast link jumping
-  :ensure t
-  :defer t
-  :init (progn (with-eval-after-load 'info
-                 (bind-key "C-c j l" #'ace-link-info Info-mode-map))
-
-               (with-eval-after-load 'help-mode
-                 (defvar help-mode-map)  ; Silence the byte compiler
-                 (bind-key "C-c j l" #'ace-link-help help-mode-map))))
-
-(use-package ace-window                 ; Fast window switching
-  :ensure t
-  :bind (("C-x o" . ace-window)
-         ("C-c o" . ace-window)))
-
-(use-package page-break-lines           ; Turn page breaks into lines
-  :ensure t
-  :init (global-page-break-lines-mode)
-  :diminish page-break-lines-mode)
-
-(use-package outline                    ; Navigate outlines in buffers
-  :defer t
-  :init (dolist (hook '(text-mode-hook prog-mode-hook))
-          (add-hook hook #'outline-minor-mode))
-  :diminish outline-minor-mode)
-
-(use-package imenu-anywhere             ; IDO-based imenu across open buffers
-  ;; The Helm matching doesn't seem to work properly…
-  :disabled t
-  :ensure t
-  :bind (("C-c i" . helm-imenu-anywhere)))
-
-
-;;; Search
-(use-package isearch                    ; Search buffers
-  :bind (("C-c s s" . isearch-forward-symbol-at-point)))
-
-(use-package grep
-  :defer t
-  :config
-  (progn
-    (when-let (gnu-find (and (eq system-type 'darwin)
-                             (executable-find "gfind")))
-      (setq find-program gnu-find))
-
-    (when-let (gnu-xargs (and (eq system-type 'darwin)
-                              (executable-find "gxargs")))
-      (setq xargs-program gnu-xargs))))
-
-(use-package locate                     ; Search files on the system
-  :defer t
-  :config
-  ;; Use mdfind as locate substitute on OS X, to utilize the Spotlight database
-  (when-let (mdfind (and (eq system-type 'darwin) (executable-find "mdfind")))
-    (setq locate-command mdfind)))
-
-(use-package ag                         ; Search code in files/projects
-  :ensure t
-  :bind (("C-c a d" . ag-dired-regexp)
-         ("C-c a D" . ag-dired)
-         ("C-c a f" . ag-files)
-         ("C-c a k" . ag-kill-other-buffers)
-         ("C-c a K" . ag-kill-buffers))
-  :config
-  (setq ag-reuse-buffers t            ; Don't spam buffer list with ag buffers
-        ag-highlight-search t         ; A little fanciness
-        ;; Use Projectile to find the project root
-        ag-project-root-function (lambda (d) (let ((default-directory d))
-                                               (projectile-project-root)))))
-
-(use-package wgrep                      ; Edit grep/occur/ag results in-place
-  :ensure t
-  :defer t)
-
-(use-package wgrep-ag                   ; Wgrep for ag
-  :ensure t
-  :defer t)
-
-
-;;; Helm
-
-(use-package helm
-  :ensure t
-  :bind (
-         ;; Replace some standard bindings with Helm equivalents
-         ([remap execute-extended-command] . helm-M-x)
-         ([remap find-file]                . helm-find-files)
-         ([remap switch-to-buffer]         . helm-mini)
-         ([remap yank-pop]                 . helm-show-kill-ring)
-         ([remap insert-register]          . helm-register)
-         ([remap occur]                    . helm-occur)
-         ;; Special helm bindings
-         ("C-c b b"                        . helm-resume)
-         ("C-c b C"                        . helm-colors)
-         ("C-c b *"                        . helm-calcul-expression)
-         ("C-c b 8"                        . helm-ucs)
-         ("C-c b M-:"                      . helm-eval-expression-with-eldoc)
-         ;; Helm features in other maps
-         ("C-c i"                          . helm-semantic-or-imenu)
-         ("C-c h a"                        . helm-apropos)
-         ("C-c h e"                        . helm-info-emacs)
-         ("C-c h i"                        . helm-info-at-point)
-         ("C-c h m"                        . helm-man-woman)
-         ("C-c f r"                        . helm-recentf)
-         ("C-c f l"                        . helm-locate-library))
-  :init (progn (helm-mode 1)
-
-               (with-eval-after-load 'helm-config
-                 (warn "`helm-config' loaded! Get rid of it ASAP!")))
-  :config (setq helm-split-window-in-side-p t)
-  :diminish (helm-mode))
-
-(use-package helm-files
-  :ensure helm
-  :defer t
-  :config (setq helm-recentf-fuzzy-match t
-                ;; Use recentf to find recent files
-                helm-ff-file-name-history-use-recentf t
-                ;; Find library from `require', `declare-function' and friends
-                helm-ff-search-library-in-sexp t))
-
-(use-package helm-buffers
-  :ensure helm
-  :defer t
-  :config (setq helm-buffers-fuzzy-matching t))
-
-(use-package helm-ag
-  :ensure t
-  :bind (("C-c a a" . helm-do-ag)
-         ("C-c a A" . helm-ag))
-  :config (setq helm-ag-fuzzy-match t))
-
-
-;;; Highlights
+;;; Highlights and fontification
 
 ;; A function to disable highlighting of long lines in modes
 (defun lunaryorn-whitespace-style-no-long-lines ()
@@ -901,6 +861,34 @@ Disable the highlighting of overlong lines."
 
 (use-package hi-lock                    ; Custom regexp highlights
   :init (global-hi-lock-mode))
+
+(use-package highlight-numbers          ; Fontify number literals
+  :ensure t
+  :defer t
+  :init (add-hook 'prog-mode-hook #'highlight-numbers-mode))
+
+(use-package rainbow-mode               ; Fontify color values in code
+  :ensure t
+  :bind (("C-c t r" . rainbow-mode))
+  :config (add-hook 'css-mode-hook #'rainbow-mode))
+
+(use-package highlight-symbol           ; Highlighting and commands for symbols
+  :ensure t
+  :defer t
+  :bind
+  (("C-c s %" . highlight-symbol-query-replace)
+   ("C-c s n" . highlight-symbol-next-in-defun)
+   ("C-c s o" . highlight-symbol-occur)
+   ("C-c s p" . highlight-symbol-prev-in-defun))
+  ;; Navigate occurrences of the symbol under point with M-n and M-p, and
+  ;; highlight symbol occurrences
+  :init (progn (add-hook 'prog-mode-hook #'highlight-symbol-nav-mode)
+               (add-hook 'prog-mode-hook #'highlight-symbol-mode))
+  :config
+  (setq highlight-symbol-idle-delay 0.4     ; Highlight almost immediately
+        highlight-symbol-on-navigation-p t) ; Highlight immediately after
+                                        ; navigation
+  :diminish highlight-symbol-mode)
 
 
 ;;; Skeletons, completion and expansion
@@ -1300,34 +1288,6 @@ Disable the highlighting of overlong lines."
   ;; http://stackoverflow.com/a/3072831/355252
   :init (add-hook 'compilation-filter-hook
                   #'lunaryorn-colorize-compilation-buffer))
-
-(use-package highlight-numbers          ; Fontify number literals
-  :ensure t
-  :defer t
-  :init (add-hook 'prog-mode-hook #'highlight-numbers-mode))
-
-(use-package rainbow-mode               ; Fontify color values in code
-  :ensure t
-  :bind (("C-c t r" . rainbow-mode))
-  :config (add-hook 'css-mode-hook #'rainbow-mode))
-
-(use-package highlight-symbol           ; Highlighting and commands for symbols
-  :ensure t
-  :defer t
-  :bind
-  (("C-c s %" . highlight-symbol-query-replace)
-   ("C-c s n" . highlight-symbol-next-in-defun)
-   ("C-c s o" . highlight-symbol-occur)
-   ("C-c s p" . highlight-symbol-prev-in-defun))
-  ;; Navigate occurrences of the symbol under point with M-n and M-p, and
-  ;; highlight symbol occurrences
-  :init (progn (add-hook 'prog-mode-hook #'highlight-symbol-nav-mode)
-               (add-hook 'prog-mode-hook #'highlight-symbol-mode))
-  :config
-  (setq highlight-symbol-idle-delay 0.4     ; Highlight almost immediately
-        highlight-symbol-on-navigation-p t) ; Highlight immediately after
-                                        ; navigation
-  :diminish highlight-symbol-mode)
 
 (use-package elide-head                 ; Elide lengthy GPL headers
   :bind (("C-c u h" . elide-head))
@@ -1937,7 +1897,58 @@ Disable the highlighting of overlong lines."
   :bind (("C-c v t" . git-timemachine)))
 
 
-;;; Project management with Projectile
+;;; Search
+(use-package isearch                    ; Search buffers
+  :bind (("C-c s s" . isearch-forward-symbol-at-point)))
+
+(use-package grep
+  :defer t
+  :config
+  (progn
+    (when-let (gnu-find (and (eq system-type 'darwin)
+                             (executable-find "gfind")))
+      (setq find-program gnu-find))
+
+    (when-let (gnu-xargs (and (eq system-type 'darwin)
+                              (executable-find "gxargs")))
+      (setq xargs-program gnu-xargs))))
+
+(use-package locate                     ; Search files on the system
+  :defer t
+  :config
+  ;; Use mdfind as locate substitute on OS X, to utilize the Spotlight database
+  (when-let (mdfind (and (eq system-type 'darwin) (executable-find "mdfind")))
+    (setq locate-command mdfind)))
+
+(use-package ag                         ; Search code in files/projects
+  :ensure t
+  :bind (("C-c a d" . ag-dired-regexp)
+         ("C-c a D" . ag-dired)
+         ("C-c a f" . ag-files)
+         ("C-c a k" . ag-kill-other-buffers)
+         ("C-c a K" . ag-kill-buffers))
+  :config
+  (setq ag-reuse-buffers t            ; Don't spam buffer list with ag buffers
+        ag-highlight-search t         ; A little fanciness
+        ;; Use Projectile to find the project root
+        ag-project-root-function (lambda (d) (let ((default-directory d))
+                                               (projectile-project-root)))))
+
+(use-package wgrep                      ; Edit grep/occur/ag results in-place
+  :ensure t
+  :defer t)
+
+(use-package wgrep-ag                   ; Wgrep for ag
+  :ensure t
+  :defer t)
+
+(use-package helm-ag
+  :ensure t
+  :bind (("C-c a a" . helm-do-ag)
+         ("C-c a A" . helm-ag))
+  :config (setq helm-ag-fuzzy-match t))
+
+;;; Project management with Projectile
 (use-package projectile
   :ensure t
   :init (projectile-global-mode)
@@ -1960,26 +1971,14 @@ Disable the highlighting of overlong lines."
   :config (setq projectile-switch-project-action #'helm-projectile))
 
 
-;;; Tools and utilities
-(use-package bug-reference              ; Turn bug references into buttons
-  :defer t
-  :init (progn (add-hook 'prog-mode-hook #'bug-reference-prog-mode)
-               (add-hook 'text-mode-hook #'bug-reference-mode)))
-
-(use-package paradox                    ; Better package menu
-  :ensure t
-  :bind (("C-c l p" . paradox-list-packages)
-         ("C-c l P" . package-list-packages-no-fetch))
-  :config
-  ;; Don't ask for a token, please, and don't bug me about asynchronous updates
-  (setq paradox-github-token t
-        paradox-execute-asynchronously nil))
-
+;;; OS integration
 (use-package proced                     ; Edit system processes
   ;; Proced isn't available on OS X
   :if (not (eq system-type 'darwin))
   :bind ("C-x p" . proced))
 
+
+;;; Date and time
 (use-package calendar                   ; Built-in calendar
   :bind ("C-c u c" . calendar)
   :config
@@ -1997,13 +1996,6 @@ Disable the highlighting of overlong lines."
                                   ("America/Winnipeg" "Winnipeg (CA)")
                                   ("America/New_York" "New York (USA)")
                                   ("Asia/Tokyo"       "Tokyo (JP)"))))
-
-(use-package bug-hunter                 ; Search init file for bugs
-  :ensure t)
-
-(use-package auto-insert                ; Automatic insertion into new files
-  :defer t
-  :bind (("C-c e i" . auto-insert)))
 
 
 ;;; Terminal emulation and shells
@@ -2024,6 +2016,11 @@ Disable the highlighting of overlong lines."
 ;;; Net & Web
 (use-package browse-url                 ; Browse URLs
   :bind (("C-c w u" . browse-url)))
+
+(use-package bug-reference              ; Turn bug refs into browsable buttons
+  :defer t
+  :init (progn (add-hook 'prog-mode-hook #'bug-reference-prog-mode)
+               (add-hook 'text-mode-hook #'bug-reference-mode)))
 
 (use-package eww                        ; Emacs' built-in web browser
   :bind (("C-c w b" . eww-list-bookmarks)
