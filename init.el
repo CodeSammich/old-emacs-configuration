@@ -1791,18 +1791,35 @@ Disable the highlighting of overlong lines."
   "Determine whether we have Proof General installed."
   (file-exists-p (locate-user-emacs-file "vendor/ProofGeneral/generic")))
 
-(use-package proof-site
+(use-package proof-site                 ; Enable ProofGeneral if present
+  ;; Don't :defer this one, since it sets up `load-path' and stuff for
+  ;; ProofGeneral
   :load-path "vendor/ProofGeneral/generic"
-  :if (lunaryorn-have-proofgeneral-p)
-  :config
-  (setq proof-three-window-enable nil   ; More predictable window management
-        ;; Automatically process the script up to point when inserting a
-        ;; terminator.  Really handy in Coq.
-        proof-electric-terminator-enable t))
+  :if (lunaryorn-have-proofgeneral-p))
 
 ;; Proof General has a rather strange way of creating this variable
 (defvar coq-one-command-per-line)
 (setq coq-one-command-per-line nil)
+
+(use-package proof-splash               ; ProofGeneral Splash screen
+  :if (lunaryorn-have-proofgeneral-p)
+  :defer t
+  ;; Shut up, ProofGeneral
+  :config (setq proof-splash-enable nil))
+
+(use-package proof-useropts             ; ProofGeneral options
+  :if (lunaryorn-have-proofgeneral-p)
+  :defer t
+  :config (setq proof-three-window-mode-policy 'hybrid
+                ;; Automatically process the script up to point when inserting a
+                ;; terminator.  Really handy in Coq.
+                proof-electric-terminator-enable t))
+
+(use-package proof-config               ; ProofGeneral proof configuration
+  :if (lunaryorn-have-proofgeneral-p)
+  :defer t
+  ;; Skip over consecutive comments when processing
+  :config (setq proof-script-fly-past-comments t))
 
 (use-package proof-script
   :if (lunaryorn-have-proofgeneral-p)
