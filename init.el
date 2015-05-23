@@ -870,7 +870,8 @@ mouse-3: go to end"))))
                  (add-hook hook #'smartparens-strict-mode)))
   :config (setq sp-autoskip-closing-pair 'always
                 ;; Don't kill entire symbol on C-k
-                sp-hybrid-kill-entire-symbol nil))
+                sp-hybrid-kill-entire-symbol nil)
+  :diminish smartparens-mode)
 
 (use-package lunaryorn-smartparens      ; Personal Smartparens extensions
   :load-path "lisp/")
