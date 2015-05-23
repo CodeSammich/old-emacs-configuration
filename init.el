@@ -1321,6 +1321,9 @@ Disable the highlighting of overlong lines."
 
 
 ;;; Programming utilities
+(use-package prog-mode                  ; Prog Mode
+  :bind (("C-c t p" . prettify-symbols-mode)))
+
 (use-package compile                    ; Compile from Emacs
   :bind (("C-c c" . compile)
          ("C-c C" . recompile))
