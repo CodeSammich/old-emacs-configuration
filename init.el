@@ -1967,7 +1967,9 @@ Disable the highlighting of overlong lines."
   :ensure t
   :bind (("C-c a a" . helm-do-ag)
          ("C-c a A" . helm-ag))
-  :config (setq helm-ag-fuzzy-match t))
+  :config (setq helm-ag-fuzzy-match t
+                helm-ag-insert-at-point 'symbol
+                helm-ag-source-type 'file-line))
 
 ;;; Project management with Projectile
 (use-package projectile
