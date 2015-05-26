@@ -767,15 +767,17 @@ mouse-3: go to end"))))
 
 (use-package multiple-cursors           ; Edit text with multiple cursors
   :ensure t
-  :bind (("C-c m e"   . mc/mark-more-like-this-extended)
-         ("C-c m h"   . mc/mark-all-like-this-dwim)
-         ("C-c m l"   . mc/edit-lines)
-         ("C-c m n"   . mc/mark-next-like-this)
-         ("C-c m p"   . mc/mark-previous-like-this)
-         ("C-c m r"   . vr/mc-mark)
-         ("C-c m C-a" . mc/edit-beginnings-of-lines)
-         ("C-c m C-e" . mc/edit-ends-of-lines)
-         ("C-c m C-s" . mc/mark-all-in-region))
+  :bind (("C-c m <SPC>" . mc/vertical-align-with-space)
+         ("C-c m a"     . mc/vertical-align)
+         ("C-c m e"     . mc/mark-more-like-this-extended)
+         ("C-c m h"     . mc/mark-all-like-this-dwim)
+         ("C-c m l"     . mc/edit-lines)
+         ("C-c m n"     . mc/mark-next-like-this)
+         ("C-c m p"     . mc/mark-previous-like-this)
+         ("C-c m r"     . vr/mc-mark)
+         ("C-c m C-a"   . mc/edit-beginnings-of-lines)
+         ("C-c m C-e"   . mc/edit-ends-of-lines)
+         ("C-c m C-s"   . mc/mark-all-in-region))
   :config
   (setq mc/mode-line
         ;; Simplify the MC mode line indicator
