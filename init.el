@@ -1279,6 +1279,10 @@ Disable the highlighting of overlong lines."
 (use-package lunaryorn-markdown
   :bind (("C-c t h" . lunaryorn-markdown-post-header)))
 
+(use-package jira-markup-mode           ; Jira markup
+  :ensure t
+  :defer t)
+
 (use-package yaml-mode                  ; YAML
   :ensure t
   :defer t
