@@ -127,6 +127,20 @@
 
 
 ;;; Customization, init file and package management
+(defconst lunaryorn-private-dir (locate-user-emacs-file "private")
+  "Directory for private settings.")
+
+(defun lunaryorn-expand-private-file (file-name)
+  "Get the absolute path for a private file with FILE-NAME."
+  (expand-file-name file-name lunaryorn-private-dir))
+
+(defun lunaryorn-load-private-file (file-name &optional noerror nomessage)
+  "Load a private file with FILE-NAME.
+
+NOERROR and NOMESSAGE are passed to `load'."
+  (load (lunaryorn-expand-private-file file-name)
+        noerror nomessage))
+
 (defconst lunaryorn-custom-file (locate-user-emacs-file "custom.el")
   "File used to store settings from Customization UI.")
 
