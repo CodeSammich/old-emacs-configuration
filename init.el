@@ -618,7 +618,10 @@ mouse-3: go to end"))))
 (setq view-read-only t)                 ; View read-only files
 
 (use-package autorevert                 ; Auto-revert buffers of changed files
-  :init (global-auto-revert-mode))
+  :init (global-auto-revert-mode)
+  :config (setq auto-revert-verbose nil ; Shut up, please!
+                ;; Revert Dired buffers, too
+                global-auto-revert-non-file-buffers t))
 
 (use-package image-file                 ; Visit images as images
   :init (auto-image-file-mode))
