@@ -1843,7 +1843,9 @@ Disable the highlighting of overlong lines."
 
 ;;; Databases
 (use-package sql
-  :bind (("C-c d m" . sql-mysql)))
+  :bind (("C-c d c" . sql-connect)
+         ("C-c d m" . sql-mysql))
+  :config (lunaryorn-load-private-file "sql-connections" 'noerror))
 
 
 ;;; Version control
