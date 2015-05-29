@@ -1845,7 +1845,15 @@ Disable the highlighting of overlong lines."
 (use-package sql
   :bind (("C-c d c" . sql-connect)
          ("C-c d m" . sql-mysql))
-  :config (lunaryorn-load-private-file "sql-connections" 'noerror))
+  :config (progn (lunaryorn-load-private-file "sql-connections" 'noerror)
+
+                 (add-to-list 'display-buffer-alist
+                              `(,(rx bos "*SQL")
+                                (display-buffer-reuse-window
+                                 display-buffer-in-side-window
+                                 (side            . bottom)
+                                 (reusable-frames . visible)
+                                 (window-height   . 0.4))))))
 
 
 ;;; Version control
