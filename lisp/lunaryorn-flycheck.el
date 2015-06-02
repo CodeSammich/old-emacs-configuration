@@ -62,7 +62,7 @@ most errors from HTML Tidy."
                     (face (cond (no-errors 'error)
                                 (no-warnings 'warning)
                                 (t 'success))))
-               (cons (format " %s/%s" (or no-errors 0) (or no-warnings 0))
+               (cons (format " %s|%s" (or no-errors 0) (or no-warnings 0))
                      face)))
             (`interrupted (cons " -" nil))
             (`suspicious '(" ?" . warning)))))
