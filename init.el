@@ -320,6 +320,7 @@ NOERROR and NOMESSAGE are passed to `load'."
                 (dired-omit-mode " ●")
                 (projectile-mode projectile-mode-line)
                 (vc-mode vc-mode)
+                " "
                 (flycheck-mode flycheck-mode-line) ; Flycheck status
                 (anzu-mode (:eval                  ; isearch pos/matches
                             (when (> anzu--total-matched 0)
@@ -567,7 +568,8 @@ mouse-3: go to end"))))
 
     (when (eq system-type 'darwin)
       ;; OS X bsdtar is mostly compatible with GNU Tar
-      (setq dired-guess-shell-gnutar "tar"))))
+      (setq dired-guess-shell-gnutar "tar")))
+  :diminish (dired-omit-mode . "🐣"))
 
 (use-package helm-files
   :ensure helm
@@ -685,7 +687,7 @@ mouse-3: go to end"))))
   :defer t
   :init (dolist (hook '(text-mode-hook prog-mode-hook))
           (add-hook hook #'outline-minor-mode))
-  :diminish (outline-minor-mode . "⫍"))
+  :diminish (outline-minor-mode . "📑"))
 
 (use-package imenu-anywhere             ; IDO-based imenu across open buffers
   ;; The Helm matching doesn't seem to work properly…
@@ -1029,7 +1031,7 @@ Disable the highlighting of overlong lines."
 
     ;; Free C-M-i for completion
     (define-key flyspell-mode-map "\M-\t" nil))
-  :diminish (flyspell-mode . "✔"))
+  :diminish (flyspell-mode . "✅"))
 
 (use-package flycheck                   ; On-the-fly syntax checking
   :ensure t

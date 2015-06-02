@@ -51,9 +51,9 @@ most errors from HTML Tidy."
          (text-and-face
           (pcase flycheck-last-status-change
             (`not-checked nil)
-            (`no-checker '(" -" . warning))
-            (`running '( " ✸" . success))
-            (`errored '( " !" . error))
+            (`no-checker '("⭕" . warning))
+            (`running '( "🔨" . success))
+            (`errored '( "❗️" . error))
             (`finished
              (let* ((error-counts (flycheck-count-errors
                                    flycheck-current-errors))
@@ -62,10 +62,10 @@ most errors from HTML Tidy."
                     (face (cond (no-errors 'error)
                                 (no-warnings 'warning)
                                 (t 'success))))
-               (cons (format " %s|%s" (or no-errors 0) (or no-warnings 0))
+               (cons (format "%s|%s" (or no-errors 0) (or no-warnings 0))
                      face)))
-            (`interrupted (cons " -" nil))
-            (`suspicious '(" ?" . warning)))))
+            (`interrupted (cons "❌" nil))
+            (`suspicious '("⁉️" . warning)))))
     (when text-and-face
       (propertize (car text-and-face) 'face (cdr text-and-face)
                   'mouse-face 'mode-line-highlight
