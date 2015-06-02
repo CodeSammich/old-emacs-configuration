@@ -318,14 +318,6 @@ NOERROR and NOMESSAGE are passed to `load'."
                 (paredit-mode (:propertize " ()" face bold))
                 (smartparens-strict-mode (:propertize " ()" face bold))
                 (dired-omit-mode " ●")
-                ;; Warn if whitespace isn't highlighted or cleaned in this
-                ;; buffer.
-                (:eval (unless buffer-read-only
-                         (cond
-                          ((not (bound-and-true-p whitespace-mode))
-                           (propertize " SPACE" 'face '(bold error)))
-                          ((not (bound-and-true-p whitespace-cleanup-mode))
-                           (propertize " WSC" 'face 'warning)))))
                 (projectile-mode projectile-mode-line)
                 (vc-mode vc-mode)
                 (flycheck-mode flycheck-mode-line) ; Flycheck status
@@ -411,7 +403,7 @@ mouse-3: go to end"))))
                (with-eval-after-load 'helm-config
                  (warn "`helm-config' loaded! Get rid of it ASAP!")))
   :config (setq helm-split-window-in-side-p t)
-  :diminish (helm-mode))
+  :diminish helm-mode)
 
 
 ;;; Buffer, Windows and Frames
@@ -590,9 +582,10 @@ mouse-3: go to end"))))
   :ensure t
   :init (ignoramus-setup))
 
-(use-package hardhat                    ; Protect user-writable files
+(use-package hardhat ; Protect user-writable files
   :ensure t
-  :init (global-hardhat-mode))
+  :init (global-hardhat-mode)
+  :config (setq hardhat-mode-lighter "🎩"))
 
 (use-package bookmark                   ; Bookmarks for Emacs buffers
   :bind (("C-c l b" . list-bookmarks))
@@ -692,7 +685,7 @@ mouse-3: go to end"))))
   :defer t
   :init (dolist (hook '(text-mode-hook prog-mode-hook))
           (add-hook hook #'outline-minor-mode))
-  :diminish outline-minor-mode)
+  :diminish (outline-minor-mode . "⫍"))
 
 (use-package imenu-anywhere             ; IDO-based imenu across open buffers
   ;; The Helm matching doesn't seem to work properly…
@@ -748,7 +741,7 @@ mouse-3: go to end"))))
   :bind (("C-c t c" . whitespace-cleanup-mode))
   :init (dolist (hook '(prog-mode-hook text-mode-hook conf-mode-hook))
           (add-hook hook #'whitespace-cleanup-mode))
-  :diminish whitespace-cleanup-mode)
+  :diminish (whitespace-cleanup-mode . "✂"))
 
 (use-package subword                    ; Subword/superword editing
   :defer t
@@ -810,7 +803,7 @@ mouse-3: go to end"))))
 (use-package undo-tree                  ; Branching undo
   :ensure t
   :init (global-undo-tree-mode)
-  :diminish undo-tree-mode)
+  :diminish (undo-tree-mode . "↺"))
 
 ;; Give us narrowing back!
 (put 'narrow-to-region 'disabled nil)
@@ -904,7 +897,7 @@ Disable the highlighting of overlong lines."
   (setq whitespace-style '(face indentation space-after-tab space-before-tab
                                 tab-mark empty trailing lines-tail)
         whitespace-line-column nil)     ; Use `fill-column' for overlong lines
-  :diminish whitespace-mode)
+  :diminish (whitespace-mode . "␣"))
 
 (use-package hl-line                    ; Highlight the current line
   :init (global-hl-line-mode 1))
@@ -1036,7 +1029,7 @@ Disable the highlighting of overlong lines."
 
     ;; Free C-M-i for completion
     (define-key flyspell-mode-map "\M-\t" nil))
-  :diminish flyspell-mode)
+  :diminish (flyspell-mode . "✔"))
 
 (use-package flycheck                   ; On-the-fly syntax checking
   :ensure t
@@ -2040,7 +2033,9 @@ Disable the highlighting of overlong lines."
 (use-package firestarter                ; Run commands after save
   :ensure t
   :init (firestarter-mode)
-  :config (lunaryorn-load-private-file "firestarter-safe-values.el" 'noerror))
+  :config (lunaryorn-load-private-file "firestarter-safe-values.el" 'noerror)
+  ;; Remove space from firestarter lighter
+  :diminish (firestarter-mode . "🔥"))
 
 
 ;;; Date and time
@@ -2210,7 +2205,7 @@ Disable the highlighting of overlong lines."
   :ensure t
   :defer t
   :init (add-hook 'yaml-mode-hook #'ansible-doc-mode)
-  :diminish ansible-doc-mode)
+  :diminish (ansible-doc-mode . "❓"))
 
 (use-package dash-at-point
   :ensure t
