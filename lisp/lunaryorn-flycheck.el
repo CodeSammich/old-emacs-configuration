@@ -65,7 +65,7 @@ most errors from HTML Tidy."
                (cons (format "%s|%s" (or no-errors 0) (or no-warnings 0))
                      face)))
             (`interrupted (cons "❌" nil))
-            (`suspicious '("⁉️" . warning)))))
+            (`suspicious '("⁉" . warning)))))
     (when text-and-face
       (propertize (car text-and-face) 'face (cdr text-and-face)
                   'mouse-face 'mode-line-highlight
