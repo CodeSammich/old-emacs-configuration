@@ -2029,11 +2029,16 @@ Disable the highlighting of overlong lines."
   :config (setq projectile-switch-project-action #'helm-projectile))
 
 
-;;; OS integration
+;;; Processes and commands
 (use-package proced                     ; Edit system processes
   ;; Proced isn't available on OS X
   :if (not (eq system-type 'darwin))
   :bind ("C-x p" . proced))
+
+(use-package firestarter                ; Run commands after save
+  :ensure t
+  :init (firestarter-mode)
+  :diminish firestarter-mode)
 
 
 ;;; Date and time
