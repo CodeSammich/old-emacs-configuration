@@ -269,7 +269,10 @@ NOERROR and NOMESSAGE are passed to `load'."
 
 (use-package unicode-fonts              ; Map Unicode blocks to fonts
   :ensure t
-  :init (unicode-fonts-setup))
+  :init (unicode-fonts-setup)
+  ;; Enable emoticon mappings
+  :config (setq unicode-fonts-skip-font-groups
+                (delq 'multicolor unicode-fonts-skip-font-groups)))
 
 (use-package solarized                  ; My colour theme
   :ensure solarized-theme
