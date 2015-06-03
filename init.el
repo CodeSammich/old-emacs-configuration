@@ -271,8 +271,7 @@ NOERROR and NOMESSAGE are passed to `load'."
   :ensure t
   :init (unicode-fonts-setup)
   ;; Enable emoticon mappings
-  :config (setq unicode-fonts-skip-font-groups
-                (delq 'multicolor unicode-fonts-skip-font-groups)))
+  :config (setq unicode-fonts-skip-font-groups '(low-quality-glyphs)))
 
 (use-package solarized                  ; My colour theme
   :ensure solarized-theme
