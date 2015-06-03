@@ -316,7 +316,7 @@ NOERROR and NOMESSAGE are passed to `load'."
                 ;; - Dired Omit Mode
                 (paredit-mode (:propertize " ()" face bold))
                 (smartparens-strict-mode (:propertize " ()" face bold))
-                (dired-omit-mode " 🐣")
+                (dired-omit-mode " 👻")
                 (projectile-mode projectile-mode-line)
                 (vc-mode vc-mode)
                 " "
