@@ -1960,8 +1960,11 @@ Disable the highlighting of overlong lines."
 
 
 ;;; Search
-(use-package isearch                    ; Search buffers
-  :bind (("C-c s s" . isearch-forward-symbol-at-point)))
+(use-package isearch                   ; Search buffers
+  :bind (("C-c s s" . isearch-forward-symbol-at-point))
+  ;; `:diminish' doesn't work for isearch, because it uses eval-after-load on
+  ;; the feature name, but isearch.el does not provide any feature
+  :init (diminish 'isearch-mode " 🔍"))
 
 (use-package grep
   :defer t
