@@ -750,7 +750,7 @@ mouse-3: go to end"))))
   :bind (("C-c t c" . whitespace-cleanup-mode))
   :init (dolist (hook '(prog-mode-hook text-mode-hook conf-mode-hook))
           (add-hook hook #'whitespace-cleanup-mode))
-  :diminish (whitespace-cleanup-mode . "✂"))
+  :diminish (whitespace-cleanup-mode . "⌫"))
 
 (use-package subword                    ; Subword/superword editing
   :defer t
@@ -906,7 +906,7 @@ Disable the highlighting of overlong lines."
   (setq whitespace-style '(face indentation space-after-tab space-before-tab
                                 tab-mark empty trailing lines-tail)
         whitespace-line-column nil)     ; Use `fill-column' for overlong lines
-  :diminish (whitespace-mode . "␣"))
+  :diminish (whitespace-mode . "▢"))
 
 (use-package hl-line                    ; Highlight the current line
   :init (global-hl-line-mode 1))
