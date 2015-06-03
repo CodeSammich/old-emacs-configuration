@@ -169,7 +169,8 @@ NOERROR and NOMESSAGE are passed to `load'."
 
 (use-package server                     ; The server of `emacsclient'
   :defer t
-  :init (server-start))
+  :init (server-mode)
+  :diminish server-buffer-clients)
 
 
 ;;; OS X support
@@ -317,13 +318,15 @@ NOERROR and NOMESSAGE are passed to `load'."
                 (paredit-mode (:propertize " ()" face bold))
                 (smartparens-strict-mode (:propertize " ()" face bold))
                 (dired-omit-mode " 👻")
+                (server-buffer-clients " 💻")
                 (projectile-mode projectile-mode-line)
                 (vc-mode vc-mode)
                 " "
                 (flycheck-mode flycheck-mode-line) ; Flycheck status
+                (isearch-mode " 🔍")
                 (anzu-mode (:eval                  ; isearch pos/matches
                             (when (> anzu--total-matched 0)
-                              (concat " " (anzu--update-mode-line)))))
+                              (anzu--update-mode-line))))
                 (multiple-cursors-mode mc/mode-line) ; Number of cursors
                 ;; And the modes, which we don't really care for anyway
                 " " mode-line-misc-info mode-line-modes mode-line-end-spaces)
@@ -1964,7 +1967,7 @@ Disable the highlighting of overlong lines."
   :bind (("C-c s s" . isearch-forward-symbol-at-point))
   ;; `:diminish' doesn't work for isearch, because it uses eval-after-load on
   ;; the feature name, but isearch.el does not provide any feature
-  :init (diminish 'isearch-mode " 🔍"))
+  :init (diminish 'isearch-mode))
 
 (use-package grep
   :defer t
