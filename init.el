@@ -728,6 +728,7 @@ mouse-3: go to end"))))
 ;; automatic filling
 (setq-default fill-column 80)
 (add-hook 'text-mode-hook #'auto-fill-mode)
+(diminish 'auto-fill-function "↵")
 
 (use-package lunaryorn-simple           ; Personal editing helpers
   :load-path "lisp/"
