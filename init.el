@@ -1098,7 +1098,8 @@ Disable the highlighting of overlong lines."
 
           (dolist (hook '(markdown-mode-hook
                           rst-mode-hook))
-            (add-hook hook 'typo-mode))))
+            (add-hook hook 'typo-mode)))
+  :diminish (typo-mode . "𝕿"))
 
 
 ;;; LaTeX with AUCTeX
