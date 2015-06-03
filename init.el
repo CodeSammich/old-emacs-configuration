@@ -316,7 +316,7 @@ NOERROR and NOMESSAGE are passed to `load'."
                 ;; - Dired Omit Mode
                 (paredit-mode (:propertize " ()" face bold))
                 (smartparens-strict-mode (:propertize " ()" face bold))
-                (dired-omit-mode " ●")
+                (dired-omit-mode " 🐣")
                 (projectile-mode projectile-mode-line)
                 (vc-mode vc-mode)
                 " "
@@ -567,8 +567,15 @@ mouse-3: go to end"))))
 
     (when (eq system-type 'darwin)
       ;; OS X bsdtar is mostly compatible with GNU Tar
-      (setq dired-guess-shell-gnutar "tar")))
-  :diminish (dired-omit-mode . "🐣"))
+      (setq dired-guess-shell-gnutar "tar"))
+
+    ;; Diminish dired-omit-mode. We need this hack, because Dired Omit Mode has
+    ;; a very peculiar way of registering its lighter explicitly in
+    ;; `dired-omit-startup'.  We can't just use `:diminish' because the lighter
+    ;; isn't there yet after dired-omit-mode is loaded.
+    (add-function :after (symbol-function 'dired-omit-startup)
+                  (lambda () (diminish 'dired-omit-mode))
+                  '((name . dired-omit-mode-diminish)))))
 
 (use-package helm-files
   :ensure helm
