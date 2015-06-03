@@ -1038,7 +1038,7 @@ Disable the highlighting of overlong lines."
 
     ;; Free C-M-i for completion
     (define-key flyspell-mode-map "\M-\t" nil))
-  :diminish (flyspell-mode . "✅"))
+  :diminish (flyspell-mode . "✓"))
 
 (use-package flycheck                   ; On-the-fly syntax checking
   :ensure t
