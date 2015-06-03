@@ -594,7 +594,7 @@ mouse-3: go to end"))))
 (use-package hardhat ; Protect user-writable files
   :ensure t
   :init (global-hardhat-mode)
-  :config (setq hardhat-mode-lighter "🎩"))
+  :config (setq hardhat-mode-lighter "🔒"))
 
 (use-package bookmark                   ; Bookmarks for Emacs buffers
   :bind (("C-c l b" . list-bookmarks))
