@@ -1278,9 +1278,6 @@ Disable the highlighting of overlong lines."
 
 (use-package markdown-mode              ; Markdown
   :ensure t
-  ;; Use GFM Mode for Markdown files from It's All Text.  It's better for most
-  ;; sites to not add hard line breaks to content.
-  :mode ("/itsalltext/.*\\.md\\'" . gfm-mode)
   :config
   (progn
     ;; Process Markdown with Pandoc, using a custom stylesheet for nice output
