@@ -1278,6 +1278,9 @@ Disable the highlighting of overlong lines."
 
 (use-package markdown-mode              ; Markdown
   :ensure t
+  ;; Just no, dear Markdown Mode.  Don't force that bastard Github dialect upon
+  ;; me!
+  :mode ("\\.md\\'" . markdown-mode)
   :config
   (progn
     ;; Process Markdown with Pandoc, using a custom stylesheet for nice output
