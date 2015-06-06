@@ -2152,13 +2152,6 @@ Disable the highlighting of overlong lines."
                 ;; Don't keep message buffers around
                 message-kill-buffer-on-exit t))
 
-(use-package smtpmail                   ; Send mails via SMTP
-  :defer t
-  :config (setq smtpmail-smtp-server "vega.uberspace.de"
-                smtpmail-smtp-service 587
-                smtpmail-stream-type 'starttls
-                smtpmail-smtp-user user-login-name))
-
 (use-package erc                        ; Powerful IRC client
   :defer t
   :config
