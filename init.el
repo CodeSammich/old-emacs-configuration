@@ -594,7 +594,10 @@ mouse-3: go to end"))))
 
 (use-package ignoramus                  ; Ignore uninteresting files everywhere
   :ensure t
-  :init (ignoramus-setup))
+  :config (progn (dolist (name '(".cask" ".vagrant"))
+                   ;; Ignore some additional directories
+                   (add-to-list 'ignoramus-file-basename-exact-names name))
+                 (ignoramus-setup)))
 
 (use-package hardhat ; Protect user-writable files
   :ensure t
