@@ -760,7 +760,8 @@ mouse-3: go to end"))))
 
 (use-package whitespace-cleanup-mode    ; Cleanup whitespace in buffers
   :ensure t
-  :bind (("C-c t c" . whitespace-cleanup-mode))
+  :bind (("C-c t c" . whitespace-cleanup-mode)
+         ("C-c e w" . whitespace-cleanup))
   :init (dolist (hook '(prog-mode-hook text-mode-hook conf-mode-hook))
           (add-hook hook #'whitespace-cleanup-mode))
   :diminish (whitespace-cleanup-mode . "⌫"))
