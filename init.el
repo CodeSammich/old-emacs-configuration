@@ -394,7 +394,6 @@ mouse-3: go to end"))))
          ("C-c b b"                        . helm-resume)
          ("C-c b C"                        . helm-colors)
          ("C-c b *"                        . helm-calcul-expression)
-         ("C-c b 8"                        . helm-ucs)
          ("C-c b M-:"                      . helm-eval-expression-with-eldoc)
          ;; Helm features in other maps
          ("C-c i"                          . helm-semantic-or-imenu)
@@ -410,6 +409,10 @@ mouse-3: go to end"))))
                  (warn "`helm-config' loaded! Get rid of it ASAP!")))
   :config (setq helm-split-window-in-side-p t)
   :diminish helm-mode)
+
+(use-package helm-unicode
+  :ensure t
+  :bind ("C-c b 8" . helm-unicode))
 
 
 ;;; Buffer, Windows and Frames
