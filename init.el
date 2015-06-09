@@ -1326,16 +1326,16 @@ Disable the highlighting of overlong lines."
   :config
   (add-hook 'yaml-mode-hook (lambda () (run-hooks 'prog-mode-hook))))
 
+(use-package json-reformat              ; Reformat JSON
+  :ensure t
+  :defer t
+  :bind (("C-c e j" . json-reformat-region)))
+
 (use-package graphviz-dot-mode          ; Graphviz
   :ensure t
   :defer t
   :config
   (setq graphviz-dot-indent-width 4))
-
-(use-package json-reformat              ; Reformat JSON
-  :ensure t
-  :defer t
-  :bind (("C-c e j" . json-reformat-region)))
 
 (use-package systemd                    ; Mode for systemd unit files
   :ensure t
