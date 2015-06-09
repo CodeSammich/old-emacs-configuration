@@ -307,6 +307,7 @@ NOERROR and NOMESSAGE are passed to `load'."
               '(which-func-mode ("" which-func-format " "))
               mode-line-format
               '("%e" mode-line-front-space
+                "🐷 "                   ; My branding :)
                 ;; Standard info about the current buffer
                 mode-line-mule-info
                 mode-line-client
