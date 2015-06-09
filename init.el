@@ -1741,7 +1741,7 @@ Disable the highlighting of overlong lines."
 
 (use-package js2-mode                   ; Javascript editing
   :ensure t
-  :mode "\\.js\\(?:on\\)?\\'"
+  :mode "\\.js\\'"
   :config (progn
             (setq-default js2-basic-offset 2)
 
