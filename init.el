@@ -1326,6 +1326,10 @@ Disable the highlighting of overlong lines."
   :config
   (add-hook 'yaml-mode-hook (lambda () (run-hooks 'prog-mode-hook))))
 
+(use-package json-mode                  ; JSON files
+  :ensure t
+  :defer t)
+
 (use-package json-reformat              ; Reformat JSON
   :ensure t
   :defer t
