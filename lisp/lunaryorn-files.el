@@ -127,15 +127,19 @@ Otherwise copy the non-directory part only."
         (launch-file (buffer-file-name))
       (user-error "The current buffer is not visiting a file"))))
 
-(defun lunaryorn-intellij-project-directory ()
-  "Get the path to the current IntelliJ project directory."
+(defun lunaryorn-intellij-project-root-p (directory)
+  "Determine whether DIRECTORY is an IntelliJ project root."
+  (and (file-directory-p directory)
+       (directory-files directory nil (rx "." (or "iml" "idea") string-end)
+                        'nosort)))
+
+(defun lunaryorn-intellij-project-root ()
+  "Get the path to the nearest IntelliJ project root.
+
+Return the absolute file name of the project root directory, or
+nil if no project root was found."
   (when-let (file-name (buffer-file-name))
-    (locate-dominating-file
-     file-name
-     (lambda (dir)
-       (and (file-directory-p dir)
-            (directory-files dir nil (rx ".iml" string-end)
-                             'nosort))))))
+    (locate-dominating-file file-name #'lunaryorn-intellij-project-root-p)))
 
 (defun lunaryorn-intellij-launcher ()
   "Get the IntelliJ launcher for the current system."
@@ -149,12 +153,12 @@ Otherwise copy the non-directory part only."
 (defun lunaryorn-open-in-intellij ()
   "Open the current file in IntelliJ IDEA."
   (interactive)
-  (let ((project-dir (lunaryorn-intellij-project-directory))
+  (let ((project-root (lunaryorn-intellij-project-root))
         (launcher (lunaryorn-intellij-launcher)))
-    (unless project-dir
+    (unless project-root
       (user-error "No IntelliJ project found for the current buffer"))
     (start-process "*intellij*" nil launcher
-                   (expand-file-name project-dir)
+                   (expand-file-name project-root)
                    "--line" (number-to-string (line-number-at-pos))
                    (expand-file-name (buffer-file-name)))))
 
