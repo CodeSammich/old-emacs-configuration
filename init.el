@@ -326,6 +326,7 @@ NOERROR and NOMESSAGE are passed to `load'."
                 (vc-mode vc-mode)
                 " "
                 (flycheck-mode flycheck-mode-line) ; Flycheck status
+                (firestarter-mode firestarter-lighter)
                 (isearch-mode " 🔍")
                 (anzu-mode (:eval                  ; isearch pos/matches
                             (when (> anzu--total-matched 0)
@@ -2066,9 +2067,14 @@ Disable the highlighting of overlong lines."
   :init (firestarter-mode)
   :config (progn (setq firestarter-default-type 'failure)
                  (lunaryorn-load-private-file "firestarter-safe-values.el"
-                                              'noerror))
+                                              'noerror)
+
+                 (use-package lunaryorn-firestarter
+                   :load-path "lisp/"
+                   :config (setq firestarter-lighter
+                                 '(:eval (lunaryorn-firestarter-mode-line)))))
   ;; Remove space from firestarter lighter
-  :diminish (firestarter-mode . "🔥"))
+  :diminish firestarter-mode)
 
 
 ;;; Date and time
