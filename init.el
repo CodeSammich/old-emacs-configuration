@@ -1743,10 +1743,10 @@ Disable the highlighting of overlong lines."
 (use-package js2-mode                   ; Javascript editing
   :ensure t
   :mode "\\.js\\'"
-  :config (progn
-            (setq-default js2-basic-offset 2)
+  :config (progn (setq-default js2-basic-offset 2)
+                 (setq js2-global-externs '("angular"))
 
-            (setq js2-global-externs '("angular"))))
+                 (add-hook 'js2-mode-hook #'js2-highlight-unused-variables-mode)))
 
 (use-package css-mode
   :defer t
