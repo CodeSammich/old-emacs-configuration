@@ -2067,14 +2067,16 @@ Disable the highlighting of overlong lines."
   :init (firestarter-mode)
   :config (progn (setq firestarter-default-type 'failure)
                  (lunaryorn-load-private-file "firestarter-safe-values.el"
-                                              'noerror)
-
-                 (use-package lunaryorn-firestarter
-                   :load-path "lisp/"
-                   :config (setq firestarter-lighter
-                                 '(:eval (lunaryorn-firestarter-mode-line)))))
+                                              'noerror))
   ;; Remove space from firestarter lighter
   :diminish firestarter-mode)
+
+(use-package lunaryorn-firestarter
+  :load-path "lisp/"
+  :commands (lunaryorn-firestarter-mode-line)
+  :init (with-eval-after-load 'firestarter
+          (setq firestarter-lighter
+                '(:eval (lunaryorn-firestarter-mode-line)))))
 
 
 ;;; Date and time
