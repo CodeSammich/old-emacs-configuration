@@ -383,34 +383,31 @@ mouse-3: go to end"))))
 
 (use-package helm
   :ensure t
-  :bind (
-         ;; Replace some standard bindings with Helm equivalents
-         ([remap execute-extended-command] . helm-M-x)
-         ([remap find-file]                . helm-find-files)
-         ([remap switch-to-buffer]         . helm-mini)
-         ([remap yank-pop]                 . helm-show-kill-ring)
-         ([remap insert-register]          . helm-register)
-         ([remap occur]                    . helm-occur)
-         ;; Special helm bindings
-         ("C-c b b"                        . helm-resume)
-         ("C-c b C"                        . helm-colors)
-         ("C-c b *"                        . helm-calcul-expression)
-         ("C-c b M-:"                      . helm-eval-expression-with-eldoc)
-         ;; Helm features in other maps
-         ("C-c h a"                        . helm-apropos)
-         ("C-c h e"                        . helm-info-emacs)
-         ("C-c h i"                        . helm-info-at-point)
-         ("C-c h m"                        . helm-man-woman)
-         ("C-c f r"                        . helm-recentf)
-         ("C-c f l"                        . helm-locate-library))
+  :bind (("C-c b b" . helm-resume))
   :init (progn (helm-mode 1)
-
                (with-eval-after-load 'helm-config
                  (warn "`helm-config' loaded! Get rid of it ASAP!")))
   :config (setq helm-split-window-in-side-p t)
   :diminish helm-mode)
 
-(use-package helm-unicode
+(use-package helm-misc                  ; Misc helm commands
+  :ensure helm
+  :bind (([remap switch-to-buffer] . helm-mini)))
+
+(use-package helm-command               ; M-x in Helm
+  :ensure helm
+  :bind (([remap execute-extended-command] . helm-M-x)))
+
+(use-package helm-eval                  ; Evaluate expressions with Helm
+  :ensure helm
+  :bind (("C-c b M-:" . helm-eval-expression-with-eldoc)
+         ("C-c b *"   . helm-calcul-expression)))
+
+(use-package helm-color                 ; Input colors with Helm
+  :ensure helm
+  :bind (("C-c b c" . helm-colors)))
+
+(use-package helm-unicode               ; Unicode input with Helm
   :ensure t
   :bind ("C-c b 8" . helm-unicode))
 
@@ -590,6 +587,8 @@ mouse-3: go to end"))))
 (use-package helm-files
   :ensure helm
   :defer t
+  :bind (([remap find-file] . helm-find-files)
+         ("C-c f r"         . helm-recentf))
   :config (setq helm-recentf-fuzzy-match t
                 ;; Use recentf to find recent files
                 helm-ff-file-name-history-use-recentf t
@@ -751,6 +750,11 @@ mouse-3: go to end"))))
   :commands (lunaryorn-auto-fill-comments-mode)
   ;; Auto-fill comments in programming modes
   :init (add-hook 'prog-mode-hook #'lunaryorn-auto-fill-comments-mode))
+
+(use-package helm-ring                  ; Helm commands for rings
+  :ensure helm
+  :bind (([remap yank-pop]        . helm-show-kill-ring)
+         ([remap insert-register] . helm-register)))
 
 (use-package delsel                     ; Delete the selection instead of insert
   :defer t
@@ -1396,6 +1400,11 @@ Disable the highlighting of overlong lines."
 
 
 ;;; Emacs Lisp
+(use-package helm-elisp                 ; Helm commands for Emacs Lisp
+  :ensure helm
+  :bind (("C-c f l" . helm-locate-library)
+         ("C-c h a" . helm-apropos)))
+
 (use-package elisp-slime-nav            ; Jump to definition of symbol at point
   :ensure t
   :defer t
@@ -1981,6 +1990,11 @@ Disable the highlighting of overlong lines."
   ;; the feature name, but isearch.el does not provide any feature
   :init (diminish 'isearch-mode))
 
+(use-package helm-regex
+  :ensure helm
+  :bind (([remap occur] . helm-occur)
+         ("C-c e o"     . helm-multi-occur)))
+
 (use-package grep
   :defer t
   :config
@@ -2228,7 +2242,16 @@ Disable the highlighting of overlong lines."
   (set-face-attribute 'Info-quoted nil :family 'unspecified
                       :inherit font-lock-type-face))
 
-(use-package helm-descbinds
+(use-package helm-info                  ; Helm tools for Info
+  :ensure helm
+  :bind (("C-c h e" . helm-info-emacs)
+         ("C-c h i" . helm-info-at-point)))
+
+(use-package helm-man
+  :ensure helm
+  :bind (("C-c h m" . helm-man-woman)))
+
+(use-package helm-descbinds             ; Describe key bindings with Helm
   :ensure t
   :init (helm-descbinds-mode))
 
