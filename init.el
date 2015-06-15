@@ -292,7 +292,7 @@ NOERROR and NOMESSAGE are passed to `load'."
         solarized-height-plus-3 1.0
         solarized-height-plus-4 1.0))
 
-(use-package zenburn
+(use-package zenburn                    ; Another good low-contrast theme
   :disabled t
   :ensure zenburn-theme
   :defer t
@@ -381,7 +381,7 @@ mouse-3: go to end"))))
   :config (setq savehist-save-minibuffer-history t
                 savehist-autosave-interval 180))
 
-(use-package helm
+(use-package helm                       ; Powerful minibuffer input framework
   :ensure t
   :bind (("C-c b b" . helm-resume))
   :init (progn (helm-mode 1)
@@ -418,7 +418,7 @@ mouse-3: go to end"))))
       '(:eval (if (buffer-file-name)
                   (abbreviate-file-name (buffer-file-name)) "%b")))
 
-(use-package frame
+(use-package frame                      ; Frames
   :bind (("C-c t F" . toggle-frame-fullscreen))
   :init (progn
           ;; Kill `suspend-frame'
@@ -441,7 +441,7 @@ mouse-3: go to end"))))
 (use-package uniquify                   ; Make buffer names unique
   :config (setq uniquify-buffer-name-style 'forward))
 
-(use-package helm-buffers
+(use-package helm-buffers               ; Helm for buffer management
   :ensure helm
   :defer t
   :config (setq helm-buffers-fuzzy-matching t))
@@ -484,7 +484,7 @@ mouse-3: go to end"))))
   :ensure t
   :defer t)
 
-(use-package lunaryorn-window
+(use-package lunaryorn-window           ; Personal window utilities
   :load-path "lisp/"
   :defer t
   :bind ("C-c q" . lunaryorn-quit-bottom-side-windows))
@@ -498,7 +498,7 @@ mouse-3: go to end"))))
 (use-package winner                     ; Undo and redo window configurations
   :init (winner-mode))
 
-(use-package ediff-wind
+(use-package ediff-wind                 ; Ediff window management
   :defer t
   :config
   ;; Prevent Ediff from spamming the frame
@@ -528,7 +528,7 @@ mouse-3: go to end"))))
 ;; Delete files to trash
 (setq delete-by-moving-to-trash t)
 
-(use-package files
+(use-package files                      ; Core commands for files
   :bind (("C-c f u" . revert-buffer))
   :config
   ;; Use GNU ls for Emacs
@@ -584,7 +584,7 @@ mouse-3: go to end"))))
                   (lambda () (diminish 'dired-omit-mode))
                   '((name . dired-omit-mode-diminish)))))
 
-(use-package helm-files
+(use-package helm-files                 ; Helm for file finding
   :ensure helm
   :defer t
   :bind (([remap find-file] . helm-find-files)
@@ -602,7 +602,7 @@ mouse-3: go to end"))))
                    (add-to-list 'ignoramus-file-basename-exact-names name))
                  (ignoramus-setup)))
 
-(use-package hardhat ; Protect user-writable files
+(use-package hardhat                    ; Protect user-writable files
   :ensure t
   :init (global-hardhat-mode)
   :config (setq hardhat-mode-lighter "🔒"))
@@ -711,7 +711,7 @@ mouse-3: go to end"))))
   :ensure t
   :bind (("C-c t l" . nlinum-mode)))
 
-(use-package helm-imenu
+(use-package helm-imenu                 ; Helm frontend for imenu
   :ensure helm
   :bind (("C-c i" . helm-imenu-in-all-buffers)))
 
@@ -777,7 +777,7 @@ mouse-3: go to end"))))
   :defer t
   :init (add-hook 'visual-line-mode-hook #'adaptive-wrap-prefix-mode))
 
-(use-package visual-fill-column
+(use-package visual-fill-column         ; Fill column wrapping for Visual Line Mode
   :ensure t
   :defer t
   :init (add-hook 'visual-line-mode-hook #'visual-fill-column-mode))
@@ -787,7 +787,7 @@ mouse-3: go to end"))))
   :bind (("C-c r" . vr/query-replace)
          ("C-c R" . vr/replace)))
 
-(use-package zop-to-char
+(use-package zop-to-char                ; Better zapping
   :ensure t
   :bind (("M-z" . zop-to-char)
          ("M-Z" . zop-up-to-char)))
@@ -1000,7 +1000,7 @@ Disable the highlighting of overlong lines."
           company-show-numbers t))
   :diminish company-mode)
 
-(use-package company-statistics
+(use-package company-statistics         ; Sort company candidates by statistics
   :ensure t
   :defer t
   :init (company-statistics-mode))
@@ -1013,7 +1013,7 @@ Disable the highlighting of overlong lines."
           (add-to-list 'company-backends 'company-math-symbols-unicode)
           (add-to-list 'company-backends 'company-math-symbols-latex)))
 
-(use-package helm-company
+(use-package helm-company               ; Helm frontend for company
   :ensure t
   :defer t
   :init (with-eval-after-load 'company
@@ -1078,7 +1078,7 @@ Disable the highlighting of overlong lines."
                            (window-height   . 0.4))))
   :diminish flycheck-mode)
 
-(use-package helm-flycheck
+(use-package helm-flycheck              ; Helm frontend for Flycheck errors
   :ensure t
   :bind (("C-c ! L" . helm-flycheck)))
 
@@ -1096,7 +1096,7 @@ Disable the highlighting of overlong lines."
 
 
 ;;; Text editing
-(use-package tildify
+(use-package tildify                    ; Insert non-breaking spaces on the fly
   :bind (("C-c e t" . tildify-region))
   :init (dolist (hook '(markdown-mode-hook
                         latex-mode-hook
@@ -1106,7 +1106,7 @@ Disable the highlighting of overlong lines."
   :config (add-hook 'latex-mode-hook
                     (lambda () (setq-local tildify-space-string "~"))))
 
-(use-package typo
+(use-package typo                       ; Automatically use typographic quotes
   :ensure t
   :bind (("C-c t t" . typo-mode))
   :init (progn
@@ -1315,7 +1315,7 @@ Disable the highlighting of overlong lines."
     ;; Fight my habit of constantly pressing M-q.  We should not fill in GFM Mode.
     (bind-key "M-q" #'ignore gfm-mode-map)))
 
-(use-package lunaryorn-markdown
+(use-package lunaryorn-markdown         ; Personal tools for Markdown
   :bind (("C-c t h" . lunaryorn-markdown-post-header)))
 
 (use-package jira-markup-mode           ; Jira markup
@@ -1388,11 +1388,11 @@ Disable the highlighting of overlong lines."
   :config
   (setq-default eldoc-documentation-function #'describe-char-eldoc))
 
-(use-package restclient                ; ReST REPL for Emacs
+(use-package restclient                 ; ReST REPL for Emacs
   :ensure t
   :defer t)
 
-(use-package company-restclient
+(use-package company-restclient         ; Company support for restclient
   :ensure t
   :defer t
   :init (with-eval-after-load 'company
@@ -1526,20 +1526,20 @@ Disable the highlighting of overlong lines."
             (bind-key "C-c M-n" #'ensime-forward-note ensime-mode-map)
             (bind-key "C-c M-p" #'ensime-backward-note ensime-mode-map)))
 
-(use-package ensime-sbt
+(use-package ensime-sbt                 ; SBT integration for Ensime
   :ensure ensime
   :defer t
   ;; Compile on save.  My projects are small enough :)
   :config (setq ensime-sbt-perform-on-save "test:compile"))
 
-(use-package flycheck-ensime
+(use-package flycheck-ensime            ; Ensime-based checker for Flycheck
   :disabled t
   :load-path "lisp/"
   :defer t)
 
 
 ;;; Python
-(use-package python
+(use-package python                     ; Python editing
   :defer t
   :config
   (progn
@@ -1615,7 +1615,7 @@ Disable the highlighting of overlong lines."
 ;;
 ;; - https://github.com/chrisdone/ghci-ng
 
-(use-package haskell-mode
+(use-package haskell-mode               ; Haskell editing
   :ensure t
   :defer t
   :config
@@ -1651,7 +1651,7 @@ Disable the highlighting of overlong lines."
     (bind-key "C-c j i" #'haskell-navigate-imports haskell-mode-map)
     (bind-key "C-c f c" #'haskell-cabal-visit-file haskell-mode-map)))
 
-(use-package haskell
+(use-package haskell                    ; Haskell tools
   :ensure haskell-mode
   :defer t
   :init (dolist (hook '(haskell-mode-hook haskell-cabal-mode-hook))
@@ -1665,7 +1665,7 @@ Disable the highlighting of overlong lines."
     (bind-key "C-c u u" #'haskell-mode-find-uses
               interactive-haskell-mode-map)))
 
-(use-package haskell-interactive-mode
+(use-package haskell-interactive-mode   ; Haskell REPL interaction
   :ensure haskell-mode
   :defer t
   :config (add-hook 'haskell-interactive-mode-hook #'subword-mode))
@@ -1676,7 +1676,7 @@ Disable the highlighting of overlong lines."
   :defer t
   :init (add-hook 'haskell-mode-hook #'haskell-simple-indent-mode))
 
-(use-package haskell-indentation
+(use-package haskell-indentation        ; Intelligent Haskell indentation
   :ensure haskell-mode
   :defer t
   :init (add-hook 'haskell-mode-hook #'haskell-indentation-mode))
@@ -1691,13 +1691,13 @@ Disable the highlighting of overlong lines."
   :defer t
   :init (add-hook 'flycheck-mode-hook #'flycheck-haskell-setup))
 
-(use-package helm-hayoo
+(use-package helm-hayoo                 ; Helm frontend for Hayoo
   :ensure t
   :defer t
   :init (with-eval-after-load 'haskell-mode
           (bind-key "C-c h h" #'helm-hayoo haskell-mode-map)))
 
-(use-package helm-hoogle
+(use-package helm-hoogle                ; Helm frontend for Hoogle
   :ensure t
   :defer t
   :init (with-eval-after-load 'haskell-mode
@@ -1754,7 +1754,7 @@ Disable the highlighting of overlong lines."
 
                  (add-hook 'js2-mode-hook #'js2-highlight-unused-variables-mode)))
 
-(use-package css-mode
+(use-package css-mode                   ; CSS editing
   :defer t
   :config
   (progn
@@ -1857,7 +1857,7 @@ Disable the highlighting of overlong lines."
   ;; Skip over consecutive comments when processing
   :config (setq proof-script-fly-past-comments t))
 
-(use-package proof-script
+(use-package proof-script               ; Proof editing
   :if (lunaryorn-have-proofgeneral-p)
   :defer t
   :config
@@ -1871,7 +1871,7 @@ Disable the highlighting of overlong lines."
   ;; true line length
   (add-hook 'isar-mode-hook #'lunaryorn-whitespace-style-no-long-lines 'append))
 
-(use-package company-coq
+(use-package company-coq                ; Company for Coq and more Coq fanciness
   :if (lunaryorn-have-proofgeneral-p)
   :ensure t
   :defer t
@@ -1879,7 +1879,7 @@ Disable the highlighting of overlong lines."
 
 
 ;;; Databases
-(use-package sql
+(use-package sql                        ; SQL editing and REPL
   :bind (("C-c d c" . sql-connect)
          ("C-c d m" . sql-mysql))
   :config (progn (lunaryorn-load-private-file "sql-connections" 'noerror)
@@ -1953,7 +1953,7 @@ Disable the highlighting of overlong lines."
 
   :diminish magit-auto-revert-mode)
 
-(use-package magit-gh-pulls
+(use-package magit-gh-pulls             ; Show Github PRs in Magit
   :ensure t
   :defer t
   :init (add-hook 'magit-mode-hook #'turn-on-magit-gh-pulls))
@@ -1984,18 +1984,18 @@ Disable the highlighting of overlong lines."
 
 
 ;;; Search
-(use-package isearch                   ; Search buffers
+(use-package isearch                    ; Search buffers
   :bind (("C-c s s" . isearch-forward-symbol-at-point))
   ;; `:diminish' doesn't work for isearch, because it uses eval-after-load on
   ;; the feature name, but isearch.el does not provide any feature
   :init (diminish 'isearch-mode))
 
-(use-package helm-regex
+(use-package helm-regex                 ; Helm regex tools
   :ensure helm
   :bind (([remap occur] . helm-occur)
          ("C-c e o"     . helm-multi-occur)))
 
-(use-package grep
+(use-package grep                       ; Control grep from Emacs
   :defer t
   :config
   (progn
@@ -2036,7 +2036,7 @@ Disable the highlighting of overlong lines."
   :ensure t
   :defer t)
 
-(use-package helm-ag
+(use-package helm-ag                    ; Helm frontend for Ag
   :ensure t
   :bind (("C-c a a" . helm-do-ag)
          ("C-c a A" . helm-ag))
@@ -2045,7 +2045,7 @@ Disable the highlighting of overlong lines."
                 helm-ag-source-type 'file-line))
 
 ;;; Project management with Projectile
-(use-package projectile
+(use-package projectile                 ; Project management for Emacs
   :ensure t
   :init (projectile-global-mode)
   :config
@@ -2060,7 +2060,7 @@ Disable the highlighting of overlong lines."
                                  face font-lock-constant-face)))
   :diminish projectile-mode)
 
-(use-package helm-projectile
+(use-package helm-projectile            ; Helm frontend for Projectile
   :ensure t
   :defer t
   :init (with-eval-after-load 'projectile (helm-projectile-on))
@@ -2082,7 +2082,7 @@ Disable the highlighting of overlong lines."
   ;; Remove space from firestarter lighter
   :diminish firestarter-mode)
 
-(use-package lunaryorn-firestarter
+(use-package lunaryorn-firestarter      ; Personal extensions to firestarter
   :load-path "lisp/"
   :commands (lunaryorn-firestarter-mode-line)
   :init (with-eval-after-load 'firestarter
@@ -2144,7 +2144,7 @@ Disable the highlighting of overlong lines."
          ("C-c w S" . sx-tab-newest)
          ("C-c w a" . sx-ask)))
 
-(use-package sx-compose
+(use-package sx-compose                 ; Write questions/answers for Stack Exchange
   :ensure sx
   :defer t
   :config
@@ -2164,7 +2164,7 @@ Disable the highlighting of overlong lines."
 
     (bind-key "M-q" #'ignore sx-compose-mode-map)))
 
-(use-package sx-question-mode
+(use-package sx-question-mode           ; Show Stack Exchange questions
   :ensure sx
   :defer t
   ;; Display questions in the same window
@@ -2247,7 +2247,7 @@ Disable the highlighting of overlong lines."
   :bind (("C-c h e" . helm-info-emacs)
          ("C-c h i" . helm-info-at-point)))
 
-(use-package helm-man
+(use-package helm-man                   ; Browse manpages with Heml
   :ensure helm
   :bind (("C-c h m" . helm-man-woman)))
 
@@ -2261,7 +2261,7 @@ Disable the highlighting of overlong lines."
   :init (add-hook 'yaml-mode-hook #'ansible-doc-mode)
   :diminish (ansible-doc-mode . "❓"))
 
-(use-package dash-at-point
+(use-package dash-at-point              ; Jump to Dash docset at point
   :ensure t
   :defer t
   :bind (("C-c h d" . dash-at-point)
