@@ -397,7 +397,6 @@ mouse-3: go to end"))))
          ("C-c b *"                        . helm-calcul-expression)
          ("C-c b M-:"                      . helm-eval-expression-with-eldoc)
          ;; Helm features in other maps
-         ("C-c i"                          . helm-semantic-or-imenu)
          ("C-c h a"                        . helm-apropos)
          ("C-c h e"                        . helm-info-emacs)
          ("C-c h i"                        . helm-info-at-point)
