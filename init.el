@@ -1400,6 +1400,8 @@ Disable the highlighting of overlong lines."
 
 
 ;;; Emacs Lisp
+(bind-key "C-c t d" #'toggle-debug-on-error)
+
 (use-package helm-elisp                 ; Helm commands for Emacs Lisp
   :ensure helm
   :bind (("C-c f l" . helm-locate-library)
@@ -1452,8 +1454,6 @@ Disable the highlighting of overlong lines."
           (with-eval-after-load 'lisp-mode
             (bind-key "C-c f c" #'lunaryorn-find-cask-file
                       emacs-lisp-mode-map))))
-
-(bind-key "C-c t d" #'toggle-debug-on-error)
 
 
 ;;; Scala
