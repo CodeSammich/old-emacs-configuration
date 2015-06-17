@@ -302,7 +302,6 @@ NOERROR and NOMESSAGE are passed to `load'."
 
 
 ;;; The mode line
-
 (setq-default header-line-format
               '(which-func-mode ("" which-func-format " "))
               mode-line-format
@@ -417,6 +416,7 @@ mouse-3: go to end"))))
       frame-title-format
       '(:eval (if (buffer-file-name)
                   (abbreviate-file-name (buffer-file-name)) "%b")))
+(setq-default line-spacing 0.1)         ; A bit more spacing between lines
 
 (use-package frame                      ; Frames
   :bind (("C-c t F" . toggle-frame-fullscreen))
