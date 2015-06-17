@@ -2077,9 +2077,7 @@ Disable the highlighting of overlong lines."
 (use-package firestarter                ; Run commands after save
   :ensure t
   :init (firestarter-mode)
-  :config (progn (setq firestarter-default-type 'failure)
-                 (lunaryorn-load-private-file "firestarter-safe-values.el"
-                                              'noerror))
+  :config (setq firestarter-default-type 'failure)
   ;; Remove space from firestarter lighter
   :diminish firestarter-mode)
 
