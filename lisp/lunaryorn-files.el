@@ -32,9 +32,10 @@
 ;;; Code:
 
 (require 'lunaryorn-osx)
-(require 'subr-x)
+(require 'package)
 (require 'lisp-mnt)
 (require 'find-func)
+(require 'subr-x)
 
 ;; We only access these variables if the corresponding library is loaded
 (defvar recentf-list)
@@ -46,6 +47,8 @@
 (declare-function dired-get-marked-files "dired")
 (declare-function dired-current-directory "dired")
 
+
+;;; Utilities
 (defun lunaryorn-current-file ()
   "Gets the \"file\" of the current buffer.
 
@@ -55,6 +58,20 @@ The file is the buffer's file name, or the `default-directory' in
       default-directory
     (buffer-file-name)))
 
+;;;###autoload
+(defun lunaryorn-find-user-init-file-other-window ()
+  "Edit the `user-init-file', in another window."
+  (interactive)
+  (find-file-other-window user-init-file))
+
+;;;###autoload
+(defun lunaryorn-recompile-packages ()
+  "Recompile all packages."
+  (interactive)
+  (byte-recompile-directory package-user-dir nil 'force))
+
+
+;;; Working with file names
 ;;;###autoload
 (defun lunaryorn-copy-filename-as-kill (&optional arg)
   "Copy the name of the currently visited file to kill ring.
@@ -80,6 +97,8 @@ Otherwise copy the non-directory part only."
         (message "%s" name-to-copy))
     (user-error "This buffer is not visiting a file")))
 
+
+;;; Working with the current file
 ;;;###autoload
 (defun lunaryorn-rename-file-and-buffer ()
   "Rename the current file and buffer."
@@ -109,12 +128,6 @@ Otherwise copy the non-directory part only."
       (kill-buffer)))))
 
 ;;;###autoload
-(defun lunaryorn-find-user-init-file-other-window ()
-  "Edit the `user-init-file', in another window."
-  (interactive)
-  (find-file-other-window user-init-file))
-
-;;;###autoload
 (defun lunaryorn-launch-dwim ()
   "Open the current file externally."
   (interactive)
@@ -127,6 +140,8 @@ Otherwise copy the non-directory part only."
         (launch-file (buffer-file-name))
       (user-error "The current buffer is not visiting a file"))))
 
+
+;;; Intellij integration
 (defun lunaryorn-intellij-project-root-p (directory)
   "Determine whether DIRECTORY is an IntelliJ project root."
   (and (file-directory-p directory)
@@ -162,6 +177,8 @@ nil if no project root was found."
                    "--line" (number-to-string (line-number-at-pos))
                    (expand-file-name (buffer-file-name)))))
 
+
+;;; URLs and browsing
 (defun lunaryorn-browse-feature-url (feature)
   "Browse the URL of the given FEATURE.
 

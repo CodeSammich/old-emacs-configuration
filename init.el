@@ -651,6 +651,7 @@ mouse-3: go to end"))))
 
 (use-package lunaryorn-files            ; Personal file tools
   :load-path "lisp/"
+  :commands (lunaryorn-recompile-packages)
   :bind (("C-c f D" . lunaryorn-delete-file-and-buffer)
          ("C-c f i" . lunaryorn-open-in-intellij)
          ("C-c f o" . lunaryorn-launch-dwim)
