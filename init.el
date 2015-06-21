@@ -41,8 +41,8 @@
 ;; - C-c l: List things
 ;; - C-c m: Multiple cursors
 ;; - C-c s: Symbol commands
-;; - C-c t: Toggle things and skeletons
-;; - C-c u: Miscellaneous utilities
+;; - C-c t: Skeletons and templates
+;; - C-c u: Miscellaneous utilities, including minor modes
 ;; - C-c v: Version control
 ;; - C-c w: Web stuff
 
@@ -284,7 +284,7 @@
   :defer t
   :init (load-theme 'zenburn 'no-confirm))
 
-(bind-key "C-c t v" #'variable-pitch-mode)
+(bind-key "C-c u v" #'variable-pitch-mode)
 
 
 ;;; The mode line
@@ -405,7 +405,7 @@ mouse-3: go to end"))))
 (setq-default line-spacing 0.1)         ; A bit more spacing between lines
 
 (use-package frame                      ; Frames
-  :bind (("C-c t F" . toggle-frame-fullscreen))
+  :bind (("C-c u F" . toggle-frame-fullscreen))
   :init (progn
           ;; Kill `suspend-frame'
           (global-set-key (kbd "C-z") nil)
@@ -502,7 +502,7 @@ mouse-3: go to end"))))
 
 (use-package writeroom-mode             ; Distraction-free editing
   :ensure t
-  :bind (("C-c t R" . writeroom-mode)))
+  :bind (("C-c u r" . writeroom-mode)))
 
 
 ;;; File handling
@@ -696,7 +696,7 @@ mouse-3: go to end"))))
 
 (use-package nlinum                     ; Line numbers in display margin
   :ensure t
-  :bind (("C-c t l" . nlinum-mode)))
+  :bind (("C-c u l" . nlinum-mode)))
 
 (use-package helm-imenu                 ; Helm frontend for imenu
   :ensure helm
@@ -749,7 +749,7 @@ mouse-3: go to end"))))
 
 (use-package whitespace-cleanup-mode    ; Cleanup whitespace in buffers
   :ensure t
-  :bind (("C-c t c" . whitespace-cleanup-mode)
+  :bind (("C-c u w c" . whitespace-cleanup-mode)
          ("C-c e w" . whitespace-cleanup))
   :init (dolist (hook '(prog-mode-hook text-mode-hook conf-mode-hook))
           (add-hook hook #'whitespace-cleanup-mode))
@@ -902,7 +902,7 @@ Disable the highlighting of overlong lines."
   (add-hook 'hack-local-variables-hook #'whitespace-mode nil 'local))
 
 (use-package whitespace                 ; Highlight bad whitespace
-  :bind (("C-c t w" . whitespace-mode))
+  :bind (("C-c u w w" . whitespace-mode))
   :init (dolist (hook '(prog-mode-hook text-mode-hook conf-mode-hook))
           (add-hook hook #'lunaryorn-whitespace-mode-local))
   :config
@@ -932,7 +932,7 @@ Disable the highlighting of overlong lines."
 
 (use-package rainbow-mode               ; Fontify color values in code
   :ensure t
-  :bind (("C-c t r" . rainbow-mode))
+  :bind (("C-c u r" . rainbow-mode))
   :config (add-hook 'css-mode-hook #'rainbow-mode))
 
 (use-package highlight-symbol           ; Highlighting and commands for symbols
@@ -1031,7 +1031,7 @@ Disable the highlighting of overlong lines."
       (warn "No spell checker available.  Install Hunspell or ASpell for OS X."))))
 
 (use-package flyspell                   ; On-the-fly spell checking
-  :bind (("C-c t s" . flyspell-mode))
+  :bind (("C-c u f s" . flyspell-mode))
   :init (progn (dolist (hook '(text-mode-hook message-mode-hook))
                  (add-hook hook 'turn-on-flyspell))
                (add-hook 'prog-mode-hook 'flyspell-prog-mode))
@@ -1049,7 +1049,7 @@ Disable the highlighting of overlong lines."
 (use-package flycheck                   ; On-the-fly syntax checking
   :ensure t
   :bind (("C-c l e" . list-flycheck-errors)
-         ("C-c t f" . flycheck-mode))
+         ("C-c u f c" . flycheck-mode))
   :init (global-flycheck-mode)
   :config (progn
             (setq flycheck-display-errors-function
@@ -1347,7 +1347,7 @@ Disable the highlighting of overlong lines."
 
 ;;; Programming utilities
 (use-package prog-mode                  ; Prog Mode
-  :bind (("C-c t p" . prettify-symbols-mode)))
+  :bind (("C-c u p" . prettify-symbols-mode)))
 
 (use-package compile                    ; Compile from Emacs
   :bind (("C-c c" . compile)
@@ -1396,7 +1396,7 @@ Disable the highlighting of overlong lines."
 
 
 ;;; Emacs Lisp
-(bind-key "C-c t d" #'toggle-debug-on-error)
+(bind-key "C-c u d" #'toggle-debug-on-error)
 
 (use-package helm-elisp                 ; Helm commands for Emacs Lisp
   :ensure helm
