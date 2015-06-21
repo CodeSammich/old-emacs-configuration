@@ -1326,7 +1326,7 @@ Disable the highlighting of overlong lines."
             :load-path "lisp/"
             :commands (lunaryorn-json-chef-role)
             :config (bind-key "C-c t r" #'lunaryorn-json-chef-role
-                              markdown-mode-map)))
+                              json-mode-map)))
 
 (use-package json-reformat              ; Reformat JSON
   :ensure t
