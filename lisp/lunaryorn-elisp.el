@@ -1,4 +1,4 @@
-;;; lunaryorn-lisp.el --- Utilities for Lisp  -*- lexical-binding: t; -*-
+;;; lunaryorn-elisp.el --- Utilities for Emacs Lisp  -*- lexical-binding: t; -*-
 ;; Copyright (C) 2014-2015  Sebastian Wiesner <swiesner@lunaryorn.com>
 
 ;; Author: Sebastian Wiesner <swiesner@lunaryorn.com>
@@ -27,7 +27,7 @@
 
 (require 'rx)
 
-(defun lunaryorn-find-cask-file (other-window)
+(defun lunaryorn-elisp-find-cask-file (other-window)
     "Find the Cask file for this buffer.
 
 When OTHER-WINDOW is non-nil, find the Cask file in another
@@ -41,7 +41,7 @@ window."
       (funcall (if other-window #'find-file-other-window #'find-file)
                (expand-file-name "Cask" directory))))
 
-(defun lunaryorn-emacs-lisp-current-feature ()
+(defun lunaryorn-elisp-current-feature ()
   "Return the feature provided by the current buffer."
   (save-excursion
     (goto-char (point-min))
@@ -60,11 +60,11 @@ window."
   (add-to-list 'imenu-generic-expression
                lunaryorn-use-package-imenu-expression))
 
-(provide 'lunaryorn-lisp)
+(provide 'lunaryorn-elisp)
 
 ;; Local Variables:
 ;; coding: utf-8
 ;; indent-tabs-mode: nil
 ;; End:
 
-;;; lunaryorn-lisp.el ends here
+;;; lunaryorn-elisp.el ends here

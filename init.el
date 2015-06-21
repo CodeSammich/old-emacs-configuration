@@ -892,13 +892,15 @@ mouse-3: go to end"))))
                (dolist (hook '(inferior-emacs-lisp-mode-hook
                                emacs-lisp-mode-hook))
                  (add-hook hook #'smartparens-strict-mode)))
-  :config (setq sp-autoskip-closing-pair 'always
-                ;; Don't kill entire symbol on C-k
-                sp-hybrid-kill-entire-symbol nil)
-  :diminish smartparens-mode)
+  :config (progn
+            (setq sp-autoskip-closing-pair 'always
+                  ;; Don't kill entire symbol on C-k
+                  sp-hybrid-kill-entire-symbol nil)
 
-(use-package lunaryorn-smartparens      ; Personal Smartparens extensions
-  :load-path "lisp/")
+            (use-package lunaryorn-smartparens ; Personal Smartparens extensions
+              :load-path "lisp/"
+              :config (lunaryorn-smartparens-bind-keys)))
+  :diminish smartparens-mode)
 
 
 ;;; Highlights and fontification
@@ -975,21 +977,22 @@ Disable the highlighting of overlong lines."
 (use-package hippie-exp                 ; Powerful expansion and completion
   :bind (([remap dabbrev-expand] . hippie-expand))
   :config
-  (setq hippie-expand-try-functions-list
-        '(try-expand-dabbrev
-          try-expand-dabbrev-all-buffers
-          try-expand-dabbrev-from-kill
-          try-complete-file-name-partially
-          try-complete-file-name
-          try-expand-all-abbrevs
-          try-expand-list
-          try-complete-lisp-symbol-partially
-          try-complete-lisp-symbol
-          lunaryorn-try-complete-lisp-symbol-without-namespace)))
+  (progn
+    (setq hippie-expand-try-functions-list
+          '(try-expand-dabbrev
+            try-expand-dabbrev-all-buffers
+            try-expand-dabbrev-from-kill
+            try-complete-file-name-partially
+            try-complete-file-name
+            try-expand-all-abbrevs
+            try-expand-list
+            try-complete-lisp-symbol-partially
+            try-complete-lisp-symbol
+            lunaryorn-try-complete-lisp-symbol-without-namespace))
 
-(use-package lunaryorn-hippie-exp       ; Custom expansion functions
-  :load-path "lisp/"
-  :commands (lunaryorn-try-complete-lisp-symbol-without-namespace))
+    (use-package lunaryorn-hippie-exp   ; Custom expansion functions
+      :load-path "lisp/"
+      :commands (lunaryorn-try-complete-lisp-symbol-without-namespace))))
 
 (use-package company                    ; Graphical (auto-)completion
   :ensure t
@@ -1076,24 +1079,22 @@ Disable the highlighting of overlong lines."
                             display-buffer-in-side-window)
                            (side            . bottom)
                            (reusable-frames . visible)
-                           (window-height   . 0.4))))
+                           (window-height   . 0.4)))
+
+            (use-package lunaryorn-flycheck ; Personal Flycheck extensions
+              :load-path "lisp/"
+              :config (progn
+                        ;; Don't highlight undesired errors from html tidy
+                        (add-hook 'flycheck-process-error-functions
+                                  #'lunaryorn-discard-undesired-html-tidy-error)
+
+                        (setq flycheck-mode-line
+                            '(:eval (lunaryorn-flycheck-mode-line-status))))))
   :diminish flycheck-mode)
 
 (use-package helm-flycheck              ; Helm frontend for Flycheck errors
   :ensure t
   :bind (("C-c ! L" . helm-flycheck)))
-
-(use-package lunaryorn-flycheck         ; Personal Flycheck helpers
-  :defer t
-  :commands (lunaryorn-discard-undesired-html-tidy-error
-             lunaryorn-flycheck-mode-line-status)
-  :init (with-eval-after-load 'flycheck
-          ;; Don't highlight undesired errors from html tidy
-          (add-hook 'flycheck-process-error-functions
-                    #'lunaryorn-discard-undesired-html-tidy-error)
-
-          (setq flycheck-mode-line
-                '(:eval (lunaryorn-flycheck-mode-line-status)))))
 
 
 ;;; Text editing
@@ -1313,11 +1314,15 @@ Disable the highlighting of overlong lines."
     (bind-key "C-c C-s C" #'markdown-insert-gfm-code-block markdown-mode-map)
     (bind-key "C-c C-s P" #'markdown-insert-gfm-code-block markdown-mode-map)
 
-    ;; Fight my habit of constantly pressing M-q.  We should not fill in GFM Mode.
-    (bind-key "M-q" #'ignore gfm-mode-map)))
+    ;; Fight my habit of constantly pressing M-q.  We should not fill in GFM
+    ;; Mode.
+    (bind-key "M-q" #'ignore gfm-mode-map)
 
-(use-package lunaryorn-markdown         ; Personal tools for Markdown
-  :bind (("C-c t h" . lunaryorn-markdown-post-header)))
+    (use-package lunaryorn-markdown     ; Personal Markdown extensions
+      :load-path "lisp/"
+      :commands (lunaryorn-markdown-post-header)
+      :config (bind-key "C-c t h" #'lunaryorn-markdown-post-header
+                        markdown-mode-map))))
 
 (use-package jira-markup-mode           ; Jira markup
   :ensure t
@@ -1368,15 +1373,14 @@ Disable the highlighting of overlong lines."
                             display-buffer-in-side-window)
                            (side            . bottom)
                            (reusable-frames . visible)
-                           (window-height   . 0.4)))))
+                           (window-height   . 0.4)))
 
-(use-package lunaryorn-compile          ; Personal helpers for compilation
-  :load-path "lisp/"
-  :commands (lunaryorn-colorize-compilation-buffer)
-  ;; Colorize output of Compilation Mode, see
-  ;; http://stackoverflow.com/a/3072831/355252
-  :init (add-hook 'compilation-filter-hook
-                  #'lunaryorn-colorize-compilation-buffer))
+            (use-package lunaryorn-compile ; Personal helpers for compilation
+              :load-path "lisp/"
+              ;; Colorize output of Compilation Mode, see
+              ;; http://stackoverflow.com/a/3072831/355252
+              :config (add-hook 'compilation-filter-hook
+                                #'lunaryorn-colorize-compilation-buffer))))
 
 (use-package elide-head                 ; Elide lengthy GPL headers
   :bind (("C-c u h" . elide-head))
@@ -1439,22 +1443,20 @@ Disable the highlighting of overlong lines."
 (use-package ielm                       ; Emacs Lisp REPL
   :bind (("C-c z" . ielm)))
 
-(use-package lisp-mode                  ; Emacs Lisp editing
+(use-package elisp-mode                 ; Emacs Lisp editing
   :defer t
   :interpreter ("emacs" . emacs-lisp-mode)
   :mode ("/Cask\\'" . emacs-lisp-mode)
-  :config (require 'ert))
+  :config (progn
+            (require 'ert)
 
-(use-package lunaryorn-lisp             ; Personal tools for Emacs Lisp
-  :load-path "lisp/"
-  :commands (lunaryorn-find-cask-file
-             lunaryorn-add-use-package-to-imenu)
-  :init (progn
-          (add-hook 'emacs-lisp-mode-hook #'lunaryorn-add-use-package-to-imenu)
-
-          (with-eval-after-load 'lisp-mode
-            (bind-key "C-c f c" #'lunaryorn-find-cask-file
-                      emacs-lisp-mode-map))))
+            (use-package lunaryorn-elisp ; Personal tools for Emacs Lisp
+              :load-path "lisp/"
+              :init (progn
+                      (add-hook 'emacs-lisp-mode-hook
+                                #'lunaryorn-add-use-package-to-imenu)
+                      (bind-key "C-c f c" #'lunaryorn-find-cask-file
+                                emacs-lisp-mode-map)))))
 
 
 ;;; Scala
