@@ -1096,7 +1096,6 @@ Disable the highlighting of overlong lines."
 
 (use-package typo                       ; Automatically use typographic quotes
   :ensure t
-  :bind (("C-c t t" . typo-mode))
   :init (progn
           (typo-global-mode)
 
