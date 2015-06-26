@@ -1551,6 +1551,11 @@ Disable the highlighting of overlong lines."
           (setq python-shell-interpreter ipython)
         (warn "IPython is missing, falling back to default python")))))
 
+(use-package lunaryorn-virtualenv       ; Personal virtualenv tools
+  :load-path "lisp/"
+  :commands (lunaryorn-virtualenv-init-from-workon-home)
+  :init (add-hook 'python-mode-hook #'lunaryorn-virtualenv-init-from-workon-home))
+
 (use-package flycheck-virtualenv        ; Setup Flycheck by virtualenv
   :load-path "lisp/"
   :commands (flycheck-virtualenv-setup)
