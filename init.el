@@ -1612,7 +1612,7 @@ Disable the highlighting of overlong lines."
 
 ;; This Haskell setup needs:
 ;;
-;; cabal install hasktags haskell-docs hoogle hindent
+;; stack install hasktags haskell-docs hoogle hindent
 ;;
 ;; Additionally, to be installed from source:
 ;;
