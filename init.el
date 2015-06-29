@@ -733,7 +733,8 @@ mouse-3: go to end"))))
          ("C-<backspace>"                . lunaryorn-smart-backward-kill-line)
          ("C-S-j"                        . lunaryorn-smart-open-line)
          ;; Additional utilities
-         ("C-c e d"                      . lunaryorn-insert-current-date))
+         ("C-c e d"                      . lunaryorn-insert-current-date)
+         ("C-c t m"                      . lunaryorn-insert-mit/x11))
   :commands (lunaryorn-auto-fill-comments-mode)
   ;; Auto-fill comments in programming modes
   :init (add-hook 'prog-mode-hook #'lunaryorn-auto-fill-comments-mode))
