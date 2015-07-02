@@ -1922,7 +1922,7 @@ Disable the highlighting of overlong lines."
          ("C-c v g" . magit-status)
          ("C-c v v" . magit-status)
          ("C-c v g" . magit-blame)
-         ("C-c v l" . magit-file-log))
+         ("C-c v l" . magit-log-buffer-file))
   :config
   (progn
     (setq magit-revert-buffers 'silent
