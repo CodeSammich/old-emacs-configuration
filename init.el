@@ -1386,7 +1386,8 @@ Disable the highlighting of overlong lines."
   ;; Enable Eldoc for `eval-expression', too
   :init (add-hook 'eval-expression-minibuffer-setup-hook #'eldoc-mode)
   :config
-  (setq-default eldoc-documentation-function #'describe-char-eldoc))
+  (setq-default eldoc-documentation-function #'describe-char-eldoc)
+  :diminish (eldoc-mode . "⁇"))
 
 (use-package restclient                 ; ReST REPL for Emacs
   :ensure t
