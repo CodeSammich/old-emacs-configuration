@@ -201,10 +201,19 @@
 
 ;; Additional fonts for special characters and fallbacks
 ;; Test range: 🐷 ⊄ ∫ 𝛼 α 🜚 𝆹𝅥𝅯
-(set-fontset-font t 'symbol (font-spec :family "Apple Color Emoji") nil 'prepend)
+(when (eq system-type 'darwin)
+  ;; Colored Emoji on OS X
+  (set-fontset-font t 'symbol (font-spec :family "Apple Color Emoji")
+                    nil 'prepend))
 (set-fontset-font t 'symbol (font-spec :family "Symbola") nil 'append)
 (set-fontset-font t 'mathematical (font-spec :family "XITS Math") nil 'append)
-(set-fontset-font t 'greek (font-spec :family "Menlo") nil 'append)
+;; Fallback for Greek characters which Source Code Pro doesn't provide.
+(set-fontset-font t 'greek (pcase system-type
+                             (`darwin (font-spec :family "Menlo"))
+                             (_ (font-spec :family "DejaVu Sans Mono")))
+                  nil 'append)
+
+;; A general fallback for all kinds of unknown symbols
 (set-fontset-font t nil (font-spec :family "Symbola") nil 'append)
 
 ;; No blinking and beeping, no startup screen, no scratch message and short
