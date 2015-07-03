@@ -1971,6 +1971,14 @@ Disable the highlighting of overlong lines."
   :defer t
   :init (add-hook 'magit-mode-hook #'turn-on-magit-gh-pulls))
 
+(use-package git-commit                 ; Git commit message mode
+  :ensure t
+  :defer t
+  :config
+  ;; Oh, really?  Come on… I know what I'm doing…
+  (remove-hook 'git-commit-finish-query-functions
+               #'git-commit-check-style-conventions))
+
 (use-package gitconfig-mode             ; Git configuration mode
   :ensure t
   :defer t)
