@@ -196,6 +196,17 @@
 (when (fboundp 'scroll-bar-mode)
   (scroll-bar-mode -1))
 
+;; Font setup
+(set-frame-font "Source Code Pro-13")   ; Default font
+
+;; Additional fonts for special characters and fallbacks
+;; Test range: 🐷 ⊄ ∫ 𝛼 α 🜚 𝆹𝅥𝅯
+(set-fontset-font t 'symbol (font-spec :family "Apple Color Emoji") nil 'prepend)
+(set-fontset-font t 'symbol (font-spec :family "Symbola") nil 'append)
+(set-fontset-font t 'mathematical (font-spec :family "XITS Math") nil 'append)
+(set-fontset-font t 'greek (font-spec :family "Menlo") nil 'append)
+(set-fontset-font t nil (font-spec :family "Symbola") nil 'append)
+
 ;; No blinking and beeping, no startup screen, no scratch message and short
 ;; Yes/No questions.
 (blink-cursor-mode -1)
@@ -213,6 +224,7 @@
   :init (add-hook 'after-init-hook #'lunaryorn-insert-logo-into-scratch))
 
 (use-package dynamic-fonts              ; Select best available font
+  :disabled t
   :ensure t
   :config
   (progn
@@ -255,6 +267,7 @@
     (dynamic-fonts-setup)))
 
 (use-package unicode-fonts              ; Map Unicode blocks to fonts
+  :disabled t
   :ensure t
   ;; Enable emoticon mappings
   :config (progn (setq unicode-fonts-skip-font-groups '(low-quality-glyphs)
