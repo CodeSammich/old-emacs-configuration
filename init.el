@@ -2145,6 +2145,20 @@ Disable the highlighting of overlong lines."
   :bind ("C-c u S" . ansi-term))
 
 
+;;; Documents
+(use-package doc-view
+  :defer t
+  :config (progn
+            ;; Render PDFs at 300dpi
+            (setq doc-view-resolution 300)
+
+            ;; Warn if Doc View falls back to Ghostscript for rendering
+            (unless (eq doc-view-pdf->png-converter-function
+                        'doc-view-pdf->png-converter-mupdf)
+              (warn "Doc View is not using mupdf.
+Install mudraw with brew install mupdf-tools"))))
+
+
 ;;; Net & Web
 (use-package browse-url                 ; Browse URLs
   :bind (("C-c w u" . browse-url)))
