@@ -53,7 +53,7 @@ most errors from HTML Tidy."
             (`not-checked nil)
             (`no-checker '("⭕" . warning))
             (`running '( "🔨" . success))
-            (`errored '( "❗️" . error))
+            (`errored '( "❗" . error))
             (`finished
              (let* ((error-counts (flycheck-count-errors
                                    flycheck-current-errors))
