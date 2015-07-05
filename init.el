@@ -1381,8 +1381,16 @@ Disable the highlighting of overlong lines."
   :config (progn
             (setq compilation-ask-about-save nil
                   ;; Kill old compilation processes before starting new ones,
-                  ;; and automatically scroll up to the first error.
-                  compilation-scroll-output 'first-error)
+                  compilation-always-kill t
+                  ;; Automatically scroll and jump to the first error
+                  compilation-scroll-output 'first-error
+                  compilation-auto-jump-to-first-error t
+                  ;; Skip over warnings and info messages in compilation
+                  compilation-skip-threshold 2
+                  ;; Don't freeze when process reads from stdin
+                  compilation-disable-input t
+                  ;; Show three lines of context around the current message
+                  compilation-context-lines 3)
 
             (add-to-list 'display-buffer-alist
                          `(,(rx bos "*compilation")
