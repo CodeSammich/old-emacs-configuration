@@ -66,18 +66,10 @@ A pair of `(VERSION . SCALA-VERSION)'."
     file-name))
 
 ;;;###autoload
-(defun flycheck-auto-scalastyle-configure ()
-  "Configure Scalastyle for this buffer."
+(defun flycheck-auto-scalastyle-setup ()
+  "Setup Flycheck Scalastyle for this buffer."
   (interactive)
   (setq flycheck-scalastyle-jar (flycheck-auto-scalastyle-ensure)))
 
-;;;###autoload
-(defun flycheck-auto-scalastyle-setup ()
-  "Setup Flycheck Scalastyle for this buffer.
-
-For use in `flycheck-mode-hook'."
-  (add-hook 'hack-local-variables-hook #'flycheck-auto-scalastyle-configure))
-
 (provide 'flycheck-auto-scalastyle)
-
 ;;; flycheck-auto-scalastyle.el ends here
