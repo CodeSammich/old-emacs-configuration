@@ -1482,6 +1482,7 @@ Disable the highlighting of overlong lines."
               :init (progn
                       (add-hook 'emacs-lisp-mode-hook
                                 #'lunaryorn-add-use-package-to-imenu)
+
                       (bind-key "C-c f c" #'lunaryorn-find-cask-file
                                 emacs-lisp-mode-map)))))
 
