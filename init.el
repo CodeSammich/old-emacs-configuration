@@ -1349,11 +1349,12 @@ Disable the highlighting of overlong lines."
   :ensure t
   :defer t
   :config
+
   (use-package lunaryorn-json           ; Personal JSON tools
     :load-path "lisp/"
     :commands (lunaryorn-json-chef-role)
-    :config (bind-key "C-c t r" #'lunaryorn-json-chef-role
-                      json-mode-map)))
+    :init (bind-key "C-c t r" #'lunaryorn-json-chef-role
+                    json-mode-map)))
 
 (use-package json-reformat              ; Reformat JSON
   :ensure t
