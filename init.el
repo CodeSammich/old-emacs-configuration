@@ -1664,6 +1664,7 @@ Disable the highlighting of overlong lines."
 
     ;; Automatically run hasktags
     (setq haskell-tags-on-save t
+          haskell-process-type 'stack-ghci ; Use stack for interaction
           ;; Suggest adding/removing imports as by GHC warnings and Hoggle/GHCI
           ;; loaded modules respectively
           haskell-process-suggest-remove-import-lines t
