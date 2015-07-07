@@ -1546,11 +1546,6 @@ Disable the highlighting of overlong lines."
             ;; sense before the first session was started anyway
             (add-hook 'scala-mode-hook #'ensime-mode)
 
-            ;; Disable Flycheck in Ensime, since Ensime features its own error
-            ;; checking.  TODO: Maybe write a Flycheck checker for Ensime
-            (with-eval-after-load 'flycheck
-              (add-hook 'ensime-mode-hook (lambda () (flycheck-mode -1))))
-
             ;; Free M-n and M-p again
             (bind-key "M-n" nil ensime-mode-map)
             (bind-key "M-p" nil ensime-mode-map)
