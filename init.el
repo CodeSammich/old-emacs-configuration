@@ -1845,7 +1845,8 @@ Disable the highlighting of overlong lines."
 (use-package thrift                     ; Thrift interface files
   :ensure t
   :defer t
-  :init (put 'thrift-indent-level 'safe-local-variable #'integerp))
+  :init (put 'thrift-indent-level 'safe-local-variable #'integerp)
+  :config (add-hook 'thrift-mode-hook (lambda () (run-hooks 'prog-mode-hook))))
 
 (use-package swift-mode                 ; Swift sources
   :ensure t
