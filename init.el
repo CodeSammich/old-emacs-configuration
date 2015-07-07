@@ -2014,8 +2014,12 @@ Disable the highlighting of overlong lines."
 (use-package isearch                    ; Search buffers
   :bind (("C-c s s" . isearch-forward-symbol-at-point))
   ;; `:diminish' doesn't work for isearch, because it uses eval-after-load on
-  ;; the feature name, but isearch.el does not provide any feature
-  :init (diminish 'isearch-mode))
+  ;; the feature name, but isearch.el does not provide any feature.  For the
+  ;; same reason we have to use `:init', but isearch is always loaded anyways.
+  :init (progn (diminish 'isearch-mode)
+
+               ;; Please, isearch, let me scroll during search
+               (setq isearch-allow-scroll t)))
 
 (use-package helm-regex                 ; Helm regex tools
   :ensure helm
