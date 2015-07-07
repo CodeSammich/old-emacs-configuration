@@ -537,7 +537,8 @@ mouse-3: go to end"))))
 (setq delete-by-moving-to-trash t)
 
 (use-package files                      ; Core commands for files
-  :bind (("C-c e u" . revert-buffer))
+  :bind (("C-c f z" . revert-buffer)
+         ("C-c f /" . revert-buffer))
   :config
   ;; Use GNU ls for Emacs
   (when-let (gnu-ls (and (eq system-type 'darwin) (executable-find "gls")))
