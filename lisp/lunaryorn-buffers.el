@@ -40,10 +40,6 @@ Add this to `kill-buffer-query-functions'."
     (bury-buffer)
     nil))
 
-(defun lunaryorn-force-save-some-buffers ()
-  "Save all modified buffers, without prompts."
-  (save-some-buffers 'dont-ask))
-
 (provide 'lunaryorn-buffers)
 
 ;;; lunaryorn-buffers.el ends here

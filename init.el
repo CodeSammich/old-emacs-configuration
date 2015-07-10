@@ -434,17 +434,15 @@ mouse-3: go to end"))))
           (global-set-key (kbd "C-x C-z") nil))
   :config (add-to-list 'initial-frame-alist '(fullscreen . maximized)))
 
+(use-package focus-autosave-mode        ; Save buffers when focus is lost
+  :ensure t
+  :init (focus-autosave-mode))
+
 (use-package lunaryorn-buffers          ; Personal buffer tools
   :load-path "lisp/"
-  :commands (lunaryorn-force-save-some-buffers
-             lunaryorn-do-not-kill-important-buffers)
-  :init (progn
-          (add-hook 'kill-buffer-query-functions
-                    #'lunaryorn-do-not-kill-important-buffers)
-
-          ;; Autosave buffers when focus is lost, see
-          ;; http://emacsredux.com/blog/2014/03/22/a-peek-at-emacs-24-dot-4-focus-hooks/
-          (add-hook 'focus-out-hook #'lunaryorn-force-save-some-buffers)))
+  :commands (lunaryorn-do-not-kill-important-buffers)
+  :init (add-hook 'kill-buffer-query-functions
+                  #'lunaryorn-do-not-kill-important-buffers))
 
 (use-package uniquify                   ; Make buffer names unique
   :config (setq uniquify-buffer-name-style 'forward))
