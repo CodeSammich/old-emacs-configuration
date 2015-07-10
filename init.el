@@ -1948,6 +1948,7 @@ Disable the highlighting of overlong lines."
 (use-package magit                      ; The one and only Git frontend
   :ensure t
   :bind (("C-c g"   . magit-status)
+         ("C-c v c" . magit-clone)
          ("C-c v v" . magit-status)
          ("C-c v g" . magit-blame)
          ("C-c v l" . magit-log-buffer-file))
