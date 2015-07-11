@@ -436,7 +436,8 @@ mouse-3: go to end"))))
 
 (use-package focus-autosave-mode        ; Save buffers when focus is lost
   :ensure t
-  :init (focus-autosave-mode))
+  :init (focus-autosave-mode)
+  :diminish (focus-autosave-mode . "💾"))
 
 (use-package lunaryorn-buffers          ; Personal buffer tools
   :load-path "lisp/"
