@@ -543,6 +543,12 @@ mouse-3: go to end"))))
   (when-let (gnu-ls (and (eq system-type 'darwin) (executable-find "gls")))
     (setq insert-directory-program gnu-ls)))
 
+(use-package ffap                       ; Find files at point
+  :defer t
+  ;; Please stop pinging random hosts!  See
+  ;; https://github.com/technomancy/emacs-starter-kit/issues/39
+  :config (setq ffap-machine-p-known 'reject))
+
 (use-package tramp                      ; Access remote files
   :defer t
   :config
