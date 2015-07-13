@@ -2090,7 +2090,10 @@ Disable the highlighting of overlong lines."
           projectile-find-dir-includes-top-level t
           projectile-mode-line '(:propertize
                                  (:eval (concat " " (projectile-project-name)))
-                                 face font-lock-constant-face)))
+                                 face font-lock-constant-face))
+
+    (projectile-register-project-type 'haskell-stack '("stack.yml")
+                                      "stack build" "stack test"))
   :diminish projectile-mode)
 
 (use-package helm-projectile            ; Helm frontend for Projectile
