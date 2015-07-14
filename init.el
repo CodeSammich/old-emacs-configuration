@@ -333,6 +333,9 @@
                 (vc-mode vc-mode)
                 " "
                 (flycheck-mode flycheck-mode-line) ; Flycheck status
+                ;; TODO: Write my own mode line string for Ensime that shows
+                ;; only what I'd like to know about Ensime
+                (ensime-mode (:eval (ensime-modeline-string)))
                 (firestarter-mode firestarter-lighter)
                 (isearch-mode " 🔍")
                 (anzu-mode (:eval                  ; isearch pos/matches
