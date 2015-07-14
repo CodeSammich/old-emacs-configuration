@@ -611,7 +611,9 @@ mouse-3: go to end"))))
 
 (use-package ignoramus                  ; Ignore uninteresting files everywhere
   :ensure t
-  :config (progn (dolist (name '(".cask" ".vagrant"))
+  :config (progn (dolist (name '(".cask"
+                                 ".vagrant"
+                                 ".ensime_cache" ".ensime"))
                    ;; Ignore some additional directories
                    (add-to-list 'ignoramus-file-basename-exact-names name))
                  (ignoramus-setup)))
