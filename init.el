@@ -1113,7 +1113,7 @@ Disable the highlighting of overlong lines."
                             display-buffer-in-side-window)
                            (side            . bottom)
                            (reusable-frames . visible)
-                           (window-height   . 0.4)))
+                           (window-height   . 0.33)))
 
             (use-package lunaryorn-flycheck ; Personal Flycheck extensions
               :load-path "lisp/"
@@ -1421,7 +1421,7 @@ Disable the highlighting of overlong lines."
                             display-buffer-in-side-window)
                            (side            . bottom)
                            (reusable-frames . visible)
-                           (window-height   . 0.4)))
+                           (window-height   . 0.33)))
 
             (use-package lunaryorn-compile ; Personal helpers for compilation
               :load-path "lisp/"
@@ -1548,7 +1548,7 @@ Disable the highlighting of overlong lines."
                             display-buffer-in-side-window)
                            (side            . bottom)
                            (reusable-frames . visible)
-                           (window-height   . 0.4)))))
+                           (window-height   . 0.33)))))
 
 (use-package ensime                     ; Scala interaction mode
   :ensure t
@@ -1947,7 +1947,7 @@ Disable the highlighting of overlong lines."
                           display-buffer-in-side-window
                           (side            . bottom)
                           (reusable-frames . visible)
-                          (window-height   . 0.4)))))
+                          (window-height   . 0.33)))))
 
 
 ;;; Version control
@@ -2177,7 +2177,7 @@ Disable the highlighting of overlong lines."
                           display-buffer-in-side-window
                           (side            . bottom)
                           (reusable-frames . visible)
-                          (window-height   . 0.4)))))
+                          (window-height   . 0.33)))))
 
 (use-package term                       ; Terminal emulator in Emacs
   :bind ("C-c u S" . ansi-term))
