@@ -52,8 +52,8 @@ most errors from HTML Tidy."
           (pcase flycheck-last-status-change
             (`not-checked nil)
             (`no-checker '("⭕" . warning))
-            (`running '( "🔨" . success))
-            (`errored '( "❗" . error))
+            (`running '("🔨" . success))
+            (`errored '("❗" . error))
             (`finished
              (let* ((error-counts (flycheck-count-errors
                                    flycheck-current-errors))
