@@ -184,6 +184,39 @@
   :init (osx-trash-setup))
 
 
+;;; Fonts
+
+;; We use these fonts:
+;;
+;; - Source Code Pro (https://github.com/adobe-fonts/source-code-pro) as default
+;; - XITS Math (https://github.com/khaledhosny/xits-math) as fallback for math
+;;
+;; Currently this setup only works for OS X, as we rely on Apple's Emoji and
+;; Symbol fonts.
+;;
+;; TODO:  Find Emoji and symbol fonts for Linux and Windows
+
+;; Font setup
+(set-frame-font "Source Code Pro-13" nil t)   ; Default font
+
+;; Additional fonts for special characters and fallbacks
+;; Test range: 🐷 ⊄ ∫ 𝛼 α 🜚 𝆹𝅥𝅯
+(when (eq system-type 'darwin)
+  ;; Colored Emoji on OS X
+  (set-fontset-font t 'symbol (font-spec :family "Apple Color Emoji")
+                    nil 'prepend))
+(set-fontset-font t 'symbol (font-spec :family "Apple Symbols") nil 'append)
+(set-fontset-font t 'mathematical (font-spec :family "XITS Math") nil 'append)
+;; Fallback for Greek characters which Source Code Pro doesn't provide.
+(set-fontset-font t 'greek (pcase system-type
+                             (`darwin (font-spec :family "Menlo"))
+                             (_ (font-spec :family "DejaVu Sans Mono")))
+                  nil 'append)
+
+;; A general fallback for all kinds of unknown symbols
+(set-fontset-font t nil (font-spec :family "Apple Symbols") nil 'append)
+
+
 ;;; User interface
 
 ;; Get rid of tool bar, menu bar and scroll bars.  On OS X we preserve the menu
@@ -195,26 +228,6 @@
   (menu-bar-mode -1))
 (when (fboundp 'scroll-bar-mode)
   (scroll-bar-mode -1))
-
-;; Font setup
-(set-frame-font "Source Code Pro-13" nil t)   ; Default font
-
-;; Additional fonts for special characters and fallbacks
-;; Test range: 🐷 ⊄ ∫ 𝛼 α 🜚 𝆹𝅥𝅯
-(when (eq system-type 'darwin)
-  ;; Colored Emoji on OS X
-  (set-fontset-font t 'symbol (font-spec :family "Apple Color Emoji")
-                    nil 'prepend))
-(set-fontset-font t 'symbol (font-spec :family "Symbola") nil 'append)
-(set-fontset-font t 'mathematical (font-spec :family "XITS Math") nil 'append)
-;; Fallback for Greek characters which Source Code Pro doesn't provide.
-(set-fontset-font t 'greek (pcase system-type
-                             (`darwin (font-spec :family "Menlo"))
-                             (_ (font-spec :family "DejaVu Sans Mono")))
-                  nil 'append)
-
-;; A general fallback for all kinds of unknown symbols
-(set-fontset-font t nil (font-spec :family "Symbola") nil 'append)
 
 ;; No blinking and beeping, no startup screen, no scratch message and short
 ;; Yes/No questions.
