@@ -197,7 +197,7 @@
   (scroll-bar-mode -1))
 
 ;; Font setup
-(set-frame-font "Source Code Pro-13")   ; Default font
+(set-frame-font "Source Code Pro-13" nil t)   ; Default font
 
 ;; Additional fonts for special characters and fallbacks
 ;; Test range: 🐷 ⊄ ∫ 𝛼 α 🜚 𝆹𝅥𝅯
