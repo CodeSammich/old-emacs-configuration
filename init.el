@@ -1405,9 +1405,8 @@ Disable the highlighting of overlong lines."
             (setq compilation-ask-about-save nil
                   ;; Kill old compilation processes before starting new ones,
                   compilation-always-kill t
-                  ;; Automatically scroll and jump to the first error
+                  ;; Automatically scroll
                   compilation-scroll-output 'first-error
-                  compilation-auto-jump-to-first-error t
                   ;; Skip over warnings and info messages in compilation
                   compilation-skip-threshold 2
                   ;; Don't freeze when process reads from stdin
