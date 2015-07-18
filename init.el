@@ -205,8 +205,8 @@
 (when (eq system-type 'darwin)
   ;; Colored Emoji on OS X
   (set-fontset-font t 'symbol (font-spec :family "Apple Color Emoji")
-                    nil 'prepend))
-(set-fontset-font t 'symbol (font-spec :family "Apple Symbols") nil 'append)
+                    nil 'prepend)
+  (set-fontset-font t 'symbol (font-spec :family "Apple Symbols") nil 'append))
 (set-fontset-font t 'mathematical (font-spec :family "XITS Math") nil 'append)
 ;; Fallback for Greek characters which Source Code Pro doesn't provide.
 (set-fontset-font t 'greek (pcase system-type
