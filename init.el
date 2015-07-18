@@ -246,58 +246,6 @@
              lunaryorn-insert-logo-into-scratch)
   :init (add-hook 'after-init-hook #'lunaryorn-insert-logo-into-scratch))
 
-(use-package dynamic-fonts              ; Select best available font
-  :disabled t
-  :ensure t
-  :config
-  (progn
-    (setq dynamic-fonts-preferred-monospace-fonts
-          '(
-            ;; Best fonts
-            "Source Code Pro"   ; https://github.com/adobe-fonts/source-code-pro
-            "Anonymous Pro" ; http://www.marksimonson.com/fonts/view/anonymous-pro
-            ;; Consolas and its free alternative.  Ok, but not my preference
-            "Inconsolata"
-            "Consolas"
-            ;; Also still kind of ok
-            "Fira Mono"
-            ;; System fonts, as last resort
-            "Menlo"
-            "DejaVu Sans Mono"
-            "Bitstream Vera Mono"
-            "Courier New")
-          dynamic-fonts-preferred-monospace-point-size (pcase system-type
-                                                         (`darwin 13)
-                                                         (_ 10))
-          dynamic-fonts-preferred-proportional-fonts
-          '(
-            ;; Best, from
-            ;; https://www.mozilla.org/en-US/styleguide/products/firefox-os/typeface/
-            "Fira Sans"
-            ;; System fonts, as last resort
-            "Helvetica"
-            "Segoe UI"
-            "DejaVu Sans"
-            "Bitstream Vera"
-            "Tahoma"
-            "Verdana"
-            "Arial Unicode MS"
-            "Arial")
-          dynamic-fonts-preferred-proportional-point-size (pcase system-type
-                                                            (`darwin 13)
-                                                            (_ 10)))
-
-    (dynamic-fonts-setup)))
-
-(use-package unicode-fonts              ; Map Unicode blocks to fonts
-  :disabled t
-  :ensure t
-  ;; Enable emoticon mappings
-  :config (progn (setq unicode-fonts-skip-font-groups '(low-quality-glyphs)
-                       unicode-fonts-use-prepend t)
-
-                 (unicode-fonts-setup)))
-
 (use-package solarized                  ; My colour theme
   :ensure solarized-theme
   :defer t
