@@ -1530,6 +1530,8 @@ Disable the highlighting of overlong lines."
   :ensure t
   :defer t
   :config (progn
+            (setq sbt:display-command-buffer nil)
+
             (with-eval-after-load 'scala-mode2
               (bind-key "C-c c" #'sbt-command scala-mode-map))
 
