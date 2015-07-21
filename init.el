@@ -110,7 +110,7 @@
       ;; login profile.  Notably, this affects /usr/texbin from MacTeX
       (setq exec-path-from-shell-arguments '("-l")))
 
-    (dolist (var '("EMAIL" "PYTHONPATH" "INFOPATH" "SBT_OPTS"))
+    (dolist (var '("EMAIL" "PYTHONPATH" "INFOPATH" "SBT_OPTS" "JAVA_OPTS"))
       (add-to-list 'exec-path-from-shell-variables var))
 
     (exec-path-from-shell-initialize)
