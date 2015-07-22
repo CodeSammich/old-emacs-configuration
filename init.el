@@ -200,7 +200,7 @@
 (set-frame-font "Source Code Pro-13" nil t)   ; Default font
 
 ;; Additional fonts for special characters and fallbacks
-;; Test range: 🐷 ⊄ ∫ 𝛼 α 🜚 𝆹𝅥𝅯
+;; Test range: 🐷 ⊄ ∫ 𝛼 α 🜚
 (when (eq system-type 'darwin)
   ;; Colored Emoji on OS X
   (set-fontset-font t 'symbol (font-spec :family "Apple Color Emoji")
