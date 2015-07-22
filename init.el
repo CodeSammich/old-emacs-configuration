@@ -440,9 +440,25 @@ mouse-3: go to end"))))
                   (abbreviate-file-name (buffer-file-name)) "%b")))
 (setq-default line-spacing 0.1)         ; A bit more spacing between lines
 
-;; Let `display-buffer' reuse visible frames for all buffers
-(add-to-list 'display-buffer-alist
-             '("." nil (reusable-frames . visible)))
+;; Configure `display-buffer' behaviour for some special buffers.
+(setq display-buffer-alist
+      `(
+        ;; Put REPLs and error lists into the bottom side window
+        (,(rx bos (or "*Flycheck errors*" ; Flycheck error list
+                      "*compilation"      ; Compilation buffers
+                      "*sbt"              ; SBT REPL and compilation buffer
+                      "*SQL"              ; SQL REPL
+                      "*shell"            ; Shell window
+                      ))
+         (display-buffer-reuse-window
+          display-buffer-in-side-window)
+         (side            . bottom)
+         (reusable-frames . visible)
+         (window-height   . 0.33))
+        ;; Let `display-buffer' reuse visible frames for all buffers.  This must
+        ;; be the last entry in `display-buffer-alist', because it overrides any
+        ;; later entry with more specific actions.
+        ("." nil (reusable-frames . visible))))
 
 (use-package frame                      ; Frames
   :bind (("C-c u F" . toggle-frame-fullscreen))
@@ -1111,14 +1127,6 @@ Disable the highlighting of overlong lines."
             (set-face-attribute 'flycheck-error-list-checker-name nil
                                 :inherit 'italic)
 
-            (add-to-list 'display-buffer-alist
-                         `(,(rx bos "*Flycheck errors*" eos)
-                           (display-buffer-reuse-window
-                            display-buffer-in-side-window)
-                           (side            . bottom)
-                           (reusable-frames . visible)
-                           (window-height   . 0.33)))
-
             (use-package lunaryorn-flycheck ; Personal Flycheck extensions
               :load-path "lisp/"
               :config (progn
@@ -1418,14 +1426,6 @@ Disable the highlighting of overlong lines."
                   ;; Show three lines of context around the current message
                   compilation-context-lines 3)
 
-            (add-to-list 'display-buffer-alist
-                         `(,(rx bos "*compilation")
-                           (display-buffer-reuse-window
-                            display-buffer-in-side-window)
-                           (side            . bottom)
-                           (reusable-frames . visible)
-                           (window-height   . 0.33)))
-
             (use-package lunaryorn-compile ; Personal helpers for compilation
               :load-path "lisp/"
               ;; Colorize output of Compilation Mode, see
@@ -1537,23 +1537,7 @@ Disable the highlighting of overlong lines."
             (setq sbt:display-command-buffer nil)
 
             (with-eval-after-load 'scala-mode2
-              (bind-key "C-c c" #'sbt-command scala-mode-map))
-
-            (defun lunaryorn-sbt-buffer-p (buffer-name &rest _)
-              "Determine whether BUFFER-OR-NAME denotes an SBT buffer."
-              (string-prefix-p sbt:buffer-name-base buffer-name))
-
-            ;; Get SBT buffers under control: Display them below the current
-            ;; window, at a third of the height of the current window, but try
-            ;; to reuse any existing and visible window for the SBT buffer
-            ;; first.
-            (add-to-list 'display-buffer-alist
-                         '(lunaryorn-sbt-buffer-p
-                           (display-buffer-reuse-window
-                            display-buffer-in-side-window)
-                           (side            . bottom)
-                           (reusable-frames . visible)
-                           (window-height   . 0.33)))))
+              (bind-key "C-c c" #'sbt-command scala-mode-map))))
 
 (use-package ensime                     ; Scala interaction mode
   :ensure t
@@ -1945,14 +1929,7 @@ Disable the highlighting of overlong lines."
 ;;; Databases
 (use-package sql                        ; SQL editing and REPL
   :bind (("C-c d c" . sql-connect)
-         ("C-c d m" . sql-mysql))
-  :config (add-to-list 'display-buffer-alist
-                       `(,(rx bos "*SQL")
-                         (display-buffer-reuse-window
-                          display-buffer-in-side-window
-                          (side            . bottom)
-                          (reusable-frames . visible)
-                          (window-height   . 0.33)))))
+         ("C-c d m" . sql-mysql)))
 
 
 ;;; Version control
@@ -2175,14 +2152,7 @@ Disable the highlighting of overlong lines."
 
 ;;; Terminal emulation and shells
 (use-package shell                      ; Dump shell in Emacs
-  :bind ("C-c u s" . shell)
-  :config (add-to-list 'display-buffer-alist
-                       `(,(rx bos "*shell")
-                         (display-buffer-reuse-window
-                          display-buffer-in-side-window
-                          (side            . bottom)
-                          (reusable-frames . visible)
-                          (window-height   . 0.33)))))
+  :bind ("C-c u s" . shell))
 
 (use-package term                       ; Terminal emulator in Emacs
   :bind ("C-c u S" . ansi-term))
