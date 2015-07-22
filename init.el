@@ -1537,7 +1537,8 @@ Disable the highlighting of overlong lines."
             (setq sbt:display-command-buffer nil)
 
             (with-eval-after-load 'scala-mode2
-              (bind-key "C-c c" #'sbt-command scala-mode-map))))
+              (bind-key "C-c C" #'sbt-command scala-mode-map)
+              (bind-key "C-c c" #'sbt-run-previous-command scala-mode-map))))
 
 (use-package ensime                     ; Scala interaction mode
   :ensure t
