@@ -440,6 +440,10 @@ mouse-3: go to end"))))
                   (abbreviate-file-name (buffer-file-name)) "%b")))
 (setq-default line-spacing 0.1)         ; A bit more spacing between lines
 
+;; Let `display-buffer' reuse visible frames for all buffers
+(add-to-list 'display-buffer-alist
+             '("." nil (reusable-frames . visible)))
+
 (use-package frame                      ; Frames
   :bind (("C-c u F" . toggle-frame-fullscreen))
   :init (progn
