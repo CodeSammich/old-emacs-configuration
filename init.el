@@ -346,7 +346,8 @@
                 (vc-mode vc-mode)
                 " "
                 (flycheck-mode flycheck-mode-line) ; Flycheck status
-                (ensime-mode (" " (:eval (lunaryorn-ensime-mode-line-status))))
+                (ensime-mode (" " (:eval
+                                   (lunaryorn-scala-ensime-mode-line-status))))
                 (firestarter-mode firestarter-lighter)
                 (isearch-mode " 🔍")
                 (anzu-mode (:eval                  ; isearch pos/matches
@@ -1569,9 +1570,9 @@ Disable the highlighting of overlong lines."
   ;; Compile on save.  My projects are small enough :)
   :config (setq ensime-sbt-perform-on-save "test:compile"))
 
-(use-package lunaryorn-ensime           ; Personal Ensime enhancements
+(use-package lunaryorn-scala            ; Personal Scala tools
   :load-path "lisp/"
-  :commands (lunaryorn-ensime-mode-line-status)
+  :commands (lunaryorn-scala-ensime-mode-line-status)
   :defer t)
 
 (use-package flycheck-ensime            ; Ensime-based checker for Flycheck

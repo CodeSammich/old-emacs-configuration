@@ -1,4 +1,4 @@
-;;; lunaryorn-ensime.el --- Personal Ensime enhancements  -*- lexical-binding: t; -*-
+;;; lunaryorn-scala.el --- Personal Scala tools -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2015  Sebastian Wiesner
 
@@ -22,13 +22,13 @@
 
 ;;; Commentary:
 
-;; Enhancements for Ensime.
+;; Enhancements for Scala with Ensime and SBT Mode.
 
 ;;; Code:
 
 (require 'ensime)
 
-(defun lunaryorn-ensime-mode-line-status ()
+(defun lunaryorn-scala-ensime-mode-line-status ()
   "Create a mode line status for Ensime."
   (condition-case _
       (let ((connection (ensime-connection-or-nil)))
@@ -53,5 +53,5 @@
               (ensime-mode "💀")))
     (error "❗")))
 
-(provide 'lunaryorn-ensime)
-;;; lunaryorn-ensime.el ends here
+(provide 'lunaryorn-scala)
+;;; lunaryorn-scala.el ends here
