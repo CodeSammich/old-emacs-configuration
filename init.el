@@ -32,7 +32,8 @@
 ;;
 ;; - C-c A: Align
 ;; - C-c a: Ag
-;; - C-c b: Helm commands (b for "browse")
+;; - C-c b: Build commands (compile and friends)
+;; - C-c c: Helm commands (c because its convenient to type)
 ;; - C-c d: Data stuff
 ;; - C-c e: Edit commands, general and mode specific
 ;; - C-c f: Files
@@ -405,7 +406,7 @@ mouse-3: go to end"))))
 
 (use-package helm                       ; Powerful minibuffer input framework
   :ensure t
-  :bind (("C-c b b" . helm-resume))
+  :bind (("C-c c b" . helm-resume))
   :init (progn (helm-mode 1)
                (with-eval-after-load 'helm-config
                  (warn "`helm-config' loaded! Get rid of it ASAP!")))
@@ -422,16 +423,16 @@ mouse-3: go to end"))))
 
 (use-package helm-eval                  ; Evaluate expressions with Helm
   :ensure helm
-  :bind (("C-c b M-:" . helm-eval-expression-with-eldoc)
-         ("C-c b *"   . helm-calcul-expression)))
+  :bind (("C-c c M-:" . helm-eval-expression-with-eldoc)
+         ("C-c c *"   . helm-calcul-expression)))
 
 (use-package helm-color                 ; Input colors with Helm
   :ensure helm
-  :bind (("C-c b c" . helm-colors)))
+  :bind (("C-c c c" . helm-colors)))
 
 (use-package helm-unicode               ; Unicode input with Helm
   :ensure t
-  :bind ("C-c b 8" . helm-unicode))
+  :bind ("C-c c 8" . helm-unicode))
 
 
 ;;; Buffer, Windows and Frames
@@ -1412,8 +1413,8 @@ Disable the highlighting of overlong lines."
   :bind (("C-c u p" . prettify-symbols-mode)))
 
 (use-package compile                    ; Compile from Emacs
-  :bind (("C-c C" . compile)
-         ("C-c c" . recompile))
+  :bind (("C-c b c" . compile)
+         ("C-c b b" . recompile))
   :config (progn
             (setq compilation-ask-about-save nil
                   ;; Kill old compilation processes before starting new ones,
@@ -1538,8 +1539,8 @@ Disable the highlighting of overlong lines."
             (setq sbt:display-command-buffer nil)
 
             (with-eval-after-load 'scala-mode2
-              (bind-key "C-c C" #'sbt-command scala-mode-map)
-              (bind-key "C-c c" #'sbt-run-previous-command scala-mode-map))))
+              (bind-key "C-c b c" #'sbt-command scala-mode-map)
+              (bind-key "C-c b b" #'sbt-run-previous-command scala-mode-map))))
 
 (use-package ensime                     ; Scala interaction mode
   :ensure t

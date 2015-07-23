@@ -53,5 +53,7 @@
               (ensime-mode "💀")))
     (error "❗")))
 
+(defun)
+
 (provide 'lunaryorn-scala)
 ;;; lunaryorn-scala.el ends here
