@@ -26,6 +26,7 @@
 
 ;;; Code:
 
+(require 'sbt-mode)
 (require 'ensime)
 
 (defun lunaryorn-scala-ensime-mode-line-status ()
@@ -53,7 +54,15 @@
               (ensime-mode "💀")))
     (error "❗")))
 
-(defun)
+(defun lunaryorn-scala-pop-to-sbt-frame ()
+  "Open SBT REPL for the current project in a separate frame."
+  (interactive)
+  ;; Start SBT when no running, taken from `sbt:command'
+  (when (not (comint-check-proc (sbt:buffer-name)))
+    (sbt:run-sbt))
+
+  (let ((display-buffer-overriding-action '(display-buffer-pop-up-frame)))
+    (display-buffer (sbt:buffer-name))))
 
 (provide 'lunaryorn-scala)
 ;;; lunaryorn-scala.el ends here

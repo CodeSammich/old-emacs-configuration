@@ -1573,8 +1573,12 @@ Disable the highlighting of overlong lines."
 
 (use-package lunaryorn-scala            ; Personal Scala tools
   :load-path "lisp/"
-  :commands (lunaryorn-scala-ensime-mode-line-status)
-  :defer t)
+  :commands (lunaryorn-scala-ensime-mode-line-status
+             lunaryorn-scala-pop-to-sbt-frame)
+  :defer t
+  :config (with-eval-after-load 'scala-mode2
+            (bind-key "C-c b s" #'lunaryorn-scala-pop-to-sbt-frame
+                      scala-mode-map)))
 
 (use-package flycheck-ensime            ; Ensime-based checker for Flycheck
   :disabled t
@@ -1592,7 +1596,6 @@ Disable the highlighting of overlong lines."
     (add-hook 'python-mode-hook #'subword-mode)
 
     (let ((ipython (executable-find "ipython")))
-
       (if ipython
           (setq python-shell-interpreter ipython)
         (warn "IPython is missing, falling back to default python")))))
