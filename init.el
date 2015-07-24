@@ -634,9 +634,13 @@ mouse-3: go to end"))))
 
 (use-package autorevert                 ; Auto-revert buffers of changed files
   :init (global-auto-revert-mode)
-  :config (setq auto-revert-verbose nil ; Shut up, please!
-                ;; Revert Dired buffers, too
-                global-auto-revert-non-file-buffers t))
+  :config (progn (setq auto-revert-verbose nil ; Shut up, please!
+                       ;; Revert Dired buffers, too
+                       global-auto-revert-non-file-buffers t)
+
+                 (when (eq system-type 'darwin)
+                   ;; File notifications aren't supported on OS X
+                   (setq auto-revert-use-notify nil))))
 
 (use-package image-file                 ; Visit images as images
   :init (auto-image-file-mode))
