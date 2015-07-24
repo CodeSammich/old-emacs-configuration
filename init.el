@@ -1921,6 +1921,7 @@ Disable the highlighting of overlong lines."
   (progn
     (setq magit-revert-buffers 'silent
           magit-save-repository-buffers 'dontask
+          magit-push-always-verify nil  ; Fuck you, Magit
           magit-refs-show-commit-count 'all
           ;; For some reason this doesn't work :(
           ;; magit-completing-read-function
