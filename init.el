@@ -253,8 +253,7 @@
   :config
   ;; Disable variable pitch fonts in Solarized theme
   (setq solarized-use-variable-pitch nil
-        ;; Don't add too much colours to the fringe
-        solarized-emphasize-indicators nil
+        solarized-distinct-doc-face t ; Emphasize docstrings
         ;; I find different font sizes irritating.
         solarized-height-minus-1 1.0
         solarized-height-plus-1 1.0
