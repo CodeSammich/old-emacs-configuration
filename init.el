@@ -232,7 +232,6 @@
   :config
   ;; Disable variable pitch fonts in Solarized theme
   (progn (setq solarized-use-variable-pitch nil
-               solarized-distinct-fringe-background t
                ;; Prefer italics over bold
                solarized-use-less-bold t
                solarized-use-more-italic t
