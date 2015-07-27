@@ -260,7 +260,7 @@
   :disabled t
   :init (evil-mode 1))
 
-(use-package guide-key                  ; Show help popups for prefix keys
+(use-package guide-key                  ; Show help pop ups for prefix keys
   :ensure t
   :init (guide-key-mode 1)
   :config (setq guide-key/idle-delay 0.4
@@ -271,13 +271,16 @@
                 guide-key/highlight-command-regexp
                 '(("group:" . font-lock-type-face))))
 
-(defmacro lunaryorn-define-group (prefix name)
-  "Define a group at PREFIX with NAME."
+(defmacro lunaryorn-define-group (prefix name &optional map)
+  "Define a group at PREFIX with NAME in MAP."
   (let ((command (intern (format "group:%s" name))))
-    (define-prefix-command command)
-    (bind-key prefix command)))
+    `(progn
+       (define-prefix-command ',command)
+       (bind-key ,prefix #',command ,map))))
 
 (lunaryorn-define-group "C-c a" applications)
+(lunaryorn-define-group "C-c a S" stackexchange)
+(lunaryorn-define-group "C-c a w" eww)
 (lunaryorn-define-group "C-c b" buffers)
 (lunaryorn-define-group "C-c c" compile-and-comments)
 (lunaryorn-define-group "C-c e" errors)
@@ -285,8 +288,10 @@
 (lunaryorn-define-group "C-c f v" file-variables)
 (lunaryorn-define-group "C-c h" help)
 (lunaryorn-define-group "C-c i" insertion)
-(lunaryorn-define-group "C-c m" multiple-cursors)
+(lunaryorn-define-group "C-c k" lisp)
+(lunaryorn-define-group "C-c m" major-mode)
 (lunaryorn-define-group "C-c n" navigation)
+(lunaryorn-define-group "C-c o" multiple-cursors)
 (lunaryorn-define-group "C-c p" projects)
 (lunaryorn-define-group "C-c s" search-and-symbols)
 (lunaryorn-define-group "C-c t" toggles)
@@ -714,11 +719,11 @@ mouse-3: go to end"))))
   :ensure t
   :defer t
   :init (progn (with-eval-after-load 'info
-                 (bind-key "C-c j l" #'ace-link-info Info-mode-map))
+                 (bind-key "C-c m l" #'ace-link-info Info-mode-map))
 
                (with-eval-after-load 'help-mode
                  (defvar help-mode-map)  ; Silence the byte compiler
-                 (bind-key "C-c j l" #'ace-link-help help-mode-map))))
+                 (bind-key "C-c m l" #'ace-link-help help-mode-map))))
 
 (use-package ace-window                 ; Fast window switching
   :ensure t
@@ -834,17 +839,17 @@ mouse-3: go to end"))))
 
 (use-package multiple-cursors           ; Edit text with multiple cursors
   :ensure t
-  :bind (("C-c m <SPC>" . mc/vertical-align-with-space)
-         ("C-c m a"     . mc/vertical-align)
-         ("C-c m e"     . mc/mark-more-like-this-extended)
-         ("C-c m h"     . mc/mark-all-like-this-dwim)
-         ("C-c m l"     . mc/edit-lines)
-         ("C-c m n"     . mc/mark-next-like-this)
-         ("C-c m p"     . mc/mark-previous-like-this)
-         ("C-c m r"     . vr/mc-mark)
-         ("C-c m C-a"   . mc/edit-beginnings-of-lines)
-         ("C-c m C-e"   . mc/edit-ends-of-lines)
-         ("C-c m C-s"   . mc/mark-all-in-region))
+  :bind (("C-c o <SPC>" . mc/vertical-align-with-space)
+         ("C-c o a"     . mc/vertical-align)
+         ("C-c o e"     . mc/mark-more-like-this-extended)
+         ("C-c o h"     . mc/mark-all-like-this-dwim)
+         ("C-c o l"     . mc/edit-lines)
+         ("C-c o n"     . mc/mark-next-like-this)
+         ("C-c o p"     . mc/mark-previous-like-this)
+         ("C-c o r"     . vr/mc-mark)
+         ("C-c o C-a"   . mc/edit-beginnings-of-lines)
+         ("C-c o C-e"   . mc/edit-ends-of-lines)
+         ("C-c o C-s"   . mc/mark-all-in-region))
   :config
   (setq mc/mode-line
         ;; Simplify the MC mode line indicator
@@ -1349,7 +1354,7 @@ Disable the highlighting of overlong lines."
     (use-package lunaryorn-markdown     ; Personal Markdown extensions
       :load-path "lisp/"
       :commands (lunaryorn-markdown-post-header)
-      :config (bind-key "C-c t h" #'lunaryorn-markdown-post-header
+      :config (bind-key "C-c m h" #'lunaryorn-markdown-post-header
                         markdown-mode-map))))
 
 (use-package jira-markup-mode           ; Jira markup
@@ -1370,7 +1375,7 @@ Disable the highlighting of overlong lines."
   (use-package lunaryorn-json           ; Personal JSON tools
     :load-path "lisp/"
     :commands (lunaryorn-json-chef-role)
-    :init (bind-key "C-c t r" #'lunaryorn-json-chef-role
+    :init (bind-key "C-c m r" #'lunaryorn-json-chef-role
                     json-mode-map)))
 
 (use-package json-reformat              ; Reformat JSON
@@ -1471,9 +1476,9 @@ Disable the highlighting of overlong lines."
 (use-package macrostep                  ; Interactively expand macros in code
   :ensure t
   :defer t
-  :init (with-eval-after-load 'lisp-mode
-          (bind-key "C-c e e" #'macrostep-expand emacs-lisp-mode-map)
-          (bind-key "C-c e e" #'macrostep-expand lisp-interaction-mode-map)))
+  :init (with-eval-after-load 'elisp
+          (bind-key "C-c m e" #'macrostep-expand emacs-lisp-mode-map)
+          (bind-key "C-c m e" #'macrostep-expand lisp-interaction-mode-map)))
 
 (use-package ielm                       ; Emacs Lisp REPL
   :bind (("C-c a z" . ielm)))
@@ -1483,14 +1488,17 @@ Disable the highlighting of overlong lines."
   :interpreter ("emacs" . emacs-lisp-mode)
   :mode ("/Cask\\'" . emacs-lisp-mode)
   :config (progn
-            (require 'ert)
+            (require 'ert)))
 
-            (use-package lunaryorn-elisp ; Personal tools for Emacs Lisp
+(use-package lunaryorn-elisp ; Personal tools for Emacs Lisp
               :load-path "lisp/"
               :init (progn
                       (add-hook 'emacs-lisp-mode-hook
                                 #'lunaryorn-add-use-package-to-imenu)
-))))
+
+                      (with-eval-after-load 'elisp-mode
+                        (bind-key "C-c m f" #'lunaryorn-elisp-find-cask-file
+                                  emacs-lisp-mode-map))))
 
 
 ;;; Scala
@@ -1501,7 +1509,7 @@ Disable the highlighting of overlong lines."
   :config (progn (setq scala-indent:default-run-on-strategy
                        scala-indent:operator-strategy)
 
-                 (bind-key "C-c z" #'ensime scala-mode-map)))
+                 (bind-key "C-c m z" #'ensime scala-mode-map)))
 
 (use-package flycheck-auto-scalastyle   ; Scalastyle setup
   :load-path "lisp/"
@@ -1518,8 +1526,8 @@ Disable the highlighting of overlong lines."
             (setq sbt:display-command-buffer nil)
 
             (with-eval-after-load 'scala-mode2
-              (bind-key "C-c b c" #'sbt-command scala-mode-map)
-              (bind-key "C-c b b" #'sbt-run-previous-command scala-mode-map))))
+              (bind-key "C-c m c" #'sbt-command scala-mode-map)
+              (bind-key "C-c m b" #'sbt-run-previous-command scala-mode-map))))
 
 (use-package ensime                     ; Scala interaction mode
   :ensure t
@@ -1536,13 +1544,22 @@ Disable the highlighting of overlong lines."
             (add-hook 'scala-mode-hook #'ensime-mode)
 
             ;; Add binding to shutdown Ensime
-            (bind-key "C-c Z" #'ensime-shutdown ensime-mode-map)
+            (bind-key "C-c m Z" #'ensime-shutdown ensime-mode-map)
 
             ;; Free M-n and M-p again
             (bind-key "M-n" nil ensime-mode-map)
             (bind-key "M-p" nil ensime-mode-map)
-            (bind-key "C-c M-n" #'ensime-forward-note ensime-mode-map)
-            (bind-key "C-c M-p" #'ensime-backward-note ensime-mode-map)))
+            ;; Ensime bindings
+            (bind-key "C-c m t" #'ensime-inspect-type-at-point ensime-mode-map)
+            (bind-key "C-c m T" #'ensime-print-type-at-point ensime-mode-map)
+            (bind-key "C-c m r" #'ensime-show-uses-of-symbol-at-point
+                      ensime-mode-map)
+            (bind-key "C-c m j" #'ensime-edit-definition ensime-mode-map)
+            (bind-key "C-c m i" #'ensime-import-type-at-point ensime-mode-map)
+            (bind-key "C-c m n" #'ensime-forward-note ensime-mode-map)
+            (bind-key "C-c m p" #'ensime-backward-note ensime-mode-map)
+            (bind-key "C-c m l" #'ensime-print-errors-at-point ensime-mode-map)
+            (bind-key "C-c m z" #'ensime-inf-switch)))
 
 (use-package ensime-sbt                 ; SBT integration for Ensime
   :ensure ensime
@@ -1556,7 +1573,7 @@ Disable the highlighting of overlong lines."
              lunaryorn-scala-pop-to-sbt-frame)
   :defer t
   :config (with-eval-after-load 'scala-mode2
-            (bind-key "C-c b s" #'lunaryorn-scala-pop-to-sbt-frame
+            (bind-key "C-c m s" #'lunaryorn-scala-pop-to-sbt-frame
                       scala-mode-map)))
 
 (use-package flycheck-ensime            ; Ensime-based checker for Flycheck
@@ -1679,9 +1696,9 @@ Disable the highlighting of overlong lines."
       (add-to-list 'haskell-process-args-cabal-repl
                    (concat "--with-ghc=" ghci-ng)))
 
-    (bind-key "C-c h d" #'haskell-describe haskell-mode-map)
-    (bind-key "C-c j i" #'haskell-navigate-imports haskell-mode-map)
-    (bind-key "C-c f c" #'haskell-cabal-visit-file haskell-mode-map)))
+    (bind-key "C-c m d" #'haskell-describe haskell-mode-map)
+    (bind-key "C-c m i" #'haskell-navigate-imports haskell-mode-map)
+    (bind-key "C-c m f" #'haskell-cabal-visit-file haskell-mode-map)))
 
 (use-package haskell                    ; Haskell tools
   :ensure haskell-mode
@@ -1690,11 +1707,11 @@ Disable the highlighting of overlong lines."
           (add-hook hook #'interactive-haskell-mode))
   :config
   (progn
-    (bind-key "C-c C-t" #'haskell-mode-show-type-at
+    (bind-key "C-c m t" #'haskell-mode-show-type-at
               interactive-haskell-mode-map)
-    (bind-key "M-." #'haskell-mode-goto-loc
+    (bind-key "C-c m j" #'haskell-mode-goto-loc
               interactive-haskell-mode-map)
-    (bind-key "C-c u u" #'haskell-mode-find-uses
+    (bind-key "C-c m r" #'haskell-mode-find-uses
               interactive-haskell-mode-map)))
 
 (use-package haskell-interactive-mode   ; Haskell REPL interaction
@@ -1727,13 +1744,13 @@ Disable the highlighting of overlong lines."
   :ensure t
   :defer t
   :init (with-eval-after-load 'haskell-mode
-          (bind-key "C-c h h" #'helm-hayoo haskell-mode-map)))
+          (bind-key "C-c m h" #'helm-hayoo haskell-mode-map)))
 
 (use-package helm-hoogle                ; Helm frontend for Hoogle
   :ensure t
   :defer t
   :init (with-eval-after-load 'haskell-mode
-          (bind-key "C-c h H" #'helm-hoogle haskell-mode-map)))
+          (bind-key "C-c m H" #'helm-hoogle haskell-mode-map)))
 
 
 ;;; OCaml
@@ -2167,13 +2184,12 @@ Install mudraw with brew install mupdf-tools"))))
                (add-hook 'text-mode-hook #'bug-reference-mode)))
 
 (use-package eww                        ; Emacs' built-in web browser
-  :bind (("C-c a b" . eww-list-bookmarks)
-         ("C-c a w" . eww)))
+  :bind (("C-c a w b" . eww-list-bookmarks)
+         ("C-c a w w" . eww)
+         ("C-c a w u" . eww-browse-url)))
 
 (use-package sx                         ; StackExchange client for Emacs
   :ensure t
-  :init (progn (define-prefix-command 'group:stackexchange)
-               (bind-key "S" #'group:stackexchange group:applications))
   :bind (("C-c a S a" . sx-ask)
          ("C-c a S f" . sx-tab-frontpage)
          ("C-c a S n" . sx-tab-newest)))
@@ -2198,7 +2214,7 @@ Install mudraw with brew install mupdf-tools"))))
 
     (bind-key "M-q" #'ignore sx-compose-mode-map)))
 
-(use-package sx-question-mode           ; Show Stack Exchange questions
+(use-package sx-question-mode           ; Show Stack
   :ensure sx
   :defer t
   ;; Display questions in the same window
