@@ -897,16 +897,6 @@ mouse-3: go to end"))))
 
 
 ;;; Paired delimiters
-(use-package elec-pair                  ; Electric pairs
-  :disabled t
-  :init (electric-pair-mode))
-
-(use-package paren                      ; Highlight paired delimiters
-  :disabled t
-  :init (show-paren-mode)
-  :config (setq show-paren-when-point-inside-paren t
-                show-paren-when-point-in-periphery t))
-
 (use-package smartparens                ; Parenthesis editing and balancing
   :ensure t
   :init (progn (smartparens-global-mode)
