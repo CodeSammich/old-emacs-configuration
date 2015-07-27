@@ -712,6 +712,7 @@ mouse-3: go to end"))))
 (use-package avy-jump                   ; Jump to characters in buffers
   :ensure avy
   :bind (("C-c s s" . avy-isearch)
+         ("C-c j" . avy-goto-word-1)
          ("C-c n j" . avy-goto-char-2)
          ("C-c n w" . avy-goto-word-1)))
 
