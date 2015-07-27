@@ -27,25 +27,6 @@
 
 ;; Emacs configuration of Sebastian Wiesner, functional programmer and Flycheck
 ;; maintainer.
-;;
-;; User key prefixes:
-;;
-;; - C-c A: Align
-;; - C-c a: Ag
-;; - C-c b: Build commands (compile and friends)
-;; - C-c c: Helm commands (c because its convenient to type)
-;; - C-c d: Data stuff
-;; - C-c e: Edit commands, general and mode specific
-;; - C-c f: Files
-;; - C-c h: Help and documentation
-;; - C-c j: Jumping and navigation
-;; - C-c l: List things
-;; - C-c m: Multiple cursors
-;; - C-c s: Symbol commands
-;; - C-c t: Skeletons and templates
-;; - C-c u: Miscellaneous utilities, including minor modes
-;; - C-c v: Version control
-;; - C-c w: Web stuff
 
 ;;; Code:
 
@@ -144,8 +125,8 @@
 
 (use-package paradox                    ; Better package menu
   :ensure t
-  :bind (("C-c l p" . paradox-list-packages)
-         ("C-c l P" . package-list-packages-no-fetch))
+  :bind (("C-c a p" . paradox-list-packages)
+         ("C-c a P" . package-list-packages-no-fetch))
   :config
   ;; Don't ask for a token, please, and don't bug me about asynchronous updates
   (setq paradox-github-token t
@@ -267,7 +248,47 @@
   :defer t
   :init (load-theme 'zenburn 'no-confirm))
 
-(bind-key "C-c u v" #'variable-pitch-mode)
+(bind-key "C-c t v" #'variable-pitch-mode)
+
+(use-package evil
+  :ensure t
+  :disabled t
+  :init (evil-mode 1))
+
+
+;;; Key setup
+(use-package guide-key
+  :ensure t
+  :init (guide-key-mode 1)
+  :config (setq guide-key/guide-key-sequence '("C-c"
+                                               (outline-minor-mode "C-c @"))
+                guide-key/recursive-key-sequence-flag t
+                guide-key/popup-window-position 'bottom
+                guide-key/highlight-command-regexp
+                '(("group:" . font-lock-type-face))))
+
+(defmacro lunaryorn-define-group (prefix name)
+  "Define a group at PREFIX with NAME."
+  (let ((command (intern (format "group:%s" name))))
+    (define-prefix-command command)
+    (bind-key prefix command)))
+
+(lunaryorn-define-group "C-c a" applications)
+(lunaryorn-define-group "C-c b" buffers)
+(lunaryorn-define-group "C-c c" compile-and-comments)
+(lunaryorn-define-group "C-c e" errors)
+(lunaryorn-define-group "C-c f" files)
+(lunaryorn-define-group "C-c f v" file-variables)
+(lunaryorn-define-group "C-c h" help)
+(lunaryorn-define-group "C-c i" insertion)
+(lunaryorn-define-group "C-c m" multiple-cursors)
+(lunaryorn-define-group "C-c n" navigation)
+(lunaryorn-define-group "C-c p" projects)
+(lunaryorn-define-group "C-c s" search-and-symbols)
+(lunaryorn-define-group "C-c t" toggles)
+(lunaryorn-define-group "C-c v" version-control)
+(lunaryorn-define-group "C-c w" windows-and-frames)
+(lunaryorn-define-group "C-c x" text)
 
 
 ;;; The mode line
@@ -368,18 +389,18 @@ mouse-3: go to end"))))
   :ensure helm
   :bind (([remap execute-extended-command] . helm-M-x)))
 
-(use-package helm-eval                  ; Evaluate expressions with Helm
-  :ensure helm
-  :bind (("C-c c M-:" . helm-eval-expression-with-eldoc)
-         ("C-c c *"   . helm-calcul-expression)))
+;; (use-package helm-eval                  ; Evaluate expressions with Helm
+;;   :ensure helm
+;;   :bind (("C-c c M-:" . helm-eval-expression-with-eldoc)
+;;          ("C-c c *"   . helm-calcul-expression)))
 
 (use-package helm-color                 ; Input colors with Helm
   :ensure helm
-  :bind (("C-c c c" . helm-colors)))
+  :bind (("C-c i C" . helm-colors)))
 
 (use-package helm-unicode               ; Unicode input with Helm
   :ensure t
-  :bind ("C-c c 8" . helm-unicode))
+  :bind ("C-c i 8" . helm-unicode))
 
 
 ;;; Buffer, Windows and Frames
@@ -410,7 +431,7 @@ mouse-3: go to end"))))
         ("." nil (reusable-frames . visible))))
 
 (use-package frame                      ; Frames
-  :bind (("C-c u F" . toggle-frame-fullscreen))
+  :bind (("C-c w f" . toggle-frame-fullscreen))
   :init (progn
           ;; Kill `suspend-frame'
           (global-set-key (kbd "C-z") nil)
@@ -477,7 +498,7 @@ mouse-3: go to end"))))
 (use-package lunaryorn-window           ; Personal window utilities
   :load-path "lisp/"
   :defer t
-  :bind ("C-c q" . lunaryorn-quit-bottom-side-windows))
+  :bind ("C-c w q" . lunaryorn-quit-bottom-side-windows))
 
 (use-package windmove                   ; Move between windows with Shift+Arrow
   :bind (("S-<left>"  . windmove-left)
@@ -506,7 +527,7 @@ mouse-3: go to end"))))
 
 (use-package writeroom-mode             ; Distraction-free editing
   :ensure t
-  :bind (("C-c u r" . writeroom-mode)))
+  :bind (("C-c t r" . writeroom-mode)))
 
 
 ;;; File handling
@@ -607,7 +628,7 @@ mouse-3: go to end"))))
   :config (setq hardhat-mode-lighter "🔒"))
 
 (use-package bookmark                   ; Bookmarks for Emacs buffers
-  :bind (("C-c l b" . list-bookmarks))
+  :bind (("C-c f b" . list-bookmarks))
   ;; Save bookmarks immediately after a bookmark was added
   :config (setq bookmark-save-flag 1))
 
@@ -681,9 +702,9 @@ mouse-3: go to end"))))
 
 (use-package avy-jump                   ; Jump to characters in buffers
   :ensure avy
-  :bind (("C-c j s" . avy-isearch)
-         ("C-c j j" . avy-goto-char-2)
-         ("C-c j w" . avy-goto-word-1)))
+  :bind (("C-c s s" . avy-isearch)
+         ("C-c n j" . avy-goto-char-2)
+         ("C-c n w" . avy-goto-word-1)))
 
 (use-package ace-link                   ; Fast link jumping
   :ensure t
@@ -698,7 +719,7 @@ mouse-3: go to end"))))
 (use-package ace-window                 ; Fast window switching
   :ensure t
   :bind (("C-x o" . ace-window)
-         ("C-c o" . ace-window)))
+         ("C-c w w" . ace-window)))
 
 (use-package page-break-lines           ; Turn page breaks into lines
   :ensure t
@@ -713,11 +734,11 @@ mouse-3: go to end"))))
 
 (use-package nlinum                     ; Line numbers in display margin
   :ensure t
-  :bind (("C-c u l" . nlinum-mode)))
+  :bind (("C-c t l" . nlinum-mode)))
 
 (use-package helm-imenu                 ; Helm frontend for imenu
   :ensure helm
-  :bind (("C-c i" . helm-imenu-in-all-buffers)))
+  :bind (("C-c n i" . helm-imenu-in-all-buffers)))
 
 
 ;;; Basic editing
@@ -750,8 +771,8 @@ mouse-3: go to end"))))
          ("C-<backspace>"                . lunaryorn-smart-backward-kill-line)
          ("C-S-j"                        . lunaryorn-smart-open-line)
          ;; Additional utilities
-         ("C-c e d"                      . lunaryorn-insert-current-date)
-         ("C-c t m"                      . lunaryorn-insert-mit/x11))
+         ("C-c i d"                      . lunaryorn-insert-current-date)
+         ("C-c i m"                      . lunaryorn-insert-mit/x11))
   :commands (lunaryorn-auto-fill-comments-mode)
   ;; Auto-fill comments in programming modes
   :init (add-hook 'prog-mode-hook #'lunaryorn-auto-fill-comments-mode))
@@ -767,8 +788,8 @@ mouse-3: go to end"))))
 
 (use-package whitespace-cleanup-mode    ; Cleanup whitespace in buffers
   :ensure t
-  :bind (("C-c u w c" . whitespace-cleanup-mode)
-         ("C-c e w" . whitespace-cleanup))
+  :bind (("C-c t c" . whitespace-cleanup-mode)
+         ("C-c x w" . whitespace-cleanup))
   :init (dolist (hook '(prog-mode-hook text-mode-hook conf-mode-hook))
           (add-hook hook #'whitespace-cleanup-mode))
   :diminish (whitespace-cleanup-mode . "⌫"))
@@ -789,8 +810,8 @@ mouse-3: go to end"))))
 
 (use-package visual-regexp              ; Regexp replace with in-buffer display
   :ensure t
-  :bind (("C-c r" . vr/query-replace)
-         ("C-c R" . vr/replace)))
+  :bind (("C-c s r" . vr/query-replace)
+         ("C-c s R" . vr/replace)))
 
 (use-package zop-to-char                ; Better zapping
   :ensure t
@@ -803,9 +824,9 @@ mouse-3: go to end"))))
          ([remap mark-sexp]      . easy-mark)))
 
 (use-package align                      ; Align text in buffers
-  :bind (("C-c e a" . align)
-         ("C-c e c" . align-current)
-         ("C-c e r" . align-regexp)))
+  :bind (("C-c x a" . align)
+         ("C-c x c" . align-current)
+         ("C-c x r" . align-regexp)))
 
 (use-package multiple-cursors           ; Edit text with multiple cursors
   :ensure t
@@ -846,11 +867,11 @@ mouse-3: go to end"))))
 
 (use-package auto-insert                ; Automatic insertion into new files
   :defer t
-  :bind (("C-c e i" . auto-insert)))
+  :bind (("C-c i a" . auto-insert)))
 
 (use-package copyright                  ; Deal with copyright notices
   :defer t
-  :bind (("C-c e C" . copyright-update))
+  :bind (("C-c i c" . copyright-update))
   ;; Update copyright when visiting files
   :init (add-hook 'find-file-hook #'copyright-update)
   ;; Use ranges to denote consecutive years
@@ -920,7 +941,7 @@ Disable the highlighting of overlong lines."
   (add-hook 'hack-local-variables-hook #'whitespace-mode nil 'local))
 
 (use-package whitespace                 ; Highlight bad whitespace
-  :bind (("C-c u w w" . whitespace-mode))
+  :bind (("C-c t w" . whitespace-mode))
   :init (dolist (hook '(prog-mode-hook text-mode-hook conf-mode-hook))
           (add-hook hook #'lunaryorn-whitespace-mode-local))
   :config
@@ -950,7 +971,7 @@ Disable the highlighting of overlong lines."
 
 (use-package rainbow-mode               ; Fontify color values in code
   :ensure t
-  :bind (("C-c u r" . rainbow-mode))
+  :bind (("C-c t r" . rainbow-mode))
   :config (add-hook 'css-mode-hook #'rainbow-mode))
 
 (use-package highlight-symbol           ; Highlighting and commands for symbols
@@ -958,9 +979,8 @@ Disable the highlighting of overlong lines."
   :defer t
   :bind
   (("C-c s %" . highlight-symbol-query-replace)
-   ("C-c s n" . highlight-symbol-next-in-defun)
-   ("C-c s o" . highlight-symbol-occur)
-   ("C-c s p" . highlight-symbol-prev-in-defun))
+   ("C-c n n" . highlight-symbol-next-in-defun)
+   ("C-c n p" . highlight-symbol-prev-in-defun))
   ;; Navigate occurrences of the symbol under point with M-n and M-p, and
   ;; highlight symbol occurrences
   :init (progn (add-hook 'prog-mode-hook #'highlight-symbol-nav-mode)
@@ -1049,7 +1069,7 @@ Disable the highlighting of overlong lines."
       (warn "No spell checker available.  Install Hunspell or ASpell for OS X."))))
 
 (use-package flyspell                   ; On-the-fly spell checking
-  :bind (("C-c u f s" . flyspell-mode))
+  :bind (("C-c t s" . flyspell-mode))
   :init (progn (dolist (hook '(text-mode-hook message-mode-hook))
                  (add-hook hook 'turn-on-flyspell))
                (add-hook 'prog-mode-hook 'flyspell-prog-mode))
@@ -1069,8 +1089,14 @@ Disable the highlighting of overlong lines."
 
 (use-package flycheck                   ; On-the-fly syntax checking
   :ensure t
-  :bind (("C-c l e" . list-flycheck-errors)
-         ("C-c u f c" . flycheck-mode))
+  :bind (("C-c e l" . list-flycheck-errors)
+         ("C-c e n" . flycheck-next-error)
+         ("C-c e p" . flycheck-previous-error)
+         ("C-c e c" . flycheck-buffer)
+         ("C-c e C" . flycheck-clear)
+         ("C-c e f" . flycheck-first-error)
+         ("C-c e w" . flycheck-copy-errors-as-kill)
+         ("C-c t f" . flycheck-mode))
   :init (global-flycheck-mode)
   :config (progn
             (setq flycheck-display-errors-function
@@ -1093,12 +1119,12 @@ Disable the highlighting of overlong lines."
 
 (use-package helm-flycheck              ; Helm frontend for Flycheck errors
   :ensure t
-  :bind (("C-c ! L" . helm-flycheck)))
+  :bind (("C-c e h" . helm-flycheck)))
 
 
 ;;; Text editing
 (use-package tildify                    ; Insert non-breaking spaces on the fly
-  :bind (("C-c e t" . tildify-region))
+  :bind (("C-c x t" . tildify-region))
   :init (dolist (hook '(markdown-mode-hook
                         latex-mode-hook
                         rst-mode-hook))
@@ -1346,7 +1372,7 @@ Disable the highlighting of overlong lines."
 (use-package json-reformat              ; Reformat JSON
   :ensure t
   :defer t
-  :bind (("C-c e j" . json-reformat-region)))
+  :bind (("C-c x j" . json-reformat-region)))
 
 (use-package graphviz-dot-mode          ; Graphviz
   :ensure t
@@ -1361,11 +1387,11 @@ Disable the highlighting of overlong lines."
 
 ;;; Programming utilities
 (use-package prog-mode                  ; Prog Mode
-  :bind (("C-c u p" . prettify-symbols-mode)))
+  :bind (("C-c t p" . prettify-symbols-mode)))
 
 (use-package compile                    ; Compile from Emacs
-  :bind (("C-c b c" . compile)
-         ("C-c b b" . recompile))
+  :bind (("C-c c c" . compile)
+         ("C-c c C" . recompile))
   :config (progn
             (setq compilation-ask-about-save nil
                   ;; Kill old compilation processes before starting new ones,
@@ -1387,7 +1413,7 @@ Disable the highlighting of overlong lines."
                                 #'lunaryorn-colorize-compilation-buffer))))
 
 (use-package elide-head                 ; Elide lengthy GPL headers
-  :bind (("C-c u h" . elide-head))
+  :bind (("C-c t e" . elide-head))
   :init (add-hook 'prog-mode-hook #'elide-head))
 
 (use-package eldoc                      ; Documentation in minibuffer
@@ -1410,7 +1436,7 @@ Disable the highlighting of overlong lines."
 
 
 ;;; Emacs Lisp
-(bind-key "C-c u d" #'toggle-debug-on-error)
+(bind-key "C-c t d" #'toggle-debug-on-error)
 
 (use-package helm-elisp                 ; Helm commands for Emacs Lisp
   :ensure helm
@@ -1446,7 +1472,7 @@ Disable the highlighting of overlong lines."
           (bind-key "C-c e e" #'macrostep-expand lisp-interaction-mode-map)))
 
 (use-package ielm                       ; Emacs Lisp REPL
-  :bind (("C-c z" . ielm)))
+  :bind (("C-c a z" . ielm)))
 
 (use-package elisp-mode                 ; Emacs Lisp editing
   :defer t
@@ -1460,9 +1486,7 @@ Disable the highlighting of overlong lines."
               :init (progn
                       (add-hook 'emacs-lisp-mode-hook
                                 #'lunaryorn-add-use-package-to-imenu)
-
-                      (bind-key "C-c f c" #'lunaryorn-find-cask-file
-                                emacs-lisp-mode-map)))))
+))))
 
 
 ;;; Scala
@@ -1885,8 +1909,7 @@ Disable the highlighting of overlong lines."
 
 ;;; Databases
 (use-package sql                        ; SQL editing and REPL
-  :bind (("C-c d c" . sql-connect)
-         ("C-c d m" . sql-mysql)))
+  :bind (("C-c a s" . sql-connect)))
 
 
 ;;; Version control
@@ -1911,8 +1934,7 @@ Disable the highlighting of overlong lines."
 
 (use-package magit                      ; The one and only Git frontend
   :ensure t
-  :bind (("C-c g"   . magit-status)
-         ("C-c v c" . magit-clone)
+  :bind (("C-c v c" . magit-clone)
          ("C-c v v" . magit-status)
          ("C-c v g" . magit-blame)
          ("C-c v l" . magit-log-buffer-file))
@@ -1978,7 +2000,8 @@ Disable the highlighting of overlong lines."
 
 ;;; Search
 (use-package isearch                    ; Search buffers
-  :bind (("C-c s s" . isearch-forward-symbol-at-point))
+  ;; Defer because `isearch' is not a feature and we don't want to `require' it
+  :defer t
   ;; `:diminish' doesn't work for isearch, because it uses eval-after-load on
   ;; the feature name, but isearch.el does not provide any feature.  For the
   ;; same reason we have to use `:init', but isearch is always loaded anyways.
@@ -1990,7 +2013,8 @@ Disable the highlighting of overlong lines."
 (use-package helm-regex                 ; Helm regex tools
   :ensure helm
   :bind (([remap occur] . helm-occur)
-         ("C-c e o"     . helm-multi-occur)))
+         ("C-c s o"     . helm-occur)
+         ("C-c s s"     . helm-multi-occur)))
 
 (use-package grep                       ; Control grep from Emacs
   :defer t
@@ -2013,11 +2037,11 @@ Disable the highlighting of overlong lines."
 
 (use-package ag                         ; Search code in files/projects
   :ensure t
-  :bind (("C-c a d" . ag-dired-regexp)
-         ("C-c a D" . ag-dired)
-         ("C-c a f" . ag-files)
-         ("C-c a k" . ag-kill-other-buffers)
-         ("C-c a K" . ag-kill-buffers))
+  :bind (("C-c s d" . ag-dired-regexp)
+         ("C-c s D" . ag-dired)
+         ("C-c s f" . ag-files)
+         ("C-c s k" . ag-kill-other-buffers)
+         ("C-c s K" . ag-kill-buffers))
   :config
   (setq ag-reuse-buffers t            ; Don't spam buffer list with ag buffers
         ag-highlight-search t         ; A little fanciness
@@ -2035,8 +2059,8 @@ Disable the highlighting of overlong lines."
 
 (use-package helm-ag                    ; Helm frontend for Ag
   :ensure t
-  :bind (("C-c a a" . helm-do-ag)
-         ("C-c a A" . helm-ag))
+  ;; :bind (("C-c a a" . helm-do-ag)
+  ;;        ("C-c a A" . helm-ag))
   :config (setq helm-ag-fuzzy-match t
                 helm-ag-insert-at-point 'symbol
                 helm-ag-source-type 'file-line))
@@ -2090,14 +2114,13 @@ Disable the highlighting of overlong lines."
 
 ;;; Date and time
 (use-package calendar                   ; Built-in calendar
-  :bind ("C-c u c" . calendar)
+  :bind ("C-c a c" . calendar)
   :config
   ;; In Europe we start on Monday
   (setq calendar-week-start-day 1))
 
 (use-package time                       ; Show current time
-  :bind (("C-c u i" . emacs-init-time)
-         ("C-c u t" . display-time-world))
+  :bind (("C-c a c" . display-time-world))
   :config
   (setq display-time-world-time-format "%H:%M %Z, %d. %b"
         display-time-world-list '(("Europe/Berlin"    "Berlin")
@@ -2110,10 +2133,10 @@ Disable the highlighting of overlong lines."
 
 ;;; Terminal emulation and shells
 (use-package shell                      ; Dump shell in Emacs
-  :bind ("C-c u s" . shell))
+  :bind ("C-c a t" . shell))
 
 (use-package term                       ; Terminal emulator in Emacs
-  :bind ("C-c u S" . ansi-term))
+  :bind ("C-c a T" . ansi-term))
 
 
 ;;; Documents
@@ -2132,7 +2155,7 @@ Install mudraw with brew install mupdf-tools"))))
 
 ;;; Net & Web
 (use-package browse-url                 ; Browse URLs
-  :bind (("C-c w u" . browse-url)))
+  :bind (("C-c a u" . browse-url)))
 
 (use-package bug-reference              ; Turn bug refs into browsable buttons
   :defer t
@@ -2140,14 +2163,16 @@ Install mudraw with brew install mupdf-tools"))))
                (add-hook 'text-mode-hook #'bug-reference-mode)))
 
 (use-package eww                        ; Emacs' built-in web browser
-  :bind (("C-c w b" . eww-list-bookmarks)
-         ("C-c w w" . eww)))
+  :bind (("C-c a b" . eww-list-bookmarks)
+         ("C-c a w" . eww)))
 
 (use-package sx                         ; StackExchange client for Emacs
   :ensure t
-  :bind (("C-c w s" . sx-tab-frontpage)
-         ("C-c w S" . sx-tab-newest)
-         ("C-c w a" . sx-ask)))
+  :init (progn (define-prefix-command 'group:stackexchange)
+               (bind-key "S" #'group:stackexchange group:applications))
+  :bind (("C-c a S a" . sx-ask)
+         ("C-c a S f" . sx-tab-frontpage)
+         ("C-c a S n" . sx-tab-newest)))
 
 (use-package sx-compose                 ; Write questions/answers for Stack Exchange
   :ensure sx
@@ -2233,11 +2258,11 @@ Install mudraw with brew install mupdf-tools"))))
 
 ;;; Online Help
 (use-package find-func                  ; Find function/variable definitions
-  :bind (("C-x F"   . find-function)
-         ("C-x 4 F" . find-function-other-window)
-         ("C-x K"   . find-function-on-key)
-         ("C-x V"   . find-variable)
-         ("C-x 4 V" . find-variable-other-window)))
+  :bind (("C-c h F"   . find-function)
+         ("C-c h 4 F" . find-function-other-window)
+         ("C-c h K"   . find-function-on-key)
+         ("C-c h V"   . find-variable)
+         ("C-c h 4 V" . find-variable-other-window)))
 
 (use-package info                       ; Info manual viewer
   :defer t
