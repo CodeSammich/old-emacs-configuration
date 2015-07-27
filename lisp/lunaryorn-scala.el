@@ -43,8 +43,7 @@
                      ((not (ensime-analyzer-ready connection))
                       "*")
                      (t (let* ((warnings (ensime-num-warnings connection))
-                               (errors (ensime-num-errors connection))
-                               (face (if (> errors 0) 'error 'warning)))
+                               (errors (ensime-num-errors connection)))
                           (cond
                            ((> errors 0)
                             (propertize (format "●%s ●%s" errors warnings)
