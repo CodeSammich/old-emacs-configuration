@@ -2100,22 +2100,6 @@ Disable the highlighting of overlong lines."
   :if (not (eq system-type 'darwin))
   :bind ("C-x p" . proced))
 
-(use-package firestarter                ; Run commands after save
-  :disabled t
-  :ensure t
-  :init (firestarter-mode)
-  :config (setq firestarter-default-type 'failure)
-  ;; Remove space from firestarter lighter
-  :diminish firestarter-mode)
-
-(use-package lunaryorn-firestarter      ; Personal extensions to firestarter
-  :load-path "lisp/"
-  :disabled t
-  :commands (lunaryorn-firestarter-mode-line)
-  :init (with-eval-after-load 'firestarter
-          (setq firestarter-lighter
-                '(:eval (lunaryorn-firestarter-mode-line)))))
-
 
 ;;; Date and time
 (use-package calendar                   ; Built-in calendar
