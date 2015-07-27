@@ -263,7 +263,8 @@
 (use-package guide-key
   :ensure t
   :init (guide-key-mode 1)
-  :config (setq guide-key/guide-key-sequence '("C-c"
+  :config (setq guide-key/idle-delay 0.4
+                guide-key/guide-key-sequence '("C-c"
                                                (outline-minor-mode "C-c @"))
                 guide-key/recursive-key-sequence-flag t
                 guide-key/popup-window-position 'bottom
