@@ -510,10 +510,10 @@ mouse-3: go to end"))))
   :bind ("C-c w q" . lunaryorn-quit-bottom-side-windows))
 
 (use-package windmove                   ; Move between windows with Shift+Arrow
-  :bind (("S-<left>"  . windmove-left)
-         ("S-<right>" . windmove-right)
-         ("S-<up>"    . windmove-up)
-         ("S-<down>"  . windmove-down)))
+  :bind (("C-c w <left>"  . windmove-left)
+         ("C-c w <right>" . windmove-right)
+         ("C-c w <up>"    . windmove-up)
+         ("C-c w <down>"  . windmove-down)))
 
 (use-package winner                     ; Undo and redo window configurations
   :init (winner-mode))
