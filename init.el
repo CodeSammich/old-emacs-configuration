@@ -316,13 +316,12 @@
                 mode-line-frame-identification
                 mode-line-buffer-identification " " mode-line-position
                 (projectile-mode projectile-mode-line)
-                (vc-mode vc-mode)
+                (vc-mode (:propertize (:eval vc-mode) face italic))
                 " "
                 (flycheck-mode flycheck-mode-line) ; Flycheck status
                 (ensime-mode (" " (:eval
                                    (lunaryorn-scala-ensime-mode-line-status))))
-                (firestarter-mode firestarter-lighter)
-                (isearch-mode " 🔍")
+                (isearch-mode " ")
                 (anzu-mode (:eval                  ; isearch pos/matches
                             (when (> anzu--total-matched 0)
                               (anzu--update-mode-line))))
@@ -2106,7 +2105,7 @@ Disable the highlighting of overlong lines."
           projectile-find-dir-includes-top-level t
           projectile-mode-line '(:propertize
                                  (:eval (concat " " (projectile-project-name)))
-                                 face font-lock-constant-face))
+                                 face bold))
 
     (projectile-register-project-type 'haskell-stack '("stack.yml")
                                       "stack build" "stack test"))
@@ -2126,6 +2125,7 @@ Disable the highlighting of overlong lines."
   :bind ("C-x p" . proced))
 
 (use-package firestarter                ; Run commands after save
+  :disabled t
   :ensure t
   :init (firestarter-mode)
   :config (setq firestarter-default-type 'failure)
@@ -2134,6 +2134,7 @@ Disable the highlighting of overlong lines."
 
 (use-package lunaryorn-firestarter      ; Personal extensions to firestarter
   :load-path "lisp/"
+  :disabled t
   :commands (lunaryorn-firestarter-mode-line)
   :init (with-eval-after-load 'firestarter
           (setq firestarter-lighter

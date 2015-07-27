@@ -33,26 +33,27 @@
   "Create a mode line status for Ensime."
   (condition-case _
       (let ((connection (ensime-connection-or-nil)))
-        (cond ((and ensime-mode (not connection))
-               (if (ensime-owning-server-process-for-source-file
-                    (buffer-file-name))
-                   "🔵"
-                 "⭕"))
+        (cond ((and ensime-mode (not connection)) "●")
               ((and ensime-mode (ensime-connected-p connection))
                (cond ((not (eq (process-status connection) 'open))
-                      (format "❗%s" (process-status connection)))
+                      (format "!%s" (process-status connection)))
                      ((ensime-rex-continuations connection)
-                      (format "🔨%s" (length
+                      (format "*%s" (length
                                      (ensime-rex-continuations connection))))
                      ((not (ensime-analyzer-ready connection))
-                      "🔨")
+                      "*")
                      (t (let* ((warnings (ensime-num-warnings connection))
                                (errors (ensime-num-errors connection))
                                (face (if (> errors 0) 'error 'warning)))
-                          (propertize (format "%s|%s" errors warnings)
-                                      'face face)))))
+                          (cond
+                           ((> errors 0)
+                            (propertize (format "●%s ●%s" errors warnings)
+                                        'face 'error))
+                           ((> warnings 0)
+                            (propertize (format "●%s" warnings) 'face 'warning))
+                           (t (propertize "●" 'face 'success)))))))
               (ensime-mode "💀")))
-    (error "❗")))
+    (error (propertize "!" 'face 'error))))
 
 (defun lunaryorn-scala-pop-to-sbt-frame ()
   "Open SBT REPL for the current project in a separate frame."

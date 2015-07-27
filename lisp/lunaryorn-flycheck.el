@@ -51,21 +51,22 @@ most errors from HTML Tidy."
          (text-and-face
           (pcase flycheck-last-status-change
             (`not-checked nil)
-            (`no-checker '("⭕" . warning))
-            (`running '("🔨" . success))
-            (`errored '("❗" . error))
+            (`no-checker '("●" . warning))
+            (`running '("*" . success))
+            (`errored '("!" . error))
             (`finished
              (let* ((error-counts (flycheck-count-errors
                                    flycheck-current-errors))
                     (no-errors (cdr (assq 'error error-counts)))
-                    (no-warnings (cdr (assq 'warning error-counts)))
-                    (face (cond (no-errors 'error)
-                                (no-warnings 'warning)
-                                (t 'success))))
-               (cons (format "%s|%s" (or no-errors 0) (or no-warnings 0))
-                     face)))
-            (`interrupted (cons "❌" nil))
-            (`suspicious '("⁉" . warning)))))
+                    (no-warnings (cdr (assq 'warning error-counts))))
+               (cond
+                (no-errors
+                 (cons (format "●%s ●%s" no-errors (or no-warnings 0)) 'error))
+                (no-warnings
+                 (cons (format "●%s" no-warnings) 'warning))
+                (t (cons "●" 'success)))))
+            (`interrupted (cons "x" nil))
+            (`suspicious '("?" . warning)))))
     (when text-and-face
       (propertize (car text-and-face) 'face (cdr text-and-face)
                   'mouse-face 'mode-line-highlight
