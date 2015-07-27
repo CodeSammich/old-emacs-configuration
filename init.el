@@ -752,7 +752,8 @@ mouse-3: go to end"))))
 
 (use-package helm-imenu                 ; Helm frontend for imenu
   :ensure helm
-  :bind (("C-c n i" . helm-imenu-in-all-buffers)))
+  :bind (("C-c n i" . helm-imenu-in-all-buffers))
+  :config (setq helm-imenu-fuzzy-match t))
 
 
 ;;; Basic editing
