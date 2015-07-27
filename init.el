@@ -907,22 +907,6 @@ mouse-3: go to end"))))
   :config (setq show-paren-when-point-inside-paren t
                 show-paren-when-point-in-periphery t))
 
-(use-package paredit                    ; Balanced sexp editing
-  :disabled t
-  :ensure t
-  :defer t
-  :init (dolist (hook '(eval-expression-minibuffer-setup-hook
-                        emacs-lisp-mode-hook
-                        inferior-emacs-lisp-mode-hook
-                        clojure-mode-hook))
-          (add-hook hook #'paredit-mode))
-  :config
-  (progn
-    ;; Free M-s.  There are some useful bindings in that prefix map.
-    (define-key paredit-mode-map (kbd "M-s") nil)
-    (define-key paredit-mode-map (kbd "M-S-<up>") #'paredit-splice-sexp))
-  :diminish paredit-mode)
-
 (use-package smartparens                ; Parenthesis editing and balancing
   :ensure t
   :init (progn (smartparens-global-mode)
