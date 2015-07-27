@@ -108,7 +108,7 @@
           (add-to-list 'Info-directory-list dir))))))
 
 
-;;; Customization, init file and package management
+;;; Customization
 (defconst lunaryorn-custom-file (locate-user-emacs-file "custom.el")
   "File used to store settings from Customization UI.")
 
@@ -122,23 +122,6 @@
         custom-unlispify-tag-names nil
         custom-unlispify-menu-entries nil)
   :init (load lunaryorn-custom-file 'no-error 'no-message))
-
-(use-package paradox                    ; Better package menu
-  :ensure t
-  :bind (("C-c a p" . paradox-list-packages)
-         ("C-c a P" . package-list-packages-no-fetch))
-  :config
-  ;; Don't ask for a token, please, and don't bug me about asynchronous updates
-  (setq paradox-github-token t
-        paradox-execute-asynchronously nil))
-
-(use-package bug-hunter                 ; Search init file for bugs
-  :ensure t)
-
-(use-package server                     ; The server of `emacsclient'
-  :defer t
-  :init (server-mode)
-  :diminish (server-buffer-clients . " ⓒ"))
 
 
 ;;; OS X support
@@ -299,6 +282,20 @@
 (lunaryorn-define-group "C-c v" version-control)
 (lunaryorn-define-group "C-c w" windows-and-frames)
 (lunaryorn-define-group "C-c x" text)
+
+
+;; Package manager and init file
+(use-package paradox                    ; Better package menu
+  :ensure t
+  :bind (("C-c a p" . paradox-list-packages)
+         ("C-c a P" . package-list-packages-no-fetch))
+  :config
+  ;; Don't ask for a token, please, and don't bug me about asynchronous updates
+  (setq paradox-github-token t
+        paradox-execute-asynchronously nil))
+
+(use-package bug-hunter                 ; Search init file for bugs
+  :ensure t)
 
 
 ;;; The mode line
@@ -571,6 +568,11 @@ mouse-3: go to end"))))
   :config
   ;; Store auto-save files locally
   (setq tramp-auto-save-directory (locate-user-emacs-file "tramp-auto-save")))
+
+(use-package server                     ; The server of `emacsclient'
+  :defer t
+  :init (server-mode)
+  :diminish (server-buffer-clients . " ⓒ"))
 
 (use-package dired                      ; Edit directories
   :defer t
