@@ -229,21 +229,22 @@
 
 (use-package solarized                  ; My colour theme
   :ensure solarized-theme
-  :defer t
-  :init (load-theme 'solarized-light 'no-confirm)
   :config
   ;; Disable variable pitch fonts in Solarized theme
-  (setq solarized-use-variable-pitch nil
-        ;; Prefer italics over bold
-        solarized-use-less-bold t
-        solarized-use-more-italic t
-        solarized-distinct-doc-face t ; Emphasize docstrings
-        ;; I find different font sizes irritating.
-        solarized-height-minus-1 1.0
-        solarized-height-plus-1 1.0
-        solarized-height-plus-2 1.0
-        solarized-height-plus-3 1.0
-        solarized-height-plus-4 1.0))
+  (progn (setq solarized-use-variable-pitch nil
+               solarized-distinct-fringe-background t
+               ;; Prefer italics over bold
+               solarized-use-less-bold t
+               solarized-use-more-italic t
+               solarized-distinct-doc-face t ; Emphasize docstrings
+               ;; I find different font sizes irritating.
+               solarized-height-minus-1 1.0
+               solarized-height-plus-1 1.0
+               solarized-height-plus-2 1.0
+               solarized-height-plus-3 1.0
+               solarized-height-plus-4 1.0)
+
+         (load-theme 'solarized-light 'no-confirm)))
 
 (use-package zenburn                    ; Another good low-contrast theme
   :disabled t
@@ -341,6 +342,17 @@
 ;; Standard stuff
 (line-number-mode)
 (column-number-mode)
+
+(use-package smart-mode-line
+  :disabled t
+  :ensure t
+  :config (progn (setq sml/theme 'respectful)
+                 (sml/setup))
+)
+
+(use-package smart-mode-line-powerline-theme
+  :disabled t
+  :ensure t)
 
 (use-package fancy-battery              ; Fancy battery info for mode line
   :ensure t
