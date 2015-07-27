@@ -138,7 +138,7 @@
 (use-package server                     ; The server of `emacsclient'
   :defer t
   :init (server-mode)
-  :diminish server-buffer-clients)
+  :diminish (server-buffer-clients . " ⓒ"))
 
 
 ;;; OS X support
@@ -269,7 +269,8 @@
                 guide-key/recursive-key-sequence-flag t
                 guide-key/popup-window-position 'bottom
                 guide-key/highlight-command-regexp
-                '(("group:" . font-lock-type-face))))
+                '(("group:" . font-lock-type-face)))
+  :diminish guide-key-mode)
 
 (defmacro lunaryorn-define-group (prefix name &optional map)
   "Define a group at PREFIX with NAME in MAP."
@@ -313,13 +314,6 @@
                 mode-line-remote
                 mode-line-frame-identification
                 mode-line-buffer-identification " " mode-line-position
-                ;; Some specific information about the current buffer:
-                ;; - Paredit
-                ;; - Dired Omit Mode
-                (paredit-mode (:propertize " ()" face bold))
-                (smartparens-strict-mode (:propertize " ()" face bold))
-                (dired-omit-mode " 👻")
-                (server-buffer-clients " 💻")
                 (projectile-mode projectile-mode-line)
                 (vc-mode vc-mode)
                 " "
@@ -450,7 +444,7 @@ mouse-3: go to end"))))
 (use-package focus-autosave-mode        ; Save buffers when focus is lost
   :ensure t
   :init (focus-autosave-mode)
-  :diminish (focus-autosave-mode . "💾"))
+  :diminish focus-autosave-mode)
 
 (use-package lunaryorn-buffers          ; Personal buffer tools
   :load-path "lisp/"
@@ -608,7 +602,7 @@ mouse-3: go to end"))))
     ;; `dired-omit-startup'.  We can't just use `:diminish' because the lighter
     ;; isn't there yet after dired-omit-mode is loaded.
     (add-function :after (symbol-function 'dired-omit-startup)
-                  (lambda () (diminish 'dired-omit-mode))
+                  (lambda () (diminish 'dired-omit-mode " ⓞ"))
                   '((name . dired-omit-mode-diminish)))))
 
 (use-package helm-files                 ; Helm for file finding
@@ -634,7 +628,7 @@ mouse-3: go to end"))))
 (use-package hardhat                    ; Protect user-writable files
   :ensure t
   :init (global-hardhat-mode)
-  :config (setq hardhat-mode-lighter "🔒"))
+  :config (setq hardhat-mode-lighter " Ⓗ"))
 
 (use-package bookmark                   ; Bookmarks for Emacs buffers
   :bind (("C-c f b" . list-bookmarks))
@@ -740,7 +734,7 @@ mouse-3: go to end"))))
   :defer t
   :init (dolist (hook '(text-mode-hook prog-mode-hook))
           (add-hook hook #'outline-minor-mode))
-  :diminish (outline-minor-mode . "📑"))
+  :diminish (outline-minor-mode . " Ⓞ"))
 
 (use-package nlinum                     ; Line numbers in display margin
   :ensure t
@@ -772,7 +766,7 @@ mouse-3: go to end"))))
 ;; automatic filling
 (setq-default fill-column 80)
 (add-hook 'text-mode-hook #'auto-fill-mode)
-(diminish 'auto-fill-function "↵")
+(diminish 'auto-fill-function " Ⓕ")
 
 (use-package lunaryorn-simple           ; Personal editing helpers
   :load-path "lisp/"
@@ -802,7 +796,7 @@ mouse-3: go to end"))))
          ("C-c x w" . whitespace-cleanup))
   :init (dolist (hook '(prog-mode-hook text-mode-hook conf-mode-hook))
           (add-hook hook #'whitespace-cleanup-mode))
-  :diminish (whitespace-cleanup-mode . "⌫"))
+  :diminish (whitespace-cleanup-mode . " Ⓦ"))
 
 (use-package subword                    ; Subword/superword editing
   :defer t
@@ -864,7 +858,7 @@ mouse-3: go to end"))))
 (use-package undo-tree                  ; Branching undo
   :ensure t
   :init (global-undo-tree-mode)
-  :diminish (undo-tree-mode . "↺"))
+  :diminish (undo-tree-mode . " ⓤ"))
 
 ;; Give us narrowing back!
 (put 'narrow-to-region 'disabled nil)
@@ -935,7 +929,7 @@ mouse-3: go to end"))))
             (use-package lunaryorn-smartparens ; Personal Smartparens extensions
               :load-path "lisp/"
               :config (lunaryorn-smartparens-bind-keys)))
-  :diminish smartparens-mode)
+  :diminish (smartparens-mode . " ⓟ"))
 
 
 ;;; Highlights and fontification
@@ -960,7 +954,7 @@ Disable the highlighting of overlong lines."
   (setq whitespace-style '(face indentation space-after-tab space-before-tab
                                 tab-mark empty trailing lines-tail)
         whitespace-line-column nil)     ; Use `fill-column' for overlong lines
-  :diminish (whitespace-mode . "▢"))
+  :diminish (whitespace-mode . " ⓦ"))
 
 (use-package hl-line                    ; Highlight the current line
   :init (global-hl-line-mode 1))
@@ -1095,7 +1089,7 @@ Disable the highlighting of overlong lines."
     ;; Undefine mouse buttons which get in the way
     (define-key flyspell-mouse-map [down-mouse-2] nil)
     (define-key flyspell-mouse-map [mouse-2] nil))
-  :diminish (flyspell-mode . "✓"))
+  :diminish (flyspell-mode . " ⓢ"))
 
 (use-package flycheck                   ; On-the-fly syntax checking
   :ensure t
@@ -1125,7 +1119,7 @@ Disable the highlighting of overlong lines."
 
                         (setq flycheck-mode-line
                             '(:eval (lunaryorn-flycheck-mode-line-status))))))
-  :diminish flycheck-mode)
+  :diminish " Ⓢ")
 
 (use-package helm-flycheck              ; Helm frontend for Flycheck errors
   :ensure t
@@ -1151,7 +1145,7 @@ Disable the highlighting of overlong lines."
           (dolist (hook '(markdown-mode-hook
                           rst-mode-hook))
             (add-hook hook 'typo-mode)))
-  :diminish (typo-mode . "𝕿"))
+  :diminish (typo-mode . " Ⓣ"))
 
 
 ;;; LaTeX with AUCTeX
@@ -1432,7 +1426,7 @@ Disable the highlighting of overlong lines."
   :init (add-hook 'eval-expression-minibuffer-setup-hook #'eldoc-mode)
   :config
   (setq-default eldoc-documentation-function #'describe-char-eldoc)
-  :diminish (eldoc-mode . "⁇"))
+  :diminish (eldoc-mode . " ⓓ"))
 
 (use-package restclient                 ; ReST REPL for Emacs
   :ensure t
@@ -2310,7 +2304,7 @@ Install mudraw with brew install mupdf-tools"))))
   :ensure t
   :defer t
   :init (add-hook 'yaml-mode-hook #'ansible-doc-mode)
-  :diminish (ansible-doc-mode . "❓"))
+  :diminish (ansible-doc-mode . " Ⓓ"))
 
 (use-package dash-at-point              ; Jump to Dash docset at point
   :ensure t
