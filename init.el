@@ -253,14 +253,14 @@
 
 (bind-key "C-c t v" #'variable-pitch-mode)
 
-(use-package evil
+
+;;; Key setup
+(use-package evil                       ; VIM — Let's try this some day
   :ensure t
   :disabled t
   :init (evil-mode 1))
 
-
-;;; Key setup
-(use-package guide-key
+(use-package guide-key                  ; Show help popups for prefix keys
   :ensure t
   :init (guide-key-mode 1)
   :config (setq guide-key/idle-delay 0.4
