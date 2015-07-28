@@ -502,10 +502,19 @@ mouse-3: go to end"))))
   :ensure t
   :defer t)
 
+(use-package window                     ; Standard window functions
+  :bind (("C-c w =" . balance-windows)
+         ("C-c w k" . delete-window)
+         ("C-c w /" . split-window-right)
+         ("C-c w -" . split-window-below)
+         ("C-c w m" . delete-other-windows)))
+
 (use-package lunaryorn-window           ; Personal window utilities
   :load-path "lisp/"
   :defer t
-  :bind ("C-c w q" . lunaryorn-quit-bottom-side-windows))
+  :bind (("C-c w q" . lunaryorn-quit-bottom-side-windows)
+         ("C-c w d" . lunaryorn-toggle-current-window-dedication)
+         ("C-c w b" . lunaryorn-switch-to-minibuffer-window)))
 
 (use-package windmove                   ; Move between windows with Shift+Arrow
   :bind (("C-c w <left>"  . windmove-left)
@@ -515,6 +524,11 @@ mouse-3: go to end"))))
 
 (use-package winner                     ; Undo and redo window configurations
   :init (winner-mode))
+
+(use-package ace-window                 ; Fast window switching
+  :ensure t
+  :bind (("C-x o" . ace-window)
+         ("C-c w w" . ace-window)))
 
 (use-package ediff-wind                 ; Ediff window management
   :defer t
@@ -728,11 +742,6 @@ mouse-3: go to end"))))
                (with-eval-after-load 'help-mode
                  (defvar help-mode-map)  ; Silence the byte compiler
                  (bind-key "C-c m l" #'ace-link-help help-mode-map))))
-
-(use-package ace-window                 ; Fast window switching
-  :ensure t
-  :bind (("C-x o" . ace-window)
-         ("C-c w w" . ace-window)))
 
 (use-package page-break-lines           ; Turn page breaks into lines
   :ensure t

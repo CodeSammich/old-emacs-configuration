@@ -33,6 +33,26 @@
   (dolist (window (window-at-side-list))
     (quit-window nil window)))
 
+;; Taken graciously from Spacemacs
+;;;###autoload
+(defun lunaryorn-switch-to-minibuffer-window ()
+  "Switch to current minibuffer window (if active)."
+  (interactive)
+  (when (active-minibuffer-window)
+    (select-window (active-minibuffer-window))))
+
+;; From http://dfan.org/blog/2009/02/19/emacs-dedicated-windows/
+;;;###autoload
+(defun lunaryorn-toggle-current-window-dedication ()
+  "Toggle dedication state of a window."
+  (interactive)
+  (let* ((window    (selected-window))
+         (dedicated (window-dedicated-p window)))
+    (set-window-dedicated-p window (not dedicated))
+    (message "Window %sdedicated to %s"
+             (if dedicated "no longer " "")
+             (buffer-name))))
+
 (provide 'lunaryorn-window)
 
 ;;; lunaryorn-window.el ends here
