@@ -243,18 +243,15 @@
   :disabled t
   :init (evil-mode 1))
 
-(use-package guide-key                  ; Show help pop ups for prefix keys
+(use-package which-key                  ; Show help popups for prefix keys
   :ensure t
-  :init (guide-key-mode 1)
-  :config (setq guide-key/idle-delay 0.4
-                guide-key/guide-key-sequence '("C-c"
-                                               (outline-minor-mode "C-c @"))
-                guide-key/recursive-key-sequence-flag t
-                guide-key/popup-window-position 'bottom
-                guide-key/highlight-command-regexp
-                '(("group:" . font-lock-type-face)))
-  :diminish guide-key-mode)
+  :init (which-key-mode)
+  :config (setq which-key-idle-delay 0.4)
+  :diminish " Ⓚ")
 
+;; Define prefix commands for my personal key binding groups.  Not specifically
+;; important, but plays better with which-key, as it shows the names of prefix
+;; commands in its popup
 (defmacro lunaryorn-define-group (prefix name &optional map)
   "Define a group at PREFIX with NAME in MAP."
   (let ((command (intern (format "group:%s" name))))
