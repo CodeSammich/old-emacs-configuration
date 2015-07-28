@@ -1009,6 +1009,11 @@ Disable the highlighting of overlong lines."
       :load-path "lisp/"
       :commands (lunaryorn-try-complete-lisp-symbol-without-namespace))))
 
+(use-package yasnippet                  ; Snippets
+  :ensure t
+  :defer t
+  :diminish (yas-minor-mode . " Ⓨ"))
+
 (use-package company                    ; Graphical (auto-)completion
   :ensure t
   :init (global-company-mode)
@@ -1541,7 +1546,8 @@ Disable the highlighting of overlong lines."
             (bind-key "C-c m n" #'ensime-forward-note ensime-mode-map)
             (bind-key "C-c m p" #'ensime-backward-note ensime-mode-map)
             (bind-key "C-c m l" #'ensime-print-errors-at-point ensime-mode-map)
-            (bind-key "C-c m z" #'ensime-inf-switch)))
+            (bind-key "C-c m z" #'ensime-inf-switch ensime-mode-map))
+  :diminish (ensime-mode . " Ⓔ"))
 
 (use-package ensime-sbt                 ; SBT integration for Ensime
   :ensure ensime
