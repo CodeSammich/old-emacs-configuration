@@ -279,6 +279,7 @@
 (lunaryorn-define-group "C-c v" version-control)
 (lunaryorn-define-group "C-c w" windows-and-frames)
 (lunaryorn-define-group "C-c x" text)
+(lunaryorn-define-group "C-c x a" align)
 
 
 ;; Package manager and init file
@@ -730,6 +731,8 @@ mouse-3: go to end"))))
   :ensure avy
   :bind (("C-c s s" . avy-isearch)
          ("C-c j" . avy-goto-word-1)
+         ("C-c l" . avy-goto-line)
+         ("C-c n b" . avy-pop-mark)
          ("C-c n j" . avy-goto-char-2)
          ("C-c n w" . avy-goto-word-1)))
 
@@ -847,9 +850,21 @@ mouse-3: go to end"))))
          ([remap mark-sexp]      . easy-mark)))
 
 (use-package align                      ; Align text in buffers
-  :bind (("C-c x a" . align)
-         ("C-c x c" . align-current)
-         ("C-c x r" . align-regexp)))
+  :bind (("C-c x a a" . align)))
+
+(use-package lunaryorn-align
+  :load-path "lisp/"
+  :bind (("C-c x a r" . lunaryorn-align-repeat)
+         ("C-c x a m" . lunaryorn-align-repeat-math-oper)
+         ("C-c x a ." . lunaryorn-align-repeat-decimal)
+         ("C-c x a ," . lunaryorn-align-repeat-comma)
+         ("C-c x a ;" . lunaryorn-align-repeat-semicolon)
+         ("C-c x a :" . lunaryorn-align-repeat-colon)
+         ("C-c x a =" . lunaryorn-align-repeat-equal)
+         ("C-c x a &" . lunaryorn-align-repeat-ampersand)
+         ("C-c x a |" . lunaryorn-align-repeat-bar)
+         ("C-c x a (" . lunaryorn-align-repeat-left-paren)
+         ("C-c x a )" . lunaryorn-align-repeat-right-paren)))
 
 (use-package multiple-cursors           ; Edit text with multiple cursors
   :ensure t
