@@ -1510,9 +1510,9 @@ Disable the highlighting of overlong lines."
 (use-package macrostep                  ; Interactively expand macros in code
   :ensure t
   :defer t
-  :init (with-eval-after-load 'elisp
-          (bind-key "C-c m e" #'macrostep-expand emacs-lisp-mode-map)
-          (bind-key "C-c m e" #'macrostep-expand lisp-interaction-mode-map)))
+  :init (with-eval-after-load 'elisp-mode
+          (bind-key "C-c m m e" #'macrostep-expand emacs-lisp-mode-map)
+          (bind-key "C-c m m e" #'macrostep-expand lisp-interaction-mode-map)))
 
 (use-package ielm                       ; Emacs Lisp REPL
   :bind (("C-c a z" . ielm)))
@@ -1524,7 +1524,10 @@ Disable the highlighting of overlong lines."
   :config (progn
             (require 'ert)
 
-            (bind-key "C-c m r" #'eval-region emacs-lisp-mode-map)))
+            (bind-key "C-c m e r" #'eval-region emacs-lisp-mode-map)
+            (bind-key "C-c m e b" #'eval-buffer emacs-lisp-mode-map)
+            (bind-key "C-c m e e" #'eval-last-sexp emacs-lisp-mode-map)
+            (bind-key "C-c m e f" #'eval-defun emacs-lisp-mode-map)))
 
 (use-package lunaryorn-elisp ; Personal tools for Emacs Lisp
               :load-path "lisp/"
