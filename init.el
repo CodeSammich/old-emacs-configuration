@@ -344,17 +344,6 @@
 (line-number-mode)
 (column-number-mode)
 
-(use-package smart-mode-line
-  :disabled t
-  :ensure t
-  :config (progn (setq sml/theme 'respectful)
-                 (sml/setup))
-)
-
-(use-package smart-mode-line-powerline-theme
-  :disabled t
-  :ensure t)
-
 (use-package fancy-battery              ; Fancy battery info for mode line
   :ensure t
   :defer t
