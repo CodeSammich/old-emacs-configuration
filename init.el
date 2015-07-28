@@ -1407,8 +1407,8 @@ Disable the highlighting of overlong lines."
   :bind (("C-c t p" . prettify-symbols-mode)))
 
 (use-package compile                    ; Compile from Emacs
-  :bind (("C-c c c" . compile)
-         ("C-c c C" . recompile))
+  :bind (("C-c c C" . compile)
+         ("C-c c r" . recompile))
   :config (progn
             (setq compilation-ask-about-save nil
                   ;; Kill old compilation processes before starting new ones,
@@ -1428,6 +1428,10 @@ Disable the highlighting of overlong lines."
               ;; http://stackoverflow.com/a/3072831/355252
               :config (add-hook 'compilation-filter-hook
                                 #'lunaryorn-colorize-compilation-buffer))))
+
+(use-package helm-make
+  :ensure t
+  :bind (("C-c c c" . helm-make-projectile)))
 
 (use-package elide-head                 ; Elide lengthy GPL headers
   :bind (("C-c t e" . elide-head))
