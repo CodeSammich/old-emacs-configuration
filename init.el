@@ -1998,7 +1998,8 @@ Disable the highlighting of overlong lines."
   :bind (("C-c v c" . magit-clone)
          ("C-c v v" . magit-status)
          ("C-c v g" . magit-blame)
-         ("C-c v l" . magit-log-buffer-file))
+         ("C-c v l" . magit-log-buffer-file)
+         ("C-c v p" . magit-pull))
   :config
   (progn
     (setq magit-revert-buffers 'silent
