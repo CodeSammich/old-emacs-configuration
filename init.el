@@ -675,7 +675,7 @@ mouse-3: go to end"))))
                               #'ignoramus-boring-p)))
 
 (use-package saveplace                  ; Save point position in files
-  :config (setq-default save-place t))
+  :init (save-place-mode 1))
 
 (setq view-read-only t)                 ; View read-only files
 
