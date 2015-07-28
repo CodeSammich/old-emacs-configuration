@@ -629,6 +629,20 @@ mouse-3: go to end"))))
                   (lambda () (diminish 'dired-omit-mode " ⓞ"))
                   '((name . dired-omit-mode-diminish)))))
 
+(use-package neotree
+  :ensure t
+  :bind (("C-c f t" . neotree-toggle))
+  :config (setq neo-window-width 32
+                neo-create-file-auto-open t
+                neo-banner-message nil
+                neo-show-updir-line nil
+                neo-mode-line-type 'neotree
+                neo-smart-open t
+                neo-dont-be-alone t
+                neo-persist-show nil
+                neo-show-hidden-files t
+                neo-auto-indent-point t))
+
 (use-package helm-files                 ; Helm for file finding
   :ensure helm
   :defer t
@@ -2117,7 +2131,19 @@ Disable the highlighting of overlong lines."
                                  face bold))
 
     (projectile-register-project-type 'haskell-stack '("stack.yml")
-                                      "stack build" "stack test"))
+                                      "stack build" "stack test")
+
+    (defun lunaryorn-neotree-project-root ()
+      (interactive)
+      (if (and (fboundp 'neo-global--window-exists-p)
+               (neo-global--window-exists-p))
+          (neotree-hide)
+        (neotree-find (projectile-project-root))))
+
+    (bind-key "t" #'lunaryorn-neotree-project-root
+              projectile-command-map)
+    (bind-key "T" #'projectile-toggle-between-implementation-and-test
+              projectile-command-map))
   :diminish projectile-mode)
 
 (use-package helm-projectile            ; Helm frontend for Projectile
