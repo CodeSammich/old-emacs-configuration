@@ -2000,35 +2000,36 @@ Disable the highlighting of overlong lines."
          ("C-c v g" . magit-blame)
          ("C-c v l" . magit-log-buffer-file)
          ("C-c v p" . magit-pull))
-  :config
-  (progn
-    (setq magit-revert-buffers 'silent
-          magit-save-repository-buffers 'dontask
-          magit-push-always-verify nil  ; Fuck you, Magit
-          magit-refs-show-commit-count 'all
-          ;; For some reason this doesn't work :(
-          ;; magit-completing-read-function
-          ;; #'helm-completing-read-with-cands-in-buffer
-          )
+  :config (progn
+            ;; Shut up, Magit
+            (setq magit-revert-buffers 'silent
+                  magit-save-repository-buffers 'dontask
+                  magit-push-always-verify nil
+                  magit-refs-show-commit-count 'all
+                  ;; For some reason this doesn't work :(
+                  ;; magit-completing-read-function
+                  ;; #'helm-completing-read-with-cands-in-buffer
+                  )
 
-    ;; Set Magit's repo dirs for `magit-status' from Projectile's known
-    ;; projects.  Initialize the `magit-repository-directories' immediately
-    ;; after Projectile was loaded, and update it every time we switched
-    ;; projects, because the new project might have been unknown before
-    (defun lunaryorn-magit-set-repo-dirs-from-projectile ()
-      "Set `magit-repo-dirs' from known Projectile projects."
-      (let ((project-dirs (bound-and-true-p projectile-known-projects)))
-        ;; Remove trailing slashes from project directories, because Magit adds
-        ;; trailing slashes again, which breaks the presentation in the Magit
-        ;; prompt.
-        (setq magit-repository-directories
-              (mapcar #'directory-file-name project-dirs))))
+            ;; Set Magit's repo dirs for `magit-status' from Projectile's known
+            ;; projects.  Initialize the `magit-repository-directories'
+            ;; immediately after Projectile was loaded, and update it every time
+            ;; we switched projects, because the new project might have been
+            ;; unknown before
+            (defun lunaryorn-magit-set-repo-dirs-from-projectile ()
+              "Set `magit-repo-dirs' from known Projectile projects."
+              (let ((project-dirs (bound-and-true-p projectile-known-projects)))
+                ;; Remove trailing slashes from project directories, because
+                ;; Magit adds trailing slashes again, which breaks the
+                ;; presentation in the Magit prompt.
+                (setq magit-repository-directories
+                      (mapcar #'directory-file-name project-dirs))))
 
-    (with-eval-after-load 'projectile
-      (lunaryorn-magit-set-repo-dirs-from-projectile))
+            (with-eval-after-load 'projectile
+              (lunaryorn-magit-set-repo-dirs-from-projectile))
 
-    (add-hook 'projectile-switch-project-hook
-              #'lunaryorn-magit-set-repo-dirs-from-projectile)))
+            (add-hook 'projectile-switch-project-hook
+                      #'lunaryorn-magit-set-repo-dirs-from-projectile)))
 
 (use-package magit-gh-pulls             ; Show Github PRs in Magit
   :ensure t
