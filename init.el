@@ -2144,12 +2144,14 @@ Disable the highlighting of overlong lines."
     (projectile-register-project-type 'haskell-stack '("stack.yml")
                                       "stack build" "stack test")
 
-    (defun lunaryorn-neotree-project-root ()
+    (defun lunaryorn-neotree-project-root (&optional directory)
+      "Open a NeoTree browser for a project DIRECTORY."
       (interactive)
-      (if (and (fboundp 'neo-global--window-exists-p)
-               (neo-global--window-exists-p))
-          (neotree-hide)
-        (neotree-find (projectile-project-root))))
+      (let ((default-directory (or directory default-directory)))
+        (if (and (fboundp 'neo-global--window-exists-p)
+                 (neo-global--window-exists-p))
+            (neotree-hide)
+          (neotree-find (projectile-project-root)))))
 
     (bind-key "t" #'lunaryorn-neotree-project-root
               projectile-command-map)
@@ -2161,7 +2163,14 @@ Disable the highlighting of overlong lines."
   :ensure t
   :defer t
   :init (with-eval-after-load 'projectile (helm-projectile-on))
-  :config (setq projectile-switch-project-action #'helm-projectile))
+  :config (progn (setq projectile-switch-project-action #'helm-projectile)
+
+                 (bind-key "C-t" #'lunaryorn-neotree-project-root
+                           helm-projectile-projects-map)
+
+                 (helm-add-action-to-source "Open NeoTree `C-t'"
+                                            #'lunaryorn-neotree-project-root
+                                            helm-source-projectile-projects 1)))
 
 
 ;;; Processes and commands
