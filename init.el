@@ -825,6 +825,9 @@ mouse-3: go to end"))))
   ;; Auto-fill comments in programming modes
   :init (add-hook 'prog-mode-hook #'lunaryorn-auto-fill-comments-mode))
 
+(use-package indent                     ; Built-in indentation
+  :bind (("C-c x i" . indent-region)))
+
 (use-package helm-ring                  ; Helm commands for rings
   :ensure helm
   :bind (([remap yank-pop]        . helm-show-kill-ring)
