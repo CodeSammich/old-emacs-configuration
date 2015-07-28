@@ -928,19 +928,6 @@ mouse-3: go to end"))))
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
 
-(use-package auto-insert                ; Automatic insertion into new files
-  :defer t
-  :bind (("C-c i a" . auto-insert)))
-
-(use-package copyright                  ; Deal with copyright notices
-  :defer t
-  :bind (("C-c i c" . copyright-update))
-  ;; Update copyright when visiting files
-  :init (add-hook 'find-file-hook #'copyright-update)
-  ;; Use ranges to denote consecutive years
-  :config (setq copyright-year-ranges t
-                copyright-names-regexp (regexp-quote user-full-name)))
-
 ;; Additional keybindings
 (bind-key [remap just-one-space] #'cycle-spacing)
 
@@ -1091,6 +1078,19 @@ Disable the highlighting of overlong lines."
           (bind-key [remap completion-at-point] #'helm-company company-mode-map)
           (bind-key "C-:" #'helm-company company-mode-map)
           (bind-key "C-:" #'helm-company company-active-map)))
+
+(use-package auto-insert                ; Automatic insertion into new files
+  :defer t
+  :bind (("C-c i a" . auto-insert)))
+
+(use-package copyright                  ; Deal with copyright notices
+  :defer t
+  :bind (("C-c i c" . copyright-update))
+  ;; Update copyright when visiting files
+  :init (add-hook 'find-file-hook #'copyright-update)
+  ;; Use ranges to denote consecutive years
+  :config (setq copyright-year-ranges t
+                copyright-names-regexp (regexp-quote user-full-name)))
 
 
 ;;; Spelling and syntax checking
