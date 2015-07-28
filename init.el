@@ -246,7 +246,12 @@
 (use-package which-key                  ; Show help popups for prefix keys
   :ensure t
   :init (which-key-mode)
-  :config (setq which-key-idle-delay 0.4)
+  :config (progn (setq which-key-idle-delay 0.4)
+
+                 ;; Remove some package prefixes from which-key descriptions
+                 (dolist (prefix '("projectile-" "lunaryorn-" "flycheck-"))
+                   (add-to-list 'which-key-description-replacement-alist
+                                (cons prefix ""))))
   :diminish " Ⓚ")
 
 ;; Define prefix commands for my personal key binding groups.  Not specifically
