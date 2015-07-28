@@ -1,121 +1,66 @@
 .emacs.d
 ========
 
-My Emacs configuration
+My own home-grown Emacs configuration with
+[use-package](https://github.com/jwiegley/use-package).
 
-Setup
------
+Setup — How do you use it?
+--------------------------
+
+You need Emacs 25 snapshot builds, straight from Git `master`.  Stable
+releases of GNU Emacs won’t work, I build GNU Emacs weekly.
 
 ```console
 $ git clone https://github.com/lunaryorn/.emacs.d.git ~/.emacs.d
-```
-
-### OS X support ###
-
-```console
 $ brew install trash coreutils
-```
-
-### Spell checking ###
-
-```console
 $ brew install aspell --with-lang-de --with-lang-en
 ```
 
-### Python support ###
+plus all the standard tools for all the various programming languages (`sbt`,
+`hlint`, `stack`, `pandoc`, `pylint` and stuff).  Read the comments in `init.el`
+for more information.
 
-```console
-$ pip install -U --user virtualenv pylint ipython
-```
+Layout — Where do you find things?
+----------------------------------
 
-### Haskell support ###
+It’s a single big `init.el`, containing only `use-package` declarations for all
+the built-in and 3rd party packages I use.  These declarations have all the
+configuration and setup for the specific packages.
 
-```console
-$ cabal install hlint hasktags hoogle present
-```
+There’s also `lisp/` which has my own personal extensions and libraries with
+custom functions, etc.  These libraries are loaded like normal packages with
+`use-package` in `init.el`.
 
-### Shell scripting ###
+Highlights — What you should probably copy from this!
+-----------------------------------------------------
 
-```console
-$ brew install shellcheck
-```
+- Very good OS X support, even with stock GNU Emacs, including a font setup that
+  supports Math, Symbols and Coloured Emojis (yay 😍)
+- A custom mode line setup
+- A well-designed key bindings scheme, greatly inspired by Spacemacs and
+  supported by Which Key Mode
+- Rules for buffer displays in `display-buffer-alist`
+- A very powerful and comprehensive LaTeX setup with AUCTeX
+- Good configurations for Emacs Lisp, Scala and Haskell programming
 
-### Markdown support ###
+Final words
+-----------
 
-```console
-$ brew install pandoc
-```
+Have fun, and copy freely!  Please feel free to mess around, and take whatever
+you like!  Credits mandatory (respect the license), feedback appreciated!
 
-### Ansible support ###
+License
+-------
 
-```console
-$ brew install ansible
-```
+This program is free software; you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation; either version 3 of the License, or (at your option) any later
+version.
 
-[Cask]: http://cask.readthedocs.org/en/latest/
-[OpenOffice]: https://wiki.openoffice.org/wiki/Dictionaries
+This program is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
-Usage
------
-
-My `init.el` only contains package configuration (with `use-package`) and Emacs
-settings, but no functions.  I keep my functions in separate files in the
-`lisp/` directory, which I load and configure with `use-package`.
-
-All 3rd party packages come from MELPA or GNU ELPA.  I use the `:ensure` feature
-of `use-package` to automatically install missing packages.
-
-Notable packages
-----------------
-
-- **Package management**: [use-package](https://github.com/jwiegley/use-package)
-  and [Paradox](https://github.com/Bruce-Connor/paradox)
-- **Version control**: [Magit](https://github.com/magit/magit) and
-  [Diff Hl](https://github.com/dgutov/diff-hl)
-- **Fonts:** [Source Code Pro](https://github.com/adobe/source-code-pro), with
-  [Unicode Fonts](https://github.com/rolandwalker/unicode-fonts)
-- **Color theme**: [Solarized Light](https://github.com/bbatsov/solarized-emacs)
-- **Mode line**: [Anzu](https://github.com/syohex/emacs-anzu), and
-  [Fancy Battery](https://github.com/lunaryorn/fancy-battery.el)
-- **Buffers**: [ibuffer-vc](https://github.com/purcell/ibuffer-vc)
-- **Minibuffer**: [SMex](https://github.com/nonsequitur/smex),
-  [Ido Ubiquituous](https://github.com/DarwinAwardWinner/ido-ubiquitous),
-  [Ido Load Library](https://github.com/rolandwalker/ido-load-library),
-  [Flx](https://github.com/lewang/flx) and
-  [Ido Vertical Mode](https://github.com/gempesaw/ido-vertical-mode.el)
-- **Visual guides**:
-  [Page Break Lines](https://github.com/purcell/page-break-lines) and
-  [Rainbow Delimiters](https://github.com/jlr/rainbow-delimiters)
-- **Undo and killing**: [Undo Tree](http://www.dr-qubit.org/emacs.php#undo-tree),
-  [Browse Kill Ring](https://github.com/browse-kill-ring/browse-kill-ring) and
-  [Easy Kill](https://github.com/leoliu/easy-kill)
-- **Region and editing**:
-  [Expand Region](https://github.com/magnars/expand-region.el),
-  [Multiple Cursors](https://github.com/magnars/multiple-cursors.el), and
-  [Visual Regexp](https://github.com/benma/visual-regexp.el)
-- **In-buffer navigation**:
-  [ACE Jump Mode](https://github.com/winterTTr/ace-jump-mode) and
-  [Imenu Anywhere](https://github.com/vitoshka/imenu-anywhere)
-- **Syntax checking**: [Flycheck](http://flycheck.readthedocs.org) and
-  [Flycheck Pos Tip](https://github.com/flycheck/flycheck-pos-tip)
-- **Auto-completion**: [Company Mode](http://company-mode.github.io),
-  [Company Math](https://github.com/vspinu/company-math)
-- **Symbols**: [Highlight Symbol](https://github.com/nschum/highlight-symbol.el)
-- **Project navigation**: [Projectile](https://github.com/bbatsov/projectile)
-- **Search**: [Ag](https://github.com/Wilfred/ag.el) and
-  [wgrep](https://github.com/mhayashi1120/Emacs-wgrep)
-- **Lisp**: [Paredit](http://mumble.net/~campbell/emacs/paredit.html)
-- **Emacs Lisp**: [Macrostep](https://github.com/joddie/macrostep),
-  [Elisp Slime Nav](https://github.com/purcell/elisp-slime-nav) and
-  [Flycheck Cask](https://github.com/flycheck/flycheck-cask)
-- **Python**: [Anaconda Mode](https://github.com/proofit404/anaconda-mode) and
-  [Company Anaconda](https://github.com/proofit404/company-anaconda)
-- **Haskell**: [Haskell Mode](https://github.com/haskell/haskell-mode/),
-  [hindent](https://github.com/chrisdone/hindent/) and
-  [Flycheck Haskell](https://github.com/flycheck/flycheck-haskell)
-- **Rust**: [Flycheck Rust](https://github.com/flycheck/flycheck-rust)
-- **OCaml**: [Tuareg](https://github.com/ocaml/tuareg/),
-  [Merlin](https://github.com/the-lambda-church/merlin) and
-  [Flycheck OCaml](https://github.com/flycheck/flycheck-ocaml)
-- **Theorem proovers**: [Proof General](http://proofgeneral.inf.ed.ac.uk/)
-- **Web**: [SX](https://github.com/vermiculus/sx.el)
+You should have received a copy of the GNU General Public License along with GNU
+Emacs; see the file COPYING.  If not, write to the Free Software Foundation,
+Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
