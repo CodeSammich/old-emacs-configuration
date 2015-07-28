@@ -241,7 +241,14 @@
 (use-package evil                       ; VIM — Let's try this some day
   :ensure t
   :disabled t
-  :init (evil-mode 1))
+  :init (setq evil-mode-line-format nil)
+  ;; :init (evil-mode 1)
+  :config (setq -))
+
+(use-package evil-escape
+  :ensure t
+  :init (evil-escape-mode)
+  :config (setq evil-escape-key-sequence "jk"))
 
 (use-package which-key                  ; Show help popups for prefix keys
   :ensure t
