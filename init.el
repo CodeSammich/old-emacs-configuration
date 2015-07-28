@@ -249,7 +249,10 @@
   :config (progn (setq which-key-idle-delay 0.4)
 
                  ;; Remove some package prefixes from which-key descriptions
-                 (dolist (prefix '("projectile-" "lunaryorn-" "flycheck-"))
+                 (dolist (prefix '("projectile-"
+                                   "ensime-"
+                                   "lunaryorn-"
+                                   "flycheck-"))
                    (add-to-list 'which-key-description-replacement-alist
                                 (cons prefix ""))))
   :diminish " Ⓚ")
