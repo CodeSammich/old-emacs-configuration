@@ -499,6 +499,7 @@ mouse-3: go to end"))))
                         " " filename))))
 
 (use-package ibuffer-vc                 ; Group buffers by VC project and status
+  :disabled t
   :ensure t
   :defer t
   :init (add-hook 'ibuffer-hook
@@ -509,7 +510,8 @@ mouse-3: go to end"))))
 
 (use-package ibuffer-projectile         ; Group buffers by Projectile project
   :ensure t
-  :defer t)
+  :defer t
+  :init (add-hook 'ibuffer-hook #'ibuffer-projectile-set-filter-groups))
 
 (use-package window                     ; Standard window functions
   :bind (("C-c w =" . balance-windows)
