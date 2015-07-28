@@ -1496,7 +1496,9 @@ Disable the highlighting of overlong lines."
   :interpreter ("emacs" . emacs-lisp-mode)
   :mode ("/Cask\\'" . emacs-lisp-mode)
   :config (progn
-            (require 'ert)))
+            (require 'ert)
+
+            (bind-key "C-c m r" #'eval-region emacs-lisp-mode-map)))
 
 (use-package lunaryorn-elisp ; Personal tools for Emacs Lisp
               :load-path "lisp/"
