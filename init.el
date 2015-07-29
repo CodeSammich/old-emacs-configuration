@@ -370,7 +370,9 @@ mouse-3: go to end"))))
 
 
 ;;; Minibuffer and Helm
-(setq history-length 1000)              ; Store more history
+(setq history-length 1000               ; Store more history
+      use-dialog-box nil                ; Never use dialogs for minibuffer input
+      )
 
 (use-package savehist                   ; Save minibuffer history
   :init (savehist-mode t)
