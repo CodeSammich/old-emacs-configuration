@@ -2038,7 +2038,9 @@ Disable the highlighting of overlong lines."
               (lunaryorn-magit-set-repo-dirs-from-projectile))
 
             (add-hook 'projectile-switch-project-hook
-                      #'lunaryorn-magit-set-repo-dirs-from-projectile)))
+                      #'lunaryorn-magit-set-repo-dirs-from-projectile))
+  :diminish (magit-wip-after-save-local-mode
+             magit-wip-before-change-mode))
 
 (use-package magit-gh-pulls             ; Show Github PRs in Magit
   :ensure t
