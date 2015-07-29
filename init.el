@@ -255,7 +255,7 @@
                                    "flycheck-"))
                    (add-to-list 'which-key-description-replacement-alist
                                 (cons prefix ""))))
-  :diminish " Ⓚ")
+  :diminish (which-key-mode . " Ⓚ"))
 
 ;; Define prefix commands for my personal key binding groups.  Not specifically
 ;; important, but plays better with which-key, as it shows the names of prefix
@@ -1159,7 +1159,7 @@ Disable the highlighting of overlong lines."
 
                         (setq flycheck-mode-line
                             '(:eval (lunaryorn-flycheck-mode-line-status))))))
-  :diminish " Ⓢ")
+  :diminish (flycheck-mode . " Ⓢ"))
 
 (use-package helm-flycheck              ; Helm frontend for Flycheck errors
   :ensure t
