@@ -600,7 +600,9 @@ mouse-3: go to end"))))
           dired-listing-switches "-alhF"
           dired-ls-F-marks-symlinks t   ; -F marks links with @
           ;; Inhibit prompts for simple recursive operations
-          dired-recursive-copies 'always)
+          dired-recursive-copies 'always
+          ;; Auto-copy to other Dired split window
+          dired-dwim-target t)
 
     (when (or (memq system-type '(gnu gnu/linux))
               (string= (file-name-nondirectory insert-directory-program) "gls"))
