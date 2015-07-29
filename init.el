@@ -704,7 +704,8 @@ mouse-3: go to end"))))
 
                  (when (eq system-type 'darwin)
                    ;; File notifications aren't supported on OS X
-                   (setq auto-revert-use-notify nil))))
+                   (setq auto-revert-use-notify nil)))
+  :diminish (auto-revert-mode . " Ⓐ"))
 
 (use-package image-file                 ; Visit images as images
   :init (auto-image-file-mode))
