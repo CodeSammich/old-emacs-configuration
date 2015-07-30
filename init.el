@@ -423,6 +423,7 @@ mouse-3: go to end"))))
         ;; Put REPLs and error lists into the bottom side window
         (,(rx bos (or "*Flycheck errors*" ; Flycheck error list
                       "*compilation"      ; Compilation buffers
+                      "*Warnings*"        ; Emacs warnings
                       "*sbt"              ; SBT REPL and compilation buffer
                       "*SQL"              ; SQL REPL
                       "*shell"            ; Shell window
