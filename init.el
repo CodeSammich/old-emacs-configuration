@@ -1555,7 +1555,7 @@ Disable the highlighting of overlong lines."
   :config (progn (setq scala-indent:default-run-on-strategy
                        scala-indent:operator-strategy)
 
-                 (bind-key "C-c m z" #'ensime scala-mode-map)))
+                 (bind-key "C-c m b s" #'ensime scala-mode-map)))
 
 (use-package flycheck-auto-scalastyle   ; Scalastyle setup
   :load-path "lisp/"
@@ -1572,8 +1572,8 @@ Disable the highlighting of overlong lines."
             (setq sbt:display-command-buffer nil)
 
             (with-eval-after-load 'scala-mode2
-              (bind-key "C-c m c" #'sbt-command scala-mode-map)
-              (bind-key "C-c m b" #'sbt-run-previous-command scala-mode-map))))
+              (bind-key "C-c m b c" #'sbt-command scala-mode-map)
+              (bind-key "C-c m b r" #'sbt-run-previous-command scala-mode-map))))
 
 (use-package ensime                     ; Scala interaction mode
   :ensure t
@@ -1590,7 +1590,9 @@ Disable the highlighting of overlong lines."
             (add-hook 'scala-mode-hook #'ensime-mode)
 
             ;; Add binding to shutdown Ensime
-            (bind-key "C-c m Z" #'ensime-shutdown ensime-mode-map)
+            (bind-key "C-c m b s" #'ensime-shutdown ensime-mode-map)
+            (bind-key "C-c m b S" #'ensime-shutdown)
+            (bind-key "C-c m b l" #'ensime-reload)
 
             ;; Free M-n and M-p again
             (bind-key "M-n" nil ensime-mode-map)
