@@ -781,7 +781,8 @@ mouse-3: go to end"))))
 
 (use-package helm-imenu                 ; Helm frontend for imenu
   :ensure helm
-  :bind (("C-c n i" . helm-imenu-in-all-buffers))
+  :bind (("C-c n i" . helm-imenu-in-all-buffers)
+         ("C-c n t" . helm-imenu))
   :config (setq helm-imenu-fuzzy-match t
                 ;; Don't automatically jump to candidate if only one match,
                 ;; because it makes the behaviour of this command unpredictable,
