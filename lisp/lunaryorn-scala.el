@@ -33,7 +33,8 @@
   "Create a mode line status for Ensime."
   (condition-case _
       (let ((connection (ensime-connection-or-nil)))
-        (cond ((and ensime-mode (not connection)) "●")
+        "λλ"
+        (cond ((and ensime-mode (not connection)) "λ")
               ((and ensime-mode (ensime-connected-p connection))
                (cond ((not (eq (process-status connection) 'open))
                       (format "!%s" (process-status connection)))
@@ -46,11 +47,11 @@
                                (errors (ensime-num-errors connection)))
                           (cond
                            ((> errors 0)
-                            (propertize (format "●%s ●%s" errors warnings)
+                            (propertize (format "λ%s λ%s" errors warnings)
                                         'face 'error))
                            ((> warnings 0)
-                            (propertize (format "●%s" warnings) 'face 'warning))
-                           (t (propertize "●" 'face 'success)))))))
+                            (propertize (format "λ%s" warnings) 'face 'warning))
+                           (t (propertize "λ" 'face 'success)))))))
               (ensime-mode "💀")))
     (error (propertize "!" 'face 'error))))
 
