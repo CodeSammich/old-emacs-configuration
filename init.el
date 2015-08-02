@@ -2247,6 +2247,11 @@ Install mudraw with brew install mupdf-tools"))))
   :init (progn (add-hook 'prog-mode-hook #'bug-reference-prog-mode)
                (add-hook 'text-mode-hook #'bug-reference-mode)))
 
+(use-package goto-addr                  ; Make links clickable
+  :defer t
+  :init (progn (add-hook 'prog-mode-hook #'goto-address-prog-mode)
+               (add-hook 'text-mode-hook #'goto-address-mode)))
+
 (use-package eww                        ; Emacs' built-in web browser
   :bind (("C-c a w b" . eww-list-bookmarks)
          ("C-c a w w" . eww)
