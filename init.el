@@ -1061,6 +1061,12 @@ Disable the highlighting of overlong lines."
           company-show-numbers t))
   :diminish company-mode)
 
+(use-package company-quickhelp          ; Show help in tooltip
+  :ensure t
+  :defer t
+  :init (with-eval-after-load 'company
+          (company-quickhelp-mode)))
+
 (use-package company-statistics         ; Sort company candidates by statistics
   :ensure t
   :defer t
