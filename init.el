@@ -1064,7 +1064,8 @@ Disable the highlighting of overlong lines."
 (use-package company-statistics         ; Sort company candidates by statistics
   :ensure t
   :defer t
-  :init (company-statistics-mode))
+  :init (with-eval-after-load 'company
+          (company-statistics-mode)))
 
 (use-package company-math               ; Completion for Math symbols
   :ensure t
