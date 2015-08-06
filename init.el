@@ -1590,8 +1590,8 @@ Disable the highlighting of overlong lines."
 
             ;; Add binding to shutdown Ensime
             (bind-key "C-c m b s" #'ensime-shutdown ensime-mode-map)
-            (bind-key "C-c m b S" #'ensime-shutdown)
-            (bind-key "C-c m b l" #'ensime-reload)
+            (bind-key "C-c m b S" #'ensime-shutdown ensime-mode-map)
+            (bind-key "C-c m b l" #'ensime-reload ensime-mode-map)
 
             ;; Free M-n and M-p again
             (bind-key "M-n" nil ensime-mode-map)
