@@ -247,7 +247,22 @@
 (use-package which-key                  ; Show help popups for prefix keys
   :ensure t
   :init (which-key-mode)
-  :config (setq which-key-idle-delay 0.4)
+  :config (setq which-key-idle-delay 0.4
+                which-key-key-replacement-alist
+                '(("<\\([[:alnum:]-]+\\)>" . "\\1")
+                  ("up"                    . "↑")
+                  ("right"                 . "→")
+                  ("down"                  . "↓")
+                  ("left"                  . "←")
+                  ("DEL"                   . "⌫")
+                  ("deletechar"            . "⌦")
+                  ("RET"                   . "⏎"))
+                which-key-description-replacement-alist
+                '(("Prefix Command" . "prefix")
+                  ;; Remove my personal prefix from all bindings, since it's
+                  ;; only there to avoid name clashes, but doesn't add any value
+                  ;; at all
+                  ("lunaryorn-"     . "")))
   :diminish (which-key-mode . " Ⓚ"))
 
 ;; Define prefix commands for my personal key binding groups.  Not specifically
