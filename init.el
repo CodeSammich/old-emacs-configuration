@@ -1510,8 +1510,12 @@ Disable the highlighting of overlong lines."
 
 (use-package elisp-slime-nav            ; Jump to definition of symbol at point
   :ensure t
-  :defer t
   :init (add-hook 'emacs-lisp-mode-hook #'elisp-slime-nav-mode)
+  :config (progn (dolist (key '("C-c C-d d" "C-c C-d C-d"))
+                   (define-key elisp-slime-nav-mode-map (kbd key) nil))
+
+                 (bind-key "C-c h ."
+                           #'elisp-slime-nav-describe-elisp-thing-at-point))
   :diminish elisp-slime-nav-mode)
 
 (use-package flycheck-cask              ; Setup Flycheck by Cask projects
