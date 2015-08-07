@@ -58,18 +58,6 @@ The file is the buffer's file name, or the `default-directory' in
       default-directory
     (buffer-file-name)))
 
-;;;###autoload
-(defun lunaryorn-find-user-init-file-other-window ()
-  "Edit the `user-init-file', in another window."
-  (interactive)
-  (find-file-other-window user-init-file))
-
-;;;###autoload
-(defun lunaryorn-recompile-packages ()
-  "Recompile all packages."
-  (interactive)
-  (byte-recompile-directory package-user-dir nil 'force))
-
 
 ;;; Working with file names
 ;;;###autoload
@@ -141,7 +129,22 @@ Otherwise copy the non-directory part only."
       (user-error "The current buffer is not visiting a file"))))
 
 
-;;; Intellij integration
+;;; Init file and packages
+
+;;;###autoload
+(defun lunaryorn-find-user-init-file-other-window ()
+  "Edit the `user-init-file', in another window."
+  (interactive)
+  (find-file-other-window user-init-file))
+
+;;;###autoload
+(defun lunaryorn-recompile-packages ()
+  "Recompile all packages."
+  (interactive)
+  (byte-recompile-directory package-user-dir nil 'force))
+
+
+;;; IntelliJ integration
 (defun lunaryorn-intellij-project-root-p (directory)
   "Determine whether DIRECTORY is an IntelliJ project root."
   (and (file-directory-p directory)
