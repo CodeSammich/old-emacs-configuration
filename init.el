@@ -285,7 +285,7 @@
 (lunaryorn-define-group "C-c f v" file-variables)
 (lunaryorn-define-group "C-c h" help)
 (lunaryorn-define-group "C-c i" insertion)
-(lunaryorn-define-group "C-c k" lisp)
+(lunaryorn-define-group "C-c k" sexps)
 (lunaryorn-define-group "C-c m" major-mode)
 (lunaryorn-define-group "C-c n" navigation)
 (lunaryorn-define-group "C-c o" multiple-cursors)
