@@ -71,8 +71,8 @@
     (define-key map (kbd "C-{") #'sp-backward-barf-sexp)
     (define-key map (kbd "C-M-<right>") #'sp-backward-barf-sexp)
     ;; Miscellaneous commands
-    (define-key map (kbd "C-c m s") #'sp-split-sexp)
-    (define-key map (kbd "C-c m j") #'sp-join-sexp)
+    (define-key map (kbd "C-c k s") #'sp-split-sexp)
+    (define-key map (kbd "C-c k j") #'sp-join-sexp)
     (define-key map (kbd "C-M-t") #'sp-transpose-sexp))
 
   (let ((map smartparens-strict-mode-map))
