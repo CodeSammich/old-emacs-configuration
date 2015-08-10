@@ -276,6 +276,7 @@
        (bind-key ,prefix #',command ,map))))
 
 (lunaryorn-define-group "C-c a" applications)
+(lunaryorn-define-group "C-c a o" org)
 (lunaryorn-define-group "C-c a S" stackexchange)
 (lunaryorn-define-group "C-c a w" eww)
 (lunaryorn-define-group "C-c b" buffers)
@@ -2248,6 +2249,20 @@ Disable the highlighting of overlong lines."
 
 (use-package term                       ; Terminal emulator in Emacs
   :bind ("C-c a T" . ansi-term))
+
+
+;;; Org Mode
+(use-package org
+  :bind (("C-c a o a" . org-agenda-list)
+         ("C-c a o c" . org-capture)
+         ("C-c a o s" . org-search-view)
+         ("C-c a o t" . org-todo-list))
+  :config (progn
+            (setq org-directory (expand-file-name "~/Documents/Org/")
+                  org-default-notes-file (expand-file-name "notes.org" org-directory))
+            ;; Disable whitespace highlighting of overlong lines in Org Mode
+            (add-hook 'org-mode-hook
+                      #'lunaryorn-whitespace-style-no-long-lines)))
 
 
 ;;; Documents
