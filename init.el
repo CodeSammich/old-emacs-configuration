@@ -1170,10 +1170,15 @@ Disable the highlighting of overlong lines."
 
 (use-package lunaryorn-flycheck         ; Personal Flycheck extensions
   :load-path "lisp/"
+  :commands (lunaryorn-discard-undesired-html-tidy-error
+             lunaryorn-flycheck-mode-line-status
+             lunaryorn-use-js-executables-from-node-modules)
   :config (progn
             ;; Don't highlight undesired errors from html tidy
             (add-hook 'flycheck-process-error-functions
                       #'lunaryorn-discard-undesired-html-tidy-error)
+            (add-hook 'flycheck-mode-hook
+                      #'lunaryorn-use-js-executables-from-node-modules)
 
             (with-eval-after-load 'flycheck
               (setq flycheck-mode-line
@@ -1870,7 +1875,8 @@ Disable the highlighting of overlong lines."
   :config (progn (setq-default js2-basic-offset 2)
                  (setq js2-global-externs '("angular"))
 
-                 (add-hook 'js2-mode-hook #'js2-highlight-unused-variables-mode)))
+                 (add-hook 'js2-mode-hook
+                           #'js2-highlight-unused-variables-mode)))
 
 (use-package css-mode                   ; CSS editing
   :defer t

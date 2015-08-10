@@ -27,6 +27,7 @@
 ;;; Code:
 
 (require 'flycheck)
+(require 'dash)
 
 (defun lunaryorn-discard-undesired-html-tidy-error (err)
   "Discard ERR if it is undesired.
@@ -40,6 +41,20 @@ most errors from HTML Tidy."
        ;; discarded
        (not (string-match-p (rx (or "missing" "discarding"))
                             (flycheck-error-message err)))))
+
+(defun lunaryorn-use-js-executables-from-node-modules ()
+  "Set executables of JS checkers from local node modules."
+  (-when-let* ((file-name (buffer-file-name))
+               (root (locate-dominating-file file-name "node_modules"))
+               (module-directory (expand-file-name "node_modules" root)))
+    (pcase-dolist (`(,checker . ,module) '((javascript-jshint . "jshint")
+                                           (javascript-eslint . "eslint")
+                                           (javascript-jscs   . "jscs")))
+      (let ((package-directory (expand-file-name module module-directory))
+            (executable-var (flycheck-checker-executable-variable checker)))
+        (when (file-directory-p package-directory)
+          (set (make-local-variable executable-var)
+               (expand-file-name (concat "bin/" module) package-directory)))))))
 
 (defun lunaryorn-flycheck-mode-line-status ()
   "Create a mode line status text for Flycheck."
