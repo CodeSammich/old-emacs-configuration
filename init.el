@@ -2259,7 +2259,8 @@ Disable the highlighting of overlong lines."
          ("C-c a o t" . org-todo-list))
   :config (progn
             (setq org-directory (expand-file-name "~/Documents/Org/")
-                  org-default-notes-file (expand-file-name "notes.org" org-directory))
+                  org-default-notes-file (expand-file-name "notes.org" org-directory)
+                  org-refile-targets '((org-agenda-files :maxlevel . 2)))
             ;; Disable whitespace highlighting of overlong lines in Org Mode
             (add-hook 'org-mode-hook
                       #'lunaryorn-whitespace-style-no-long-lines)))
