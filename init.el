@@ -1165,18 +1165,19 @@ Disable the highlighting of overlong lines."
 
             ;; Use italic face for checker name
             (set-face-attribute 'flycheck-error-list-checker-name nil
-                                :inherit 'italic)
-
-            (use-package lunaryorn-flycheck ; Personal Flycheck extensions
-              :load-path "lisp/"
-              :config (progn
-                        ;; Don't highlight undesired errors from html tidy
-                        (add-hook 'flycheck-process-error-functions
-                                  #'lunaryorn-discard-undesired-html-tidy-error)
-
-                        (setq flycheck-mode-line
-                            '(:eval (lunaryorn-flycheck-mode-line-status))))))
+                                :inherit 'italic))
   :diminish (flycheck-mode . " Ⓢ"))
+
+(use-package lunaryorn-flycheck         ; Personal Flycheck extensions
+  :load-path "lisp/"
+  :config (progn
+            ;; Don't highlight undesired errors from html tidy
+            (add-hook 'flycheck-process-error-functions
+                      #'lunaryorn-discard-undesired-html-tidy-error)
+
+            (with-eval-after-load 'flycheck
+              (setq flycheck-mode-line
+                    '(:eval (lunaryorn-flycheck-mode-line-status))))))
 
 (use-package helm-flycheck              ; Helm frontend for Flycheck errors
   :ensure t
