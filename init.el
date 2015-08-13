@@ -2258,6 +2258,7 @@ Disable the highlighting of overlong lines."
 (use-package org
   :bind (("C-c a o a" . org-agenda-list)
          ("C-c a o c" . org-capture)
+         ("C-c a o f" . org-cycle-agenda-files)
          ("C-c a o s" . org-search-view)
          ("C-c a o t" . org-todo-list))
   :config (progn
