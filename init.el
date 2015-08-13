@@ -173,11 +173,13 @@
                     nil 'prepend)
   (set-fontset-font t 'symbol (font-spec :family "Apple Symbols") nil 'prepend))
 (set-fontset-font t 'mathematical (font-spec :family "XITS Math") nil 'append)
-;; Fallback for Greek characters which Source Code Pro doesn't provide.
+;; Prefer Source Code Pro for Greek characters, and fall back to Menlo for any
+;; characters it doesn't support
 (set-fontset-font t 'greek (pcase system-type
                              (`darwin (font-spec :family "Menlo"))
                              (_ (font-spec :family "DejaVu Sans Mono")))
-                  nil 'append)
+                  nil 'prepend)
+(set-fontset-font t 'greek (font-spec :family "Source Code Pro") nil 'prepend)
 
 ;; A general fallback for all kinds of unknown symbols
 (set-fontset-font t nil (font-spec :family "Apple Symbols") nil 'append)
