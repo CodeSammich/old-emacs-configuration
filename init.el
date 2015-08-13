@@ -261,6 +261,7 @@
                   ("RET"                   . "⏎"))
                 which-key-description-replacement-alist
                 '(("Prefix Command" . "prefix")
+                  ("\\`\\?\\?\\'"   . "λ")
                   ;; Remove my personal prefix from all bindings, since it's
                   ;; only there to avoid name clashes, but doesn't add any value
                   ;; at all
