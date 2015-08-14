@@ -1093,6 +1093,12 @@ Disable the highlighting of overlong lines."
           (add-to-list 'company-backends 'company-math-symbols-unicode)
           (add-to-list 'company-backends 'company-math-symbols-latex)))
 
+(use-package company-emoji              ; Emojis completion like Github/Slack
+  :ensure t
+  :defer t
+  :init (with-eval-after-load 'company
+          (add-to-list 'company-backends 'company-emoji)))
+
 (use-package helm-company               ; Helm frontend for company
   :ensure t
   :defer t
