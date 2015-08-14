@@ -161,28 +161,42 @@
 ;;
 ;; TODO:  Find Emoji and symbol fonts for Linux and Windows
 
-;; Font setup
 (set-frame-font "Source Code Pro-13" nil t)   ; Default font
 
-;; Additional fonts for special characters and fallbacks
-;; Test range: 🐷 ❤ ⊄ ∫ 𝛼 α 🜚 Ⓚ
-(set-fontset-font t 'symbol (font-spec :family "Arial Unicode MS") nil 'prepend)
-(when (eq system-type 'darwin)
-  ;; Colored Emoji on OS X
-  (set-fontset-font t 'symbol (font-spec :family "Apple Color Emoji")
-                    nil 'prepend)
-  (set-fontset-font t 'symbol (font-spec :family "Apple Symbols") nil 'prepend))
-(set-fontset-font t 'mathematical (font-spec :family "XITS Math") nil 'append)
-;; Prefer Source Code Pro for Greek characters, and fall back to Menlo for any
-;; characters it doesn't support
-(set-fontset-font t 'greek (pcase system-type
-                             (`darwin (font-spec :family "Menlo"))
-                             (_ (font-spec :family "DejaVu Sans Mono")))
-                  nil 'prepend)
-(set-fontset-font t 'greek (font-spec :family "Source Code Pro") nil 'prepend)
+;; Font setup
+(defun lunaryorn-configure-fonts (frame)
+  "Set up fonts for FRAME.
 
-;; A general fallback for all kinds of unknown symbols
-(set-fontset-font t nil (font-spec :family "Apple Symbols") nil 'append)
+Set the default font, and configure various overrides for
+symbols, emojis, greek letters, as well as fall backs for."
+  ;; Additional fonts for special characters and fallbacks
+  ;; Test range: 🐷 ❤ ⊄ ∫ 𝛼 α 🜚 Ⓚ
+  (set-fontset-font t 'symbol (font-spec :family "Arial Unicode MS")
+                    frame 'prepend)
+  (when (eq system-type 'darwin)
+    ;; Colored Emoji on OS X
+    (set-fontset-font t 'symbol (font-spec :family "Apple Color Emoji")
+                      frame 'prepend)
+    (set-fontset-font t 'symbol (font-spec :family "Apple Symbols")
+                      frame 'prepend))
+  (set-fontset-font t 'mathematical (font-spec :family "XITS Math")
+                    frame 'append)
+  ;; Prefer Source Code Pro for Greek characters, and fall back to Menlo for any
+  ;; characters it doesn't support
+  (set-fontset-font t 'greek (pcase system-type
+                               (`darwin (font-spec :family "Menlo"))
+                               (_ (font-spec :family "DejaVu Sans Mono")))
+                    frame 'prepend)
+  (set-fontset-font t 'greek (font-spec :family "Source Code Pro")
+                    frame 'prepend)
+
+  ;; A general fallback for all kinds of unknown symbols
+  (set-fontset-font t nil (font-spec :family "Apple Symbols")
+                    frame 'append))
+
+(when-let (frame (selected-frame))
+  (lunaryorn-configure-fonts frame))
+(add-hook 'after-make-frame-functions #'lunaryorn-configure-fonts)
 
 
 ;;; User interface
@@ -1605,6 +1619,14 @@ Disable the highlighting of overlong lines."
   :defer t
   :config (progn
             (setq sbt:display-command-buffer nil)
+
+            ;; Disable Smartparens Mode in SBT buffers, because it frequently
+            ;; hangs while trying to find matching delimiters
+            (add-hook 'sbt-mode-hook
+                      (lambda ()
+                        (when (and (bound-and-true-p smartparens-mode)
+                                   (fboundp 'smartparens-mode))
+                          (smartparens-mode -1))))
 
             (with-eval-after-load 'scala-mode2
               (bind-key "C-c m b c" #'sbt-command scala-mode-map)
