@@ -156,11 +156,14 @@
 ;; - Source Code Pro (https://github.com/adobe-fonts/source-code-pro) as default
 ;; - XITS Math (https://github.com/khaledhosny/xits-math) as fallback for math
 ;;
+;; A good alternative to Source Code Pro is Consolas.  Other great monospace
+;; fonts are Monoid (http://larsenwork.com/monoid/, free) and Pragmata Pro
+;; (http://www.fsd.it/fonts/pragmatapro.htm, proprietary, around).
+;;
 ;; Currently this setup only works for OS X, as we rely on Apple's Emoji and
 ;; Symbol fonts.
 ;;
 ;; TODO:  Find Emoji and symbol fonts for Linux and Windows
-
 (set-frame-font "Source Code Pro-13" nil t)   ; Default font
 
 ;; Font setup
