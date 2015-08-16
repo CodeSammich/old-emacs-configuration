@@ -1200,16 +1200,16 @@ Disable the highlighting of overlong lines."
   :commands (lunaryorn-discard-undesired-html-tidy-error
              lunaryorn-flycheck-mode-line-status
              lunaryorn-use-js-executables-from-node-modules)
-  :config (progn
-            ;; Don't highlight undesired errors from html tidy
-            (add-hook 'flycheck-process-error-functions
-                      #'lunaryorn-discard-undesired-html-tidy-error)
-            (add-hook 'flycheck-mode-hook
-                      #'lunaryorn-use-js-executables-from-node-modules)
+  :init (progn
+          ;; Don't highlight undesired errors from html tidy
+          (add-hook 'flycheck-process-error-functions
+                    #'lunaryorn-discard-undesired-html-tidy-error)
+          (add-hook 'flycheck-mode-hook
+                    #'lunaryorn-use-js-executables-from-node-modules)
 
-            (with-eval-after-load 'flycheck
-              (setq flycheck-mode-line
-                    '(:eval (lunaryorn-flycheck-mode-line-status))))))
+          (with-eval-after-load 'flycheck
+            (setq flycheck-mode-line
+                  '(:eval (lunaryorn-flycheck-mode-line-status))))))
 
 (use-package helm-flycheck              ; Helm frontend for Flycheck errors
   :ensure t
