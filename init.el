@@ -1621,6 +1621,9 @@ Disable the highlighting of overlong lines."
 (use-package sbt-mode                   ; Scala build tool
   :ensure t
   :defer t
+  :init (with-eval-after-load 'scala-mode2
+          (bind-key "C-c m b c" #'sbt-command scala-mode-map)
+          (bind-key "C-c m b r" #'sbt-run-previous-command scala-mode-map))
   :config (progn
             (setq sbt:display-command-buffer nil)
 
@@ -1630,11 +1633,7 @@ Disable the highlighting of overlong lines."
                       (lambda ()
                         (when (and (bound-and-true-p smartparens-mode)
                                    (fboundp 'smartparens-mode))
-                          (smartparens-mode -1))))
-
-            (with-eval-after-load 'scala-mode2
-              (bind-key "C-c m b c" #'sbt-command scala-mode-map)
-              (bind-key "C-c m b r" #'sbt-run-previous-command scala-mode-map))))
+                          (smartparens-mode -1))))))
 
 (use-package ensime                     ; Scala interaction mode
   :ensure t
