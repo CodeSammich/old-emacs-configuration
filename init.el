@@ -1434,13 +1434,14 @@ Disable the highlighting of overlong lines."
 
     ;; Fight my habit of constantly pressing M-q.  We should not fill in GFM
     ;; Mode.
-    (bind-key "M-q" #'ignore gfm-mode-map)
+    (bind-key "M-q" #'ignore gfm-mode-map)))
 
-    (use-package lunaryorn-markdown     ; Personal Markdown extensions
-      :load-path "lisp/"
-      :commands (lunaryorn-markdown-post-header)
-      :config (bind-key "C-c m h" #'lunaryorn-markdown-post-header
-                        markdown-mode-map))))
+(use-package lunaryorn-markdown         ; Personal Markdown extensions
+  :load-path "lisp/"
+  :commands (lunaryorn-markdown-post-header)
+  :init (with-eval-after-load 'markdown-mode
+            (bind-key "C-c m h" #'lunaryorn-markdown-post-header
+                      markdown-mode-map)))
 
 (use-package jira-markup-mode           ; Jira markup
   :ensure t
