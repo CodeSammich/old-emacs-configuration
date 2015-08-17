@@ -2143,7 +2143,7 @@ Disable the highlighting of overlong lines."
 
 
 ;;; Search
-(use-package isearch                    ; Search buffers
+(use-package "isearch"                  ; Search buffers
   ;; Defer because `isearch' is not a feature and we don't want to `require' it
   :defer t
   ;; `:diminish' doesn't work for isearch, because it uses eval-after-load on
