@@ -66,7 +66,7 @@ most errors from HTML Tidy."
          (text-and-face
           (pcase flycheck-last-status-change
             (`not-checked nil)
-            (`no-checker '("●" . warning))
+            (`no-checker '("•" . warning))
             (`running '("*" . success))
             (`errored '("!" . error))
             (`finished
@@ -76,10 +76,10 @@ most errors from HTML Tidy."
                     (no-warnings (cdr (assq 'warning error-counts))))
                (cond
                 (no-errors
-                 (cons (format "●%s ●%s" no-errors (or no-warnings 0)) 'error))
+                 (cons (format "•%s •%s" no-errors (or no-warnings 0)) 'error))
                 (no-warnings
-                 (cons (format "●%s" no-warnings) 'warning))
-                (t (cons "●" 'success)))))
+                 (cons (format "•%s" no-warnings) 'warning))
+                (t (cons "•" 'success)))))
             (`interrupted (cons "x" nil))
             (`suspicious '("?" . warning)))))
     (when text-and-face
