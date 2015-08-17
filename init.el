@@ -153,18 +153,21 @@
 
 ;; We use these fonts:
 ;;
-;; - Source Code Pro (https://github.com/adobe-fonts/source-code-pro) as default
+;; - Monoid (http://larsenwork.com/monoid/) as default
 ;; - XITS Math (https://github.com/khaledhosny/xits-math) as fallback for math
 ;;
-;; A good alternative to Source Code Pro is Consolas.  Other great monospace
-;; fonts are Monoid (http://larsenwork.com/monoid/, free) and Pragmata Pro
-;; (http://www.fsd.it/fonts/pragmatapro.htm, proprietary, around).
+;; Source Code Pro (https://github.com/adobe-fonts/source-code-pro) is a good
+;; monospace font, too.  An alternative is Consolas.  Another great monospace
+;; font is and Pragmata Pro (http://www.fsd.it/fonts/pragmatapro.htm,
+;; proprietary, around 200$).
 ;;
 ;; Currently this setup only works for OS X, as we rely on Apple's Emoji and
 ;; Symbol fonts.
 ;;
 ;; TODO:  Find Emoji and symbol fonts for Linux and Windows
-(set-frame-font "Source Code Pro-13" nil t)   ; Default font
+
+;; Use Monoid Retina as default font
+(set-frame-font "Monoid-12:weight=light" nil t)
 
 ;; Font setup
 (defun lunaryorn-configure-fonts (frame)
@@ -174,26 +177,28 @@ Set the default font, and configure various overrides for
 symbols, emojis, greek letters, as well as fall backs for."
   ;; Additional fonts for special characters and fallbacks
   ;; Test range: 🐷 ❤ ⊄ ∫ 𝛼 α 🜚 Ⓚ
-  (set-fontset-font t 'symbol (font-spec :family "Arial Unicode MS")
-                    frame 'prepend)
-  (when (eq system-type 'darwin)
-    ;; Colored Emoji on OS X
-    (set-fontset-font t 'symbol (font-spec :family "Apple Color Emoji")
-                      frame 'prepend)
-    (set-fontset-font t 'symbol (font-spec :family "Apple Symbols")
-                      frame 'prepend))
-  (set-fontset-font t 'mathematical (font-spec :family "XITS Math")
-                    frame 'append)
-  ;; Prefer Source Code Pro for Greek characters, and fall back to Menlo for any
-  ;; characters it doesn't support
-  (set-fontset-font t 'greek (pcase system-type
-                               (`darwin (font-spec :family "Menlo"))
-                               (_ (font-spec :family "DejaVu Sans Mono")))
-                    frame 'prepend)
-  (set-fontset-font t 'greek (font-spec :family "Source Code Pro")
-                    frame 'prepend)
 
-  ;; A general fallback for all kinds of unknown symbols
+  (dolist (script '(symbol mathematical))
+    (set-fontset-font t script (font-spec :family "XITS Math")
+                      frame 'prepend))
+
+  ;; Define a font set stack for symbols, greek and math characters
+  (dolist (script '(symbol greek mathematical))
+    (set-fontset-font t script (font-spec :family "Arial Unicode MS")
+                      frame 'prepend)
+    (set-fontset-font t script (font-spec :family "Menlo")
+                      frame 'prepend)
+    (set-fontset-font t script (font-spec :family "DejaVu Sans Mono")
+                      frame 'prepend)
+    (set-fontset-font t script (font-spec :family "Monoid" :weight 'light)
+                      frame 'prepend))
+
+  (when (eq system-type 'darwin)
+    ;; Colored Emoji on OS X, prefer over everything else!
+    (set-fontset-font t 'symbol (font-spec :family "Apple Color Emoji")
+                      frame 'prepend))
+
+  ;; Fallbacks for math and generic symbols
   (set-fontset-font t nil (font-spec :family "Apple Symbols")
                     frame 'append))
 
