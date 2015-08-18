@@ -29,6 +29,14 @@
 (require 'flycheck)
 (require 'dash)
 
+(defun lunaryorn-flycheck-set-load-path-for-user-configuration ()
+  "Set Flycheck load path for files in user configuration."
+  (when (and (buffer-file-name)
+             (flycheck-in-user-emacs-directory-p (buffer-file-name)))
+    (setq-local flycheck-emacs-lisp-load-path
+                (cons (locate-user-emacs-file "lisp/")
+                      flycheck-emacs-lisp-load-path))))
+
 (defun lunaryorn-discard-undesired-html-tidy-error (err)
   "Discard ERR if it is undesired.
 

@@ -1204,13 +1204,15 @@ Disable the highlighting of overlong lines."
   :load-path "lisp/"
   :commands (lunaryorn-discard-undesired-html-tidy-error
              lunaryorn-flycheck-mode-line-status
-             lunaryorn-use-js-executables-from-node-modules)
+             lunaryorn-use-js-executables-from-node-modules
+             lunaryorn-flycheck-set-load-path-for-user-configuration)
   :init (progn
           ;; Don't highlight undesired errors from html tidy
           (add-hook 'flycheck-process-error-functions
                     #'lunaryorn-discard-undesired-html-tidy-error)
-          (add-hook 'flycheck-mode-hook
-                    #'lunaryorn-use-js-executables-from-node-modules)
+          (dolist (hook-fn '(lunaryorn-use-js-executables-from-node-modules
+                             lunaryorn-flycheck-set-load-path-for-user-configuration))
+            (add-hook 'flycheck-mode-hook hook-fn))
 
           (with-eval-after-load 'flycheck
             (setq flycheck-mode-line
