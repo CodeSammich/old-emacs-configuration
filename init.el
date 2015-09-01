@@ -2057,6 +2057,12 @@ Disable the highlighting of overlong lines."
   ;; Always follow symlinks to files in VCS repos
   (setq vc-follow-symlinks t))
 
+(use-package what-the-commit            ; Insert random commit messages
+  :disabled t                           ; Enable when MELPA as rebuild
+  :ensure t
+  :bind (("C-c i w" . what-the-commit-insert)
+         ("C-c v w" . what-the-commit)))
+
 (use-package diff-hl                    ; Highlight hunks in fringe
   :ensure t
   :defer t
