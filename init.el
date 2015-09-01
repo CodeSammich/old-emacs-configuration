@@ -478,7 +478,7 @@ mouse-3: go to end"))))
           ;; Kill `suspend-frame'
           (global-set-key (kbd "C-z") nil)
           (global-set-key (kbd "C-x C-z") nil))
-  :config (add-to-list 'initial-frame-alist '(fullscreen . maximized)))
+  :config (add-to-list 'initial-frame-alist '(fullscreen . fullboth)))
 
 (use-package focus-autosave-mode        ; Save buffers when focus is lost
   :ensure t
