@@ -87,12 +87,11 @@
   :config
   (progn
     (when (string-match-p "/zsh$" (getenv "SHELL"))
-      ;; Use a non-interactive shell.  We use a login shell, even though we have
-      ;; our paths setup in .zshenv.  However, OS X adds global settings to the
-      ;; login profile.  Notably, this affects /usr/texbin from MacTeX
+      ;; Use a non-interactive login shell.  A login shell, because my
+      ;; environment variables are mostly set in `.zprofile'.
       (setq exec-path-from-shell-arguments '("-l")))
 
-    (dolist (var '("EMAIL" "PYTHONPATH" "INFOPATH" "SBT_OPTS" "JAVA_OPTS"))
+    (dolist (var '("EMAIL" "PYTHONPATH" "INFOPATH" "JAVA_OPTS"))
       (add-to-list 'exec-path-from-shell-variables var))
 
     (exec-path-from-shell-initialize)
