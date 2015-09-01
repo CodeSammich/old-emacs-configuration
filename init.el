@@ -1994,6 +1994,10 @@ Disable the highlighting of overlong lines."
   :config (with-eval-after-load 'flycheck
             (add-to-list 'flycheck-checkers 'swift)))
 
+(use-package homebrew-mode              ; Homebrew Formulae
+  :ensure t
+  :defer t)
+
 
 ;;; Proof General & Coq
 (defun lunaryorn-have-proofgeneral-p ()
