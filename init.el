@@ -1755,9 +1755,15 @@ Disable the highlighting of overlong lines."
 
 
 ;;; Rust
-(use-package rust-mode                  ; Rust
+(use-package rust-mode                  ; Rust major mode
   :ensure t
   :defer t)
+
+(use-package rustfmt                    ; Format Rust code
+  :ensure t
+  :defer t
+  :init (with-eval-after-load 'rust-mode
+          (bind-key "C-c m f" #'rustfmt-format-buffer rust-mode-map)))
 
 (use-package flycheck-rust              ; Flycheck setup for Rust
   :ensure t
