@@ -2049,6 +2049,12 @@ Disable the highlighting of overlong lines."
 (use-package sql                        ; SQL editing and REPL
   :bind (("C-c a s" . sql-connect)))
 
+(use-package format-sql
+  :ensure t
+  :bind ("C-c x s" . format-sql-region)
+  :init (with-eval-after-load 'sql
+          (bind-key "C-c m f" #'format-sql-buffer sql-mode-map)))
+
 
 ;;; Version control
 (use-package vc-hooks                   ; Simple version control
