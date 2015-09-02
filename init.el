@@ -2068,7 +2068,6 @@ Disable the highlighting of overlong lines."
   (setq vc-follow-symlinks t))
 
 (use-package what-the-commit            ; Insert random commit messages
-  :disabled t                           ; Enable when MELPA as rebuild
   :ensure t
   :bind (("C-c i w" . what-the-commit-insert)
          ("C-c v w" . what-the-commit)))
