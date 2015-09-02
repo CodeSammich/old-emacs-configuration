@@ -696,7 +696,8 @@ mouse-3: go to end"))))
   :ensure t
   :config (progn (dolist (name '(".cask"
                                  ".vagrant"
-                                 ".ensime_cache" ".ensime"))
+                                 ".ensime_cache" ".ensime"
+                                 ".stack-work"))
                    ;; Ignore some additional directories
                    (add-to-list 'ignoramus-file-basename-exact-names name))
                  (ignoramus-setup)))
