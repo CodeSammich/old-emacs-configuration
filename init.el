@@ -1848,8 +1848,14 @@ Disable the highlighting of overlong lines."
 
 (use-package haskell-indentation        ; Intelligent Haskell indentation
   :ensure haskell-mode
+  :disabled t
   :defer t
   :init (add-hook 'haskell-mode-hook #'haskell-indentation-mode))
+
+(use-package hyai                       ; Haskell Indentation as per John Tibell
+  :ensure t
+  :defer t
+  :init (add-hook 'haskell-mode-hook #'hyai-mode))
 
 (use-package hindent                    ; Automated Haskell indentation
   :ensure t
