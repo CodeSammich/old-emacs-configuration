@@ -1867,17 +1867,11 @@ Disable the highlighting of overlong lines."
   :defer t
   :init (add-hook 'flycheck-mode-hook #'flycheck-haskell-setup))
 
-(use-package helm-hayoo                 ; Helm frontend for Hayoo
-  :ensure t
-  :defer t
-  :init (with-eval-after-load 'haskell-mode
-          (bind-key "C-c m h" #'helm-hayoo haskell-mode-map)))
-
 (use-package helm-hoogle                ; Helm frontend for Hoogle
   :ensure t
   :defer t
   :init (with-eval-after-load 'haskell-mode
-          (bind-key "C-c m H" #'helm-hoogle haskell-mode-map)))
+          (bind-key "C-c m h" #'helm-hoogle haskell-mode-map)))
 
 
 ;;; OCaml
