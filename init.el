@@ -1806,11 +1806,7 @@ Disable the highlighting of overlong lines."
           haskell-process-use-presentation-mode t ; Don't clutter the echo area
           haskell-process-show-debug-tips nil     ; Disable tips
           haskell-process-log t                   ; Log debugging information
-          ;; Suggest imports automatically with Hayoo.  Hayoo is slower because
-          ;; it's networked, but it covers all of hackage, which is really an
-          ;; advantage.
-          haskell-process-suggest-hoogle-imports nil
-          haskell-process-suggest-hayoo-imports t)
+          haskell-process-suggest-hoogle-imports t)
 
     (when-let (ghci-ng (executable-find "ghci-ng"))
       ;; Use GHCI NG from https://github.com/chrisdone/ghci-ng
