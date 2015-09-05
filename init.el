@@ -1855,12 +1855,14 @@ Disable the highlighting of overlong lines."
 (use-package hyai                       ; Haskell Indentation as per John Tibell
   :ensure t
   :defer t
-  :init (add-hook 'haskell-mode-hook #'hyai-mode))
+  :init (add-hook 'haskell-mode-hook #'hyai-mode)
+  :diminish (hyai-mode . " ⓘ"))
 
 (use-package hindent                    ; Automated Haskell indentation
   :ensure t
   :defer t
-  :init (add-hook 'haskell-mode-hook #'hindent-mode))
+  :init (add-hook 'haskell-mode-hook #'hindent-mode)
+  :diminish (hindent-mode . " Ⓘ"))
 
 (use-package flycheck-haskell           ; Setup Flycheck from Cabal projects
   :ensure t
