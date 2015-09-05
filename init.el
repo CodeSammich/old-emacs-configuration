@@ -1193,7 +1193,8 @@ Disable the highlighting of overlong lines."
          ("C-c t f" . flycheck-mode))
   :init (global-flycheck-mode)
   :config (progn
-            (setq flycheck-display-errors-function
+            (setq flycheck-standard-error-navigation nil
+                  flycheck-display-errors-function
                   #'flycheck-display-error-messages-unless-error-list)
 
             ;; Use italic face for checker name
