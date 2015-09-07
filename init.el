@@ -1682,6 +1682,10 @@ Disable the highlighting of overlong lines."
   ;; Compile on save.  My projects are small enough :)
   :config (setq ensime-sbt-perform-on-save "test:compile"))
 
+;; Work around https://github.com/ensime/ensime-emacs/pull/235
+(with-eval-after-load 'ensime-macros
+  (require 'subr-x))
+
 (use-package lunaryorn-scala            ; Personal Scala tools
   :load-path "lisp/"
   :commands (lunaryorn-scala-ensime-mode-line-status
