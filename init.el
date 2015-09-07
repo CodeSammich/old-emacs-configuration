@@ -2103,6 +2103,8 @@ Disable the highlighting of overlong lines."
                   magit-save-repository-buffers 'dontask
                   magit-push-always-verify nil
                   magit-refs-show-commit-count 'all
+                  ;; This is creepy, Magit
+                  magit-revision-show-gravatars nil
                   ;; For some reason this doesn't work :(
                   ;; magit-completing-read-function
                   ;; #'helm-completing-read-with-cands-in-buffer
