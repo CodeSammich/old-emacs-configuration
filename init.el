@@ -2318,7 +2318,7 @@ Disable the highlighting of overlong lines."
          ("C-c a o s" . org-search-view)
          ("C-c a o t" . org-todo-list))
   :config (progn
-            (setq org-directory (expand-file-name "~/Google Drive/Org/")
+            (setq org-directory (expand-file-name "~/Dropbox/Org/")
                   org-default-notes-file (expand-file-name "notes.org" org-directory)
                   org-refile-targets '((org-agenda-files :maxlevel . 2)))
             ;; Disable whitespace highlighting of overlong lines in Org Mode
