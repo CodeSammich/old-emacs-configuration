@@ -1840,6 +1840,10 @@ Disable the highlighting of overlong lines."
   :defer t
   :config (add-hook 'haskell-interactive-mode-hook #'subword-mode))
 
+(use-package stack-mode
+  :load-path "vendor/stack-ide/stack-mode"
+  :defer t)
+
 (use-package hyai                       ; Haskell Indentation as per John Tibell
   :ensure t
   :defer t
