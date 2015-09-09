@@ -1837,6 +1837,7 @@ Disable the highlighting of overlong lines."
 
 (use-package haskell-interactive-mode   ; Haskell REPL interaction
   :ensure haskell-mode
+  :disabled t
   :defer t
   :config (add-hook 'haskell-interactive-mode-hook #'subword-mode))
 
