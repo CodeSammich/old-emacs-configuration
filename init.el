@@ -168,6 +168,8 @@
 
 ;; Use Monoid Retina as default font
 (set-frame-font "Monoid-12:weight=light" nil t)
+(set-face-attribute 'variable-pitch nil
+                    :family "Fira Sans" :height 140 :weight 'regular)
 
 ;; Font setup
 (defun lunaryorn-configure-fonts (frame)
