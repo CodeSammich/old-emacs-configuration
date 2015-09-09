@@ -1,0 +1,3 @@
+[submodule "vendor/stack-ide"]
+	path = vendor/stack-ide
+	url = https://github.com/commercialhaskell/stack-ide.git
