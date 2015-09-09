@@ -1840,18 +1840,6 @@ Disable the highlighting of overlong lines."
   :defer t
   :config (add-hook 'haskell-interactive-mode-hook #'subword-mode))
 
-(use-package haskell-simple-indent      ; Primitive Haskell indentation
-  :ensure haskell-mode
-  :disabled t
-  :defer t
-  :init (add-hook 'haskell-mode-hook #'haskell-simple-indent-mode))
-
-(use-package haskell-indentation        ; Intelligent Haskell indentation
-  :ensure haskell-mode
-  :disabled t
-  :defer t
-  :init (add-hook 'haskell-mode-hook #'haskell-indentation-mode))
-
 (use-package hyai                       ; Haskell Indentation as per John Tibell
   :ensure t
   :defer t
