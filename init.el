@@ -166,8 +166,8 @@
 ;;
 ;; TODO:  Find Emoji and symbol fonts for Linux and Windows
 
-;; Use Monoid Retina as default font
-(set-frame-font "Monoid-12:weight=light" nil t)
+(set-face-attribute 'default nil
+                    :family "Monoid" :height 120 :weight 'light)
 (set-face-attribute 'variable-pitch nil
                     :family "Fira Sans" :height 140 :weight 'regular)
 
