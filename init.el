@@ -696,13 +696,19 @@ mouse-3: go to end"))))
 
 (use-package ignoramus                  ; Ignore uninteresting files everywhere
   :ensure t
-  :config (progn (dolist (name '(".cask"
-                                 ".vagrant"
-                                 ".ensime_cache" ".ensime"
-                                 ".stack-work"))
-                   ;; Ignore some additional directories
-                   (add-to-list 'ignoramus-file-basename-exact-names name))
-                 (ignoramus-setup)))
+  :config (progn
+            ;; Ignore some additional directories and file extensions
+            (dolist (name '(".cask"
+                            ".vagrant"
+                            ".ensime_cache" ".ensime"
+                            ".stack-work"))
+              ;; Ignore some additional directories
+              (add-to-list 'ignoramus-file-basename-exact-names name))
+            (dolist (ext '(".fls" ".out" ; LaTeX
+                           ))
+              (add-to-list 'ignoramus-file-endings ext))
+
+            (ignoramus-setup)))
 
 (use-package hardhat                    ; Protect user-writable files
   :ensure t
