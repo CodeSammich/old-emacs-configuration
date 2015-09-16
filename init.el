@@ -1648,7 +1648,7 @@ Disable the highlighting of overlong lines."
   :commands (flycheck-auto-scalastyle-configure
              flycheck-auto-scalastyle-setup)
   :init (with-eval-after-load 'scala-mode2
-          (add-hook 'flycheck-mode-hook #'flycheck-auto-scalastyle-setup)))
+          (flycheck-auto-scalastyle-setup)))
 
 (use-package sbt-mode                   ; Scala build tool
   :ensure t
