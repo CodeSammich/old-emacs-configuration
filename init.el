@@ -589,6 +589,21 @@ mouse-3: go to end"))))
   :ensure t
   :bind (("C-c t r" . writeroom-mode)))
 
+(use-package popup                      ; Popup menus
+  ;; We don't ensure this package, because we definitely don't want to have this
+  ;; mess, but unfortunately it's a dependency of Ensime :(
+  :ensure nil
+  :defer t
+  :config (progn
+            ;; Bring Popup bindings in line with Company bindings, by getting
+            ;; rid of C-n/p for navigation and introducing M-n/p
+            (define-key popup-menu-keymap "\C-n" nil)
+            (define-key popup-menu-keymap [down] nil)
+            (define-key popup-menu-keymap "\C-p" nil)
+            (define-key popup-menu-keymap [up] nil)
+            (define-key popup-menu-keymap (kbd "M-n") #'popup-next)
+            (define-key popup-menu-keymap (kbd "M-p") #'popup-previous)))
+
 
 ;;; File handling
 
