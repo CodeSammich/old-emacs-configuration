@@ -28,7 +28,7 @@
 
 (require 'flycheck)
 
-(defcustom flycheck-auto-scalastyle-version '("0.6.0" . "2.10")
+(defcustom flycheck-auto-scalastyle-version '("0.7.0" . "2.10")
   "Version of scala style to use for Flycheck.
 
 A pair of `(VERSION . SCALA-VERSION)'."
@@ -62,7 +62,6 @@ A pair of `(VERSION . SCALA-VERSION)'."
       (make-directory flycheck-auto-scalastyle-jar-dir 'parents)
       (message "Downloading scalastyle JAR")
       (url-copy-file (flycheck-auto-scalastyle-url) file-name))
-
     file-name))
 
 ;;;###autoload
