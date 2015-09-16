@@ -1216,7 +1216,8 @@ Disable the highlighting of overlong lines."
   :config (progn
             (setq flycheck-standard-error-navigation nil
                   flycheck-display-errors-function
-                  #'flycheck-display-error-messages-unless-error-list)
+                  #'flycheck-display-error-messages-unless-error-list
+                  flycheck-scalastylerc "scalastyle_config.xml")
 
             ;; Use italic face for checker name
             (set-face-attribute 'flycheck-error-list-checker-name nil
@@ -1225,7 +1226,8 @@ Disable the highlighting of overlong lines."
 
 (use-package lunaryorn-flycheck         ; Personal Flycheck extensions
   :load-path "lisp/"
-  :commands (lunaryorn-discard-undesired-html-tidy-error
+  :commands (lunaryorn-flycheck-find-config-file-in-sbt-project
+             lunaryorn-discard-undesired-html-tidy-error
              lunaryorn-flycheck-mode-line-status
              lunaryorn-use-js-executables-from-node-modules
              lunaryorn-flycheck-set-load-path-for-user-configuration)
@@ -1233,6 +1235,8 @@ Disable the highlighting of overlong lines."
           ;; Don't highlight undesired errors from html tidy
           (add-hook 'flycheck-process-error-functions
                     #'lunaryorn-discard-undesired-html-tidy-error)
+          (add-hook 'flycheck-locate-config-file-functions
+                    #'lunaryorn-flycheck-find-config-file-in-sbt-project)
           (dolist (hook-fn '(lunaryorn-use-js-executables-from-node-modules
                              lunaryorn-flycheck-set-load-path-for-user-configuration))
             (add-hook 'flycheck-mode-hook hook-fn))

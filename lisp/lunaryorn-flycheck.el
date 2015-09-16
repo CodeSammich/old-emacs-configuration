@@ -29,6 +29,15 @@
 (require 'flycheck)
 (require 'dash)
 
+(defun lunaryorn-flycheck-find-config-file-in-sbt-project (file &optional _checker)
+  "Find a config FILE in sbt project/ directories."
+  (-when-let* ((file-name (buffer-file-name))
+               (root-dir (locate-dominating-file file-name "build.sbt"))
+               (project-dir (expand-file-name "project/" root-dir))
+               (config-file (expand-file-name file project-dir)))
+    (when (file-exists-p config-file)
+      config-file)))
+
 (defun lunaryorn-flycheck-set-load-path-for-user-configuration ()
   "Set Flycheck load path for files in user configuration."
   (when (and (buffer-file-name)
