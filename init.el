@@ -1096,12 +1096,10 @@ Disable the highlighting of overlong lines."
 (use-package company                    ; Graphical (auto-)completion
   :ensure t
   :init (global-company-mode)
-  :config
-  (progn
-    (setq company-tooltip-align-annotations t
-          company-tooltip-flip-when-above t
-          ;; Easy navigation to candidates with M-<n>
-          company-show-numbers t))
+  :config (setq company-tooltip-align-annotations t
+                company-tooltip-flip-when-above t
+                ;; Easy navigation to candidates with M-<n>
+                company-show-numbers t)
   :diminish company-mode)
 
 (use-package company-quickhelp          ; Show help in tooltip
