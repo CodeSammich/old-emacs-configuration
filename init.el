@@ -321,6 +321,7 @@ symbols, emojis, greek letters, as well as fall backs for."
 (lunaryorn-define-group "C-c s" search-and-symbols)
 (lunaryorn-define-group "C-c t" toggles)
 (lunaryorn-define-group "C-c v" version-control)
+(lunaryorn-define-group "C-c v G" github)
 (lunaryorn-define-group "C-c w" windows-and-frames)
 (lunaryorn-define-group "C-c x" text)
 (lunaryorn-define-group "C-c x a" align)
@@ -2190,6 +2191,11 @@ Disable the highlighting of overlong lines."
   :ensure t
   :defer t
   :init (add-hook 'magit-mode-hook #'turn-on-magit-gh-pulls))
+
+(use-package helm-open-github           ; Open Github pages for current repo
+  :ensure t
+  :bind (("C-c v G i" . helm-open-github-from-issues)
+         ("C-c v G p" . helm-open-github-from-pull-requests)))
 
 
 ;;; Search
