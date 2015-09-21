@@ -582,8 +582,10 @@ mouse-3: go to end"))))
             ;; Save desktops a minute after Emacs was idle.
             (setq desktop-auto-save-timeout 60)
 
-            (dolist (mode '(magit-mode git-commit-mode))
-              (add-to-list 'desktop-modes-not-to-save mode))))
+            ;; Don't save Magit and Git related buffers
+            (dolist (mode '(magit-mode magit-log-mode))
+              (add-to-list 'desktop-modes-not-to-save mode))
+            (add-to-list 'desktop-files-not-to-save (rx bos "COMMIT_EDITMSG"))))
 
 (use-package writeroom-mode             ; Distraction-free editing
   :ensure t
