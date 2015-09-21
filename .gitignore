@@ -32,7 +32,7 @@
 /smex-items
 /bookmarks
 /history
-/ido.last
+/ido.last*
 /places
 /projectile-bookmarks.eld
 /projectile.cache
