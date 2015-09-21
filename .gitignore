@@ -2,9 +2,11 @@
 *.elc
 
 # Customization settings.  We ignore these because they are automatically
-# generated, and sometimes contain “local” information (e.g. safe themes,
-# automatically installed packages).  And all of my real settings are in init.el
-# anyway
+# generated, contain “local” information (e.g. safe themes, automatically
+# installed packages), and most importantly, hold _sensitive_ information,
+# e.g. DB connection settings, access tokens, etc.
+#
+# DO NOT UNIGNORE THIS FILE!
 /custom.el
 
 # Installed packages
