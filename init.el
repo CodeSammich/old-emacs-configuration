@@ -2153,11 +2153,6 @@ Disable the highlighting of overlong lines."
   :diminish (magit-wip-after-save-local-mode
              magit-wip-before-change-mode))
 
-(use-package magit-gh-pulls             ; Show Github PRs in Magit
-  :ensure t
-  :defer t
-  :init (add-hook 'magit-mode-hook #'turn-on-magit-gh-pulls))
-
 (use-package git-commit                 ; Git commit message mode
   :ensure t
   :defer t
@@ -2181,6 +2176,14 @@ Disable the highlighting of overlong lines."
 (use-package git-timemachine            ; Go back in Git time
   :ensure t
   :bind (("C-c v t" . git-timemachine)))
+
+
+;;; Github integration
+
+(use-package magit-gh-pulls             ; Show Github PRs in Magit
+  :ensure t
+  :defer t
+  :init (add-hook 'magit-mode-hook #'turn-on-magit-gh-pulls))
 
 
 ;;; Search
