@@ -1853,8 +1853,6 @@ Disable the highlighting of overlong lines."
 (use-package haskell                    ; Haskell tools
   :ensure haskell-mode
   :defer t
-  :init (dolist (hook '(haskell-mode-hook haskell-cabal-mode-hook))
-          (add-hook hook #'interactive-haskell-mode))
   :config
   (progn
     (bind-key "C-c m t" #'haskell-mode-show-type-at
@@ -1870,9 +1868,10 @@ Disable the highlighting of overlong lines."
   :defer t
   :config (add-hook 'haskell-interactive-mode-hook #'subword-mode))
 
-(use-package stack-mode
-  :load-path "vendor/stack-ide/stack-mode"
-  :defer t)
+(use-package stack-mode                 ; Stack IDE
+  :ensure t
+  :defer t
+  :config (add-hook 'haskell-mode-hook #'stack-mode))
 
 (use-package hyai                       ; Haskell Indentation as per John Tibell
   :ensure t
