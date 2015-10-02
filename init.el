@@ -805,6 +805,12 @@ mouse-3: go to end"))))
   :init (with-eval-after-load 'tramp
           (vagrant-tramp-enable)))
 
+(use-package tramp-hdfs                 ; HDFS backend for Tramp
+  :ensure t
+  :defer t
+  :init (with-eval-after-load 'tramp
+          (require 'tramp-hdfs)))
+
 
 ;;; Navigation and scrolling
 (setq scroll-margin 0                   ; Drag the point along while scrolling
