@@ -631,12 +631,6 @@ mouse-3: go to end"))))
   ;; https://github.com/technomancy/emacs-starter-kit/issues/39
   :config (setq ffap-machine-p-known 'reject))
 
-(use-package tramp                      ; Access remote files
-  :defer t
-  :config
-  ;; Store auto-save files locally
-  (setq tramp-auto-save-directory (locate-user-emacs-file "tramp-auto-save")))
-
 (use-package server                     ; The server of `emacsclient'
   :defer t
   :init (server-mode)
@@ -795,6 +789,14 @@ mouse-3: go to end"))))
 (bind-key "C-c f v d" #'add-dir-local-variable)
 (bind-key "C-c f v l" #'add-file-local-variable)
 (bind-key "C-c f v p" #'add-file-local-variable-prop-line)
+
+
+;;; Remote file handling
+(use-package tramp                      ; Access remote files
+  :defer t
+  :config
+  ;; Store auto-save files locally
+  (setq tramp-auto-save-directory (locate-user-emacs-file "tramp-auto-save")))
 
 
 ;;; Navigation and scrolling
