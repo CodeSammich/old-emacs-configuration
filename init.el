@@ -798,6 +798,13 @@ mouse-3: go to end"))))
   ;; Store auto-save files locally
   (setq tramp-auto-save-directory (locate-user-emacs-file "tramp-auto-save")))
 
+(use-package vagrant-tramp              ; Vagrant integration for Tramp
+  :disabled t                           ; TODO: Seems to be broken, investigate!
+  :ensure t
+  :defer t
+  :init (with-eval-after-load 'tramp
+          (vagrant-tramp-enable)))
+
 
 ;;; Navigation and scrolling
 (setq scroll-margin 0                   ; Drag the point along while scrolling
