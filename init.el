@@ -707,11 +707,20 @@ mouse-3: go to end"))))
   :bind (([remap find-file] . helm-find-files)
          ("C-c f s"         . helm-for-files)
          ("C-c f r"         . helm-recentf))
-  :config (setq helm-recentf-fuzzy-match t
-                ;; Use recentf to find recent files
-                helm-ff-file-name-history-use-recentf t
-                ;; Find library from `require', `declare-function' and friends
-                helm-ff-search-library-in-sexp t))
+  :config (progn
+            (setq helm-recentf-fuzzy-match t
+                  ;; Use recentf to find recent files
+                  helm-ff-file-name-history-use-recentf t
+                  ;; Find library from `require', `declare-function' and friends
+                  helm-ff-search-library-in-sexp t)
+
+            (when (eq system-type 'darwin)
+              ;; Replace locate with spotlight for `helm-for-files'
+              (setq helm-for-files-preferred-list
+                    (append (delq 'helm-source-locate
+                                  helm-for-files-preferred-list)
+                            '(helm-source-mac-spotlight)))
+              )))
 
 (use-package ignoramus                  ; Ignore uninteresting files everywhere
   :ensure t
