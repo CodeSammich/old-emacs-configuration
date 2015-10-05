@@ -815,7 +815,9 @@ mouse-3: go to end"))))
   (setq tramp-auto-save-directory (locate-user-emacs-file "tramp-auto-save")))
 
 (use-package vagrant-tramp              ; Vagrant integration for Tramp
-  :disabled t                           ; TODO: Seems to be broken, investigate!
+  ;; Disabled because it doesn't work with machines without the default share
+  ;; currently.  See https://github.com/dougm/vagrant-tramp/pull/15.
+  :disabled t
   :ensure t
   :defer t
   :init (with-eval-after-load 'tramp
