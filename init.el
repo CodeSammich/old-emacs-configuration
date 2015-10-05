@@ -705,6 +705,7 @@ mouse-3: go to end"))))
   :ensure helm
   :defer t
   :bind (([remap find-file] . helm-find-files)
+         ("C-c f s"         . helm-for-files)
          ("C-c f r"         . helm-recentf))
   :config (setq helm-recentf-fuzzy-match t
                 ;; Use recentf to find recent files
