@@ -333,8 +333,14 @@ symbols, emojis, greek letters, as well as fall backs for."
   :bind (("C-c a p" . paradox-list-packages)
          ("C-c a P" . package-list-packages-no-fetch))
   :config
-  ;; Don't ask for a token, please, and don't bug me about asynchronous updates
-  (setq paradox-execute-asynchronously nil))
+  (setq paradox-execute-asynchronously nil ; No async update, please
+        paradox-spinner-type 'moon      ; Fancy spinner
+        ;; Show all possible counts
+        paradox-display-download-count t
+        paradox-display-star-count t
+        ;; Hide download button, and wiki packages
+        paradox-use-homepage-buttons nil ; Can type v instead
+        paradox-hide-wiki-packages t))
 
 (use-package bug-hunter                 ; Search init file for bugs
   :ensure t)
