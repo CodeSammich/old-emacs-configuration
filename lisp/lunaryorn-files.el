@@ -31,7 +31,6 @@
 
 ;;; Code:
 
-(require 'lunaryorn-osx)
 (require 'package)
 (require 'lisp-mnt)
 (require 'find-func)
@@ -128,9 +127,20 @@ Otherwise copy the non-directory part only."
         (launch-file (buffer-file-name))
       (user-error "The current buffer is not visiting a file"))))
 
+(defun lunaryorn-open-in-intellij ()
+  "Open the current file in IntelliJ IDEA."
+  (interactive)
+  (let ((idea (executable-find "idea")))
+    (unless idea
+      (user-error "IntelliJ launcher does not exist.
+Create with Tools -> Create Command-line launcher in IntelliJ"))
+    (unless (= 0 (call-process idea nil nil nil
+                               "--line" (number-to-string (line-number-at-pos))
+                               (expand-file-name (buffer-file-name))))
+      (error "IntelliJ failed"))))
+
 
 ;;; Init file and packages
-
 ;;;###autoload
 (defun lunaryorn-find-user-init-file-other-window ()
   "Edit the `user-init-file', in another window."
@@ -176,43 +186,6 @@ into the count."
         (goto-char (point-min))
         (apply #'call-process cloc nil t t "--quiet" files))
       (pop-to-buffer (current-buffer)))))
-
-
-;;; IntelliJ integration
-(defun lunaryorn-intellij-project-root-p (directory)
-  "Determine whether DIRECTORY is an IntelliJ project root."
-  (and (file-directory-p directory)
-       (directory-files directory nil (rx "." (or "iml" "idea") string-end)
-                        'nosort)))
-
-(defun lunaryorn-intellij-project-root ()
-  "Get the path to the nearest IntelliJ project root.
-
-Return the absolute file name of the project root directory, or
-nil if no project root was found."
-  (when-let (file-name (buffer-file-name))
-    (locate-dominating-file file-name #'lunaryorn-intellij-project-root-p)))
-
-(defun lunaryorn-intellij-launcher ()
-  "Get the IntelliJ launcher for the current system."
-  (pcase system-type
-    (`darwin
-     (when-let (bundle (lunaryorn-path-of-bundle "com.jetbrains.intellij"))
-       (expand-file-name "Contents/MacOS/idea" bundle)))
-    (_ (user-error "No launcher for system %S" system-type))))
-
-;;;###autoload
-(defun lunaryorn-open-in-intellij ()
-  "Open the current file in IntelliJ IDEA."
-  (interactive)
-  (let ((project-root (lunaryorn-intellij-project-root))
-        (launcher (lunaryorn-intellij-launcher)))
-    (unless project-root
-      (user-error "No IntelliJ project found for the current buffer"))
-    (start-process "*intellij*" nil launcher
-                   (expand-file-name project-root)
-                   "--line" (number-to-string (line-number-at-pos))
-                   (expand-file-name (buffer-file-name)))))
 
 
 ;;; URLs and browsing
