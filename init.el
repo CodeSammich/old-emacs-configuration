@@ -1525,13 +1525,13 @@ Disable the highlighting of overlong lines."
 
 (use-package json-mode                  ; JSON files
   :ensure t
-  :defer t
-  :config
+  :defer t)
 
-  (use-package lunaryorn-json           ; Personal JSON tools
-    :load-path "lisp/"
-    :commands (lunaryorn-json-chef-role)
-    :init (bind-key "C-c m r" #'lunaryorn-json-chef-role
+(use-package lunaryorn-json             ; Personal JSON tools
+  :load-path "lisp/"
+  :commands (lunaryorn-json-chef-role)
+  :init (with-eval-after-load 'json-mode
+          (bind-key "C-c m r" #'lunaryorn-json-chef-role
                     json-mode-map)))
 
 (use-package json-reformat              ; Reformat JSON
@@ -1964,7 +1964,6 @@ Disable the highlighting of overlong lines."
 
 
 ;;; Web languages
-
 (use-package web-mode                   ; Template editing
   :ensure t
   :defer t
