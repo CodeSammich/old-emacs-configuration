@@ -1525,7 +1525,10 @@ Disable the highlighting of overlong lines."
 
 (use-package json-mode                  ; JSON files
   :ensure t
-  :defer t)
+  :defer t
+  :config (add-hook 'json-mode-hook
+                    ;; Fix JSON mode indentation
+                    (lambda () (setq-local js-indent-level 4))))
 
 (use-package lunaryorn-json             ; Personal JSON tools
   :load-path "lisp/"
