@@ -1734,6 +1734,8 @@ Disable the highlighting of overlong lines."
             (bind-key "C-c m p" #'ensime-backward-note ensime-mode-map)
             (bind-key "C-c m l" #'ensime-print-errors-at-point ensime-mode-map)
             (bind-key "C-c m z" #'ensime-inf-switch ensime-mode-map))
+  :init (with-eval-after-load 'scala-mode2
+          (bind-key "C-c m b l" #'ensime scala-mode-map))
   :diminish (ensime-mode . " Ⓔ"))
 
 (use-package ensime-sbt                 ; SBT integration for Ensime
