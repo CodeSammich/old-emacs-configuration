@@ -1714,9 +1714,7 @@ Disable the highlighting of overlong lines."
             (add-hook 'scala-mode-hook #'ensime-mode)
 
             ;; Add binding to shutdown Ensime
-            (bind-key "C-c m b s" #'ensime-shutdown ensime-mode-map)
             (bind-key "C-c m b S" #'ensime-shutdown ensime-mode-map)
-            (bind-key "C-c m b l" #'ensime-reload ensime-mode-map)
 
             ;; Free M-n and M-p again
             (bind-key "M-n" nil ensime-mode-map)
