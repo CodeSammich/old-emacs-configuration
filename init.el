@@ -1749,7 +1749,7 @@ Disable the highlighting of overlong lines."
              lunaryorn-scala-pop-to-sbt-frame)
   :defer t
   :init (with-eval-after-load 'scala-mode2
-          (bind-key "C-c m s" #'lunaryorn-scala-pop-to-sbt-frame
+          (bind-key "C-c m s" #'lunaryorn-scala-pop-to-sbt
                     scala-mode-map)))
 
 (use-package flycheck-ensime            ; Ensime-based checker for Flycheck

@@ -55,15 +55,21 @@
               (ensime-mode "💀")))
     (error (propertize "!" 'face 'error))))
 
-(defun lunaryorn-scala-pop-to-sbt-frame ()
-  "Open SBT REPL for the current project in a separate frame."
-  (interactive)
+(defun lunaryorn-scala-pop-to-sbt (new-frame)
+  "Open SBT REPL for this project, optionally in a NEW-FRAME.
+
+Select the SBT REPL for the current project in a new window.  If
+the REPL is not yet running, start it.  With prefix arg, select
+the REPL in a new frame instead."
+  (interactive "P")
   ;; Start SBT when no running, taken from `sbt:command'
   (when (not (comint-check-proc (sbt:buffer-name)))
     (sbt:run-sbt))
 
-  (let ((display-buffer-overriding-action '(display-buffer-pop-up-frame)))
-    (display-buffer (sbt:buffer-name))))
+  (let ((display-buffer-overriding-action (if new-frame
+                                              '(display-buffer-pop-up-frame)
+                                            nil)))
+    (pop-to-buffer (sbt:buffer-name))))
 
 (provide 'lunaryorn-scala)
 ;;; lunaryorn-scala.el ends here
