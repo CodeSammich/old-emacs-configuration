@@ -1696,16 +1696,13 @@ Disable the highlighting of overlong lines."
   :init (with-eval-after-load 'scala-mode2
           (bind-key "C-c m b c" #'sbt-command scala-mode-map)
           (bind-key "C-c m b r" #'sbt-run-previous-command scala-mode-map))
-  :config (progn
-            (setq sbt:display-command-buffer nil)
-
-            ;; Disable Smartparens Mode in SBT buffers, because it frequently
-            ;; hangs while trying to find matching delimiters
-            (add-hook 'sbt-mode-hook
-                      (lambda ()
-                        (when (and (bound-and-true-p smartparens-mode)
-                                   (fboundp 'smartparens-mode))
-                          (smartparens-mode -1))))))
+  :config (add-hook 'sbt-mode-hook
+                    ;; Disable Smartparens Mode in SBT buffers, because it
+                    ;; frequently hangs while trying to find matching delimiters
+                    (lambda ()
+                      (when (and (bound-and-true-p smartparens-mode)
+                                 (fboundp 'smartparens-mode))
+                        (smartparens-mode -1)))))
 
 (use-package ensime                     ; Scala interaction mode
   :ensure t
