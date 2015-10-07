@@ -496,6 +496,7 @@ mouse-3: go to end"))))
 
 (use-package lunaryorn-buffers          ; Personal buffer tools
   :load-path "lisp/"
+  :bind (("C-c b k" . lunaryorn-kill-this-buffer))
   :commands (lunaryorn-do-not-kill-important-buffers)
   :init (add-hook 'kill-buffer-query-functions
                   #'lunaryorn-do-not-kill-important-buffers))

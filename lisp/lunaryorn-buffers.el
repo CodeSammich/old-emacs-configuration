@@ -40,6 +40,12 @@ Add this to `kill-buffer-query-functions'."
     (bury-buffer)
     nil))
 
+;;;###autoload
+(defun lunaryorn-kill-this-buffer ()
+  "Kill the current buffer."
+  (interactive)
+  (kill-buffer (current-buffer)))
+
 (provide 'lunaryorn-buffers)
 
 ;;; lunaryorn-buffers.el ends here
