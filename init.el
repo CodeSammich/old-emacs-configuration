@@ -1710,11 +1710,6 @@ Disable the highlighting of overlong lines."
   :ensure t
   :defer t
   :config (progn
-            ;; Automatically open new Ensime sessions if needed
-            (setq ensime-auto-connect 'always
-                  ;; Automatically regenerate ensime configuration
-                  ensime-auto-generate-config t)
-
             ;; Enable Ensime for all Scala buffers.  We don't do this in :init,
             ;; because `ensime-mode' isn't autoloaded, and ensime-mode makes no
             ;; sense before the first session was started anyway
