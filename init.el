@@ -1726,19 +1726,7 @@ Disable the highlighting of overlong lines."
 
             ;; Free M-n and M-p again
             (bind-key "M-n" nil ensime-mode-map)
-            (bind-key "M-p" nil ensime-mode-map)
-
-            ;; Ensime bindings
-            (bind-key "C-c m t" #'ensime-inspect-type-at-point ensime-mode-map)
-            (bind-key "C-c m T" #'ensime-print-type-at-point ensime-mode-map)
-            (bind-key "C-c m r" #'ensime-show-uses-of-symbol-at-point
-                      ensime-mode-map)
-            (bind-key "C-c m j" #'ensime-edit-definition ensime-mode-map)
-            (bind-key "C-c m i" #'ensime-import-type-at-point ensime-mode-map)
-            (bind-key "C-c m n" #'ensime-forward-note ensime-mode-map)
-            (bind-key "C-c m p" #'ensime-backward-note ensime-mode-map)
-            (bind-key "C-c m l" #'ensime-print-errors-at-point ensime-mode-map)
-            (bind-key "C-c m z" #'ensime-inf-switch ensime-mode-map))
+            (bind-key "M-p" nil ensime-mode-map))
   :init (with-eval-after-load 'scala-mode2
           (bind-key "C-c m b l" #'ensime scala-mode-map))
   :diminish (ensime-mode . " Ⓔ"))
