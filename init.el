@@ -585,6 +585,7 @@ mouse-3: go to end"))))
         ediff-split-window-function #'split-window-horizontally))
 
 (use-package desktop                    ; Save buffers, windows and frames
+  :disabled t
   :init (desktop-save-mode)
   :config (progn
             ;; Save desktops a minute after Emacs was idle.
