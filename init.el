@@ -1720,9 +1720,14 @@ Disable the highlighting of overlong lines."
             ;; Add binding to shutdown Ensime
             (bind-key "C-c m b S" #'ensime-shutdown ensime-mode-map)
 
+            ;; I prefer to run only this test
+            (bind-key [remap ensime-sbt-do-test-quick]
+                      #'ensime-sbt-do-test-only ensime-mode-map)
+
             ;; Free M-n and M-p again
             (bind-key "M-n" nil ensime-mode-map)
             (bind-key "M-p" nil ensime-mode-map)
+
             ;; Ensime bindings
             (bind-key "C-c m t" #'ensime-inspect-type-at-point ensime-mode-map)
             (bind-key "C-c m T" #'ensime-print-type-at-point ensime-mode-map)
