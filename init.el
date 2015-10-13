@@ -917,6 +917,7 @@ mouse-3: go to end"))))
          ([remap move-beginning-of-line] . lunaryorn-back-to-indentation-or-beginning-of-line)
          ("C-<backspace>"                . lunaryorn-smart-backward-kill-line)
          ("C-S-j"                        . lunaryorn-smart-open-line)
+         ("C-<return>"                   . lunaryorn-smart-open-line)
          ;; Additional utilities
          ("C-c i d"                      . lunaryorn-insert-current-date)
          ("C-c i m"                      . lunaryorn-insert-mit/x11))
