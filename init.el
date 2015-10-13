@@ -167,7 +167,7 @@
 ;; TODO:  Find Emoji and symbol fonts for Linux and Windows
 
 (set-face-attribute 'default nil
-                    :family "Monoid" :height 120 :weight 'light)
+                    :family "Source Code Pro" :height 130)
 (set-face-attribute 'variable-pitch nil
                     :family "Fira Sans" :height 140 :weight 'regular)
 
