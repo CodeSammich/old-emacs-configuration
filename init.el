@@ -975,7 +975,8 @@ mouse-3: go to end"))))
          ([remap mark-sexp]      . easy-mark)))
 
 (use-package align                      ; Align text in buffers
-  :bind (("C-c x a a" . align)))
+  :bind (("C-c x a a" . align)
+         ("C-c x a c" . align-current)))
 
 (use-package lunaryorn-align
   :load-path "lisp/"
