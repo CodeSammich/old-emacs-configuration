@@ -1,13 +1,12 @@
-.emacs.d
-========
+My old personal Emacs configuration
+===================================
 
-**Note**: I’m currently experimenting with [Spacemacs][], a great and beautiful
-Emacs distribution combining the power and flexibility of Emacs with the
-convenient modal editing of Vim.  I’m already using it for my daily work and so
-far I’m really enjoying it.  It’s very well-designed and very powerful, and I’m
-slowly porting over bits and pieces of my configuration.  Chances are that I’m
-going to retire this configuration soon.  Meanwhile, you may want to take a look
-at my [Spacemacs configuration](https://github.com/lunaryorn/dotfiles/tree/master/spacemacs/.spacemacs.d).
+**Note**: I’m using [Spacemacs][] now and do not maintain this configuration
+anymore.  Much of it becomes redundant in Spacemacs, and I’m slowly porting bits
+and pieces of it to my new
+[Spacemacs configuration](https://github.com/lunaryorn/dotfiles/tree/master/spacemacs/.spacemacs.d).
+You’ll probably still find interesting things in this configuration, but it’s
+inevitably going to lag behind soon.
 
 My own home-grown Emacs configuration with
 [use-package](https://github.com/jwiegley/use-package).
