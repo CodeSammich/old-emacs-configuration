@@ -4,7 +4,7 @@ My old personal Emacs configuration
 **Note**: I’m using [Spacemacs][] now and do not maintain this configuration
 anymore.  Much of it becomes redundant in Spacemacs, and I’m slowly porting bits
 and pieces of it to my new
-[Spacemacs configuration](https://github.com/lunaryorn/dotfiles/tree/master/spacemacs/.spacemacs.d).
+[Spacemacs configuration](https://github.com/lunaryorn/.spacemacs.d).
 You’ll probably still find interesting things in this configuration, but it’s
 inevitably going to lag behind soon.
 
