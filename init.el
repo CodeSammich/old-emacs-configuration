@@ -336,42 +336,6 @@ symbols, emojis, greek letters, as well as fall backs for."
 
 
 ;;; The mode line
-(setq-default header-line-format
-              '(which-func-mode ("" which-func-format " "))
-              mode-line-format
-              '("%e" mode-line-front-space
-                "🐷 "                   ; My branding :)
-                ;; Standard info about the current buffer
-                mode-line-mule-info
-                mode-line-client
-                mode-line-modified
-                mode-line-remote
-                mode-line-frame-identification
-                mode-line-buffer-identification " " mode-line-position
-                (projectile-mode projectile-mode-line)
-                (vc-mode (:propertize (:eval vc-mode) face italic))
-                " "
-                (flycheck-mode flycheck-mode-line) ; Flycheck status
-                (ensime-mode (" " (:eval
-                                   (lunaryorn-scala-ensime-mode-line-status))))
-                (isearch-mode " ")
-                (anzu-mode (:eval                  ; isearch pos/matches
-                            (when (> anzu--total-matched 0)
-                              (anzu--update-mode-line))))
-                (multiple-cursors-mode mc/mode-line) ; Number of cursors
-                ;; And the modes, which we don't really care for anyway
-                " " mode-line-misc-info mode-line-modes mode-line-end-spaces)
-              mode-line-remote
-              '(:eval
-                (when-let (host (file-remote-p default-directory 'host))
-                  (propertize (concat "@" host) 'face
-                              '(italic warning))))
-              ;; Remove which func from the mode line, since we have it in the
-              ;; header line
-              mode-line-misc-info
-              (assq-delete-all 'which-func-mode mode-line-misc-info))
-
-;; Standard stuff
 (line-number-mode)
 (column-number-mode)
 
@@ -386,7 +350,7 @@ symbols, emojis, greek letters, as well as fall backs for."
   :config (setq anzu-cons-mode-line-p nil)
   :diminish anzu-mode)
 
-(use-package which-func                 ; Current function name in header line
+(use-package which-func                 ; Current function name
   :init (which-function-mode)
   :config
   (setq which-func-unknown "⊥" ; The default is really boring…
@@ -398,6 +362,17 @@ symbols, emojis, greek letters, as well as fall backs for."
                        help-echo "mouse-1: go to beginning\n\
 mouse-2: toggle rest visibility\n\
 mouse-3: go to end"))))
+
+(use-package spaceline-config           ; A beautiful mode line
+  :ensure spaceline
+  :config (spaceline-emacs-theme))
+
+(use-package powerline                  ; The work-horse of Spaceline
+  :ensure t
+  :defer t
+  :after spaceline-config
+  :config (setq powerline-height (truncate (* 1.0 (frame-char-height)))
+                powerline-default-separator 'utf-8))
 
 
 ;;; Minibuffer and Helm
