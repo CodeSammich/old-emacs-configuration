@@ -417,29 +417,51 @@ mouse-3: go to end"))))
 
 (use-package helm                       ; Powerful minibuffer input framework
   :ensure t
-  :bind (("C-c c b" . helm-resume))
-  :init (progn (helm-mode 1)
-               (with-eval-after-load 'helm-config
-                 (warn "`helm-config' loaded! Get rid of it ASAP!")))
-  :config (setq helm-split-window-in-side-p t)
+  :bind (
+         ;; Replace built-in commands with more powerful Helm variants
+         ([remap switch-to-buffer] . helm-mini)
+         ([remap execute-extended-command] . helm-M-x)
+         ([info] . helm-info-at-point)
+         ([remap yank-pop]        . helm-show-kill-ring)
+         ([remap insert-register] . helm-register)
+         ([remap apropos-command] . helm-apropos)
+         ([remap occur] . helm-occur)
+         ;; Additional helm commands
+         ("C-c f l" . helm-locate-library)
+         ("C-c f s" . helm-for-files)
+         ("C-c f r" . helm-recentf)
+         ("C-c h e" . helm-info-emacs)
+         ("C-c h l" . helm-resume)
+         ("C-c h m" . helm-man-woman)
+         ("C-c i C" . helm-colors)
+         ("C-c j l" . helm-imenu)
+         ("C-c j L" . helm-imenu-all-buffers))
+  :init
+  (helm-mode 1)
+  (with-eval-after-load 'helm-config
+    (warn "`helm-config' loaded! Get rid of it ASAP!"))
+  :config
+  (setq helm-split-window-in-side-p t
+        ;; Fuzzy matching
+        helm-buffers-fuzzy-matching t
+        helm-recentf-fuzzy-match t
+        helm-imenu-fuzzy-match t
+        ;; Use recentf to manage file name history
+        helm-ff-file-name-history-use-recentf t
+        ;; Find libraries from `require', etc.
+        helm-ff-search-library-in-sexp t
+        ;; Don't automatically jump to imenu candidate if only one match,
+        ;; because it makes the behaviour of this command unpredictable, and
+        ;; prevents me from getting an overview over the buffer if point is on a
+        ;; matching symbol.
+        helm-imenu-execute-action-at-once-if-one nil)
+  (when (eq system-type 'darwin)
+    ;; Replace locate with spotlight for `helm-for-files'
+    (setq helm-for-files-preferred-list
+          (append (delq 'helm-source-locate
+                        helm-for-files-preferred-list)
+                  '(helm-source-mac-spotlight))))
   :diminish helm-mode)
-
-(use-package helm-misc                  ; Misc helm commands
-  :ensure helm
-  :bind (([remap switch-to-buffer] . helm-mini)))
-
-(use-package helm-command               ; M-x in Helm
-  :ensure helm
-  :bind (([remap execute-extended-command] . helm-M-x)))
-
-;; (use-package helm-eval                  ; Evaluate expressions with Helm
-;;   :ensure helm
-;;   :bind (("C-c c M-:" . helm-eval-expression-with-eldoc)
-;;          ("C-c c *"   . helm-calcul-expression)))
-
-(use-package helm-color                 ; Input colors with Helm
-  :ensure helm
-  :bind (("C-c i C" . helm-colors)))
 
 (use-package helm-unicode               ; Unicode input with Helm
   :ensure t
@@ -497,11 +519,6 @@ mouse-3: go to end"))))
 
 (use-package uniquify                   ; Make buffer names unique
   :config (setq uniquify-buffer-name-style 'forward))
-
-(use-package helm-buffers               ; Helm for buffer management
-  :ensure helm
-  :defer t
-  :config (setq helm-buffers-fuzzy-matching t))
 
 (use-package ibuffer                    ; Better buffer list
   :bind (([remap list-buffers] . ibuffer))
@@ -697,27 +714,6 @@ mouse-3: go to end"))))
                 neo-show-hidden-files t
                 neo-auto-indent-point t))
 
-(use-package helm-files                 ; Helm for file finding
-  :ensure helm
-  :defer t
-  :bind (([remap find-file] . helm-find-files)
-         ("C-c f s"         . helm-for-files)
-         ("C-c f r"         . helm-recentf))
-  :config (progn
-            (setq helm-recentf-fuzzy-match t
-                  ;; Use recentf to find recent files
-                  helm-ff-file-name-history-use-recentf t
-                  ;; Find library from `require', `declare-function' and friends
-                  helm-ff-search-library-in-sexp t)
-
-            (when (eq system-type 'darwin)
-              ;; Replace locate with spotlight for `helm-for-files'
-              (setq helm-for-files-preferred-list
-                    (append (delq 'helm-source-locate
-                                  helm-for-files-preferred-list)
-                            '(helm-source-mac-spotlight)))
-              )))
-
 (use-package ignoramus                  ; Ignore uninteresting files everywhere
   :ensure t
   :config (progn
@@ -870,17 +866,6 @@ mouse-3: go to end"))))
   :ensure t
   :bind (("C-c t l" . nlinum-mode)))
 
-(use-package helm-imenu                 ; Helm frontend for imenu
-  :ensure helm
-  :bind (("C-c n i" . helm-imenu-in-all-buffers)
-         ("C-c n t" . helm-imenu))
-  :config (setq helm-imenu-fuzzy-match t
-                ;; Don't automatically jump to candidate if only one match,
-                ;; because it makes the behaviour of this command unpredictable,
-                ;; and prevents me from getting an overview over the buffer if
-                ;; point is on a matching symbol.
-                helm-imenu-execute-action-at-once-if-one nil))
-
 
 ;;; Basic editing
 
@@ -921,11 +906,6 @@ mouse-3: go to end"))))
 
 (use-package indent                     ; Built-in indentation
   :bind (("C-c x i" . indent-region)))
-
-(use-package helm-ring                  ; Helm commands for rings
-  :ensure helm
-  :bind (([remap yank-pop]        . helm-show-kill-ring)
-         ([remap insert-register] . helm-register)))
 
 (use-package delsel                     ; Delete the selection instead of insert
   :defer t
@@ -1608,11 +1588,6 @@ Disable the highlighting of overlong lines."
 ;;; Emacs Lisp
 (bind-key "C-c t d" #'toggle-debug-on-error)
 
-(use-package helm-elisp                 ; Helm commands for Emacs Lisp
-  :ensure helm
-  :bind (("C-c f l" . helm-locate-library)
-         ("C-c h a" . helm-apropos)))
-
 (use-package elisp-slime-nav            ; Jump to definition of symbol at point
   :ensure t
   :init (add-hook 'emacs-lisp-mode-hook #'elisp-slime-nav-mode)
@@ -2227,12 +2202,6 @@ Disable the highlighting of overlong lines."
                ;; Please, isearch, let me scroll during search
                (setq isearch-allow-scroll t)))
 
-(use-package helm-regex                 ; Helm regex tools
-  :ensure helm
-  :bind (([remap occur] . helm-occur)
-         ("C-c s o"     . helm-occur)
-         ("C-c s s"     . helm-multi-occur)))
-
 (use-package grep                       ; Control grep from Emacs
   :defer t
   :config
@@ -2519,15 +2488,6 @@ Install mudraw with brew install mupdf-tools"))))
   ;; to the default face.
   (set-face-attribute 'Info-quoted nil :family 'unspecified
                       :inherit font-lock-type-face))
-
-(use-package helm-info                  ; Helm tools for Info
-  :ensure helm
-  :bind (("C-c h e" . helm-info-emacs)
-         ("C-c h i" . helm-info-at-point)))
-
-(use-package helm-man                   ; Browse manpages with Heml
-  :ensure helm
-  :bind (("C-c h m" . helm-man-woman)))
 
 (use-package helm-descbinds             ; Describe key bindings with Helm
   :ensure t
