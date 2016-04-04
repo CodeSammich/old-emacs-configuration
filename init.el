@@ -462,6 +462,7 @@ mouse-3: go to end"))))
                       "*sbt"              ; SBT REPL and compilation buffer
                       "*SQL"              ; SQL REPL
                       "*shell"            ; Shell window
+                      "*Help"             ; Help buffers
                       ))
          (display-buffer-reuse-window
           display-buffer-in-side-window)
