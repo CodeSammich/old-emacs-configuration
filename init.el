@@ -449,6 +449,12 @@ mouse-3: go to end"))))
 ;; Configure `display-buffer' behaviour for some special buffers.
 (setq display-buffer-alist
       `(
+        ;; Nail Helm to the side window
+        (,(rx bos "*" (* nonl) "helm" (* nonl) "*" eos)
+         (display-buffer-in-side-window)
+         (side . bottom)
+         (window-height . 0.4)
+         (window-width . 0.6))
         ;; Put REPLs and error lists into the bottom side window
         (,(rx bos (or "*Flycheck errors*" ; Flycheck error list
                       "*compilation"      ; Compilation buffers
