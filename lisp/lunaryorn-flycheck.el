@@ -73,37 +73,6 @@ most errors from HTML Tidy."
           (set (make-local-variable executable-var)
                (expand-file-name (concat "bin/" module) package-directory)))))))
 
-(defun lunaryorn-flycheck-mode-line-status ()
-  "Create a mode line status text for Flycheck."
-  (let* ((menu (mouse-menu-non-singleton flycheck-mode-menu-map))
-         (map (make-mode-line-mouse-map 'mouse-1
-                                        (lambda ()
-                                          (interactive)
-                                          (popup-menu menu))))
-         (text-and-face
-          (pcase flycheck-last-status-change
-            (`not-checked nil)
-            (`no-checker '("•" . warning))
-            (`running '("*" . success))
-            (`errored '("!" . error))
-            (`finished
-             (let* ((error-counts (flycheck-count-errors
-                                   flycheck-current-errors))
-                    (no-errors (cdr (assq 'error error-counts)))
-                    (no-warnings (cdr (assq 'warning error-counts))))
-               (cond
-                (no-errors
-                 (cons (format "•%s •%s" no-errors (or no-warnings 0)) 'error))
-                (no-warnings
-                 (cons (format "•%s" no-warnings) 'warning))
-                (t (cons "•" 'success)))))
-            (`interrupted (cons "x" nil))
-            (`suspicious '("?" . warning)))))
-    (when text-and-face
-      (propertize (car text-and-face) 'face (cdr text-and-face)
-                  'mouse-face 'mode-line-highlight
-                  'local-map map))))
-
 (provide 'lunaryorn-flycheck)
 
 ;; Local Variables:
