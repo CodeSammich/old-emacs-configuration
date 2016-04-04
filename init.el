@@ -238,7 +238,6 @@ symbols, emojis, greek letters, as well as fall backs for."
   :init (add-hook 'after-init-hook #'lunaryorn-insert-logo-into-scratch))
 
 (use-package solarized                  ; My colour theme
-  :disabled t
   :ensure solarized-theme
   :config
   ;; Disable variable pitch fonts in Solarized theme
@@ -255,11 +254,6 @@ symbols, emojis, greek letters, as well as fall backs for."
                solarized-height-plus-4 1.0)
 
          (load-theme 'solarized-light 'no-confirm)))
-
-(use-package zenburn                    ; Another good low-contrast theme
-  :ensure zenburn-theme
-  :defer t
-  :init (load-theme 'zenburn 'no-confirm))
 
 (bind-key "C-c t v" #'variable-pitch-mode)
 
