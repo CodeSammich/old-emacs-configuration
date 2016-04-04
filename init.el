@@ -259,11 +259,6 @@ symbols, emojis, greek letters, as well as fall backs for."
 
 
 ;;; Key setup
-(use-package evil                       ; VIM — Let's try this some day
-  :ensure t
-  :disabled t
-  :init (evil-mode 1))
-
 (use-package which-key                  ; Show help popups for prefix keys
   :ensure t
   :init (which-key-mode)
