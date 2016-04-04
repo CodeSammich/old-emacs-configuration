@@ -510,12 +510,12 @@ mouse-3: go to end"))))
   :init (focus-autosave-mode)
   :diminish focus-autosave-mode)
 
-(use-package lunaryorn-buffers          ; Personal buffer tools
-  :load-path "lisp/"
-  :bind (("C-c b k" . lunaryorn-kill-this-buffer))
-  :commands (lunaryorn-do-not-kill-important-buffers)
-  :init (add-hook 'kill-buffer-query-functions
-                  #'lunaryorn-do-not-kill-important-buffers))
+;; (use-package lunaryorn-buffers          ; Personal buffer tools
+;;   :load-path "lisp/"
+;;   :bind (("C-c b k" . lunaryorn-kill-this-buffer))
+;;   :commands (lunaryorn-do-not-kill-important-buffers)
+;;   :init (add-hook 'kill-buffer-query-functions
+;;                   #'lunaryorn-do-not-kill-important-buffers))
 
 (use-package uniquify                   ; Make buffer names unique
   :config (setq uniquify-buffer-name-style 'forward))
@@ -797,29 +797,6 @@ mouse-3: go to end"))))
 (bind-key "C-c f v d" #'add-dir-local-variable)
 (bind-key "C-c f v l" #'add-file-local-variable)
 (bind-key "C-c f v p" #'add-file-local-variable-prop-line)
-
-
-;;; Remote file handling
-(use-package tramp                      ; Access remote files
-  :defer t
-  :config
-  ;; Store auto-save files locally
-  (setq tramp-auto-save-directory (locate-user-emacs-file "tramp-auto-save")))
-
-(use-package vagrant-tramp              ; Vagrant integration for Tramp
-  ;; Disabled because it doesn't work with machines without the default share
-  ;; currently.  See https://github.com/dougm/vagrant-tramp/pull/15.
-  :disabled t
-  :ensure t
-  :defer t
-  :init (with-eval-after-load 'tramp
-          (vagrant-tramp-enable)))
-
-(use-package tramp-hdfs                 ; HDFS backend for Tramp
-  :ensure t
-  :defer t
-  :init (with-eval-after-load 'tramp
-          (require 'tramp-hdfs)))
 
 
 ;;; Navigation and scrolling
@@ -1242,7 +1219,6 @@ Disable the highlighting of overlong lines."
   :load-path "lisp/"
   :commands (lunaryorn-flycheck-find-config-file-in-sbt-project
              lunaryorn-discard-undesired-html-tidy-error
-             lunaryorn-flycheck-mode-line-status
              lunaryorn-use-js-executables-from-node-modules
              lunaryorn-flycheck-set-load-path-for-user-configuration)
   :init (progn
@@ -1253,11 +1229,7 @@ Disable the highlighting of overlong lines."
                     #'lunaryorn-flycheck-find-config-file-in-sbt-project)
           (dolist (hook-fn '(lunaryorn-use-js-executables-from-node-modules
                              lunaryorn-flycheck-set-load-path-for-user-configuration))
-            (add-hook 'flycheck-mode-hook hook-fn))
-
-          (with-eval-after-load 'flycheck
-            (setq flycheck-mode-line
-                  '(:eval (lunaryorn-flycheck-mode-line-status))))))
+            (add-hook 'flycheck-mode-hook hook-fn))))
 
 (use-package helm-flycheck              ; Helm frontend for Flycheck errors
   :ensure t
@@ -1491,10 +1463,6 @@ Disable the highlighting of overlong lines."
             (bind-key "C-c m h" #'lunaryorn-markdown-post-header
                       markdown-mode-map)))
 
-(use-package jira-markup-mode           ; Jira markup
-  :ensure t
-  :defer t)
-
 (use-package yaml-mode                  ; YAML
   :ensure t
   :defer t
@@ -1525,10 +1493,6 @@ Disable the highlighting of overlong lines."
   :defer t
   :config
   (setq graphviz-dot-indent-width 4))
-
-(use-package systemd                    ; Mode for systemd unit files
-  :ensure t
-  :defer t)
 
 
 ;;; Programming utilities
@@ -1763,32 +1727,10 @@ Disable the highlighting of overlong lines."
   :defer t)
 
 
-;;; Ruby
-(use-package inf-ruby                   ; Ruby REPL
-  :ensure t
-  :defer t
-  :init (add-hook 'ruby-mode-hook #'inf-ruby-minor-mode)
-  :config
-  ;; Easily switch to Inf Ruby from compilation modes to Inf Ruby
-  (inf-ruby-switch-setup))
-
-(use-package robe                       ; Ruby backend for Emacs
-  :ensure t
-  :defer t
-  :init (with-eval-after-load 'company
-          (add-to-list 'company-backends 'company-robe)))
-
-
 ;;; Rust
 (use-package rust-mode                  ; Rust major mode
   :ensure t
   :defer t)
-
-(use-package rustfmt                    ; Format Rust code
-  :ensure t
-  :defer t
-  :init (with-eval-after-load 'rust-mode
-          (bind-key "C-c m f" #'rustfmt-format-buffer rust-mode-map)))
 
 (use-package flycheck-rust              ; Flycheck setup for Rust
   :ensure t
@@ -1800,166 +1742,6 @@ Disable the highlighting of overlong lines."
   :defer t)
 
 
-;;; Haskell
-
-;; This Haskell setup needs:
-;;
-;; stack install hasktags haskell-docs hoogle hindent
-;;
-;; Additionally, to be installed from source:
-;;
-;; - https://github.com/chrisdone/ghci-ng
-
-(use-package haskell-mode               ; Haskell editing
-  :ensure t
-  :defer t
-  :config
-  (progn
-    (add-hook 'haskell-mode-hook #'subword-mode)           ; Subword navigation
-    (add-hook 'haskell-mode-hook #'haskell-decl-scan-mode) ; Scan and navigate
-                                        ; declarations
-    ;; Insert module templates into new buffers
-    (add-hook 'haskell-mode-hook #'haskell-auto-insert-module-template)
-
-    ;; Automatically run hasktags
-    (setq haskell-tags-on-save t
-          haskell-process-type 'stack-ghci ; Use stack for interaction
-          ;; Suggest adding/removing imports as by GHC warnings and Hoggle/GHCI
-          ;; loaded modules respectively
-          haskell-process-suggest-remove-import-lines t
-          haskell-process-auto-import-loaded-modules t
-          haskell-process-use-presentation-mode t ; Don't clutter the echo area
-          haskell-process-show-debug-tips nil     ; Disable tips
-          haskell-process-log t                   ; Log debugging information
-          haskell-process-suggest-hoogle-imports t)
-
-    (when-let (ghci-ng (executable-find "ghci-ng"))
-      ;; Use GHCI NG from https://github.com/chrisdone/ghci-ng
-      (setq haskell-process-path-ghci ghci-ng)
-      (add-to-list 'haskell-process-args-cabal-repl
-                   (concat "--with-ghc=" ghci-ng)))
-
-    (bind-key "C-c m d" #'haskell-describe haskell-mode-map)
-    (bind-key "C-c m i" #'haskell-navigate-imports haskell-mode-map)
-    (bind-key "C-c m f" #'haskell-cabal-visit-file haskell-mode-map)))
-
-(use-package haskell                    ; Haskell tools
-  :ensure haskell-mode
-  :defer t
-  :config
-  (progn
-    (bind-key "C-c m t" #'haskell-mode-show-type-at
-              interactive-haskell-mode-map)
-    (bind-key "C-c m j" #'haskell-mode-goto-loc
-              interactive-haskell-mode-map)
-    (bind-key "C-c m r" #'haskell-mode-find-uses
-              interactive-haskell-mode-map)))
-
-(use-package haskell-interactive-mode   ; Haskell REPL interaction
-  :ensure haskell-mode
-  :disabled t
-  :defer t
-  :config (add-hook 'haskell-interactive-mode-hook #'subword-mode))
-
-(use-package stack-mode                 ; Stack IDE
-  :ensure t
-  :defer t
-  :config (add-hook 'haskell-mode-hook #'stack-mode))
-
-(use-package hyai                       ; Haskell Indentation as per John Tibell
-  :ensure t
-  :defer t
-  :init (add-hook 'haskell-mode-hook #'hyai-mode)
-  :diminish (hyai-mode . " ⓘ"))
-
-(use-package hindent                    ; Automated Haskell indentation
-  :ensure t
-  :defer t
-  :init (add-hook 'haskell-mode-hook #'hindent-mode)
-  :diminish (hindent-mode . " Ⓘ"))
-
-(use-package flycheck-haskell           ; Setup Flycheck from Cabal projects
-  :ensure t
-  :defer t
-  :init (add-hook 'flycheck-mode-hook #'flycheck-haskell-setup))
-
-(use-package helm-hoogle                ; Helm frontend for Hoogle
-  :ensure t
-  :defer t
-  :init (with-eval-after-load 'haskell-mode
-          (bind-key "C-c m h" #'helm-hoogle haskell-mode-map)))
-
-
-;;; OCaml
-(use-package opam                       ; Initialize Emacs with OPAM env
-  :ensure t
-  :init (opam-init))
-
-(use-package tuareg                     ; OCaml editing
-  :ensure t
-  :defer t
-  :config
-  (progn
-    ;; Disable SMIE indentation in Tuareg.  It's just broken currently…
-    (setq tuareg-use-smie nil)
-
-    ;; Please, Tuareg, don't kill my imenu
-    (define-key tuareg-mode-map [?\C-c ?i] nil)))
-
-(use-package merlin                     ; Powerful Emacs backend for OCaml
-  :ensure t
-  :defer t
-  :init (add-hook 'tuareg-mode-hook #'merlin-mode)
-  :config
-  ;; Use Merlin from current OPAM env
-  (setq merlin-command 'opam
-        ;; Disable Merlin's own error checking in favour of Flycheck
-        merlin-error-after-save nil))
-
-(use-package flycheck-ocaml             ; Check OCaml code with Merlin
-  :ensure t
-  :defer t
-  :init (with-eval-after-load 'merlin
-          (flycheck-ocaml-setup)))
-
-
-;;; Web languages
-(use-package web-mode                   ; Template editing
-  :ensure t
-  :defer t
-  :mode "/templates?/.*\\.\\(php\\|html\\)\\'"
-  :config
-  (setq web-mode-markup-indent-offset 2))
-
-(use-package js2-mode                   ; Javascript editing
-  :ensure t
-  :mode "\\.js\\'"
-  :config (progn (setq-default js2-basic-offset 2)
-                 (setq js2-global-externs '("angular"))
-
-                 (add-hook 'js2-mode-hook
-                           #'js2-highlight-unused-variables-mode)))
-
-(use-package css-mode                   ; CSS editing
-  :defer t
-  :config
-  (progn
-    ;; Run Prog Mode hooks, because for whatever reason CSS Mode derives from
-    ;; `fundamental-mode'.
-    (add-hook 'css-mode-hook (lambda () (run-hooks 'prog-mode-hook)))
-
-    ;; Mark css-indent-offset as safe local variable.  TODO: Report upstream
-    (put 'css-indent-offset 'safe-local-variable #'integerp)))
-
-(use-package css-eldoc                  ; Basic Eldoc for CSS
-  :ensure t
-  :commands (turn-on-css-eldoc)
-  :init (add-hook 'css-mode-hook #'turn-on-css-eldoc))
-
-(use-package php-mode                   ; Because sometimes you have to
-  :ensure t)
-
-
 ;;; Misc programming languages
 (use-package sh-script                  ; Shell scripts
   :mode ("\\.zsh\\'" . sh-mode)
@@ -1969,32 +1751,11 @@ Disable the highlighting of overlong lines."
         sh-basic-offset 2               ; The offset for nested indentation
         ))
 
-(use-package puppet-mode                ; Puppet manifests
-  :ensure t
-  :defer t
-  :config
-  ;; Fontify variables in Puppet comments
-  (setq puppet-fontify-variables-in-comments t))
-
 (use-package nxml-mode                  ; XML editing
   :defer t
   ;; Complete closing tags, and insert XML declarations into empty files
   :config (setq nxml-slash-auto-complete-flag t
                 nxml-auto-insert-xml-declaration-flag t))
-
-(use-package feature-mode               ; Feature files for ecukes/cucumber
-  :ensure t
-  :defer t
-  :config
-  (progn
-    ;; Add standard hooks for Feature Mode, since it is no derived mode
-    (add-hook 'feature-mode-hook #'whitespace-mode)
-    (add-hook 'feature-mode-hook #'whitespace-cleanup-mode)
-    (add-hook 'feature-mode-hook #'flyspell-mode)))
-
-(use-package cmake-mode                 ; CMake files
-  :ensure t
-  :defer t)
 
 (use-package thrift                     ; Thrift interface files
   :ensure t
@@ -2002,71 +1763,9 @@ Disable the highlighting of overlong lines."
   :init (put 'thrift-indent-level 'safe-local-variable #'integerp)
   :config (add-hook 'thrift-mode-hook (lambda () (run-hooks 'prog-mode-hook))))
 
-(use-package swift-mode                 ; Swift sources
-  :ensure t
-  :defer t
-  :config (with-eval-after-load 'flycheck
-            (add-to-list 'flycheck-checkers 'swift)))
-
 (use-package homebrew-mode              ; Homebrew Formulae
   :ensure t
   :defer t)
-
-
-;;; Proof General & Coq
-(defun lunaryorn-have-proofgeneral-p ()
-  "Determine whether we have Proof General installed."
-  (file-exists-p (locate-user-emacs-file "vendor/ProofGeneral/generic")))
-
-(use-package proof-site                 ; Enable ProofGeneral if present
-  ;; Don't :defer this one, since it sets up `load-path' and stuff for
-  ;; ProofGeneral
-  :load-path "vendor/ProofGeneral/generic"
-  :if (lunaryorn-have-proofgeneral-p))
-
-;; Proof General has a rather strange way of creating this variable
-(defvar coq-one-command-per-line)
-(setq coq-one-command-per-line nil)
-
-(use-package proof-splash               ; ProofGeneral Splash screen
-  :if (lunaryorn-have-proofgeneral-p)
-  :defer t
-  ;; Shut up, ProofGeneral
-  :config (setq proof-splash-enable nil))
-
-(use-package proof-useropts             ; ProofGeneral options
-  :if (lunaryorn-have-proofgeneral-p)
-  :defer t
-  :config (setq proof-three-window-mode-policy 'hybrid
-                ;; Automatically process the script up to point when inserting a
-                ;; terminator.  Really handy in Coq.
-                proof-electric-terminator-enable t))
-
-(use-package proof-config               ; ProofGeneral proof configuration
-  :if (lunaryorn-have-proofgeneral-p)
-  :defer t
-  ;; Skip over consecutive comments when processing
-  :config (setq proof-script-fly-past-comments t))
-
-(use-package proof-script               ; Proof editing
-  :if (lunaryorn-have-proofgeneral-p)
-  :defer t
-  :config
-  (add-hook 'proof-mode-hook (lambda () (run-hooks 'prog-mode-hook))))
-
-(use-package isar                       ; Isabelle syntax for PG
-  :if (lunaryorn-have-proofgeneral-p)
-  :defer t
-  :config
-  ;; Don't highlight overlong lines in Isar, since Unicode Tokens conceal the
-  ;; true line length
-  (add-hook 'isar-mode-hook #'lunaryorn-whitespace-style-no-long-lines 'append))
-
-(use-package company-coq                ; Company for Coq and more Coq fanciness
-  :if (lunaryorn-have-proofgeneral-p)
-  :ensure t
-  :defer t
-  :init (add-hook 'coq-mode-hook #'company-coq-initialize))
 
 
 ;;; Databases
@@ -2332,22 +2031,6 @@ Disable the highlighting of overlong lines."
   :bind ("C-c a T" . ansi-term))
 
 
-;;; Org Mode
-(use-package org
-  :bind (("C-c a o a" . org-agenda-list)
-         ("C-c a o c" . org-capture)
-         ("C-c a o f" . org-cycle-agenda-files)
-         ("C-c a o s" . org-search-view)
-         ("C-c a o t" . org-todo-list))
-  :config (progn
-            (setq org-directory (expand-file-name "~/Dropbox/Org/")
-                  org-default-notes-file (expand-file-name "notes.org" org-directory)
-                  org-refile-targets '((org-agenda-files :maxlevel . 2)))
-            ;; Disable whitespace highlighting of overlong lines in Org Mode
-            (add-hook 'org-mode-hook
-                      #'lunaryorn-whitespace-style-no-long-lines)))
-
-
 ;;; Documents
 (use-package doc-view
   :defer t
@@ -2417,61 +2100,6 @@ Install mudraw with brew install mupdf-tools"))))
   ;; Display questions in the same window
   :config (setq sx-question-mode-display-buffer-function #'switch-to-buffer))
 
-(use-package sendmail                   ; Send mails from Emacs
-  :defer t
-  :config (setq send-mail-function 'smtpmail-send-it))
-
-(use-package message                    ; Compose mails from Emacs
-  :defer t
-  :config (setq message-send-mail-function 'smtpmail-send-it
-                ;; Don't keep message buffers around
-                message-kill-buffer-on-exit t))
-
-(use-package erc                        ; Powerful IRC client
-  :defer t
-  :config
-  (progn
-    ;; Default server and nick
-    (setq erc-server "chat.freenode.net"
-          erc-port 7000
-          erc-nick "lunaryorn"
-          erc-nick-uniquifier "_"
-          ;; Never open unencrypted ERC connections
-          erc-server-connect-function 'erc-open-tls-stream)
-
-    ;; Spell-check ERC buffers
-    (add-to-list 'erc-modules 'spelling)
-    (erc-update-modules)))
-
-(use-package erc-join                   ; Automatically join channels with ERC
-  :defer t
-  :config
-  ;; Standard channels on Freenode
-  (setq erc-autojoin-channels-alist '(("\\.freenode\\.net" . ("#emacs")))))
-
-(use-package erc-track                  ; Track status of ERC in mode line
-  :defer t
-  :config
-  ;; Switch to newest buffer by default, and don't ask before rebinding the keys
-  (setq erc-track-switch-direction 'newest
-        erc-track-enable-keybindings t))
-
-(use-package rcirc                      ; Simply ERC client
-  :defer t
-  :config
-  (progn
-    (setq rcirc-default-full-name (format "%s (http://www.lunaryorn.com)"
-                                          user-full-name)
-          rcirc-default-nick "lunaryorn"
-          rcirc-time-format "%Y-%m-%d %H:%M "
-          rcirc-server-alist
-          '(("chat.freenode.not" :port 7000 :user-name "lunaryorn"
-             :encryption tls :channels ("#emacs" "#haskell" "#hakyll" "#zsh"))))
-
-    (add-hook 'rcirc-mode-hook #'flyspell-mode)
-
-    (rcirc-track-minor-mode)))
-
 
 ;;; Online Help
 (use-package find-func                  ; Find function/variable definitions
@@ -2481,13 +2109,13 @@ Install mudraw with brew install mupdf-tools"))))
          ("C-c h V"   . find-variable)
          ("C-c h 4 V" . find-variable-other-window)))
 
-(use-package info                       ; Info manual viewer
-  :defer t
-  :config
-  ;; Fix the stupid `Info-quoted' face.  Courier is an abysmal face, so go back
-  ;; to the default face.
-  (set-face-attribute 'Info-quoted nil :family 'unspecified
-                      :inherit font-lock-type-face))
+;; (use-package info                       ; Info manual viewer
+;;   :defer t
+;;   :config
+;;   ;; Fix the stupid `Info-quoted' face.  Courier is an abysmal face, so go back
+;;   ;; to the default face.
+;;   (set-face-attribute 'Info-quoted nil :family 'unspecified
+;;                       :inherit font-lock-type-face))
 
 (use-package helm-descbinds             ; Describe key bindings with Helm
   :ensure t
