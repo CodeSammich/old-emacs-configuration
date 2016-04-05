@@ -1921,6 +1921,12 @@ Disable the highlighting of overlong lines."
   :config
   (js2r-add-keybindings-with-prefix "C-c m r"))
 
+(use-package company-tern               ; Auto-completion for javascript
+  ;; FIXME: Configure
+  :disabled t
+  :ensure t
+  :after company)
+
 
 ;;; Misc programming languages
 (use-package sh-script                  ; Shell scripts
