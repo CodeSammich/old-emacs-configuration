@@ -1308,11 +1308,20 @@ Disable the highlighting of overlong lines."
 (use-package copyright                  ; Deal with copyright notices
   :defer t
   :bind (("C-c i c" . copyright-update))
+  :init
   ;; Update copyright when visiting files
-  :init (add-hook 'find-file-hook #'copyright-update)
-  ;; Use ranges to denote consecutive years
+  (defun lunaryorn-copyright-update ()
+    (interactive)
+    (unless buffer-read-only
+      (copyright-update nil 'interactive)
+      (unless copyright-update
+        ;; Fix years when the copyright information was updated
+        (copyright-fix-years))))
+  (add-hook 'find-file-hook #'lunaryorn-copyright-update)
   :config
+  ;; Use ranges to denote consecutive years
   (setq copyright-year-ranges t
+        ;; Limit copyright changes to my own copyright
         copyright-names-regexp (regexp-quote user-full-name)))
 
 
