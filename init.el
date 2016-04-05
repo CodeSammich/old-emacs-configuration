@@ -2009,16 +2009,10 @@ Disable the highlighting of overlong lines."
   ;; (magit-wip-before-change-mode)
   :config
   ;; Shut up, Magit
-  (setq magit-revert-buffers 'silent
-        magit-save-repository-buffers 'dontask
-        magit-push-always-verify nil
+  (setq magit-save-repository-buffers 'dontask
         magit-refs-show-commit-count 'all
         ;; This is creepy, Magit
-        magit-revision-show-gravatars nil
-        ;; For some reason this doesn't work :(
-        ;; magit-completing-read-function
-        ;; #'helm-completing-read-with-cands-in-buffer
-        )
+        magit-revision-show-gravatars nil)
 
   ;; Set Magit's repo dirs for `magit-status' from Projectile's known
   ;; projects.  Initialize the `magit-repository-directories'
