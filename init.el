@@ -280,7 +280,14 @@ symbols, emojis, greek letters, as well as fall backs for."
         '(("Prefix Command" . "prefix")
           ("\\`\\?\\?\\'"   . "λ")))
   (which-key-declare-prefixes
+    ;; Prefixes for global prefixes and minor modes
     "C-c @" "outline"
+    "C-c !" "flycheck"
+    "C-c 8" "typo"
+    "C-c 8 -" "typo/dashes"
+    "C-c 8 <" "typo/left-brackets"
+    "C-c 8 >" "typo/right-brackets"
+    ;; Prefixes for my personal bindings
     "C-c a" "applications"
     "C-c b" "buffers"
     "C-c c" "compile-and-comments"
@@ -290,12 +297,29 @@ symbols, emojis, greek letters, as well as fall backs for."
     "C-c g" "git"
     "C-c g g" "github"
     "C-c h" "helm/help"
+    "C-c k" "sexps"
     "C-c i" "insert"
     "C-c j" "jump"
+    "C-c m" "major mode"
+    "C-c o" "cursors"
     "C-c p" "projects"
+    "C-c s" "search"
     "C-c t" "toggle"
     "C-c w" "windows/frames"
     "C-c x" "text")
+
+  (which-key-declare-prefixes-for-mode 'markdown-mode
+    "C-c TAB" "markdown/images"
+    "C-c C-a" "markdown/links"
+    "C-c C-c" "markdown/process"
+    "C-c C-s" "markdown/style"
+    "C-c C-t" "markdown/header"
+    "C-c C-x" "markdown/structure"
+    "C-c m" "markdown/personal")
+
+  (which-key-declare-prefixes-for-mode 'emacs-lisp-mode
+    "C-c m" "elisp/personal"
+    "C-c m e" "eval")
   :diminish (which-key-mode . " Ⓚ"))
 
 (use-package hydra                      ; Bindings that stick
