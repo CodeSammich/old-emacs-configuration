@@ -968,6 +968,11 @@ mouse-3: go to end"))))
   :defer t
   :init (delete-selection-mode))
 
+(use-package newcomment                 ; Built-in comment features
+  :bind (("C-c c d" . comment-dwim)
+         ("C-c c l" . comment-line)
+         ("C-c c r" . comment-region)))
+
 (use-package whitespace-cleanup-mode    ; Cleanup whitespace in buffers
   :ensure t
   :bind (("C-c t c" . whitespace-cleanup-mode)
@@ -1589,8 +1594,7 @@ Disable the highlighting of overlong lines."
   :bind (("C-c t p" . prettify-symbols-mode)))
 
 (use-package compile                    ; Compile from Emacs
-  :bind (("C-c c C" . compile)
-         ("C-c c r" . recompile))
+  :bind (("C-c c C" . recompile))
   :config
   (setq compilation-ask-about-save nil
         ;; Kill old compilation processes before starting new ones,
