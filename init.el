@@ -1751,6 +1751,11 @@ Disable the highlighting of overlong lines."
   :init
   (add-hook 'emacs-lisp-mode-hook #'lunaryorn-add-use-package-to-imenu))
 
+(use-package cask-mode
+  ;; Pending https://github.com/melpa/melpa/pull/3737
+  :disabled t
+  :ensure t)
+
 (use-package macrostep                  ; Interactively expand macros in code
   :ensure t
   :after elisp-mode
