@@ -2067,8 +2067,6 @@ Disable the highlighting of overlong lines."
 
 ;;; Github integration
 (use-package gh                         ; Github API library
-  ;; Don't ensure it, since it's only brought in as dependency
-  :ensure nil
   :defer t
   ;; Change the default profile.  The profile itself is set up via customize,
   ;; and includes auth data, to prevent it from storing tokens in Git config
@@ -2079,7 +2077,9 @@ Disable the highlighting of overlong lines."
   :defer t
   :init (add-hook 'magit-mode-hook #'turn-on-magit-gh-pulls))
 
-(use-package helm-open-github           ; Open Github pages for current repo
+(use-package helm-open-github ; Open Github pages for current repo
+  ;; FIXME: Triggers a password prompt during load?!
+  :disabled t
   :ensure t
   :bind (("C-c g g i" . helm-open-github-from-issues)
          ("C-c g g p" . helm-open-github-from-pull-requests)))
