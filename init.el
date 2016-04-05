@@ -284,12 +284,13 @@ symbols, emojis, greek letters, as well as fall backs for."
     "C-c e" "errors"
     "C-c f" "files"
     "C-c f v" "variables"
+    "C-c g" "git"
+    "C-c g g" "github"
     "C-c h" "helm/help"
     "C-c i" "insert"
     "C-c j" "jump"
     "C-c p" "projects"
     "C-c t" "toggle"
-    "C-c v" "version-control"
     "C-c w" "windows/frames"
     "C-c x" "text")
   :diminish (which-key-mode . " Ⓚ"))
@@ -1807,7 +1808,7 @@ Disable the highlighting of overlong lines."
 (use-package what-the-commit            ; Insert random commit messages
   :ensure t
   :bind (("C-c i w" . what-the-commit-insert)
-         ("C-c v w" . what-the-commit)))
+         ("C-c g w" . what-the-commit)))
 
 (use-package diff-hl                    ; Highlight hunks in fringe
   :ensure t
@@ -1824,11 +1825,11 @@ Disable the highlighting of overlong lines."
 
 (use-package magit                      ; The one and only Git frontend
   :ensure t
-  :bind (("C-c v c" . magit-clone)
-         ("C-c v v" . magit-status)
-         ("C-c v g" . magit-blame)
-         ("C-c v l" . magit-log-buffer-file)
-         ("C-c v p" . magit-pull))
+  :bind (("C-c g c" . magit-clone)
+         ("C-c g g" . magit-status)
+         ("C-c g b" . magit-blame)
+         ("C-c g l" . magit-log-buffer-file)
+         ("C-c g p" . magit-pull))
   ;; Aggressively commit to WIP refs on any change
   :init
   ;; (magit-wip-after-save-mode)
@@ -1891,7 +1892,7 @@ Disable the highlighting of overlong lines."
 
 (use-package git-timemachine            ; Go back in Git time
   :ensure t
-  :bind (("C-c v t" . git-timemachine)))
+  :bind (("C-c g t" . git-timemachine)))
 
 
 ;;; Github integration
@@ -1910,8 +1911,8 @@ Disable the highlighting of overlong lines."
 
 (use-package helm-open-github           ; Open Github pages for current repo
   :ensure t
-  :bind (("C-c v G i" . helm-open-github-from-issues)
-         ("C-c v G p" . helm-open-github-from-pull-requests)))
+  :bind (("C-c g G i" . helm-open-github-from-issues)
+         ("C-c g G p" . helm-open-github-from-pull-requests)))
 
 ;;; Project management with Projectile
 (use-package projectile                 ; Project management for Emacs
