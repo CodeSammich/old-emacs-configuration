@@ -331,6 +331,10 @@ symbols, emojis, greek letters, as well as fall backs for."
   (which-key-declare-prefixes-for-mode 'emacs-lisp-mode
     "C-c m" "elisp/personal"
     "C-c m e" "eval")
+
+  (which-key-declare-prefixes-for-mode 'js2-mode
+    "C-c m" "js/personal"
+    "C-c m r" "refactor")
   :diminish which-key-mode)
 
 (use-package hydra                      ; Bindings that stick
@@ -1826,6 +1830,22 @@ Disable the highlighting of overlong lines."
 (use-package toml-mode                  ; Toml for Cargo files
   :ensure t
   :defer t)
+
+
+;;; Javascript
+
+(use-package js2-mode                   ; Powerful Javascript mode
+  :ensure t
+  :mode (("\\.js\\'" . js2-mode)
+         ("\\.jsx\\'" . js2-jsx-mode)))
+
+(use-package js2-refactor               ; Refactor Javascript
+  :ensure t
+  :after js2-mode
+  :init
+  (add-hook 'js2-mode-hook 'js2-refactor-mode)
+  :config
+  (js2r-add-keybindings-with-prefix "C-c m r"))
 
 
 ;;; Misc programming languages
