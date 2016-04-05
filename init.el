@@ -1739,11 +1739,11 @@ Disable the highlighting of overlong lines."
   :defer t
   :interpreter ("emacs" . emacs-lisp-mode)
   :mode ("/Cask\\'" . emacs-lisp-mode)
-  :config
-  (bind-key "C-c m e r" #'eval-region emacs-lisp-mode-map)
-  (bind-key "C-c m e b" #'eval-buffer emacs-lisp-mode-map)
-  (bind-key "C-c m e e" #'eval-last-sexp emacs-lisp-mode-map)
-  (bind-key "C-c m e f" #'eval-defun emacs-lisp-mode-map))
+  :bind (:map emacs-lisp-mode-map
+              ("C-c m e r" . eval-region)
+              ("C-c m e b" . eval-buffer)
+              ("C-c m e e" . eval-last-sexp)
+              ("C-c m e f" . eval-defun)))
 
 (use-package lunaryorn-elisp            ; Personal tools for Emacs Lisp
   :load-path "lisp/"
