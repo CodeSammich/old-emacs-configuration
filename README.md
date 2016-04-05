@@ -36,12 +36,11 @@ Highlights — What you should probably copy from this!
 
 - Very good OS X support, even with stock GNU Emacs, including a font setup that
   supports Math, Symbols and Coloured Emojis (yay 😍)
-- A custom mode line setup
 - A well-designed key bindings scheme, greatly inspired by Spacemacs and
   supported by Which Key Mode
 - Rules for buffer displays in `display-buffer-alist`
 - A very powerful and comprehensive LaTeX setup with AUCTeX
-- Good configurations for Emacs Lisp, Scala and Haskell programming
+- Nice configurations for Scala, Emacs Lisp and a couple of other languages
 
 Final words
 -----------
