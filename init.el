@@ -1746,11 +1746,12 @@ Disable the highlighting of overlong lines."
 
 (use-package sbt-mode                   ; Scala build tool
   :ensure t
-  :defer t
-  :init (with-eval-after-load 'scala-mode2
-          (bind-key "C-c m b c" #'sbt-command scala-mode-map)
-          (bind-key "C-c m b r" #'sbt-run-previous-command scala-mode-map))
+  :after scala-mode2
+  :bind (:map scala-mode-map
+              (("C-c m b c" . sbt-command)
+               ("C-c m b r" . sbt-run-previous-command)))
   :config
+  ;; Do not pop up SBT buffers automatically
   (setq sbt:display-command-buffer nil)
 
   ;; Disable Smartparens Mode in SBT buffers, because it frequently
