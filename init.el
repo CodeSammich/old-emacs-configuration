@@ -864,8 +864,7 @@ mouse-3: go to end"))))
   :config
   (setq helm-swoop-speed-or-color t     ; Colour over speed 8)
         ;; Split window like Helm does
-        helm-swoop-split-window-function #'helm-default-display-buffer
-        ))
+        helm-swoop-split-window-function #'helm-default-display-buffer))
 
 (use-package grep                       ; Control grep from Emacs
   :defer t
@@ -923,7 +922,6 @@ mouse-3: go to end"))))
               tab-width 8)
 ;; Make Tab complete if the line is indented
 (setq tab-always-indent 'complete)
-
 
 ;; Indicate empty lines at the end of a buffer in the fringe, but require a
 ;; final new line
