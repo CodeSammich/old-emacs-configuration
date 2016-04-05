@@ -1821,7 +1821,10 @@ Disable the highlighting of overlong lines."
 
   ;; Fall back to the display margin, if the fringe is unavailable
   (unless (display-graphic-p)
-    (diff-hl-margin-mode)))
+    (diff-hl-margin-mode))
+
+  ;; Refresh diff-hl after Magit operations
+  (add-hook 'magit-post-refresh-hook #'diff-hl-magit-post-refresh))
 
 (use-package magit                      ; The one and only Git frontend
   :ensure t
