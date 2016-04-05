@@ -508,12 +508,13 @@ mouse-3: go to end"))))
   :init (focus-autosave-mode)
   :diminish focus-autosave-mode)
 
-;; (use-package lunaryorn-buffers          ; Personal buffer tools
-;;   :load-path "lisp/"
-;;   :bind (("C-c b k" . lunaryorn-kill-this-buffer))
-;;   :commands (lunaryorn-do-not-kill-important-buffers)
-;;   :init (add-hook 'kill-buffer-query-functions
-;;                   #'lunaryorn-do-not-kill-important-buffers))
+(use-package lunaryorn-buffers          ; Personal buffer tools
+  :load-path "lisp/"
+  :demand t                          ; Prevent a mysterious recursive load error
+  :bind (("C-c b k" . lunaryorn-kill-this-buffer))
+  :config
+  (add-hook 'kill-buffer-query-functions
+                  'lunaryorn-do-not-kill-important-buffers))
 
 (use-package uniquify                   ; Make buffer names unique
   :config (setq uniquify-buffer-name-style 'forward))
