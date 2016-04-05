@@ -996,7 +996,7 @@ mouse-3: go to end"))))
 
 (use-package expand-region              ; Expand region by semantic units
   :ensure t
-  :bind (("C-=" . er/expand-region)))
+  :bind (("C-c v" . er/expand-region)))
 
 (use-package undo-tree                  ; Branching undo
   :ensure t
