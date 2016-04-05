@@ -767,8 +767,7 @@ mouse-3: go to end"))))
 
 (use-package avy-jump                   ; Jump to characters in buffers
   :ensure avy
-  :bind (("C-c s s" . avy-isearch)
-         ("C-c j w" . avy-goto-word-1)
+  :bind (("C-c j w" . avy-goto-word-1)
          ("C-c j l" . avy-goto-line)
          ("C-c j b" . avy-pop-mark)
          ("C-c j j" . avy-goto-char-2)))
@@ -812,6 +811,18 @@ mouse-3: go to end"))))
 
   ;; Please, isearch, let me scroll during search
   (setq isearch-allow-scroll t))
+
+(use-package helm-swoop                 ; Powerful buffer search for Emacs
+  :ensure t
+  :after helm
+  :bind (("C-c s s" . helm-swoop)
+         ("C-c s S" . helm-multi-swoop)
+         ("C-c s C-s" . helm-multi-swoop-all))
+  :config
+  (setq helm-swoop-speed-or-color t     ; Colour over speed 8)
+        ;; Split window like Helm does
+        helm-swoop-split-window-function #'helm-default-display-buffer
+        ))
 
 (use-package grep                       ; Control grep from Emacs
   :defer t
