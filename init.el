@@ -475,7 +475,9 @@ mouse-3: go to end"))))
 (setq frame-resize-pixelwise t          ; Resize by pixels
       frame-title-format
       '(:eval (if (buffer-file-name)
-                  (abbreviate-file-name (buffer-file-name)) "%b")))
+                  (abbreviate-file-name (buffer-file-name)) "%b"))
+      ;; Size new windows proportionally wrt other windows
+      window-combination-resize t)
 
 (setq-default line-spacing 0.2)         ; A bit more spacing between lines
 
