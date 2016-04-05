@@ -1,17 +1,8 @@
-My old personal Emacs configuration
-===================================
-
-**Note**: I’m using [Spacemacs][] now and do not maintain this configuration
-anymore.  Much of it becomes redundant in Spacemacs, and I’m slowly porting bits
-and pieces of it to my new
-[Spacemacs configuration](https://github.com/lunaryorn/.spacemacs.d).
-You’ll probably still find interesting things in this configuration, but it’s
-inevitably going to lag behind soon.
+My personal Emacs configuration
+===============================
 
 My own home-grown Emacs configuration with
 [use-package](https://github.com/jwiegley/use-package).
-
-[Spacemacs]: https://github.com/syl20bnr/spacemacs
 
 Setup — How do you use it?
 --------------------------
