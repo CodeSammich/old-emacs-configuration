@@ -56,11 +56,7 @@
 (eval-when-compile
   (require 'use-package))
 
-(require 'bind-key)
-(require 'diminish)
-
 (require 'subr-x)
-(require 'rx)
 (require 'time-date)
 
 
