@@ -367,6 +367,7 @@ mouse-3: go to end"))))
   :ensure t
   :bind (
          ;; Replace built-in commands with more powerful Helm variants
+         ([remap find-file] . helm-find-files)
          ([remap switch-to-buffer] . helm-mini)
          ([remap execute-extended-command] . helm-M-x)
          ([info] . helm-info-at-point)
