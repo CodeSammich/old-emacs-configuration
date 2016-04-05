@@ -1749,8 +1749,7 @@ Disable the highlighting of overlong lines."
   :bind (:map emacs-lisp-mode-map ("C-c m f" . lunaryorn-elisp-find-cask-file))
   :after elisp-mode
   :init
-  (add-hook 'emacs-lisp-mode-hook
-            #'lunaryorn-add-use-package-to-imenu))
+  (add-hook 'emacs-lisp-mode-hook #'lunaryorn-add-use-package-to-imenu))
 
 (use-package macrostep                  ; Interactively expand macros in code
   :ensure t
