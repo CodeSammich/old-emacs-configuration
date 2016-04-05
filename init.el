@@ -643,7 +643,8 @@ mouse-3: go to end"))))
 
 (use-package dired-x                    ; Additional tools for Dired
   :defer nil
-  :bind (("C-x C-j" . dired-jump))
+  :bind (("C-c f d" . dired-jump)
+         ("C-x C-j" . dired-jump))
   :init
   (add-hook 'dired-mode-hook #'dired-omit-mode)
   :after dired
