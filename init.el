@@ -800,8 +800,8 @@ mouse-3: go to end"))))
       mouse-wheel-scroll-amount '(1))
 
 (use-package page                       ; Page navigation
-  :bind (("C-x [" . lunaryorn-pages/forward-page)
-         ("C-x ]" . lunaryorn-pages/backward-page))
+  :bind (("C-x ]" . lunaryorn-pages/forward-page)
+         ("C-x [" . lunaryorn-pages/backward-page))
   :init
   (defhydra lunaryorn-pages ()
     "Pages"
