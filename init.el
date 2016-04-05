@@ -1935,6 +1935,10 @@ Disable the highlighting of overlong lines."
   :ensure t
   :bind (("C-c g t" . git-timemachine)))
 
+(use-package helm-gitignore             ; Generate gitignore files
+  :ensure t
+  :bind ("C-c g I" . helm-gitignore))
+
 
 ;;; Github integration
 (use-package gh                         ; Github API library
