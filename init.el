@@ -897,7 +897,8 @@ mouse-3: go to end"))))
 (use-package outline                    ; Navigate outlines in buffers
   :defer t
   :init (dolist (hook '(text-mode-hook prog-mode-hook))
-          (add-hook hook #'outline-minor-mode)))
+          (add-hook hook #'outline-minor-mode))
+  :diminish outline-minor-mode)
 
 (use-package nlinum                     ; Line numbers in display margin
   :ensure t
@@ -1106,7 +1107,8 @@ mouse-3: go to end"))))
 
 (use-package undo-tree                  ; Branching undo
   :ensure t
-  :init (global-undo-tree-mode))
+  :init (global-undo-tree-mode)
+  :diminish undo-tree-mode)
 
 ;; Give us narrowing back!
 (put 'narrow-to-region 'disabled nil)
