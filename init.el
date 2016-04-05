@@ -1724,7 +1724,8 @@ Disable the highlighting of overlong lines."
 (use-package flycheck-package           ; Check package conventions with Flycheck
   :ensure t
   :defer t
-  :init (with-eval-after-load 'flycheck (flycheck-package-setup)))
+  :after flycheck
+  :init (flycheck-package-setup))
 
 (use-package pcre2el                    ; Convert regexps to RX and back
   :disabled t
