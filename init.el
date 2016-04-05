@@ -295,6 +295,9 @@ symbols, emojis, greek letters, as well as fall backs for."
     "C-c x" "text")
   :diminish (which-key-mode . " Ⓚ"))
 
+(use-package hydra                      ; Bindings that stick
+  :ensure t)
+
 
 ;; Package manager and init file
 (use-package paradox                    ; Better package menu
@@ -766,6 +769,15 @@ mouse-3: go to end"))))
       ;; and smooth
       mouse-wheel-progressive-speed nil
       mouse-wheel-scroll-amount '(1))
+
+(use-package page                       ; Page navigation
+  :bind (("C-x [" . lunaryorn-pages/forward-page)
+         ("C-x ]" . lunaryorn-pages/backward-page))
+  :init
+  (defhydra lunaryorn-pages ()
+    "Pages"
+    ("[" backward-page "backward")
+    ("]" forward-page "forward")))
 
 (use-package avy-jump                   ; Jump to characters in buffers
   :ensure avy
