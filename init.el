@@ -575,12 +575,12 @@ mouse-3: go to end"))))
   :defer t
   :init (add-hook 'ibuffer-hook #'ibuffer-projectile-set-filter-groups))
 
-(use-package window                     ; Standard window functions
-  :bind (("C-c w =" . balance-windows)
-         ("C-c w k" . delete-window)
-         ("C-c w /" . split-window-right)
-         ("C-c w -" . split-window-below)
-         ("C-c w m" . delete-other-windows)))
+;; Standard window commands
+(bind-key "C-c w =" #'balance-windows)
+(bind-key "C-c w k" #'delete-window)
+(bind-key "C-c w /" #'split-window-right)
+(bind-key "C-c w -" #'split-window-below)
+(bind-key "C-c w m" #'delete-other-windows)
 
 (use-package lunaryorn-window           ; Personal window utilities
   :load-path "lisp/"
@@ -1001,6 +1001,8 @@ mouse-3: go to end"))))
 (add-hook 'text-mode-hook #'auto-fill-mode)
 (diminish 'auto-fill-function " Ⓕ")
 
+(bind-key "C-c x i" #'indent-region)
+
 (use-package lunaryorn-simple           ; Personal editing helpers
   :load-path "lisp/"
   :bind (([remap kill-whole-line]        . lunaryorn-smart-kill-whole-line)
@@ -1014,9 +1016,6 @@ mouse-3: go to end"))))
   :commands (lunaryorn-auto-fill-comments-mode)
   ;; Auto-fill comments in programming modes
   :init (add-hook 'prog-mode-hook #'lunaryorn-auto-fill-comments-mode))
-
-(use-package indent                     ; Built-in indentation
-  :bind (("C-c x i" . indent-region)))
 
 (use-package delsel                     ; Delete the selection instead of insert
   :defer t
