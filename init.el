@@ -300,6 +300,7 @@ symbols, emojis, greek letters, as well as fall backs for."
     "C-c h" "helm/help"
     "C-c k" "sexps"
     "C-c i" "insert"
+    "C-c i l" "licenses"
     "C-c j" "jump"
     "C-c m" "major mode"
     "C-c o" "cursors"
@@ -948,7 +949,7 @@ mouse-3: go to end"))))
          ("C-<return>"                   . lunaryorn-smart-open-line)
          ;; Additional utilities
          ("C-c i d"                      . lunaryorn-insert-current-date)
-         ("C-c i m"                      . lunaryorn-insert-mit/x11))
+         ("C-c i l m"                    . lunaryorn-insert-mit/x11))
   :commands (lunaryorn-auto-fill-comments-mode)
   ;; Auto-fill comments in programming modes
   :init (add-hook 'prog-mode-hook #'lunaryorn-auto-fill-comments-mode))
