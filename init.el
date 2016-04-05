@@ -852,8 +852,7 @@ mouse-3: go to end"))))
 
 
 ;;; Navigation and scrolling
-(setq scroll-margin 0                   ; Drag the point along while scrolling
-      scroll-conservatively 1000        ; Never recenter the screen while scrolling
+(setq scroll-conservatively 1000        ; Never recenter the screen while scrolling
       scroll-error-top-bottom t         ; Move to beg/end of buffer before
                                         ; signalling an error
       ;; These settings make trackpad scrolling on OS X much more predictable
