@@ -1063,6 +1063,15 @@ mouse-3: go to end"))))
 (bind-key [remap just-one-space] #'cycle-spacing)
 
 
+;;; Internationalisation
+
+(use-package mule-cmds                  ; Input methods
+  :defer t
+  :bind (("C-c t i" . toggle-input-method))
+  :config
+  (setq default-input-method "german-postfix"))
+
+
 ;;; Paired delimiters
 (use-package smartparens                ; Parenthesis editing and balancing
   :ensure t
