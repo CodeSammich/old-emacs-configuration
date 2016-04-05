@@ -71,13 +71,22 @@
 ;; And disable the site default settings
 (setq inhibit-default-init t)
 
-;; Warn if the current build is more than a week old
-(run-with-idle-timer
- 2 nil
- (lambda ()
-   (let ((time-since-build (time-subtract (current-time) emacs-build-time)))
-     (when (> (time-to-number-of-days time-since-build) 7)
-       (lwarn 'emacs :warning "Your Emacs build is more than a week old!")))))
+(defun lunaryorn-snapshot-version-p (version)
+  "Whether VERSION is an Emacs snapshot version."
+  (pcase-let ((`(,_ ,_ ,build) (version-to-list version)))
+    ;; Snapshots with build numbers > 90 are pretests which come from proper
+    ;; release tarballs and don't need to be rebuild weekly
+    (and (>= build 50) (<= build 90))))
+
+(when (lunaryorn-snapshot-version-p emacs-version)
+  ;; When on a snapshot version, warn if the build is older than a week to
+  ;; ensure that we stay up to date.
+  (run-with-idle-timer
+   2 nil
+   (lambda ()
+     (let ((time-since-build (time-subtract (current-time) emacs-build-time)))
+       (when (> (time-to-number-of-days time-since-build) 7)
+         (lwarn 'emacs :warning "Your Emacs build is more than a week old!"))))))
 
 
 ;;; Environment fixup
