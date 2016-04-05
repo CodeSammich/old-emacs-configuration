@@ -1107,8 +1107,8 @@ Disable the highlighting of overlong lines."
   :defer t
   :bind
   (("C-c s %" . highlight-symbol-query-replace)
-   ("C-c n n" . highlight-symbol-next-in-defun)
-   ("C-c n p" . highlight-symbol-prev-in-defun))
+   ("C-c s n" . highlight-symbol-next-in-defun)
+   ("C-c s p" . highlight-symbol-prev-in-defun))
   ;; Navigate occurrences of the symbol under point with M-n and M-p, and
   ;; highlight symbol occurrences
   :init
