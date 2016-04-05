@@ -1217,6 +1217,11 @@ Disable the highlighting of overlong lines."
                                         ; navigation
   :diminish highlight-symbol-mode)
 
+(use-package hl-todo                    ; Highlight TODOs in buffers
+  :ensure t
+  :defer t
+  :init (global-hl-todo-mode))
+
 
 ;;; Skeletons, completion and expansion
 
