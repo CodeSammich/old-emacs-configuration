@@ -424,7 +424,7 @@ mouse-3: go to end"))))
       '(:eval (if (buffer-file-name)
                   (abbreviate-file-name (buffer-file-name)) "%b")))
 
-;; (setq-default line-spacing 0.2)         ; A bit more spacing between lines
+(setq-default line-spacing 0.2)         ; A bit more spacing between lines
 
 ;; Configure `display-buffer' behaviour for some special buffers.
 (setq display-buffer-alist
