@@ -321,7 +321,7 @@ symbols, emojis, greek letters, as well as fall backs for."
   (which-key-declare-prefixes-for-mode 'emacs-lisp-mode
     "C-c m" "elisp/personal"
     "C-c m e" "eval")
-  :diminish (which-key-mode . " Ⓚ"))
+  :diminish which-key-mode)
 
 (use-package hydra                      ; Bindings that stick
   :ensure t)
@@ -834,8 +834,7 @@ mouse-3: go to end"))))
 (use-package outline                    ; Navigate outlines in buffers
   :defer t
   :init (dolist (hook '(text-mode-hook prog-mode-hook))
-          (add-hook hook #'outline-minor-mode))
-  :diminish (outline-minor-mode . " Ⓞ"))
+          (add-hook hook #'outline-minor-mode)))
 
 (use-package nlinum                     ; Line numbers in display margin
   :ensure t
@@ -1041,8 +1040,7 @@ mouse-3: go to end"))))
 
 (use-package undo-tree                  ; Branching undo
   :ensure t
-  :init (global-undo-tree-mode)
-  :diminish (undo-tree-mode . " ⓤ"))
+  :init (global-undo-tree-mode))
 
 ;; Give us narrowing back!
 (put 'narrow-to-region 'disabled nil)
