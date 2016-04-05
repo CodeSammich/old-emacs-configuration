@@ -1953,8 +1953,8 @@ Disable the highlighting of overlong lines."
 
 (use-package helm-open-github           ; Open Github pages for current repo
   :ensure t
-  :bind (("C-c g G i" . helm-open-github-from-issues)
-         ("C-c g G p" . helm-open-github-from-pull-requests)))
+  :bind (("C-c g g i" . helm-open-github-from-issues)
+         ("C-c g g p" . helm-open-github-from-pull-requests)))
 
 ;;; Project management with Projectile
 (use-package projectile                 ; Project management for Emacs
