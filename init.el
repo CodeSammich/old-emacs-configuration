@@ -208,6 +208,9 @@ symbols, emojis, greek letters, as well as fall backs for."
   (lunaryorn-configure-fonts frame))
 (add-hook 'after-make-frame-functions #'lunaryorn-configure-fonts)
 
+(use-package face-remap                 ; Face remapping
+  :bind (("C-c w z" . text-scale-adjust)))
+
 
 ;;; User interface
 
