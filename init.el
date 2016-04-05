@@ -1770,6 +1770,10 @@ Disable the highlighting of overlong lines."
   ;; Compile on save.  My projects are small enough :)
   (setq ensime-sbt-perform-on-save "test:compile"))
 
+(use-package ensime-expand-region       ; Integrate Ensime into expand-region
+  :ensure ensime
+  :after expand-region)
+
 (use-package lunaryorn-scala            ; Personal Scala tools
   :load-path "lisp/"
   :defer t
