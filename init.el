@@ -335,6 +335,14 @@ symbols, emojis, greek letters, as well as fall backs for."
   (which-key-declare-prefixes-for-mode 'js2-mode
     "C-c m" "js/personal"
     "C-c m r" "refactor")
+
+  (which-key-declare-prefixes-for-mode 'scala-mode
+    "C-c C-b" "ensime/build"
+    "C-c C-d" "ensime/debug"
+    "C-c C-r" "ensime/refactor"
+    "C-c C-v" "ensime/misc"
+    "C-c m" "scala/personal"
+    "C-c m b" "scala/build")
   :diminish which-key-mode)
 
 (use-package hydra                      ; Bindings that stick
