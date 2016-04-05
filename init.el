@@ -601,6 +601,43 @@ mouse-3: go to end"))))
   :bind (("C-x o" . ace-window)
          ("C-c w w" . ace-window)))
 
+(use-package golden-ratio               ; Automatically resize windows
+  :ensure t
+  :init
+  (defun lunaryorn-toggle-golden-ratio ()
+    (interactive)
+    (if (bound-and-true-p golden-ratio-mode)
+        (progn
+          (golden-ratio-mode -1)
+          (balance-windows))
+      (golden-ratio-mode)
+      (golden-ratio)))
+  :bind (("C-c t g" . lunaryorn-toggle-golden-ratio))
+  :config
+  (setq golden-ratio-extra-commands '(windmove-up
+                                      windmove-down
+                                      windmove-left
+                                      windmove-right
+                                      ace-window
+                                      ace-delete-window
+                                      ace-select-window
+                                      ace-swap-window
+                                      ace-maximize-window)
+        ;; Exclude a couple of special modes from golden ratio, namely
+        ;; Flycheck's error list, calc
+        golden-ratio-exclude-modes '(flycheck-error-list-mode
+                                     calc-mode
+                                     dired-mode
+                                     ediff-mode
+                                     )
+        ;; Exclude a couple of special buffers from golden ratio, namely Helm,
+        ;; WhichKey, NeoTree, etc.
+        golden-ratio-exclude-buffer-regexp
+        `(,(rx bos "*" (any "h" "H") "elm*" eos)
+          ,(rx bos "*which-key*" eos)
+          ,(rx bos "*NeoTree*" eos)))
+  :diminish (golden-ratio-mode . "ⓖ"))
+
 (use-package ediff-wind                 ; Ediff window management
   :defer t
   :config
