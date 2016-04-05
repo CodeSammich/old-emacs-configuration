@@ -1813,15 +1813,15 @@ Disable the highlighting of overlong lines."
 (use-package diff-hl                    ; Highlight hunks in fringe
   :ensure t
   :defer t
-  :init (progn
-          ;; Highlight changes to the current file in the fringe
-          (global-diff-hl-mode)
-          ;; Highlight changed files in the fringe of Dired
-          (add-hook 'dired-mode-hook 'diff-hl-dired-mode)
+  :init
+  ;; Highlight changes to the current file in the fringe
+  (global-diff-hl-mode)
+  ;; Highlight changed files in the fringe of Dired
+  (add-hook 'dired-mode-hook 'diff-hl-dired-mode)
 
-          ;; Fall back to the display margin, if the fringe is unavailable
-          (unless (display-graphic-p)
-            (diff-hl-margin-mode))))
+  ;; Fall back to the display margin, if the fringe is unavailable
+  (unless (display-graphic-p)
+    (diff-hl-margin-mode)))
 
 (use-package magit                      ; The one and only Git frontend
   :ensure t
