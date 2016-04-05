@@ -1542,13 +1542,11 @@ Disable the highlighting of overlong lines."
   :defer t
   :interpreter ("emacs" . emacs-lisp-mode)
   :mode ("/Cask\\'" . emacs-lisp-mode)
-  :config (progn
-            (require 'ert)
-
-            (bind-key "C-c m e r" #'eval-region emacs-lisp-mode-map)
-            (bind-key "C-c m e b" #'eval-buffer emacs-lisp-mode-map)
-            (bind-key "C-c m e e" #'eval-last-sexp emacs-lisp-mode-map)
-            (bind-key "C-c m e f" #'eval-defun emacs-lisp-mode-map)))
+  :config
+  (bind-key "C-c m e r" #'eval-region emacs-lisp-mode-map)
+  (bind-key "C-c m e b" #'eval-buffer emacs-lisp-mode-map)
+  (bind-key "C-c m e e" #'eval-last-sexp emacs-lisp-mode-map)
+  (bind-key "C-c m e f" #'eval-defun emacs-lisp-mode-map))
 
 (use-package lunaryorn-elisp            ; Personal tools for Emacs Lisp
   :load-path "lisp/"
@@ -1561,9 +1559,17 @@ Disable the highlighting of overlong lines."
 (use-package macrostep                  ; Interactively expand macros in code
   :ensure t
   :after elisp-mode
-  :bind (
-         :map emacs-lisp-mode-map ("C-c m x" . macrostep-expand)
+  :bind (:map emacs-lisp-mode-map ("C-c m x" . macrostep-expand)
          :map lisp-interaction-mode-map ("C-c m x" . macrostep-expand)))
+
+(use-package ert                        ; Unit test framework
+  ;; Load after Emacs Lisp Mode to support writing ERT tests
+  :after elisp-mode)
+
+(use-package buttercup                  ; BDD test framework for Emacs
+  :ensure t
+  :after elisp-mode)
+
 
 ;;; Scala
 
