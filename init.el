@@ -799,6 +799,68 @@ mouse-3: go to end"))))
   :bind (("C-c t l" . nlinum-mode)))
 
 
+;;; Search
+(use-package "isearch"                  ; Search buffers
+  ;; Defer because `isearch' is not a feature and we don't want to `require' it
+  :defer t
+  :init
+  ;; `:diminish' doesn't work for isearch, because it uses eval-after-load on
+  ;; the feature name, but isearch.el does not provide any feature.  For the
+  ;; same reason we have to use `:init', but isearch is always loaded anyways.
+  (diminish 'isearch-mode)
+
+  ;; Please, isearch, let me scroll during search
+  (setq isearch-allow-scroll t))
+
+(use-package grep                       ; Control grep from Emacs
+  :defer t
+  :config
+  (when-let (gnu-find (and (eq system-type 'darwin)
+                           (executable-find "gfind")))
+    (setq find-program gnu-find))
+
+  (when-let (gnu-xargs (and (eq system-type 'darwin)
+                            (executable-find "gxargs")))
+    (setq xargs-program gnu-xargs)))
+
+(use-package locate                     ; Search files on the system
+  :defer t
+  :config
+  ;; Use mdfind as locate substitute on OS X, to utilize the Spotlight database
+  (when-let (mdfind (and (eq system-type 'darwin) (executable-find "mdfind")))
+    (setq locate-command mdfind)))
+
+(use-package ag                         ; Search code in files/projects
+  :ensure t
+  :bind (("C-c s d" . ag-dired-regexp)
+         ("C-c s D" . ag-dired)
+         ("C-c s f" . ag-files)
+         ("C-c s k" . ag-kill-other-buffers)
+         ("C-c s K" . ag-kill-buffers))
+  :config
+  (setq ag-reuse-buffers t            ; Don't spam buffer list with ag buffers
+        ag-highlight-search t         ; A little fanciness
+        ;; Use Projectile to find the project root
+        ag-project-root-function (lambda (d) (let ((default-directory d))
+                                               (projectile-project-root)))))
+
+(use-package wgrep                      ; Edit grep/occur/ag results in-place
+  :ensure t
+  :defer t)
+
+(use-package wgrep-ag                   ; Wgrep for ag
+  :ensure t
+  :defer t)
+
+(use-package helm-ag                    ; Helm frontend for Ag
+  :ensure t
+  ;; :bind (("C-c a a" . helm-do-ag)
+  ;;        ("C-c a A" . helm-ag))
+  :config (setq helm-ag-fuzzy-match t
+                helm-ag-insert-at-point 'symbol
+                helm-ag-source-type 'file-line))
+
+
 ;;; Basic editing
 
 ;; Disable tabs, but given them proper width
@@ -1837,68 +1899,6 @@ Disable the highlighting of overlong lines."
   :ensure t
   :bind (("C-c v G i" . helm-open-github-from-issues)
          ("C-c v G p" . helm-open-github-from-pull-requests)))
-
-
-;;; Search
-(use-package "isearch"                  ; Search buffers
-  ;; Defer because `isearch' is not a feature and we don't want to `require' it
-  :defer t
-  :init
-  ;; `:diminish' doesn't work for isearch, because it uses eval-after-load on
-  ;; the feature name, but isearch.el does not provide any feature.  For the
-  ;; same reason we have to use `:init', but isearch is always loaded anyways.
-  (diminish 'isearch-mode)
-
-  ;; Please, isearch, let me scroll during search
-  (setq isearch-allow-scroll t))
-
-(use-package grep                       ; Control grep from Emacs
-  :defer t
-  :config
-  (when-let (gnu-find (and (eq system-type 'darwin)
-                           (executable-find "gfind")))
-    (setq find-program gnu-find))
-
-  (when-let (gnu-xargs (and (eq system-type 'darwin)
-                            (executable-find "gxargs")))
-    (setq xargs-program gnu-xargs)))
-
-(use-package locate                     ; Search files on the system
-  :defer t
-  :config
-  ;; Use mdfind as locate substitute on OS X, to utilize the Spotlight database
-  (when-let (mdfind (and (eq system-type 'darwin) (executable-find "mdfind")))
-    (setq locate-command mdfind)))
-
-(use-package ag                         ; Search code in files/projects
-  :ensure t
-  :bind (("C-c s d" . ag-dired-regexp)
-         ("C-c s D" . ag-dired)
-         ("C-c s f" . ag-files)
-         ("C-c s k" . ag-kill-other-buffers)
-         ("C-c s K" . ag-kill-buffers))
-  :config
-  (setq ag-reuse-buffers t            ; Don't spam buffer list with ag buffers
-        ag-highlight-search t         ; A little fanciness
-        ;; Use Projectile to find the project root
-        ag-project-root-function (lambda (d) (let ((default-directory d))
-                                               (projectile-project-root)))))
-
-(use-package wgrep                      ; Edit grep/occur/ag results in-place
-  :ensure t
-  :defer t)
-
-(use-package wgrep-ag                   ; Wgrep for ag
-  :ensure t
-  :defer t)
-
-(use-package helm-ag                    ; Helm frontend for Ag
-  :ensure t
-  ;; :bind (("C-c a a" . helm-do-ag)
-  ;;        ("C-c a A" . helm-ag))
-  :config (setq helm-ag-fuzzy-match t
-                helm-ag-insert-at-point 'symbol
-                helm-ag-source-type 'file-line))
 
 ;;; Project management with Projectile
 (use-package projectile                 ; Project management for Emacs
