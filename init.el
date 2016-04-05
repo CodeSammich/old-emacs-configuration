@@ -267,6 +267,7 @@ symbols, emojis, greek letters, as well as fall backs for."
   :init (which-key-mode)
   :config
   (setq which-key-idle-delay 0.4
+        which-key-sort-order 'which-key-prefix-then-key-order
         which-key-key-replacement-alist
         '(("<\\([[:alnum:]-]+\\)>" . "\\1")
           ("up"                    . "↑")
