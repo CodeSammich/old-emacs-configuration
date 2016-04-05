@@ -277,6 +277,7 @@ symbols, emojis, greek letters, as well as fall backs for."
         '(("Prefix Command" . "prefix")
           ("\\`\\?\\?\\'"   . "λ")))
   (which-key-declare-prefixes
+    "C-c @" "outline"
     "C-c a" "applications"
     "C-c b" "buffers"
     "C-c c" "compile-and-comments"
