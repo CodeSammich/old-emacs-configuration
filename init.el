@@ -266,7 +266,7 @@ symbols, emojis, greek letters, as well as fall backs for."
 (bind-key "C-c t v" #'variable-pitch-mode)
 
 
-;;; Key setup
+;;; Keys and key bindings
 (use-package which-key                  ; Show help popups for prefix keys
   :ensure t
   :init (which-key-mode)
@@ -343,6 +343,10 @@ symbols, emojis, greek letters, as well as fall backs for."
 
 (use-package hydra                      ; Bindings that stick
   :ensure t)
+
+(use-package helm-descbinds             ; Describe key bindings with Helm
+  :ensure t
+  :init (helm-descbinds-mode))
 
 
 ;; Package manager and init file
@@ -2244,10 +2248,6 @@ Install mudraw with brew install mupdf-tools")))
   ;; to the default face.
   (set-face-attribute 'Info-quoted nil :family 'unspecified
                       :inherit font-lock-type-face))
-
-(use-package helm-descbinds             ; Describe key bindings with Helm
-  :ensure t
-  :init (helm-descbinds-mode))
 
 (use-package ansible-doc                ; Documentation lookup for Ansible
   :ensure t
