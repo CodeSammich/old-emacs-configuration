@@ -1386,17 +1386,25 @@ Disable the highlighting of overlong lines."
     (define-key flyspell-mouse-map [mouse-2] nil))
   :diminish (flyspell-mode . " ⓢ"))
 
+(use-package helm-flycheck              ; Helm frontend for Flycheck errors
+  :ensure t
+  :defer t
+  :after flycheck)
+
 (use-package flycheck                   ; On-the-fly syntax checking
   :ensure t
-  :bind (("C-c e l" . list-flycheck-errors)
-         ("C-c e n" . flycheck-next-error)
-         ("C-c e p" . flycheck-previous-error)
-         ("C-c e c" . flycheck-buffer)
-         ("C-c e C" . flycheck-clear)
-         ("C-c e f" . flycheck-first-error)
-         ("C-c e w" . flycheck-copy-errors-as-kill)
-         ("C-c t f" . flycheck-mode))
-  :init (global-flycheck-mode)
+  :bind (("C-c e" . lunaryorn-flycheck-errors/body))
+  :init
+  (defhydra lunaryorn-flycheck-errors ()
+    "Flycheck errors."
+    ("n" flycheck-next-error "next")
+    ("p" flycheck-previous-error "previous")
+    ("f" flycheck-first-error "first")
+    ("l" flycheck-list-errors "list")
+    ("w" flycheck-copy-errors-as-kill "copy message")
+    ("h" helm-flycheck "list with helm"))
+
+  (global-flycheck-mode)
   :config
   (setq flycheck-standard-error-navigation nil
         flycheck-display-errors-function
@@ -1419,10 +1427,6 @@ Disable the highlighting of overlong lines."
   (dolist (hook-fn '(lunaryorn-use-js-executables-from-node-modules
                      lunaryorn-flycheck-set-load-path-for-user-configuration))
     (add-hook 'flycheck-mode-hook hook-fn)))
-
-(use-package helm-flycheck              ; Helm frontend for Flycheck errors
-  :ensure t
-  :bind (("C-c e h" . helm-flycheck)))
 
 
 ;;; Text editing
