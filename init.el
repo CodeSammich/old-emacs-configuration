@@ -1402,10 +1402,6 @@ Disable the highlighting of overlong lines."
         flycheck-display-errors-function
         #'flycheck-display-error-messages-unless-error-list
         flycheck-scalastylerc "scalastyle_config.xml")
-
-  ;; Use italic face for checker name
-  (set-face-attribute 'flycheck-error-list-checker-name nil
-                      :inherit 'italic)
   :diminish (flycheck-mode . " Ⓢ"))
 
 (use-package lunaryorn-flycheck         ; Personal Flycheck extensions
