@@ -1842,7 +1842,7 @@ Disable the highlighting of overlong lines."
 
 (use-package ensime-expand-region       ; Integrate Ensime into expand-region
   :ensure ensime
-  :after expand-region)
+  :after ensime)
 
 (use-package lunaryorn-scala            ; Personal Scala tools
   :load-path "lisp/"
