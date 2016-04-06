@@ -1939,6 +1939,12 @@ Disable the highlighting of overlong lines."
   :after rust-mode
   :init (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
 
+(use-package cargo                      ; Control Cargo
+  :ensure t
+  :bind (:map rust-mode-map ("<f5>" . cargo-process-build))
+  :after rust-mode
+  :init (add-hook 'rust-mode-hook #'cargo-minor-mode))
+
 (use-package toml-mode                  ; Toml for Cargo files
   :ensure t
   :defer t)
