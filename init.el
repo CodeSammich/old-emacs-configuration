@@ -306,7 +306,12 @@ symbols, emojis, greek letters, as well as fall backs for."
           ("RET"                   . "⏎"))
         which-key-description-replacement-alist
         '(("Prefix Command" . "prefix")
-          ("\\`\\?\\?\\'"   . "λ")))
+          ;; Lambdas
+          ("\\`\\?\\?\\'"   . "λ")
+          ;; Prettify hydra entry points
+          ("/body\\'"       . " |=")
+          ;; Drop my personal prefix
+          ("\\`lunaryorn-"  . "")))
   (which-key-declare-prefixes
     ;; Prefixes for global prefixes and minor modes
     "C-c @" "outline"
