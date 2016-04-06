@@ -1029,6 +1029,17 @@ mouse-3: go to end"))))
 
 (bind-key "C-c x i" #'indent-region)
 
+(use-package simple
+  :defer t
+  :bind (("M-g n" . lunaryorn-errors/next-error)
+         ("M-g p" . lunaryorn-errors/previous-error))
+  :init
+  (defhydra lunaryorn-errors ()
+    "Errors."
+    ("n" next-error "next")
+    ("p" previous-error "previous")
+    ("f" first-error "first")))
+
 (use-package lunaryorn-simple           ; Personal editing helpers
   :load-path "lisp/"
   :bind (([remap kill-whole-line]        . lunaryorn-smart-kill-whole-line)
