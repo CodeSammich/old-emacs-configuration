@@ -270,6 +270,10 @@ symbols, emojis, greek letters, as well as fall backs for."
   :init (global-page-break-lines-mode)
   :diminish page-break-lines-mode)
 
+(use-package beacon                     ; Highlight cursor position in buffer
+  :ensure t
+  :init (beacon-mode 1))
+
 
 ;;; Keys and key bindings
 
