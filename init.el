@@ -267,6 +267,28 @@ symbols, emojis, greek letters, as well as fall backs for."
 
 
 ;;; Keys and key bindings
+
+;; Our key bindings are solely in the user space C-c <letter>.  The list of
+;; which-key prefixes documents the meaning of specific key prefixes, such as
+;; C-c f for file commands.  C-c m is special in that it always holds commands
+;; that are only for the current major mode.  The mode-specific which-key
+;; prefixes document the individual bindings for major modes under C-c m.
+;;
+;; We may also bind F5 to F9.  Since we can't document these in code, the
+;; following list shows their abstract meanings:
+;;
+;; * F5: Compile
+;; * F6: n/a
+;; * F7: n/a
+;; * F8: n/a
+;; * F9: n/a
+;;
+;; All of these keys have default global bindings, but major and minor modes may
+;; override them if there's a better command for the specific purpose available.
+;;
+;; Note that the notation for the function keys is <f5>, i.e. the lowercase name
+;; surrounded by angle brackets.
+
 (use-package which-key                  ; Show help popups for prefix keys
   :ensure t
   :init (which-key-mode)
@@ -1688,9 +1710,12 @@ Disable the highlighting of overlong lines."
   :config (add-hook 'compilation-filter-hook
                     #'lunaryorn-colorize-compilation-buffer))
 
-(use-package helm-make
+(use-package helm-make                  ; Run makefile targets through Helm
   :ensure t
-  :bind (("C-c c c" . helm-make-projectile)))
+  :bind (("C-c c c" . helm-make-projectile)
+         ;; FIXME: Write a more sophisticated command that checks whether a
+         ;; Makefile exists and falls back to an alternative if not.
+         ("<f5>" . helm-make-projectile)))
 
 (use-package elide-head                 ; Elide lengthy GPL headers
   :bind (("C-c t e" . elide-head))
@@ -1834,6 +1859,7 @@ Disable the highlighting of overlong lines."
               ;; Free M-n and M-p again
               ("M-n" . nil)
               ("M-p" . nil)
+              ("<f5>" . ensime-sbt-do-compile)
          :map scala-mode-map ("C-c m e" . ensime))
   :config
   ;; Enable Ensime for all Scala buffers.  We don't do this in :init, because
