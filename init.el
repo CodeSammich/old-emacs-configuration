@@ -265,6 +265,11 @@ symbols, emojis, greek letters, as well as fall backs for."
 
 (bind-key "C-c t v" #'variable-pitch-mode)
 
+(use-package page-break-lines           ; Turn page breaks into lines
+  :ensure t
+  :init (global-page-break-lines-mode)
+  :diminish page-break-lines-mode)
+
 
 ;;; Keys and key bindings
 
@@ -918,11 +923,6 @@ mouse-3: go to end"))))
   (with-eval-after-load 'help-mode
     (defvar help-mode-map)              ; Silence the byte compiler
     (bind-key "C-c m l" #'ace-link-help help-mode-map)))
-
-(use-package page-break-lines           ; Turn page breaks into lines
-  :ensure t
-  :init (global-page-break-lines-mode)
-  :diminish page-break-lines-mode)
 
 (use-package outline                    ; Navigate outlines in buffers
   :defer t
