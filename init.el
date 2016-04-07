@@ -272,7 +272,8 @@ symbols, emojis, greek letters, as well as fall backs for."
 
 (use-package beacon                     ; Highlight cursor position in buffer
   :ensure t
-  :init (beacon-mode 1))
+  :init (beacon-mode 1)
+  :diminish beacon-mode)
 
 
 ;;; Keys and key bindings
