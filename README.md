@@ -43,6 +43,9 @@ custom functions, etc.  These libraries are loaded like normal packages with
 Have fun, and copy freely!  Please feel free to mess around, and take whatever
 you like!  Credits mandatory (respect the license), feedback appreciated!
 
+If you’ve got any questions about this configuration or have a cool extension to
+share please [open an issue](https://github.com/lunaryorn/.emacs.d/issues/new).
+
 ## License ##
 
 This program is free software; you can redistribute it and/or modify it under
