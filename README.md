@@ -1,11 +1,9 @@
-My personal Emacs configuration
-===============================
+# My personal Emacs configuration #
 
 My own home-grown Emacs configuration with
 [use-package](https://github.com/jwiegley/use-package).
 
-Setup — How do you use it?
---------------------------
+## Setup — How do you use it? ##
 
 You need Emacs 25 snapshot builds, straight from Git `master`.  Stable
 releases of GNU Emacs won’t work, I build GNU Emacs weekly.
@@ -20,8 +18,7 @@ plus all the standard tools for all the various programming languages (`sbt`,
 `hlint`, `stack`, `pandoc`, `pylint` and stuff).  Read the comments in `init.el`
 for more information.
 
-Layout — Where do you find things?
-----------------------------------
+## Layout — Where do you find things? ##
 
 It’s a single big `init.el`, containing only `use-package` declarations for all
 the built-in and 3rd party packages I use.  These declarations have all the
@@ -31,8 +28,7 @@ There’s also `lisp/` which has my own personal extensions and libraries with
 custom functions, etc.  These libraries are loaded like normal packages with
 `use-package` in `init.el`.
 
-Highlights — What you should probably copy from this!
------------------------------------------------------
+## Highlights — What you should probably copy from this! ##
 
 - Very good OS X support, even with stock GNU Emacs, including a font setup that
   supports Math, Symbols and Coloured Emojis (yay 😍)
@@ -42,14 +38,12 @@ Highlights — What you should probably copy from this!
 - A very powerful and comprehensive LaTeX setup with AUCTeX
 - Nice configurations for Scala, Emacs Lisp and a couple of other languages
 
-Final words
------------
+## Final words ##
 
 Have fun, and copy freely!  Please feel free to mess around, and take whatever
 you like!  Credits mandatory (respect the license), feedback appreciated!
 
-License
--------
+## License ##
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
