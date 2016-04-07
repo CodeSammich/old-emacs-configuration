@@ -1169,6 +1169,7 @@ mouse-3: go to end"))))
 
 
 ;;; Internationalisation
+(prefer-coding-system 'utf-8)
 
 (use-package mule-cmds                  ; Input methods
   :defer t
