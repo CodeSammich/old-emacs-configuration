@@ -1247,6 +1247,8 @@ _k_: kill        _s_: split                   _{_: wrap with { }
                   emacs-lisp-mode-hook))
     (add-hook hook #'smartparens-strict-mode))
   :config
+  (require 'smartparens-config)
+
   (setq sp-autoskip-closing-pair 'always
         ;; Don't kill entire symbol on C-k
         sp-hybrid-kill-entire-symbol nil)
