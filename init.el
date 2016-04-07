@@ -1855,7 +1855,6 @@ Disable the highlighting of overlong lines."
 (use-package elisp-mode                 ; Emacs Lisp editing
   :defer t
   :interpreter ("emacs" . emacs-lisp-mode)
-  :mode ("/Cask\\'" . emacs-lisp-mode)
   :bind (:map emacs-lisp-mode-map
               ("C-c m e r" . eval-region)
               ("C-c m e b" . eval-buffer)
@@ -1869,10 +1868,9 @@ Disable the highlighting of overlong lines."
   :init
   (add-hook 'emacs-lisp-mode-hook #'lunaryorn-add-use-package-to-imenu))
 
-(use-package cask-mode
-  ;; Pending https://github.com/melpa/melpa/pull/3737
-  :disabled t
-  :ensure t)
+(use-package cask-mode                  ; A major mode for Cask files
+  :ensure t
+  :defer t)
 
 (use-package macrostep                  ; Interactively expand macros in code
   :ensure t
