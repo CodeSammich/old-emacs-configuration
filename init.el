@@ -1471,6 +1471,14 @@ Disable the highlighting of overlong lines."
     (define-key flyspell-mouse-map [mouse-2] nil))
   :diminish (flyspell-mode . " ⓢ"))
 
+(use-package helm-flyspell              ; Helm interface to Flyspell
+  :ensure t
+  :after flyspell
+  :bind
+  (:map flyspell-mode-map
+        ([remap flyspell-auto-correct-previous-word] . helm-flyspell-correct)
+        ("C-c l c" . helm-flyspell-correct)))
+
 (use-package auto-dictionary            ; Automatically infer dictionary
   :ensure t
   ;; Always change dictionary through adict, because it triggers hooks that let
@@ -1480,11 +1488,6 @@ Disable the highlighting of overlong lines."
          ("C-c l g" . adict-guess-dictionary))
   :init
   (add-hook 'flyspell-mode-hook #'auto-dictionary-mode))
-
-(use-package helm-flycheck              ; Helm frontend for Flycheck errors
-  :ensure t
-  :defer t
-  :after flycheck)
 
 (use-package flycheck                   ; On-the-fly syntax checking
   :ensure t
@@ -1522,6 +1525,11 @@ Disable the highlighting of overlong lines."
   (dolist (hook-fn '(lunaryorn-use-js-executables-from-node-modules
                      lunaryorn-flycheck-set-load-path-for-user-configuration))
     (add-hook 'flycheck-mode-hook hook-fn)))
+
+(use-package helm-flycheck              ; Helm frontend for Flycheck errors
+  :ensure t
+  :defer t
+  :after flycheck)
 
 
 ;;; Text editing
