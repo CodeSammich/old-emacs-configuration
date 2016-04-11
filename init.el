@@ -825,6 +825,7 @@ mouse-3: go to end"))))
   (ignoramus-setup))
 
 (use-package hardhat                    ; Protect user-writable files
+  ;; XXX: Still maintained? Last change in 2014, author inactive?
   :ensure t
   :init (global-hardhat-mode)
   :config (setq hardhat-mode-lighter " Ⓗ"))
