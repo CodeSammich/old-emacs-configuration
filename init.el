@@ -1469,6 +1469,12 @@ Disable the highlighting of overlong lines."
     (define-key flyspell-mouse-map [mouse-2] nil))
   :diminish (flyspell-mode . " ⓢ"))
 
+(use-package auto-dictionary            ; Automatically infer dictionary
+  :ensure t
+  :defer t
+  :init
+  (add-hook 'flyspell-mode-hook #'auto-dictionary-mode))
+
 (use-package helm-flycheck              ; Helm frontend for Flycheck errors
   :ensure t
   :defer t
@@ -1535,6 +1541,8 @@ Disable the highlighting of overlong lines."
   (dolist (hook '(markdown-mode-hook rst-mode-hook))
     (add-hook hook 'typo-mode))
   :config
+  ;; TODO: Automatically set from ispell dictionary, after auto dictionary
+  ;; discovered the spelling dictionary
   (setq typo-language "English")
   :diminish (typo-mode . " Ⓣ"))
 
