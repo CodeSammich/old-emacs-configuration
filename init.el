@@ -1527,11 +1527,15 @@ Disable the highlighting of overlong lines."
 
 (use-package typo                       ; Automatically use typographic quotes
   :ensure t
+  :bind (("C-c t t" . typo-mode)
+         ("C-c x l" . typo-change-language))
   :init
   (typo-global-mode)
 
   (dolist (hook '(markdown-mode-hook rst-mode-hook))
     (add-hook hook 'typo-mode))
+  :config
+  (setq typo-language "English")
   :diminish (typo-mode . " Ⓣ"))
 
 
