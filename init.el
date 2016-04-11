@@ -1558,7 +1558,7 @@ Disable the highlighting of overlong lines."
   ;; TODO: Automatically set from ispell dictionary in
   ;; `adict-change-dictionary-hook', to update the typo language whenever the
   ;; spelling language changed
-  (setq typo-language "English")
+  (setq-default typo-language "English")
   :diminish (typo-mode . " Ⓣ"))
 
 
