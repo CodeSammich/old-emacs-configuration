@@ -343,6 +343,7 @@ symbols, emojis, greek letters, as well as fall backs for."
     "C-c i" "insert"
     "C-c i l" "licenses"
     "C-c j" "jump"
+    "C-c l" "language/spelling"
     "C-c m" "major mode"
     "C-c o" "cursors"
     "C-c p" "projects"
@@ -1451,7 +1452,8 @@ Disable the highlighting of overlong lines."
     (warn "No spell checker available.  Install Hunspell or ASpell for OS X.")))
 
 (use-package flyspell                   ; On-the-fly spell checking
-  :bind (("C-c t s" . flyspell-mode))
+  :bind (("C-c t s" . flyspell-mode)
+         ("C-c l b" . flyspell-buffer))
   :init (progn (dolist (hook '(text-mode-hook message-mode-hook))
                  (add-hook hook 'turn-on-flyspell))
                (add-hook 'prog-mode-hook 'flyspell-prog-mode))
@@ -1471,7 +1473,11 @@ Disable the highlighting of overlong lines."
 
 (use-package auto-dictionary            ; Automatically infer dictionary
   :ensure t
-  :defer t
+  ;; Always change dictionary through adict, because it triggers hooks that let
+  ;; us automatically update the "language" for other modes (e.g. Typo Mode) as
+  ;; well
+  :bind (("C-c l l" . adict-change-dictionary)
+         ("C-c l g" . adict-guess-dictionary))
   :init
   (add-hook 'flyspell-mode-hook #'auto-dictionary-mode))
 
@@ -1534,15 +1540,16 @@ Disable the highlighting of overlong lines."
 (use-package typo                       ; Automatically use typographic quotes
   :ensure t
   :bind (("C-c t t" . typo-mode)
-         ("C-c x l" . typo-change-language))
+         ("C-c l L" . typo-change-language))
   :init
   (typo-global-mode)
 
   (dolist (hook '(markdown-mode-hook rst-mode-hook))
     (add-hook hook 'typo-mode))
   :config
-  ;; TODO: Automatically set from ispell dictionary, after auto dictionary
-  ;; discovered the spelling dictionary
+  ;; TODO: Automatically set from ispell dictionary in
+  ;; `adict-change-dictionary-hook', to update the typo language whenever the
+  ;; spelling language changed
   (setq typo-language "English")
   :diminish (typo-mode . " Ⓣ"))
 
