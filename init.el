@@ -1935,13 +1935,6 @@ Disable the highlighting of overlong lines."
   (define-key scala-mode-map (kbd "RET")
     #'lunaryorn-newline-and-indent-with-asterisk))
 
-(use-package flycheck-auto-scalastyle   ; Scalastyle setup
-  :load-path "lisp/"
-  :defer t
-  :after scala-mode2
-  :commands (flycheck-auto-scalastyle-setup)
-  :init (flycheck-auto-scalastyle-setup))
-
 (use-package sbt-mode                   ; Scala build tool
   :ensure t
   :after scala-mode2
