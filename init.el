@@ -541,6 +541,7 @@ mouse-3: go to end"))))
                       "*SQL"              ; SQL REPL
                       "*shell"            ; Shell window
                       "*Help"             ; Help buffers
+                      "*ensime-update*"   ; Server update from Ensime
                       ))
          (display-buffer-reuse-window
           display-buffer-in-side-window)
