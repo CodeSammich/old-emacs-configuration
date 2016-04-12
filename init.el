@@ -2113,6 +2113,13 @@ Disable the highlighting of overlong lines."
          :map sql-mode-map
          ("C-c m p" . sql-set-product)))
 
+(use-package sqlup-mode                 ; Upcase SQL keywords
+  :ensure t
+  :after sql
+  :bind (:map sql-mode-map
+              ("C-c m u" . sqlup-capitalize-keywords-in-region))
+  :init (add-hook 'sql-mode-hook #'sqlup-mode))
+
 
 ;;; Version control
 (use-package vc-hooks                   ; Simple version control
