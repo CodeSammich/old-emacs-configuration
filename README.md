@@ -32,11 +32,18 @@ custom functions, etc.  These libraries are loaded like normal packages with
 
 - Very good OS X support, even with stock GNU Emacs, including a font setup that
   supports Math, Symbols and Coloured Emojis (yay 😍)
-- A well-designed key bindings scheme, greatly inspired by Spacemacs and
-  supported by Which Key Mode
+- A well-designed key bindings scheme, inspired by [Spacemacs][], supported by
+  [Which Key Mode][] and [Hydra][]
 - Rules for buffer displays in `display-buffer-alist`
-- A very powerful and comprehensive LaTeX setup with AUCTeX
-- Nice configurations for Scala, Emacs Lisp and a couple of other languages
+- A very powerful and comprehensive LaTeX setup with [AUCTeX][]
+- Nice configurations for Scala (with [Ensime][]), Emacs Lisp and a couple of
+  other languages
+
+[Spacemacs]: http://spacemacs.org
+[Which Key Mode]: https://github.com/justbur/emacs-which-key
+[Hydra]: https://github.com/abo-abo/hydra
+[AUCTeX]: https://www.gnu.org/software/auctex/
+[Ensime]: http://ensime.github.io
 
 ## Final words ##
 
