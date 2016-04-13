@@ -32,7 +32,8 @@
   (interactive)
   (dolist (window (window-at-side-list nil 'bottom))
     (quit-window nil window)
-    (delete-window window)))
+    (when (window-live-p window)
+      (delete-window window))))
 
 ;; Taken graciously from Spacemacs
 ;;;###autoload
