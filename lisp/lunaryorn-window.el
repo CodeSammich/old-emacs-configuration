@@ -1,6 +1,6 @@
 ;;; lunaryorn-window.el --- Utilities for windows   -*- lexical-binding: t; -*-
 
-;; Copyright (c) 2015 Sebastian Wiesner <swiesner@lunaryorn.com>
+;; Copyright (c) 2015-2016 Sebastian Wiesner <swiesner@lunaryorn.com>
 
 ;; Author: Sebastian Wiesner <swiesner@lunaryorn.com>
 ;; URL: https://gihub.com/lunaryorn/.emacs.d
@@ -30,8 +30,9 @@
 (defun lunaryorn-quit-bottom-side-windows ()
   "Quit side windows of the current frame."
   (interactive)
-  (dolist (window (window-at-side-list))
-    (quit-window nil window)))
+  (dolist (window (window-at-side-list nil 'bottom))
+    (quit-window nil window)
+    (delete-window window)))
 
 ;; Taken graciously from Spacemacs
 ;;;###autoload
