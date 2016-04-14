@@ -1,6 +1,6 @@
 ;;; lunaryorn-flycheck.el --- Additional utilities for Flycheck  -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2014-2015  Sebastian Wiesner
+;; Copyright (C) 2014-2016  Sebastian Wiesner
 
 ;; Author: Sebastian Wiesner <swiesner@lunaryorn.com>
 ;; URL: https://gihub.com/lunaryorn/.emacs.d
@@ -71,7 +71,8 @@ most errors from HTML Tidy."
             (executable-var (flycheck-checker-executable-variable checker)))
         (when (file-directory-p package-directory)
           (set (make-local-variable executable-var)
-               (expand-file-name (concat "bin/" module) package-directory)))))))
+               (expand-file-name (concat "bin/" module ".js")
+                                 package-directory)))))))
 
 (provide 'lunaryorn-flycheck)
 
