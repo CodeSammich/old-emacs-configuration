@@ -1534,6 +1534,11 @@ Disable the highlighting of overlong lines."
 
 
 ;;; Text editing
+(use-package table                      ; Edit tables in text files
+  :defer t
+  :init
+  (add-hook 'text-mode-hook #'table-recognize))
+
 (use-package tildify                    ; Insert non-breaking spaces on the fly
   :bind (("C-c x t" . tildify-region))
   :init
