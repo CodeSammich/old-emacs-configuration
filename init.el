@@ -1537,10 +1537,7 @@ Disable the highlighting of overlong lines."
 (use-package tildify                    ; Insert non-breaking spaces on the fly
   :bind (("C-c x t" . tildify-region))
   :init
-  (dolist (hook '(markdown-mode-hook
-                  latex-mode-hook
-                  rst-mode-hook))
-    (add-hook hook #'tildify-mode))
+  (add-hook 'text-mode-hook #'tildify-mode)
   :config
   ;; Use the right space for LaTeX
   (add-hook 'latex-mode-hook
@@ -1552,9 +1549,7 @@ Disable the highlighting of overlong lines."
          ("C-c l L" . typo-change-language))
   :init
   (typo-global-mode)
-
-  (dolist (hook '(markdown-mode-hook rst-mode-hook))
-    (add-hook hook 'typo-mode))
+  (add-hook 'text-mode-hook #'typo-mode)
   :config
   ;; TODO: Automatically set from ispell dictionary in
   ;; `adict-change-dictionary-hook', to update the typo language whenever the
