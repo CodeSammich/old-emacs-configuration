@@ -889,7 +889,7 @@ mouse-3: go to end"))))
          ("C-c f u" . lunaryorn-find-user-init-file-other-window)
          ("C-c f ." . lunaryorn-browse-feature-url)))
 
-;;; Additional bindings for built-ins
+;; Additional bindings for built-ins
 (bind-key "C-c f v d" #'add-dir-local-variable)
 (bind-key "C-c f v l" #'add-file-local-variable)
 (bind-key "C-c f v p" #'add-file-local-variable-prop-line)
