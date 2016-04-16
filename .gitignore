@@ -12,7 +12,6 @@
 # Installed packages
 /elpa/
 /.cask/
-/vendor/ProofGeneral*
 
 # Recovery and backup directories
 /auto-save-list/
@@ -20,10 +19,6 @@
 
 # Files which are downloaded automatically by init.el
 /logo.png
-/scalastyle/
-
-# Cache file from marmalade-upload tool
-/marmalade-upload.json
 
 # Cache files and settings for packages
 /tutorial/
