@@ -17,9 +17,6 @@
 /auto-save-list/
 /.backup/
 
-# Files which are downloaded automatically by init.el
-/logo.png
-
 # Cache files and settings for packages
 /tutorial/
 /.emacs.desktop*

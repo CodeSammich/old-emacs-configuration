@@ -240,10 +240,14 @@ symbols, emojis, greek letters, as well as fall backs for."
 ;; ridiculously bizarre thing entirely.
 (fset 'display-startup-echo-area-message #'ignore)
 
-(use-package lunaryorn-scratch          ; My logo in the scratch buffer
-  :commands (lunaryorn-insert-logo
-             lunaryorn-insert-logo-into-scratch)
-  :init (add-hook 'after-init-hook #'lunaryorn-insert-logo-into-scratch))
+;; Insert my logo into scratch <3
+(add-hook 'after-init-hook
+          (lambda ()
+            (with-current-buffer "*scratch*"
+              (goto-char (point-min))
+              (insert-image (create-image (locate-user-emacs-file "logo.png"))
+                            "logo")
+              (insert "\n"))))
 
 (use-package solarized                  ; My colour theme
   :ensure solarized-theme
