@@ -472,7 +472,6 @@ mouse-3: go to end"))))
          ([remap find-file] . helm-find-files)
          ([remap switch-to-buffer] . helm-mini)
          ([remap execute-extended-command] . helm-M-x)
-         ([remap info] . helm-info-at-point)
          ([remap yank-pop]        . helm-show-kill-ring)
          ([remap insert-register] . helm-register)
          ([remap apropos-command] . helm-apropos)
@@ -481,7 +480,6 @@ mouse-3: go to end"))))
          ("C-c f l" . helm-locate-library)
          ("C-c f s" . helm-for-files)
          ("C-c f r" . helm-recentf)
-         ("C-c h e" . helm-info-emacs)
          ("C-c h l" . helm-resume)
          ("C-c h m" . helm-man-woman)
          ("C-c i C" . helm-colors)
@@ -505,6 +503,7 @@ mouse-3: go to end"))))
         ;; prevents me from getting an overview over the buffer if point is on a
         ;; matching symbol.
         helm-imenu-execute-action-at-once-if-one nil)
+
   (when (eq system-type 'darwin)
     ;; Replace locate with spotlight for `helm-for-files'
     (setq helm-for-files-preferred-list
@@ -2395,6 +2394,15 @@ Install mudraw with brew install mupdf-tools")))
   ;; to the default face.
   (set-face-attribute 'Info-quoted nil :family 'unspecified
                       :inherit font-lock-type-face))
+
+(use-package helm-info
+  :ensure helm
+  :bind (([remap info] . helm-info-at-point)
+         ("C-c h e"    . helm-info-emacs))
+  :config
+  ;; Also lookup symbols in the Emacs manual
+  (add-to-list 'helm-info-default-sources
+               'helm-source-info-emacs))
 
 (use-package ansible-doc                ; Documentation lookup for Ansible
   :ensure t
