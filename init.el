@@ -1948,6 +1948,23 @@ Disable the highlighting of overlong lines."
   ;; Do not pop up SBT buffers automatically
   (setq sbt:display-command-buffer nil)
 
+  (defun lunaryorn-scala-pop-to-sbt (new-frame)
+    "Open SBT REPL for this project, optionally in a NEW-FRAME.
+
+Select the SBT REPL for the current project in a new window.  If
+the REPL is not yet running, start it.  With prefix arg, select
+the REPL in a new frame instead."
+    (interactive "P")
+    ;; Start SBT when no running, taken from `sbt:command'
+    (when (not (comint-check-proc (sbt:buffer-name)))
+      (sbt:run-sbt))
+
+    (let ((display-buffer-overriding-action
+           (if new-frame '(display-buffer-pop-up-frame) nil)))
+      (pop-to-buffer (sbt:buffer-name))))
+
+  (bind-key "C-c m s" #'lunaryorn-scala-pop-to-sbt scala-mode-map)
+
   ;; Disable Smartparens Mode in SBT buffers, because it frequently
   ;; hangs while trying to find matching delimiters
   (add-hook 'sbt-mode-hook
@@ -1978,12 +1995,6 @@ Disable the highlighting of overlong lines."
 (use-package ensime-expand-region       ; Integrate Ensime into expand-region
   :ensure ensime
   :after ensime)
-
-(use-package lunaryorn-scala            ; Personal Scala tools
-  :load-path "lisp/"
-  :defer t
-  :after scala-mode2
-  :bind (:map scala-mode-map ("C-c m s" . lunaryorn-scala-pop-to-sbt)))
 
 (use-package flycheck-ensime            ; Ensime-based checker for Flycheck
   :disabled t
