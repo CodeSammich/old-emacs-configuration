@@ -1,6 +1,6 @@
 ;;; lunaryorn-scala.el --- Personal Scala tools -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2015  Sebastian Wiesner
+;; Copyright (C) 2015-2016  Sebastian Wiesner
 
 ;; Author: Sebastian Wiesner <swiesner@lunaryorn.com>
 ;; URL: https://gihub.com/lunaryorn/.emacs.d
@@ -28,32 +28,6 @@
 
 (require 'sbt-mode)
 (require 'ensime)
-
-(defun lunaryorn-scala-ensime-mode-line-status ()
-  "Create a mode line status for Ensime."
-  (condition-case _
-      (let ((connection (ensime-connection-or-nil)))
-        "λλ"
-        (cond ((and ensime-mode (not connection)) "λ")
-              ((and ensime-mode (ensime-connected-p connection))
-               (cond ((not (eq (process-status connection) 'open))
-                      (format "!%s" (process-status connection)))
-                     ((ensime-rex-continuations connection)
-                      (format "*%s" (length
-                                     (ensime-rex-continuations connection))))
-                     ((not (ensime-analyzer-ready connection))
-                      "*")
-                     (t (let* ((warnings (ensime-num-warnings connection))
-                               (errors (ensime-num-errors connection)))
-                          (cond
-                           ((> errors 0)
-                            (propertize (format "λ%s λ%s" errors warnings)
-                                        'face 'error))
-                           ((> warnings 0)
-                            (propertize (format "λ%s" warnings) 'face 'warning))
-                           (t (propertize "λ" 'face 'success)))))))
-              (ensime-mode "💀")))
-    (error (propertize "!" 'face 'error))))
 
 (defun lunaryorn-scala-pop-to-sbt (new-frame)
   "Open SBT REPL for this project, optionally in a NEW-FRAME.
