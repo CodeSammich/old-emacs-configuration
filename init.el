@@ -1989,6 +1989,15 @@ the REPL in a new frame instead."
   ;; first session was started anyway
   (add-hook 'scala-mode-hook #'ensime-mode)
 
+  (defun lunaryorn-auto-start-ensime ()
+    "Auto-start Ensime if possible."
+    (when (and (buffer-file-name) (not (ensime-connected-p)))
+      (let ((ensime-prefer-noninteractive t) ; Don't prompt for ensime path
+            (ensime-auto-connect 'always))
+        (ensime-auto-connect))))
+
+  (add-hook 'ensime-mode-hook #'lunaryorn-auto-start-ensime)
+
   ;; Compile on save.  My projects are small enough :)
   (setq ensime-sbt-perform-on-save "test:compile"))
 
