@@ -2005,6 +2005,10 @@ the REPL in a new frame instead."
   :ensure ensime
   :after ensime)
 
+(use-package play-routes-mode           ; Mode for Play 2 routes files
+  :ensure t
+  :defer t)
+
 (use-package flycheck-ensime            ; Ensime-based checker for Flycheck
   :disabled t
   :load-path "lisp/"
