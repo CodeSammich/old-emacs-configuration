@@ -2080,11 +2080,15 @@ the REPL in a new frame instead."
 
 
 ;;; Javascript
-
 (use-package js2-mode                   ; Powerful Javascript mode
   :ensure t
   :mode (("\\.js\\'" . js2-mode)
-         ("\\.jsx\\'" . js2-jsx-mode)))
+         ("\\.jsx\\'" . js2-jsx-mode))
+  :config
+  ;; Disable parser errors and strict warnings.  We have Flycheck 8)
+  (setq js2-mode-show-parse-errors nil
+        js2-mode-show-strict-warnings nil
+        ))
 
 (use-package js2-refactor               ; Refactor Javascript
   :ensure t
