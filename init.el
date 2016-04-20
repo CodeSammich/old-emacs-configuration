@@ -2088,6 +2088,7 @@ the REPL in a new frame instead."
   ;; Disable parser errors and strict warnings.  We have Flycheck 8)
   (setq js2-mode-show-parse-errors nil
         js2-mode-show-strict-warnings nil
+        js2-highlight-level 3           ; Try to highlight most ECMA built-ins
         ))
 
 (use-package js2-refactor               ; Refactor Javascript
