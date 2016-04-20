@@ -583,30 +583,28 @@ mouse-3: go to end"))))
 (use-package ibuffer                    ; Better buffer list
   :bind (([remap list-buffers] . ibuffer))
   ;; Show VC Status in ibuffer
-  :config (setq ibuffer-formats
-                '((mark modified read-only vc-status-mini " "
-                        (name 18 18 :left :elide)
-                        " "
-                        (size 9 -1 :right)
-                        " "
-                        (mode 16 16 :left :elide)
-                        " "
-                        (vc-status 16 16 :left)
-                        " "
-                        filename-and-process)
-                  (mark modified read-only " "
-                        (name 18 18 :left :elide)
-                        " "
-                        (size 9 -1 :right)
-                        " "
-                        (mode 16 16 :left :elide)
-                        " " filename-and-process)
-                  (mark " "
-                        (name 16 -1)
-                        " " filename))))
+  :config
+  (setq ibuffer-formats
+        '((mark modified read-only vc-status-mini " "
+                (name 18 18 :left :elide)
+                " "
+                (size 9 -1 :right)
+                " "
+                (mode 16 16 :left :elide)
+                " "
+                (vc-status 16 16 :left)
+                " "
+                filename-and-process)
+          (mark modified read-only " "
+                (name 18 18 :left :elide)
+                " "
+                (size 9 -1 :right)
+                " "
+                (mode 16 16 :left :elide)
+                " " filename-and-process)
+          (mark " " (name 16 -1) " " filename))))
 
 (use-package ibuffer-vc                 ; Group buffers by VC project and status
-  :disabled t
   :ensure t
   :defer t
   :init (add-hook 'ibuffer-hook
@@ -617,6 +615,7 @@ mouse-3: go to end"))))
 
 (use-package ibuffer-projectile         ; Group buffers by Projectile project
   :ensure t
+  :disabled t
   :defer t
   :init (add-hook 'ibuffer-hook #'ibuffer-projectile-set-filter-groups))
 
