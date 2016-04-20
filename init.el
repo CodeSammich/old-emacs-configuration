@@ -1031,7 +1031,7 @@ mouse-3: go to end"))))
       require-final-newline t)
 
 (setq kill-ring-max 200                 ; More killed items
-      kill-do-not-save-duplicates       ; No duplicates in kill ring
+      kill-do-not-save-duplicates t     ; No duplicates in kill ring
       ;; Save the contents of the clipboard to kill ring before killing
       save-interprogram-paste-before-kill t)
 
