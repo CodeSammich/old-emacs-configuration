@@ -401,6 +401,8 @@ symbols, emojis, greek letters, as well as fall backs for."
         ;; Show all possible counts
         paradox-display-download-count t
         paradox-display-star-count t
+        ;; Don't star automatically
+        paradox-automatically-star nil
         ;; Hide download button, and wiki packages
         paradox-use-homepage-buttons nil ; Can type v instead
         paradox-hide-wiki-packages t))
