@@ -184,7 +184,6 @@ Set the default font, and configure various overrides for
 symbols, emojis, greek letters, as well as fall backs for."
   ;; Additional fonts for special characters and fallbacks
   ;; Test range: 🐷 ❤ ⊄ ∫ 𝛼 α 🜚 Ⓚ
-
   (dolist (script '(symbol mathematical))
     (set-fontset-font t script (font-spec :family "XITS Math")
                       frame 'prepend))
@@ -196,13 +195,11 @@ symbols, emojis, greek letters, as well as fall backs for."
     (set-fontset-font t script (font-spec :family "Menlo")
                       frame 'prepend)
     (set-fontset-font t script (font-spec :family "DejaVu Sans Mono")
-                      frame 'prepend)
-    (set-fontset-font t script (font-spec :family "Monoid" :weight 'light)
                       frame 'prepend))
 
   (when (eq system-type 'darwin)
     ;; Colored Emoji on OS X, prefer over everything else!
-    (set-fontset-font t 'symbol (font-spec :family "Apple Color Emoji")
+    (set-fontset-font t nil (font-spec :family "Apple Color Emoji")
                       frame 'prepend))
 
   ;; Fallbacks for math and generic symbols
