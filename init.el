@@ -1157,6 +1157,19 @@ mouse-3: go to end"))))
   :ensure t
   :bind (("C-c v" . er/expand-region)))
 
+(use-package embrace                    ; Wrap semantic units with pairs
+  :ensure t
+  :bind (("C-c x e" . lunaryorn-embrace/body))
+  :init
+  (defhydra lunaryorn-embrace (:hint nil)
+    "
+Add (_a_), change (_c_) or delete (_d_) a pair.  Quit with _q_.
+"
+    ("a" embrace-add)
+    ("c" embrace-change)
+    ("d" embrace-delete)
+    ("q" nil)))
+
 (use-package undo-tree                  ; Branching undo
   :ensure t
   :init (global-undo-tree-mode)
