@@ -449,7 +449,23 @@ mouse-3: go to end"))))
   :ensure spaceline
   :config
   (spaceline-helm-mode)                 ; Enable a special Helm mode line
-  (spaceline-emacs-theme))
+
+  (spaceline-install
+   ;; Left side of the mode line (all the important stuff)
+   '(((buffer-modified buffer-size input-method) :face highlight-face)
+     anzu
+     '(buffer-id remote-host buffer-encoding-abbrev)
+     ((point-position line-column buffer-position selection-info)
+      :separator " | ")
+     major-mode
+     process
+     (flycheck-error flycheck-warning flycheck-info)
+     (python-pyvenv :fallback python-pyenv)
+     ((which-function projectile-root) :separator " @ ")
+     ((minor-modes :separator spaceline-minor-modes-separator) :when active))
+   ;; Right segment (the unimportant stuff)
+   '((version-control :when active)
+     (battery :when active))))
 
 (use-package powerline                  ; The work-horse of Spaceline
   :ensure t
