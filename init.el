@@ -2301,9 +2301,11 @@ the REPL in a new frame instead."
   :ensure t
   :defer t
   :after projectile
-  :bind (:map helm-projectile-projects-map
+  :bind (("C-c s p" . helm-projectile-ag)
+         :map helm-projectile-projects-map
               ("C-t" . lunaryorn-neotree-project-root))
-  :init (helm-projectile-on)
+  :init
+  (helm-projectile-on)
   :config
   (setq projectile-switch-project-action #'helm-projectile)
 
