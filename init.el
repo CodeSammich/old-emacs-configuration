@@ -988,28 +988,6 @@ mouse-3: go to end"))))
   (when-let (mdfind (and (eq system-type 'darwin) (executable-find "mdfind")))
     (setq locate-command mdfind)))
 
-(use-package ag                         ; Search code in files/projects
-  :ensure t
-  :bind (("C-c s d" . ag-dired-regexp)
-         ("C-c s D" . ag-dired)
-         ("C-c s f" . ag-files)
-         ("C-c s k" . ag-kill-other-buffers)
-         ("C-c s K" . ag-kill-buffers))
-  :config
-  (setq ag-reuse-buffers t            ; Don't spam buffer list with ag buffers
-        ag-highlight-search t         ; A little fanciness
-        ;; Use Projectile to find the project root
-        ag-project-root-function (lambda (d) (let ((default-directory d))
-                                               (projectile-project-root)))))
-
-(use-package wgrep                      ; Edit grep/occur/ag results in-place
-  :ensure t
-  :defer t)
-
-(use-package wgrep-ag                   ; Wgrep for ag
-  :ensure t
-  :defer t)
-
 (use-package helm-ag                    ; Helm frontend for Ag
   :ensure t
   :bind (("C-c s a" . helm-ag)
