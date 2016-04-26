@@ -2280,9 +2280,6 @@ the REPL in a new frame instead."
 (use-package projectile                 ; Project management for Emacs
   :ensure t
   :init (projectile-global-mode)
-  :bind (:map projectile-command-map
-              ("t" . lunaryorn-neotree-project-root)
-              ("T" . projectile-toggle-between-implementation-and-test))
   :config
   ;; Remove dead projects when Emacs is idle
   (run-with-idle-timer 10 nil #'projectile-cleanup-known-projects)
