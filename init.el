@@ -447,7 +447,9 @@ mouse-3: go to end"))))
 
 (use-package spaceline-config           ; A beautiful mode line
   :ensure spaceline
-  :config (spaceline-emacs-theme))
+  :config
+  (spaceline-helm-mode)                 ; Enable a special Helm mode line
+  (spaceline-emacs-theme))
 
 (use-package powerline                  ; The work-horse of Spaceline
   :ensure t
