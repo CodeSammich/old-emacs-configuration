@@ -1012,11 +1012,13 @@ mouse-3: go to end"))))
 
 (use-package helm-ag                    ; Helm frontend for Ag
   :ensure t
-  ;; :bind (("C-c a a" . helm-do-ag)
-  ;;        ("C-c a A" . helm-ag))
-  :config (setq helm-ag-fuzzy-match t
-                helm-ag-insert-at-point 'symbol
-                helm-ag-source-type 'file-line))
+  :bind (("C-c s a" . helm-ag)
+         ("C-c s A" . helm-do-ag))
+  :config
+  (setq helm-ag-fuzzy-match t                   ; Fuzzy matching
+        helm-ag-insert-at-point 'symbol         ; Default to symbol at point
+        helm-ag-edit-save t                     ; save buffers after editing
+        ))
 
 
 ;;; Basic editing
