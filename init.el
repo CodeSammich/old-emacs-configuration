@@ -465,7 +465,7 @@ mouse-3: go to end"))))
      ((minor-modes :separator spaceline-minor-modes-separator) :when active))
    ;; Right segment (the unimportant stuff)
    '((version-control :when active)
-     (battery :when active))))
+     battery)))
 
 (use-package powerline                  ; The work-horse of Spaceline
   :ensure t
