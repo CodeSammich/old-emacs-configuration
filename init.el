@@ -2288,10 +2288,7 @@ the REPL in a new frame instead."
   (run-with-idle-timer 10 nil #'projectile-cleanup-known-projects)
 
   (setq projectile-completion-system 'helm
-        projectile-find-dir-includes-top-level t
-        projectile-mode-line '(:propertize
-                               (:eval (concat " " (projectile-project-name)))
-                               face bold))
+        projectile-find-dir-includes-top-level t)
 
   (defun lunaryorn-neotree-project-root (&optional directory)
     "Open a NeoTree browser for a project DIRECTORY."
