@@ -306,6 +306,7 @@ symbols, emojis, greek letters, as well as fall backs for."
   :config
   (setq which-key-idle-delay 0.4
         which-key-sort-order 'which-key-prefix-then-key-order
+        ;; Let's go unicode :)
         which-key-key-replacement-alist
         '(("<\\([[:alnum:]-]+\\)>" . "\\1")
           ("up"                    . "↑")
@@ -320,9 +321,10 @@ symbols, emojis, greek letters, as well as fall backs for."
           ;; Lambdas
           ("\\`\\?\\?\\'"   . "λ")
           ;; Prettify hydra entry points
-          ("/body\\'"       . " |=")
+          ("/body\\'"       . "|=")
           ;; Drop my personal prefix
           ("\\`lunaryorn-"  . "")))
+
   (which-key-declare-prefixes
     ;; Prefixes for global prefixes and minor modes
     "C-c @" "outline"
