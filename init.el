@@ -1832,15 +1832,19 @@ Disable the highlighting of overlong lines."
         ;; Don't freeze when process reads from stdin
         compilation-disable-input t
         ;; Show three lines of context around the current message
-        compilation-context-lines 3))
+        compilation-context-lines 3)
 
-(use-package lunaryorn-compile          ; Personal helpers for compilation
-  :load-path "lisp/"
-  :after compile
-  ;; Colorize output of Compilation Mode, see
-  ;; http://stackoverflow.com/a/3072831/355252
-  :config (add-hook 'compilation-filter-hook
-                    #'lunaryorn-colorize-compilation-buffer))
+  (require 'ansi-color)
+
+  (defun lunaryorn-colorize-compilation-buffer ()
+    "Colorize a compilation mode buffer.
+
+Taken from http://stackoverflow.com/a/3072831/355252."
+    (interactive)
+    (let ((inhibit-read-only t))
+      (ansi-color-apply-on-region compilation-filter-start (point-max))))
+
+  (add-hook 'compilation-filter-hook #'lunaryorn-colorize-compilation-buffer))
 
 (use-package helm-make                  ; Run makefile targets through Helm
   :ensure t
