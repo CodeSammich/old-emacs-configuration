@@ -561,14 +561,14 @@ mouse-3: go to end"))))
          (window-height . 0.4)
          (window-width . 0.6))
         ;; Put REPLs and error lists into the bottom side window
-        (,(rx bos (or "*Flycheck errors*" ; Flycheck error list
-                      "*compilation"      ; Compilation buffers
+        (,(rx bos (or "*Help"             ; Help buffers
                       "*Warnings*"        ; Emacs warnings
-                      "*sbt"              ; SBT REPL and compilation buffer
-                      "*SQL"              ; SQL REPL
+                      "*compilation"      ; Compilation buffers
+                      "*Flycheck errors*" ; Flycheck error list
                       "*shell"            ; Shell window
-                      "*Help"             ; Help buffers
+                      "*sbt"              ; SBT REPL and compilation buffer
                       "*ensime-update*"   ; Server update from Ensime
+                      "*SQL"              ; SQL REPL
                       ))
          (display-buffer-reuse-window
           display-buffer-in-side-window)
