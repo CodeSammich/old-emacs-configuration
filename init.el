@@ -355,6 +355,7 @@ symbols, emojis, greek letters, as well as fall backs for."
     "C-c w" "windows/frames"
     "C-c x" "text")
 
+  ;; Prefixes for major modes
   (which-key-declare-prefixes-for-mode 'markdown-mode
     "C-c TAB" "markdown/images"
     "C-c C-a" "markdown/links"
@@ -379,6 +380,10 @@ symbols, emojis, greek letters, as well as fall backs for."
     "C-c C-v" "ensime/misc"
     "C-c m" "scala/personal"
     "C-c m b" "scala/build")
+
+  (which-key-declare-prefixes-for-mode 'rust-mode
+    "C-c C-c" "rust/cargo")
+
   :diminish which-key-mode)
 
 (use-package hydra                      ; Bindings that stick
