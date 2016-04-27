@@ -2442,6 +2442,15 @@ Install mudraw with brew install mupdf-tools")))
   (set-face-attribute 'Info-quoted nil :family 'unspecified
                       :inherit font-lock-type-face))
 
+(use-package niceify-info               ; Prettify Info rendering
+  :ensure t
+  :defer t
+  :after info
+  ;; Adds emphasis to text between * and _, tries to fontify Emacs Lisp code,
+  ;; tries to cross-reference symbol names in backticks, tries to fontify
+  ;; headers, etc.q
+  :init (add-hook 'Info-selection-hook #'niceify-info))
+
 (use-package helm-info
   :ensure helm
   :bind (([remap info] . helm-info-at-point)
