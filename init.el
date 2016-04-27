@@ -569,6 +569,7 @@ mouse-3: go to end"))))
                       "*sbt"              ; SBT REPL and compilation buffer
                       "*ensime-update*"   ; Server update from Ensime
                       "*SQL"              ; SQL REPL
+                      "*Cargo"            ; Cargo process buffers
                       ))
          (display-buffer-reuse-window
           display-buffer-in-side-window)
