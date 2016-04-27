@@ -1,6 +1,6 @@
 ;;; lunaryorn-simple.el --- Simple editing functions  -*- lexical-binding: t; -*-
 
-;; Copyright (c) 2012-2015 Sebastian Wiesner <swiesner@lunaryorn.com>
+;; Copyright (c) 2012-2016 Sebastian Wiesner <swiesner@lunaryorn.com>
 ;;
 ;; Author: Sebastian Wiesner <swiesner@lunaryorn.com>
 ;; URL: https://gihub.com/lunaryorn/.emacs.d
@@ -97,7 +97,7 @@ Otherwise insert the date as Mar 04, 2014."
   (insert (format-time-string (if iso "%F" "%b %d, %Y"))))
 
 (define-skeleton lunaryorn-insert-mit/x11
-  "Insert the MIT/X11 license into the current buffer"
+  "Insert the MIT/X11 license into the current buffer."
   nil
   @ "Copyright (c) " (format-time-string "%Y")
   "  " user-full-name " <" user-mail-address ">
@@ -121,6 +121,35 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+"
+  @
+  '(pcase-let ((`(,end ,mid ,start . _) skeleton-positions))
+     ;; We use markers to keep the positions updated after commenting
+     (let ((mid (copy-marker mid t))
+           (end (copy-marker end t)))
+       (comment-region start end)
+       (fill-region mid end)))
+  "\n"-)
+
+(define-skeleton lunaryorn-insert-apache2
+  "Insert Apache 2 license header into the current buffer."
+  nil
+    @ "Copyright (c) " (format-time-string "%Y")
+  "  " user-full-name " <" user-mail-address ">
+
+"
+  @
+"Licensed under the Apache License, Version 2.0 (the \"License\");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an \"AS
+IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+express or implied.  See the License for the specific language
+governing permissions and limitations under the License.
 "
   @
   '(pcase-let ((`(,end ,mid ,start . _) skeleton-positions))
