@@ -1780,7 +1780,8 @@ Disable the highlighting of overlong lines."
 (use-package lunaryorn-markdown         ; Personal Markdown extensions
   :load-path "lisp/"
   :bind (:map markdown-mode-map
-              ("C-c m h" . lunaryorn-markdown-post-header))
+              ("C-c m h" . lunaryorn-markdown-post-header)
+              ("C-c m p" . lunaryorn-markdown-publish-jekyll-draft))
   :after markdown-mode)
 
 (use-package yaml-mode                  ; YAML

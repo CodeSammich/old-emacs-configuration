@@ -1,6 +1,6 @@
 ;;; lunaryorn-markdown.el --- Additional tools for Markdown  -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2014-2015  Sebastian Wiesner <swiesner@lunaryorn.com>
+;; Copyright (C) 2014-2016  Sebastian Wiesner <swiesner@lunaryorn.com>
 
 ;; Author: Sebastian Wiesner <swiesner@lunaryorn.com>
 ;; URL: https://gihub.com/lunaryorn/.emacs.d
@@ -31,23 +31,30 @@
 (require 'rx)
 (require 'subr-x)
 
-(defun lunaryorn-default-title ()
-  "Get the default post title for the current buffer."
-  (when (buffer-file-name)
-    (let* ((fn (file-name-base (buffer-file-name)))
-           (words (split-string fn "-" 'omit-nulls (rx (1+ space)))))
-      (string-join (mapcar #'capitalize words) " "))))
-
-;;;###autoload
 (define-skeleton lunaryorn-markdown-post-header
   "Insert a header for blog posts."
-  (read-from-minibuffer "Title: " (lunaryorn-default-title))
+  (read-from-minibuffer "Title: ")
   "---\n"
   "title: " str "\n"
-  "tags: " ("Tag: " str ",") & -1 "\n"
-  "published: " (format-time-string "%F") "\n"
   "---\n\n"
   -)
+
+(defun lunaryorn-markdown-publish-jekyll-draft ()
+  "Publish a Jekyll draft in this buffer as a post."
+  (interactive)
+  (let ((current-dir (directory-file-name (file-name-directory (buffer-file-name))))
+        (source-dir (locate-dominating-file (buffer-file-name) "_config.yml")))
+    (unless source-dir
+      (user-error "Failed to find _config.yml.  This file does not seem to be part of a Jekyll site"))
+    (unless (string= (file-name-base current-dir) "_drafts")
+      (user-error "This buffer is not a draft"))
+    (let* ((post-dir (expand-file-name "_posts/" source-dir))
+           (new-name (concat (format-time-string "%F-")
+                             (file-name-nondirectory (buffer-file-name))))
+           (target (expand-file-name new-name post-dir)))
+      (rename-file (buffer-file-name) target)
+      (set-visited-file-name target 'no-query 'along-with-file)
+      (message "Moved to %s" target))))
 
 (provide 'lunaryorn-markdown)
 
