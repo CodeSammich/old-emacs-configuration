@@ -341,7 +341,7 @@ symbols, emojis, greek letters, as well as fall backs for."
     "C-c f" "files"
     "C-c f v" "variables"
     "C-c g" "git"
-    "C-c g g" "github"
+    "C-c g g" "github/gist"
     "C-c h" "helm/help"
     "C-c i" "insert"
     "C-c i l" "licenses"
@@ -2302,6 +2302,11 @@ the REPL in a new frame instead."
   :ensure t
   :bind (("C-c g g i" . helm-open-github-from-issues)
          ("C-c g g p" . helm-open-github-from-pull-requests)))
+
+(use-package gist                       ; Create and list Gists
+  :ensure t
+  :bind (("C-c g g l" . gist-list)
+         ("C-c g g b" . gist-region-or-buffer)))
 
 ;;; Project management with Projectile
 (use-package projectile                 ; Project management for Emacs
