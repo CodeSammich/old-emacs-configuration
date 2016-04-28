@@ -551,9 +551,25 @@ mouse-3: go to end"))))
 
 (setq-default line-spacing 0.2)         ; A bit more spacing between lines
 
+(defun lunaryorn-display-buffer-fullframe (buffer alist)
+  "Display BUFFER in fullscreen.
+
+ALIST is a `display-buffer' ALIST.
+
+Return the new window for BUFFER."
+  (let ((window (or (display-buffer-use-some-window buffer alist)
+                    (display-buffer-pop-up-window buffer alist))))
+    (when window
+      (delete-other-windows window))
+    window))
+
 ;; Configure `display-buffer' behaviour for some special buffers.
 (setq display-buffer-alist
       `(
+        ;; Magit status window in fullscreen
+        (,(rx "*magit: ")
+         (lunaryorn-display-buffer-fullframe)
+         (reusable-frames . nil))
         ;; Nail Helm to the side window
         (,(rx bos "*" (* nonl) "helm" (* nonl) "*" eos)
          (display-buffer-in-side-window)
