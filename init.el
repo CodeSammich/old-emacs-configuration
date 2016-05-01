@@ -1755,7 +1755,7 @@ Disable the highlighting of overlong lines."
   :diminish reftex-mode)
 
 
-;;; Other markup languages
+;;; Markup languages
 (use-package rst                        ; ReStructuredText
   :defer t
   :config
