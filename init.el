@@ -466,10 +466,15 @@ mouse-3: go to end"))))
      (flycheck-error flycheck-warning flycheck-info)
      (python-pyvenv :fallback python-pyenv)
      ((which-function projectile-root) :separator " @ ")
-     ((minor-modes :separator spaceline-minor-modes-separator) :when active))
+     ((minor-modes :separator spaceline-minor-modes-separator) :when active)
+     nyan-cat)
    ;; Right segment (the unimportant stuff)
    '((version-control :when active)
      battery)))
+
+(use-package nyan-mode                  ; NYAN CATS!!!
+  :ensure t
+  :init (nyan-mode))
 
 (use-package powerline                  ; The work-horse of Spaceline
   :ensure t
