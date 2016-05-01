@@ -2453,6 +2453,16 @@ Install mudraw with brew install mupdf-tools")))
   :config (setq sx-question-mode-display-buffer-function #'switch-to-buffer))
 
 
+;;; Fun
+(use-package zone                       ; Emacs screen saver
+  :bind ("C-c z" . zone))
+
+(use-package zone-nyan                  ; Not exactly useful but <3
+  :ensure t
+  :after zone
+  :config (setq zone-programs (vconcat [zone-nyan] zone-programs)))
+
+
 ;;; Online Help
 (use-package find-func                  ; Find function/variable definitions
   :bind (("C-c h F"   . find-function)
