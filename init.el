@@ -1928,7 +1928,7 @@ Taken from http://stackoverflow.com/a/3072831/355252."
   :init (rxt-global-mode))
 
 (use-package ielm                       ; Emacs Lisp REPL
-  :bind (("C-c a z" . ielm)))
+  :bind (("C-c a '" . ielm)))
 
 (use-package elisp-mode                 ; Emacs Lisp editing
   :defer t
