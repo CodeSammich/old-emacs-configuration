@@ -2130,7 +2130,11 @@ the REPL in a new frame instead."
   :defer t)
 
 
-;;; Javascript
+;;; HTML & Javascript
+(use-package web-mode
+  :ensure t
+  :mode (("\\.html\\'" . web-mode)))
+
 (use-package js2-mode                   ; Powerful Javascript mode
   :ensure t
   :mode (("\\.js\\'" . js2-mode)
