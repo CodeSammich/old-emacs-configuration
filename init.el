@@ -581,6 +581,11 @@ Return the new window for BUFFER."
         (,(rx "*magit: ")
          (lunaryorn-display-buffer-fullframe)
          (reusable-frames . nil))
+        ;; Give Helm Help a non-side window because Helm as very peculiar ideas
+        ;; about how to display its help
+        (,(rx bos "*Helm Help" (* nonl) "*" eos)
+         (display-buffer-use-some-window
+          display-buffer-pop-up-window))
         ;; Nail Helm to the side window
         (,(rx bos "*" (* nonl) "helm" (* nonl) "*" eos)
          (display-buffer-in-side-window)
