@@ -2316,6 +2316,10 @@ the REPL in a new frame instead."
   :defer t
   :init (add-hook 'magit-mode-hook #'turn-on-magit-gh-pulls))
 
+(use-package github-clone               ; Clone and fork from Github
+  :ensure t
+  :bind ("C-c g g c" . github-clone))
+
 (use-package helm-open-github ; Open Github pages for current repo
   ;; FIXME: Triggers a password prompt during load?!
   :disabled t
