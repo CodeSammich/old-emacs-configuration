@@ -276,6 +276,10 @@ symbols, emojis, greek letters, as well as fall backs for."
   :init (beacon-mode 1)
   :diminish beacon-mode)
 
+(use-package stripe-buffer              ; Add stripes to a buffer
+  :ensure t
+  :init (add-hook 'dired-mode-hook #'stripe-buffer-mode))
+
 
 ;;; Keys and key bindings
 
