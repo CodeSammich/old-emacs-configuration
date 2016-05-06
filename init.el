@@ -1466,6 +1466,7 @@ Disable the highlighting of overlong lines."
   :defer t
   :after company
   :init ;; Use Company for completion
+  (bind-key [remap complete-symbol] #'helm-company company-mode-map)
   (bind-key [remap completion-at-point] #'helm-company company-mode-map)
   (bind-key "C-:" #'helm-company company-mode-map)
   (bind-key "C-:" #'helm-company company-active-map))
@@ -2504,6 +2505,7 @@ Install mudraw with brew install mupdf-tools")))
                       :inherit font-lock-type-face))
 
 (use-package niceify-info               ; Prettify Info rendering
+  :disabled t
   :ensure t
   :defer t
   :after info
