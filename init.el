@@ -1551,7 +1551,8 @@ Disable the highlighting of overlong lines."
 
 (use-package flycheck                   ; On-the-fly syntax checking
   :ensure t
-  :bind (("C-c e" . lunaryorn-flycheck-errors/body))
+  :bind (("C-c e" . lunaryorn-flycheck-errors/body)
+         ("C-c t f" . flycheck-mode))
   :init
   (defhydra lunaryorn-flycheck-errors ()
     "Flycheck errors."
