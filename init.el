@@ -2197,6 +2197,7 @@ the REPL in a new frame instead."
                 nxml-auto-insert-xml-declaration-flag t))
 
 (use-package html5-schema               ; HTML5 schemata for NXML
+  :ensure t
   :defer t)
 
 (use-package thrift                     ; Thrift interface files
