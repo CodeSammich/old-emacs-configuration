@@ -1966,6 +1966,13 @@ Taken from http://stackoverflow.com/a/3072831/355252."
   :init
   (add-hook 'emacs-lisp-mode-hook #'lunaryorn-add-use-package-to-imenu))
 
+(use-package el-search                  ; pcase-based search for elisp
+  :ensure t
+  :bind (:map emacs-lisp-mode-map
+              ("C-c m s" . el-search-pattern)
+              ("C-c m r" . el-search-query-replace))
+  :after elisp-mode)
+
 (use-package cask-mode                  ; A major mode for Cask files
   :ensure t
   :defer t)
