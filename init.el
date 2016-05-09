@@ -597,16 +597,18 @@ Return the new window for BUFFER."
          (window-height . 0.4)
          (window-width . 0.6))
         ;; Put REPLs and error lists into the bottom side window
-        (,(rx bos (or "*Help"             ; Help buffers
-                      "*Warnings*"        ; Emacs warnings
-                      "*compilation"      ; Compilation buffers
-                      "*Flycheck errors*" ; Flycheck error list
-                      "*shell"            ; Shell window
-                      "*sbt"              ; SBT REPL and compilation buffer
-                      "*ensime-update*"   ; Server update from Ensime
-                      "*SQL"              ; SQL REPL
-                      "*Cargo"            ; Cargo process buffers
-                      ))
+        (,(rx bos
+              (or "*Help"                 ; Help buffers
+                  "*Warnings*"            ; Emacs warnings
+                  "*compilation"          ; Compilation buffers
+                  "*Flycheck errors*"     ; Flycheck error list
+                  "*shell"                ; Shell window
+                  "*sbt"                  ; SBT REPL and compilation buffer
+                  "*ensime-update*"       ; Server update from Ensime
+                  "*SQL"                  ; SQL REPL
+                  "*Cargo"                ; Cargo process buffers
+                  (and (1+ nonl) " output*") ; AUCTeX command output
+                  ))
          (display-buffer-reuse-window
           display-buffer-in-side-window)
          (side            . bottom)
