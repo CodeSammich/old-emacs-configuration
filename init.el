@@ -2189,6 +2189,9 @@ the REPL in a new frame instead."
   :config (setq nxml-slash-auto-complete-flag t
                 nxml-auto-insert-xml-declaration-flag t))
 
+(use-package html5-schema               ; HTML5 schemata for NXML
+  :defer t)
+
 (use-package thrift                     ; Thrift interface files
   :ensure t
   :defer t
