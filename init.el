@@ -839,7 +839,7 @@ Return the new window for BUFFER."
 
 (use-package dired-x                    ; Additional tools for Dired
   :defer nil
-  :bind (("C-c f d" . dired-jump)
+  :bind (("C-c f j" . dired-jump)
          ("C-x C-j" . dired-jump))
   :init
   (add-hook 'dired-mode-hook #'dired-omit-mode)
