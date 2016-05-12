@@ -465,7 +465,8 @@ mouse-3: go to end"))))
   :config
   (spaceline-helm-mode)                 ; Enable a special Helm mode line
 
-  (spaceline-install
+  (spaceline-compile
+   'lunaryorn
    ;; Left side of the mode line (all the important stuff)
    '(((buffer-modified buffer-size input-method) :face highlight-face)
      anzu
@@ -481,7 +482,9 @@ mouse-3: go to end"))))
      nyan-cat)
    ;; Right segment (the unimportant stuff)
    '((version-control :when active)
-     battery)))
+     battery))
+
+  (setq-default mode-line-format '("%e" (:eval (spaceline-ml-lunaryorn)))))
 
 (use-package nyan-mode                  ; NYAN CATS!!!
   :ensure t
