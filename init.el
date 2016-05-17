@@ -1997,7 +1997,7 @@ Taken from http://stackoverflow.com/a/3072831/355252."
 
 ;;; Scala
 
-(use-package scala-mode2                ; Scala editing
+(use-package scala-mode                 ; Scala editing
   :ensure t
   :defer t
   :config
@@ -2014,7 +2014,7 @@ Taken from http://stackoverflow.com/a/3072831/355252."
 
 (use-package sbt-mode                   ; Scala build tool
   :ensure t
-  :after scala-mode2
+  :after scala-mode
   :bind (:map scala-mode-map
               (("C-c m b c" . sbt-command)
                ("C-c m b r" . sbt-run-previous-command)))
@@ -2049,7 +2049,7 @@ the REPL in a new frame instead."
 (use-package ensime                     ; Scala interaction mode
   :ensure t
   :defer t
-  :after scala-mode2
+  :after scala-mode
   :bind (:map ensime-mode-map
               ("C-c m E" . ensime-reload)
               ;; Free M-n and M-p again
