@@ -326,8 +326,11 @@ symbols, emojis, greek letters, as well as fall backs for."
           ("\\`\\?\\?\\'"   . "λ")
           ;; Prettify hydra entry points
           ("/body\\'"       . "|=")
-          ;; Drop my personal prefix
-          ("\\`lunaryorn-"  . "")))
+          ;; Drop/shorten package prefixes
+          ("\\`lunaryorn-"  . "")
+          ("projectile-"    . "proj-")
+          ("helm-"          . "h-")
+          ("magit-"         . "ma-")))
 
   (which-key-declare-prefixes
     ;; Prefixes for global prefixes and minor modes
