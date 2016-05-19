@@ -1459,18 +1459,16 @@ Disable the highlighting of overlong lines."
 
 (use-package company-math               ; Completion for Math symbols
   :ensure t
-  :defer t
   :after company
-  :init
+  :config
   ;; Add backends for math characters
   (add-to-list 'company-backends 'company-math-symbols-unicode)
   (add-to-list 'company-backends 'company-math-symbols-latex))
 
 (use-package company-emoji              ; Emojis completion like Github/Slack
   :ensure t
-  :defer t
   :after company
-  :init (add-to-list 'company-backends 'company-emoji))
+  :config (add-to-list 'company-backends 'company-emoji))
 
 (use-package helm-company               ; Helm frontend for company
   :ensure t
@@ -1922,9 +1920,8 @@ Taken from http://stackoverflow.com/a/3072831/355252."
 
 (use-package company-restclient         ; Company support for restclient
   :ensure t
-  :defer t
   :after company
-  :init (add-to-list 'company-backends 'company-restclient))
+  :config (add-to-list 'company-backends 'company-restclient))
 
 
 ;;; Emacs Lisp
@@ -2128,9 +2125,8 @@ the REPL in a new frame instead."
 
 (use-package company-anaconda           ; Python backend for Company
   :ensure t
-  :defer t
   :after company
-  :init (add-to-list 'company-backends 'company-anaconda))
+  :config (add-to-list 'company-backends 'company-anaconda))
 
 (use-package pip-requirements           ; requirements.txt files
   :ensure t
