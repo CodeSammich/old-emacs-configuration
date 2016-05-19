@@ -1280,10 +1280,10 @@ _k_: kill        _s_: split                   _{_: wrap with { }
 ^^               _i_: indent defun"
     ("q" nil)
     ;; Wrapping
-    ("(" (lambda (a) (interactive "P") (sp-wrap-with-pair "(")))
-    ("{" (lambda (a) (interactive "P") (sp-wrap-with-pair "{")))
-    ("'" (lambda (a) (interactive "P") (sp-wrap-with-pair "'")))
-    ("\"" (lambda (a) (interactive "P") (sp-wrap-with-pair "\"")))
+    ("(" (lambda (_) (interactive "P") (sp-wrap-with-pair "(")))
+    ("{" (lambda (_) (interactive "P") (sp-wrap-with-pair "{")))
+    ("'" (lambda (_) (interactive "P") (sp-wrap-with-pair "'")))
+    ("\"" (lambda (_) (interactive "P") (sp-wrap-with-pair "\"")))
     ;; Navigation
     ("f" sp-forward-sexp )
     ("b" sp-backward-sexp)
