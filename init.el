@@ -2254,15 +2254,15 @@ the REPL in a new frame instead."
   :config
   (js2r-add-keybindings-with-prefix "C-c m r"))
 
-(use-package tern                       ; Javascript IDE backend
-  :ensure t
-  :defer t
-  :init (add-hook 'js2-mode-hook #'tern-mode))
+;; (use-package tern                       ; Javascript IDE backend
+;;   :ensure t
+;;   :defer t
+;;   :init (add-hook 'js2-mode-hook #'tern-mode))
 
-(use-package company-tern               ; Auto-completion for javascript
-  :ensure t
-  :after company
-  :config (add-to-list 'company-backends 'company-tern))
+;; (use-package company-tern               ; Auto-completion for javascript
+;;   :ensure t
+;;   :after company
+;;   :config (add-to-list 'company-backends 'company-tern))
 
 
 ;;; Misc programming languages
@@ -2345,11 +2345,6 @@ the REPL in a new frame instead."
          ("C-c g b" . magit-blame)
          ("C-c g l" . magit-log-buffer-file)
          ("C-c g p" . magit-pull))
-  ;; Aggressively commit to WIP refs on any change
-  :init
-  ;; (magit-wip-after-save-mode)
-  ;; (magit-wip-after-apply-mode)
-  ;; (magit-wip-before-change-mode)
   :config
   ;; Shut up, Magit
   (setq magit-save-repository-buffers 'dontask
@@ -2375,9 +2370,7 @@ the REPL in a new frame instead."
     (lunaryorn-magit-set-repo-dirs-from-projectile))
 
   (add-hook 'projectile-switch-project-hook
-            #'lunaryorn-magit-set-repo-dirs-from-projectile)
-  :diminish (magit-wip-after-save-local-mode
-             magit-wip-before-change-mode))
+            #'lunaryorn-magit-set-repo-dirs-from-projectile))
 
 (use-package git-commit                 ; Git commit message mode
   :ensure t
@@ -2405,6 +2398,7 @@ the REPL in a new frame instead."
 
 (use-package helm-gitignore             ; Generate gitignore files
   :ensure t
+  :defer t
   :bind ("C-c g I" . helm-gitignore))
 
 
