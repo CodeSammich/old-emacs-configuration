@@ -2051,7 +2051,8 @@ the REPL in a new frame instead."
            (if new-frame '(display-buffer-pop-up-frame) nil)))
       (pop-to-buffer (sbt:buffer-name))))
 
-  (bind-key "C-c m s" #'lunaryorn-scala-pop-to-sbt scala-mode-map)
+  (with-eval-after-load 'scala-mode
+    (bind-key "C-c m s" #'lunaryorn-scala-pop-to-sbt scala-mode-map))
 
   ;; Disable Smartparens Mode in SBT buffers, because it frequently
   ;; hangs while trying to find matching delimiters
