@@ -2349,6 +2349,9 @@ the REPL in a new frame instead."
   ;; Shut up, Magit
   (setq magit-save-repository-buffers 'dontask
         magit-refs-show-commit-count 'all
+        ;; Use separate buffers for one-file logs so that we don't need to reset
+        ;; the filter everytime for full log view
+        magit-log-buffer-file-locked t
         ;; This is creepy, Magit
         magit-revision-show-gravatars nil)
 
