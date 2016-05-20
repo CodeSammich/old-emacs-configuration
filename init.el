@@ -2027,10 +2027,11 @@ Taken from http://stackoverflow.com/a/3072831/355252."
 
 (use-package sbt-mode                   ; Scala build tool
   :ensure t
+  :defer t
   :after scala-mode
   :bind (:map scala-mode-map
-              (("C-c m b c" . sbt-command)
-               ("C-c m b r" . sbt-run-previous-command)))
+              ("C-c m b c" . sbt-command)
+              ("C-c m b r" . sbt-run-previous-command))
   :config
   ;; Do not pop up SBT buffers automatically
   (setq sbt:display-command-buffer nil)
