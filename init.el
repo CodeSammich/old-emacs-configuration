@@ -2230,10 +2230,12 @@ the REPL in a new frame instead."
 ;;; HTML & Javascript
 (use-package web-mode
   :ensure t
+  :defer t
   :mode (("\\.html\\'" . web-mode)))
 
 (use-package js2-mode                   ; Powerful Javascript mode
   :ensure t
+  :defer t
   :mode (("\\.js\\'" . js2-mode)
          ("\\.jsx\\'" . js2-jsx-mode))
   :config
@@ -2246,6 +2248,7 @@ the REPL in a new frame instead."
 (use-package js2-refactor               ; Refactor Javascript
   :ensure t
   :after js2-mode
+  :defer t
   :init
   (add-hook 'js2-mode-hook 'js2-refactor-mode)
   :config
@@ -2264,6 +2267,7 @@ the REPL in a new frame instead."
 
 ;;; Misc programming languages
 (use-package sh-script                  ; Shell scripts
+  :defer t
   :mode ("\\.zsh\\'" . sh-mode)
   :config
   ;; Use two spaces in shell scripts.
