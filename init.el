@@ -2233,6 +2233,10 @@ the REPL in a new frame instead."
   :defer t
   :mode (("\\.html\\'" . web-mode)))
 
+(use-package css-mode                   ; CSS
+  :defer t
+  :config (setq css-indent-offset 2))
+
 (use-package js2-mode                   ; Powerful Javascript mode
   :ensure t
   :defer t
