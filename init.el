@@ -2254,15 +2254,15 @@ the REPL in a new frame instead."
   :config
   (js2r-add-keybindings-with-prefix "C-c m r"))
 
-;; (use-package tern                       ; Javascript IDE backend
-;;   :ensure t
-;;   :defer t
-;;   :init (add-hook 'js2-mode-hook #'tern-mode))
+(use-package tern                       ; Javascript IDE backend
+  :ensure t
+  :defer t
+  :init (add-hook 'js2-mode-hook #'tern-mode))
 
-;; (use-package company-tern               ; Auto-completion for javascript
-;;   :ensure t
-;;   :after company
-;;   :config (add-to-list 'company-backends 'company-tern))
+(use-package company-tern               ; Auto-completion for javascript
+  :ensure t
+  :after company
+  :config (add-to-list 'company-backends 'company-tern))
 
 
 ;;; Misc programming languages
