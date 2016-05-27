@@ -2162,6 +2162,13 @@ the REPL in a new frame instead."
               ("C-c C-c" . haskell-process-cabal-build)
               ("C-c c" . haskell-process-cabal)))
 
+(use-package hindent                    ; Haskell indentation
+  :ensure t
+  :defer t
+  :init
+  (add-hook 'haskell-mode-hook #'hindent-mode)
+  :config
+  (setq hindent-style "gibiansky"))
 
 
 ;;; Python
