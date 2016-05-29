@@ -101,6 +101,8 @@
                    "INFOPATH"           ; Info directories
                    "JAVA_OPTS"          ; Options for java processes
                    "SBT_OPTS"           ; Options for SBT
+                   "RUST_SRC_PATH"      ; Rust sources, for racer
+                   "CARGO_HOME"         ; Cargo home, for racer
                    "EMAIL"              ; My personal email
                    ))
       (add-to-list 'exec-path-from-shell-variables var))
@@ -2230,6 +2232,14 @@ the REPL in a new frame instead."
   :defer t
   :after rust-mode
   :init (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
+
+(use-package racer                      ; Completion and navigation for Rust
+  :ensure t
+  :defer t
+  :init (add-hook 'rust-mode-hook #'racer-mode)
+  :config
+  (setq racer-rust-src-path (getenv "RUST_SRC_PATH"))
+  :diminish (racer-mode . "ⓡ"))
 
 (use-package cargo                      ; Control Cargo
   :ensure t
