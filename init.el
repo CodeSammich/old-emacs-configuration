@@ -96,11 +96,19 @@
       ;; environment variables are mostly set in `.zprofile'.
       (setq exec-path-from-shell-arguments '("-l")))
 
-    (dolist (var '("EMAIL" "PYTHONPATH" "INFOPATH" "JAVA_OPTS"))
+    ;; Import additional environment variables beyond just $PATH
+    (dolist (var '("PYTHONPATH"         ; Python modules
+                   "INFOPATH"           ; Info directories
+                   "JAVA_OPTS"          ; Options for java processes
+                   "SBT_OPTS"           ; Options for SBT
+                   "EMAIL"              ; My personal email
+                   ))
       (add-to-list 'exec-path-from-shell-variables var))
 
+    ;; Initialize Emacs' environment from the shell
     (exec-path-from-shell-initialize)
 
+    ;; Tell Emacs about my email address
     (setq user-mail-address (getenv "EMAIL"))
 
     ;; Re-initialize the `Info-directory-list' from $INFOPATH.  Since package.el
