@@ -2244,7 +2244,8 @@ the REPL in a new frame instead."
 (use-package cargo                      ; Control Cargo
   :ensure t
   :bind (:map rust-mode-map ("<f5>" . cargo-process-build))
-  :init (add-hook 'rust-mode-hook #'cargo-minor-mode))
+  :init (add-hook 'rust-mode-hook #'cargo-minor-mode)
+  :diminish cargo-minor-mode)
 
 (use-package toml-mode                  ; Toml for Cargo files
   :ensure t
