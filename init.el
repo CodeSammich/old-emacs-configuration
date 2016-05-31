@@ -1080,6 +1080,24 @@ Return the new window for BUFFER."
         ))
 
 
+;;; Rings and registers
+(setq kill-ring-max 200                 ; More killed items
+      kill-do-not-save-duplicates t     ; No duplicates in kill ring
+      ;; Save the contents of the clipboard to kill ring before killing
+      save-interprogram-paste-before-kill t)
+
+(use-package helm-ring                  ; Browse rings and registers with Helm
+  :ensure helm
+  :defer t
+  :bind (([remap yank-pop]        . helm-show-kill-ring)
+         ([remap insert-register] . helm-register)))
+
+(use-package easy-kill                  ; Easy killing and marking on C-w
+  :ensure t
+  :bind (([remap kill-ring-save] . easy-kill)
+         ([remap mark-sexp]      . easy-mark)))
+
+
 ;;; Basic editing
 ;; Disable tabs, but given them proper width
 (setq-default indent-tabs-mode nil
@@ -1091,17 +1109,6 @@ Return the new window for BUFFER."
 ;; final new line
 (setq indicate-empty-lines t
       require-final-newline t)
-
-(setq kill-ring-max 200                 ; More killed items
-      kill-do-not-save-duplicates t     ; No duplicates in kill ring
-      ;; Save the contents of the clipboard to kill ring before killing
-      save-interprogram-paste-before-kill t)
-
-(use-package helm-ring                  ; Browse rings and registers with Helm
-  :ensure helm
-  :defer t
-  :bind (([remap yank-pop]        . helm-show-kill-ring)
-         ([remap insert-register] . helm-register)))
 
 ;; Configure a reasonable fill column, indicate it in the buffer and enable
 ;; automatic filling
@@ -1177,11 +1184,6 @@ Return the new window for BUFFER."
   :ensure t
   :bind (("M-z" . zop-to-char)
          ("M-Z" . zop-up-to-char)))
-
-(use-package easy-kill                  ; Easy killing and marking on C-w
-  :ensure t
-  :bind (([remap kill-ring-save] . easy-kill)
-         ([remap mark-sexp]      . easy-mark)))
 
 (use-package align                      ; Align text in buffers
   :bind (("C-c x a a" . align)
