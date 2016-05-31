@@ -1046,6 +1046,11 @@ Return the new window for BUFFER."
   :bind (("C-c s r" . vr/query-replace)
          ("C-c s R" . vr/replace)))
 
+(use-package helm-regexp                ; Regexp search with Helm
+  :ensure helm
+  :defer t
+  :bind (([remap occur] . helm-occur)))
+
 (use-package helm-swoop                 ; Powerful buffer search for Emacs
   :ensure t
   :bind (("C-c s s" . helm-swoop)
