@@ -2290,7 +2290,10 @@ the REPL in a new frame instead."
 (use-package tern                       ; Javascript IDE backend
   :ensure t
   :defer t
-  :init (add-hook 'js2-mode-hook #'tern-mode))
+  :init (add-hook 'js2-mode-hook #'tern-mode)
+  :config
+  ;; Don't generate port files
+  (add-to-list 'tern-command "--no-port-file" 'append))
 
 (use-package company-tern               ; Auto-completion for javascript
   :ensure t
