@@ -1041,6 +1041,11 @@ Return the new window for BUFFER."
   ;; Please, isearch, let me scroll during search
   (setq isearch-allow-scroll t))
 
+(use-package visual-regexp              ; Regexp replace with in-buffer display
+  :ensure t
+  :bind (("C-c s r" . vr/query-replace)
+         ("C-c s R" . vr/replace)))
+
 (use-package helm-swoop                 ; Powerful buffer search for Emacs
   :ensure t
   :bind (("C-c s s" . helm-swoop)
@@ -1175,11 +1180,6 @@ Return the new window for BUFFER."
   :defer t
   :init (add-hook 'visual-line-mode-hook #'visual-fill-column-mode))
 
-(use-package visual-regexp              ; Regexp replace with in-buffer display
-  :ensure t
-  :bind (("C-c s r" . vr/query-replace)
-         ("C-c s R" . vr/replace)))
-
 (use-package zop-to-char                ; Better zapping
   :ensure t
   :bind (("M-z" . zop-to-char)
@@ -1225,19 +1225,6 @@ Return the new window for BUFFER."
 (use-package expand-region              ; Expand region by semantic units
   :ensure t
   :bind (("C-c v" . er/expand-region)))
-
-(use-package embrace                    ; Wrap semantic units with pairs
-  :ensure t
-  :bind (("C-c x e" . lunaryorn-embrace/body))
-  :init
-  (defhydra lunaryorn-embrace (:hint nil)
-    "
-Add (_a_), change (_c_) or delete (_d_) a pair.  Quit with _q_.
-"
-    ("a" embrace-add)
-    ("c" embrace-change)
-    ("d" embrace-delete)
-    ("q" nil)))
 
 (use-package undo-tree                  ; Branching undo
   :ensure t
@@ -1353,6 +1340,19 @@ _k_: kill        _s_: split                   _{_: wrap with { }
   :load-path "lisp/"
   :after smartparens
   :config (lunaryorn-smartparens-bind-keys))
+
+(use-package embrace                    ; Wrap semantic units with pairs
+  :ensure t
+  :bind (("C-c x e" . lunaryorn-embrace/body))
+  :init
+  (defhydra lunaryorn-embrace (:hint nil)
+    "
+Add (_a_), change (_c_) or delete (_d_) a pair.  Quit with _q_.
+"
+    ("a" embrace-add)
+    ("c" embrace-change)
+    ("d" embrace-delete)
+    ("q" nil)))
 
 
 ;;; Highlights and fontification
