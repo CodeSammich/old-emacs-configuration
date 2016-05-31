@@ -529,54 +529,20 @@ mouse-3: go to end"))))
 
 (use-package helm                       ; Powerful minibuffer input framework
   :ensure t
-  :bind (
-         ;; Replace built-in commands with more powerful Helm variants
-         ([remap find-file] . helm-find-files)
-         ([remap switch-to-buffer] . helm-mini)
-         ([remap execute-extended-command] . helm-M-x)
-         ([remap yank-pop]        . helm-show-kill-ring)
-         ([remap insert-register] . helm-register)
-         ([remap apropos-command] . helm-apropos)
-         ([remap occur] . helm-occur)
-         ;; Additional helm commands
-         ("C-c f l" . helm-locate-library)
-         ("C-c f s" . helm-for-files)
-         ("C-c f r" . helm-recentf)
-         ("C-c h l" . helm-resume)
-         ("C-c h m" . helm-man-woman)
-         ("C-c i C" . helm-colors)
-         ("C-c j t" . helm-imenu))
+  :bind (("C-c h l" . helm-resume))
   :init
   (helm-mode 1)
   (with-eval-after-load 'helm-config
     (warn "`helm-config' loaded! Get rid of it ASAP!"))
   :config
-  (setq helm-split-window-in-side-p t
-        ;; Fuzzy matching
-        helm-buffers-fuzzy-matching t
-        helm-recentf-fuzzy-match t
-        helm-imenu-fuzzy-match t
-        ;; Use recentf to manage file name history
-        helm-ff-file-name-history-use-recentf t
-        ;; Find libraries from `require', etc.
-        helm-ff-search-library-in-sexp t
-        ;; Don't automatically jump to imenu candidate if only one match,
-        ;; because it makes the behaviour of this command unpredictable, and
-        ;; prevents me from getting an overview over the buffer if point is on a
-        ;; matching symbol.
-        helm-imenu-execute-action-at-once-if-one nil)
-
-  (when (eq system-type 'darwin)
-    ;; Replace locate with spotlight for `helm-for-files'
-    (setq helm-for-files-preferred-list
-          (append (delq 'helm-source-locate
-                        helm-for-files-preferred-list)
-                  '(helm-source-mac-spotlight))))
+  ;; Split inside selected window with Helm
+  (setq helm-split-window-in-side-p t)
   :diminish helm-mode)
 
-(use-package helm-unicode               ; Unicode input with Helm
-  :ensure t
-  :bind ("C-c i 8" . helm-unicode))
+(use-package helm-command               ; Command execution with Helm
+  :ensure helm
+  :defer t
+  :bind (([remap execute-extended-command] . helm-M-x)))
 
 
 ;;; Buffer, Windows and Frames
@@ -653,6 +619,12 @@ Return the new window for BUFFER."
   :ensure t
   :init (focus-autosave-mode)
   :diminish focus-autosave-mode)
+
+(use-package helm-buffers               ; Manage buffers with Helm
+  :ensure helm
+  :defer t
+  :bind (([remap switch-to-buffer] . helm-mini))
+  :config (setq helm-buffers-fuzzy-matching t))
 
 (use-package lunaryorn-buffers          ; Personal buffer tools
   :load-path "lisp/"
@@ -824,6 +796,26 @@ Return the new window for BUFFER."
   ;; Use GNU ls for Emacs
   (when-let (gnu-ls (and (eq system-type 'darwin) (executable-find "gls")))
     (setq insert-directory-program gnu-ls)))
+
+(use-package helm-files                 ; Manage files with Helm
+  :ensure helm
+  :defer t
+  :bind (([remap find-file] . helm-find-files)
+         ("C-c f s" . helm-for-files)
+         ("C-c f r" . helm-recentf))
+  :config
+  (setq helm-recentf-fuzzy-match t
+        ;; Use recentf to manage file name history
+        helm-ff-file-name-history-use-recentf t
+        ;; Find libraries from `require', etc.
+        helm-ff-search-library-in-sexp t)
+
+  (when (eq system-type 'darwin)
+    ;; Replace locate with spotlight for `helm-for-files'
+    (setq helm-for-files-preferred-list
+          (append (delq 'helm-source-locate
+                        helm-for-files-preferred-list)
+                  '(helm-source-mac-spotlight)))))
 
 (use-package ffap                       ; Find files at point
   :defer t
@@ -1007,6 +999,18 @@ Return the new window for BUFFER."
          ("C-c j b" . avy-pop-mark)
          ("C-c j j" . avy-goto-char-2)))
 
+(use-package helm-imenu                 ; Jump to tags with Helm
+  :ensure helm
+  :defer t
+  :bind (("C-c j t" . helm-imenu))
+  :config
+  (setq helm-imenu-fuzzy-match t
+        ;; Don't automatically jump to imenu candidate if only one match,
+        ;; because it makes the behaviour of this command unpredictable, and
+        ;; prevents me from getting an overview over the buffer if point is on a
+        ;; matching symbol.
+        helm-imenu-execute-action-at-once-if-one nil))
+
 (use-package ace-link                   ; Fast link jumping
   :ensure t
   :defer t
@@ -1077,7 +1081,6 @@ Return the new window for BUFFER."
 
 
 ;;; Basic editing
-
 ;; Disable tabs, but given them proper width
 (setq-default indent-tabs-mode nil
               tab-width 8)
@@ -1093,6 +1096,12 @@ Return the new window for BUFFER."
       kill-do-not-save-duplicates t     ; No duplicates in kill ring
       ;; Save the contents of the clipboard to kill ring before killing
       save-interprogram-paste-before-kill t)
+
+(use-package helm-ring                  ; Browse rings and registers with Helm
+  :ensure helm
+  :defer t
+  :bind (([remap yank-pop]        . helm-show-kill-ring)
+         ([remap insert-register] . helm-register)))
 
 ;; Configure a reasonable fill column, indicate it in the buffer and enable
 ;; automatic filling
@@ -1254,6 +1263,10 @@ Add (_a_), change (_c_) or delete (_d_) a pair.  Quit with _q_.
   :bind (("C-c t i" . toggle-input-method))
   :config
   (setq default-input-method "german-postfix"))
+
+(use-package helm-unicode               ; Unicode input with Helm
+  :ensure t
+  :bind ("C-c i 8" . helm-unicode))
 
 
 ;;; Paired delimiters
@@ -1981,6 +1994,12 @@ Taken from http://stackoverflow.com/a/3072831/355252."
   :init
   (add-hook 'emacs-lisp-mode-hook #'lunaryorn-add-use-package-to-imenu))
 
+(use-package helm-elisp                 ; Helm commands for elisp
+  :ensure helm
+  :defer t
+  :bind (([remap apropos-command] . helm-apropos)
+         ("C-c f l" . helm-locate-library)))
+
 (use-package el-search                  ; pcase-based search for elisp
   :ensure t
   :bind (:map emacs-lisp-mode-map
@@ -2633,7 +2652,12 @@ for more information about CALLBACK."
   ;; headers, etc.q
   :init (add-hook 'Info-selection-hook #'niceify-info))
 
-(use-package helm-info
+(use-package helm-man                   ; Man pages with Helm
+  :ensure helm
+  :defer t
+  :bind (("C-c h m" . helm-man-woman)))
+
+(use-package helm-info                  ; Info pages with Helm
   :ensure helm
   :bind (([remap info] . helm-info-at-point)
          ("C-c h e"    . helm-info-emacs)))
