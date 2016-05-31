@@ -1010,13 +1010,8 @@ Return the new window for BUFFER."
 (use-package ace-link                   ; Fast link jumping
   :ensure t
   :defer t
-  :init
-  (with-eval-after-load 'info
-    (bind-key "C-c m l" #'ace-link-info Info-mode-map))
-
-  (with-eval-after-load 'help-mode
-    (defvar help-mode-map)              ; Silence the byte compiler
-    (bind-key "C-c m l" #'ace-link-help help-mode-map)))
+  :bind (:map Info-mode-map ("C-c m l" . ace-link-info)
+         :map help-mode-map ("C-c m l" . ace-link-help)))
 
 (use-package outline                    ; Navigate outlines in buffers
   :defer t
@@ -1485,12 +1480,11 @@ Disable the highlighting of overlong lines."
 (use-package helm-company               ; Helm frontend for company
   :ensure t
   :defer t
-  :after company
-  :init ;; Use Company for completion
-  (bind-key [remap complete-symbol] #'helm-company company-mode-map)
-  (bind-key [remap completion-at-point] #'helm-company company-mode-map)
-  (bind-key "C-:" #'helm-company company-mode-map)
-  (bind-key "C-:" #'helm-company company-active-map))
+  :bind (:map company-mode-map
+         ([remap complete-symbol] . helm-company)
+         ([remap completion-at-point] . helm-company)
+         :map company-active-map
+         ("C-:" . helm-company)))
 
 (use-package auto-insert                ; Automatic insertion into new files
   :defer t
