@@ -512,7 +512,6 @@ mouse-3: go to end"))))
 
 (use-package powerline                  ; The work-horse of Spaceline
   :ensure t
-  :defer t
   :after spaceline-config
   :config (setq powerline-height (truncate (* 1.0 (frame-char-height)))
                 powerline-default-separator 'utf-8))
@@ -1045,7 +1044,6 @@ Return the new window for BUFFER."
 
 (use-package helm-swoop                 ; Powerful buffer search for Emacs
   :ensure t
-  :after helm
   :bind (("C-c s s" . helm-swoop)
          ("C-c s S" . helm-multi-swoop)
          ("C-c s C-s" . helm-multi-swoop-all))
@@ -1464,12 +1462,12 @@ Disable the highlighting of overlong lines."
 (use-package company-quickhelp          ; Show help in tooltip
   :ensure t
   :after company
-  :init (company-quickhelp-mode))
+  :config (company-quickhelp-mode))
 
 (use-package company-statistics         ; Sort company candidates by statistics
   :ensure t
   :after company
-  :init (company-statistics-mode))
+  :config (company-statistics-mode))
 
 (use-package company-math               ; Completion for Math symbols
   :ensure t
@@ -1556,7 +1554,6 @@ Disable the highlighting of overlong lines."
 
 (use-package helm-flyspell              ; Helm interface to Flyspell
   :ensure t
-  :after flyspell
   :bind
   (:map flyspell-mode-map
         ([remap flyspell-auto-correct-previous-word] . helm-flyspell-correct)
@@ -1584,6 +1581,7 @@ Disable the highlighting of overlong lines."
     ("f" flycheck-first-error "first")
     ("l" flycheck-list-errors "list")
     ("w" flycheck-copy-errors-as-kill "copy message")
+    ;; See `helm-flycheck' package below
     ("h" helm-flycheck "list with helm"))
 
   (global-flycheck-mode)
@@ -1612,7 +1610,6 @@ Disable the highlighting of overlong lines."
 
 (use-package helm-flycheck              ; Helm frontend for Flycheck errors
   :ensure t
-  :defer t
   :after flycheck)
 
 
@@ -1723,13 +1720,13 @@ Disable the highlighting of overlong lines."
   :ensure t
   :defer t
   :after latex
-  :init (auctex-latexmk-setup))
+  :config (auctex-latexmk-setup))
 
 (use-package auctex-skim                ; Skim as viewer for AUCTeX
   :load-path "lisp/"
   :commands (auctex-skim-select)
   :after tex
-  :init (auctex-skim-select))
+  :config (auctex-skim-select))
 
 (use-package bibtex                     ; BibTeX editing
   :defer t
@@ -1843,8 +1840,7 @@ Disable the highlighting of overlong lines."
   :load-path "lisp/"
   :bind (:map markdown-mode-map
               ("C-c m h" . lunaryorn-markdown-post-header)
-              ("C-c m p" . lunaryorn-markdown-publish-jekyll-draft))
-  :after markdown-mode)
+              ("C-c m p" . lunaryorn-markdown-publish-jekyll-draft)))
 
 (use-package yaml-mode                  ; YAML
   :ensure t
@@ -1862,7 +1858,6 @@ Disable the highlighting of overlong lines."
 
 (use-package lunaryorn-json             ; Personal JSON tools
   :load-path "lisp/"
-  :after json-mode
   :bind (:map json-mode-map
               ("C-c m r" . lunaryorn-json-chef-role)))
 
@@ -1966,7 +1961,7 @@ Taken from http://stackoverflow.com/a/3072831/355252."
   :ensure t
   :defer t
   :after flycheck
-  :init (flycheck-package-setup))
+  :config (flycheck-package-setup))
 
 (use-package pcre2el                    ; Convert regexps to RX and back
   :disabled t
@@ -1987,8 +1982,8 @@ Taken from http://stackoverflow.com/a/3072831/355252."
 
 (use-package lunaryorn-elisp            ; Personal tools for Emacs Lisp
   :load-path "lisp/"
+  :commands (lunaryorn-add-use-package-to-imenu)
   :bind (:map emacs-lisp-mode-map ("C-c m f" . lunaryorn-elisp-find-cask-file))
-  :after elisp-mode
   :init
   (add-hook 'emacs-lisp-mode-hook #'lunaryorn-add-use-package-to-imenu))
 
@@ -1996,8 +1991,7 @@ Taken from http://stackoverflow.com/a/3072831/355252."
   :ensure t
   :bind (:map emacs-lisp-mode-map
               ("C-c m s" . el-search-pattern)
-              ("C-c m r" . el-search-query-replace))
-  :after elisp-mode)
+              ("C-c m r" . el-search-query-replace)))
 
 (use-package cask-mode                  ; A major mode for Cask files
   :ensure t
@@ -2005,7 +1999,6 @@ Taken from http://stackoverflow.com/a/3072831/355252."
 
 (use-package macrostep                  ; Interactively expand macros in code
   :ensure t
-  :after elisp-mode
   :bind (:map emacs-lisp-mode-map ("C-c m x" . macrostep-expand)
          :map lisp-interaction-mode-map ("C-c m x" . macrostep-expand)))
 
@@ -2038,7 +2031,6 @@ Taken from http://stackoverflow.com/a/3072831/355252."
 (use-package sbt-mode                   ; Scala build tool
   :ensure t
   :defer t
-  :after scala-mode
   :bind (:map scala-mode-map
               ("C-c m b c" . sbt-command)
               ("C-c m b r" . sbt-run-previous-command))
@@ -2074,7 +2066,6 @@ the REPL in a new frame instead."
 (use-package ensime                     ; Scala interaction mode
   :ensure t
   :defer t
-  :after scala-mode
   :bind (:map ensime-mode-map
               ("C-c m E" . ensime-reload)
               ;; Free M-n and M-p again
@@ -2139,7 +2130,6 @@ the REPL in a new frame instead."
 (use-package haskell                    ; Interactive Haskell
   :ensure haskell-mode
   :defer t
-  :after haskell-mode
   :bind (:map haskell-mode-map
          ("C-c C-l" . haskell-process-load-file)
          ("C-`" . haskell-interactive-bring)
@@ -2155,7 +2145,6 @@ the REPL in a new frame instead."
 (use-package haskell-compile            ; Haskell compilation
   :ensure haskell-mode
   :defer t
-  ;; :after haskell-mode
   :bind (:map haskell-mode-map
               ("C-c m c" . haskell-compile)
               ("<f5>" . haskell-compile))
@@ -2196,7 +2185,6 @@ the REPL in a new frame instead."
 
 (use-package lunaryorn-virtualenv       ; Personal virtualenv tools
   :load-path "lisp/"
-  :after python
   :commands (lunaryorn-virtualenv-init-from-workon-home)
   :init (add-hook 'python-mode-hook #'lunaryorn-virtualenv-init-from-workon-home))
 
@@ -2204,12 +2192,11 @@ the REPL in a new frame instead."
   :load-path "lisp/"
   :after python
   :commands (flycheck-virtualenv-setup)
-  :init (add-hook 'flycheck-mode-hook #'flycheck-virtualenv-setup))
+  :config (add-hook 'flycheck-mode-hook #'flycheck-virtualenv-setup))
 
 (use-package anaconda-mode              ; Powerful Python backend for Emacs
   :ensure t
   :defer t
-  :after python
   :init (add-hook 'python-mode-hook #'anaconda-mode))
 
 (use-package company-anaconda           ; Python backend for Company
@@ -2231,7 +2218,7 @@ the REPL in a new frame instead."
   :ensure t
   :defer t
   :after rust-mode
-  :init (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
+  :config (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
 
 (use-package racer                      ; Completion and navigation for Rust
   :ensure t
@@ -2244,7 +2231,6 @@ the REPL in a new frame instead."
 (use-package cargo                      ; Control Cargo
   :ensure t
   :bind (:map rust-mode-map ("<f5>" . cargo-process-build))
-  :after rust-mode
   :init (add-hook 'rust-mode-hook #'cargo-minor-mode))
 
 (use-package toml-mode                  ; Toml for Cargo files
@@ -2276,8 +2262,6 @@ the REPL in a new frame instead."
 
 (use-package js2-refactor               ; Refactor Javascript
   :ensure t
-  :after js2-mode
-  :defer t
   :init
   (add-hook 'js2-mode-hook 'js2-refactor-mode)
   :config
@@ -2333,10 +2317,9 @@ the REPL in a new frame instead."
 
 (use-package sqlup-mode                 ; Upcase SQL keywords
   :ensure t
-  :after sql
   :bind (:map sql-mode-map
               ("C-c m u" . sqlup-capitalize-keywords-in-region))
-  :init (add-hook 'sql-mode-hook #'sqlup-mode))
+  :config (add-hook 'sql-mode-hook #'sqlup-mode))
 
 
 ;;; Version control
@@ -2485,14 +2468,13 @@ the REPL in a new frame instead."
 
 (use-package helm-projectile            ; Helm frontend for Projectile
   :ensure t
-  :defer t
   :after projectile
   :bind (("C-c s p" . helm-projectile-ag)
          :map helm-projectile-projects-map
               ("C-t" . lunaryorn-neotree-project-root))
-  :init
-  (helm-projectile-on)
   :config
+  (helm-projectile-on)
+
   (setq projectile-switch-project-action #'helm-projectile)
 
   (helm-add-action-to-source "Open NeoTree `C-t'"
@@ -2652,8 +2634,6 @@ for more information about CALLBACK."
 (use-package niceify-info               ; Prettify Info rendering
   :disabled t
   :ensure t
-  :defer t
-  :after info
   ;; Adds emphasis to text between * and _, tries to fontify Emacs Lisp code,
   ;; tries to cross-reference symbol names in backticks, tries to fontify
   ;; headers, etc.q
@@ -2662,11 +2642,7 @@ for more information about CALLBACK."
 (use-package helm-info
   :ensure helm
   :bind (([remap info] . helm-info-at-point)
-         ("C-c h e"    . helm-info-emacs))
-  :config
-  ;; Also lookup symbols in the Emacs manual
-  (add-to-list 'helm-info-default-sources
-               'helm-source-info-emacs))
+         ("C-c h e"    . helm-info-emacs)))
 
 (use-package ansible-doc                ; Documentation lookup for Ansible
   :ensure t
