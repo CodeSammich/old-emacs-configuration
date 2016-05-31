@@ -2541,11 +2541,31 @@ the REPL in a new frame instead."
   ;; Render PDFs at 300dpi
   (setq doc-view-resolution 300)
 
-  ;; Warn if Doc View falls back to Ghostscript for rendering
-  (unless (eq doc-view-pdf->png-converter-function
-              'doc-view-pdf->png-converter-mupdf)
-    (warn "Doc View is not using mupdf.
-Install mudraw with brew install mupdf-tools")))
+  (defconst lunaryorn-doc-view-mutool-program "mutool")
+
+  (defun lunaryorn-doc-view-pdf->png-converter-mutool (pdf png page callback)
+    "Convert a PDF file to PNG at PAGE.
+
+After conversion invoke CALLBACK.  See `doc-view-start-process'
+for more information about CALLBACK."
+    (doc-view-start-process
+     "pdf->png" lunaryorn-doc-view-mutool-program
+     `("draw"
+       ,(concat "-o" png)
+       ,(format "-r%d" (round doc-view-resolution))
+       ,pdf
+       ,@(if page `(,(format "%d" page))))
+     callback))
+
+  ;; If `mutool' exists use our own converter function to call "mutool draw".
+  ;; Otherwise check whether docview found mudraw and warn if it didn't
+  (if (executable-find lunaryorn-doc-view-mutool-program)
+      (setq doc-view-pdf->png-converter-function
+            #'lunaryorn-doc-view-pdf->png-converter-mutool)
+    ;; Warn if Doc View falls back to Ghostscript for rendering
+    (unless (eq doc-view-pdf->png-converter-function
+                'doc-view-pdf->png-converter-mupdf)
+      (warn "Doc View is not using mupdf!"))))
 
 
 ;;; Net & Web
