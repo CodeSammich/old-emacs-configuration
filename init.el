@@ -260,19 +260,19 @@ symbols, emojis, greek letters, as well as fall backs for."
   :ensure solarized-theme
   :config
   ;; Disable variable pitch fonts in Solarized theme
-  (progn (setq solarized-use-variable-pitch nil
-               ;; Prefer italics over bold
-               solarized-use-less-bold t
-               solarized-use-more-italic t
-               solarized-distinct-doc-face t ; Emphasize docstrings
-               ;; I find different font sizes irritating.
-               solarized-height-minus-1 1.0
-               solarized-height-plus-1 1.0
-               solarized-height-plus-2 1.0
-               solarized-height-plus-3 1.0
-               solarized-height-plus-4 1.0)
+  (setq solarized-use-variable-pitch nil
+        ;; Prefer italics over bold
+        solarized-use-less-bold t
+        solarized-use-more-italic t
+        solarized-distinct-doc-face t ; Emphasize docstrings
+        ;; I find different font sizes irritating.
+        solarized-height-minus-1 1.0
+        solarized-height-plus-1 1.0
+        solarized-height-plus-2 1.0
+        solarized-height-plus-3 1.0
+        solarized-height-plus-4 1.0)
 
-         (load-theme 'solarized-light 'no-confirm)))
+  (load-theme 'solarized-light 'no-confirm))
 
 (bind-key "C-c t v" #'variable-pitch-mode)
 
