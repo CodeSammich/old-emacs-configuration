@@ -209,7 +209,7 @@ symbols, emojis, greek letters, as well as fall backs for."
 
   (when (eq system-type 'darwin)
     ;; Colored Emoji on OS X, prefer over everything else!
-    (set-fontset-font t nil (font-spec :family "Apple Color Emoji")
+    (set-fontset-font t 'unicode (font-spec :family "Apple Color Emoji")
                       frame 'prepend))
 
   ;; Fallbacks for math and generic symbols
@@ -2090,31 +2090,19 @@ the REPL in a new frame instead."
 
 (use-package ensime                     ; Scala interaction mode
   :ensure t
-  :defer t
+  :after scala-mode
   :bind (:map ensime-mode-map
               ("C-c m E" . ensime-reload)
               ;; Free M-n and M-p again
               ("M-n" . nil)
               ("M-p" . nil)
               ("<f5>" . ensime-sbt-do-compile)
-         :map scala-mode-map ("C-c m e" . ensime))
+              :map scala-mode-map ("C-c m e" . ensime))
   :config
-  ;; Enable Ensime for all Scala buffers.  We don't do this in :init, because
-  ;; `ensime-mode' isn't autoloaded, and ensime-mode makes no sense before the
-  ;; first session was started anyway
   (add-hook 'scala-mode-hook #'ensime-mode)
-
-  (defun lunaryorn-auto-start-ensime ()
-    "Auto-start Ensime if possible."
-    (when (and (buffer-file-name) (not (ensime-connected-p)))
-      (let ((ensime-prefer-noninteractive t) ; Don't prompt for ensime path
-            (ensime-auto-connect 'always))
-        (ensime-auto-connect))))
-
-  (add-hook 'ensime-mode-hook #'lunaryorn-auto-start-ensime)
-
-  ;; Compile on save.  My projects are small enough :)
-  (setq ensime-sbt-perform-on-save "test:compile"))
+  (setq ensime-auto-connect 'always     ; Auto-connect to Ensime when needed
+        ;; Compile everything when a file is aved
+        ensime-sbt-perform-on-save "test:compile"))
 
 (use-package ensime-expand-region       ; Integrate Ensime into expand-region
   :ensure ensime
