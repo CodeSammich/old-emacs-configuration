@@ -691,7 +691,7 @@ Return the new window for BUFFER."
 (use-package lunaryorn-window           ; Personal window utilities
   :load-path "lisp/"
   :defer t
-  :bind (("C-c w q" . lunaryorn-quit-bottom-side-windows)
+  :bind (("C-c w q" . lunaryorn-quit-all-side-windows)
          ("C-c w d" . lunaryorn-toggle-current-window-dedication)
          ("C-c w b" . lunaryorn-switch-to-minibuffer-window)))
 

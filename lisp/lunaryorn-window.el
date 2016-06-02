@@ -39,10 +39,10 @@ If SIDE is non-nil only get windows on that side."
     windows))
 
 ;;;###autoload
-(defun lunaryorn-quit-bottom-side-windows ()
-  "Quit side windows of the current frame."
+(defun lunaryorn-quit-all-side-windows ()
+  "Quit all side windows of the current frame."
   (interactive)
-  (dolist (window (lunaryorn-find-side-windows 'bottom))
+  (dolist (window (lunaryorn-find-side-windows))
     (when (window-live-p window)
       (quit-window nil window)
       ;; When the window is still live, delete it
