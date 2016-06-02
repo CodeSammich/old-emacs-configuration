@@ -26,11 +26,23 @@
 
 ;;; Code:
 
+(defun lunaryorn-find-side-windows (&optional side)
+  "Get all side window if any.
+
+If SIDE is non-nil only get windows on that side."
+  (let (windows)
+    (walk-window-tree
+     (lambda (window)
+       (let ((window-side (window-parameter window 'window-side)))
+         (when (and window-side (or (not side) (eq window-side side)))
+           (push window windows)))))
+    windows))
+
 ;;;###autoload
 (defun lunaryorn-quit-bottom-side-windows ()
   "Quit side windows of the current frame."
   (interactive)
-  (dolist (window (window-at-side-list nil 'bottom))
+  (dolist (window (lunaryorn-find-side-windows 'bottom))
     (when (window-live-p window)
       (quit-window nil window)
       ;; When the window is still live, delete it
