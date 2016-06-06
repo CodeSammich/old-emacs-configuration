@@ -1640,9 +1640,9 @@ Disable the highlighting of overlong lines."
   (add-hook 'text-mode-hook #'table-recognize))
 
 (use-package tildify                    ; Insert non-breaking spaces on the fly
-  :bind (("C-c x t" . tildify-region))
-  :init
-  (add-hook 'text-mode-hook #'tildify-mode)
+  :defer t
+  :bind (("C-c x t" . tildify-region)
+         ("C-c t ~" . tildify-mode))
   :config
   ;; Use the right space for LaTeX
   (add-hook 'latex-mode-hook
