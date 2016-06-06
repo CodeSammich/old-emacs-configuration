@@ -209,7 +209,7 @@ symbols, emojis, greek letters, as well as fall backs for."
 
   (when (eq system-type 'darwin)
     ;; Colored Emoji on OS X, prefer over everything else!
-    (set-fontset-font t 'unicode (font-spec :family "Apple Color Emoji")
+    (set-fontset-font t nil (font-spec :family "Apple Color Emoji")
                       frame 'prepend))
 
   ;; Fallbacks for math and generic symbols
@@ -2098,12 +2098,13 @@ the REPL in a new frame instead."
               ("M-n" . nil)
               ("M-p" . nil)
               ("<f5>" . ensime-sbt-do-compile)
-              :map scala-mode-map ("C-c m e" . ensime))
+         :map scala-mode-map ("C-c m e" . ensime))
   :config
+  ;; ;; Enable Ensime for all Scala buffers.
   (add-hook 'scala-mode-hook #'ensime-mode)
-  (setq ensime-auto-connect 'always     ; Auto-connect to Ensime when needed
-        ;; Compile everything when a file is aved
-        ensime-sbt-perform-on-save "test:compile"))
+
+  ;; Compile on save.  My projects are small enough :)
+  (setq ensime-sbt-perform-on-save "test:compile"))
 
 (use-package ensime-expand-region       ; Integrate Ensime into expand-region
   :ensure ensime
