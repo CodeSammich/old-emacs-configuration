@@ -1354,7 +1354,8 @@ _k_: kill        _s_: split                   _{_: wrap with { }
 
 (use-package embrace                    ; Wrap semantic units with pairs
   :ensure t
-  :bind (("C-c x e" . lunaryorn-embrace/body))
+  :bind (("C-c y" . lunaryorn-embrace/body)
+         ("C-c x e" . lunaryorn-embrace/body))
   :init
   (defhydra lunaryorn-embrace (:hint nil)
     "
