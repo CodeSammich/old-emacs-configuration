@@ -802,7 +802,7 @@ Return the new window for BUFFER."
   :ensure helm
   :defer t
   :bind (([remap find-file] . helm-find-files)
-         ("C-c f s" . helm-for-files)
+         ("C-c f f" . helm-for-files)
          ("C-c f r" . helm-recentf))
   :config
   (setq helm-recentf-fuzzy-match t
@@ -956,7 +956,8 @@ Return the new window for BUFFER."
 
 (use-package reveal-in-osx-finder       ; Reveal current buffer in finder
   :ensure t
-  :bind (("C-c f f" . reveal-in-osx-finder)))
+  ;; Bind analogous to `dired-jump' at C-c f j
+  :bind (("C-c f J" . reveal-in-osx-finder)))
 
 (use-package lunaryorn-files            ; Personal file tools
   :load-path "lisp/"
