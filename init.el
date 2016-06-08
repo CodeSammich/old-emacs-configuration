@@ -954,7 +954,7 @@ Return the new window for BUFFER."
   :ensure t
   :defer t)
 
-(use-package reveal-in-osx-finder           ; Reveal current buffer in finder
+(use-package reveal-in-osx-finder       ; Reveal current buffer in finder
   :ensure t
   :bind (("C-c f f" . reveal-in-osx-finder)))
 
