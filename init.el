@@ -954,6 +954,12 @@ Return the new window for BUFFER."
   :ensure t
   :defer t)
 
+(use-package sudo-edit                  ; Edit files as root, through Tramp
+  :ensure t
+  :defer t
+  :bind (("C-c f s" . sudo-edit)
+         ("C-c f S" . sudo-edit-current-file)))
+
 (use-package reveal-in-osx-finder       ; Reveal current buffer in finder
   :ensure t
   ;; Bind analogous to `dired-jump' at C-c f j
