@@ -892,7 +892,8 @@ Return the new window for BUFFER."
   :ensure t
   :config
   ;; Ignore some additional directories and file extensions
-  (dolist (name '(".cask"
+  (dolist (name '("company-statistics-cache.el"
+                  ".cask"
                   ".vagrant"
                   ".ensime_cache" ".ensime"
                   ".stack-work"))
