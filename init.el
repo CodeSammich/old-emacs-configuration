@@ -1505,7 +1505,14 @@ Disable the highlighting of overlong lines."
 (use-package company-emoji              ; Emojis completion like Github/Slack
   :ensure t
   :after company
-  :config (add-to-list 'company-backends 'company-emoji))
+  :config
+  (add-to-list 'company-backends 'company-emoji)
+
+  (defun lunaryorn-company-emoji-no-unicode ()
+    "Turn off unicode emoji for this buffer."
+    (setq-local company-emoji-insert-unicode nil))
+
+  (add-hook 'gfm-mode-hook #'lunaryorn-company-emoji-no-unicode))
 
 (use-package helm-company               ; Helm frontend for company
   :ensure t
