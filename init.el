@@ -569,10 +569,6 @@ Return the new window for BUFFER."
 ;; Configure `display-buffer' behaviour for some special buffers.
 (setq display-buffer-alist
       `(
-        ;; Magit status window in fullscreen
-        (,(rx "*magit: ")
-         (lunaryorn-display-buffer-fullframe)
-         (reusable-frames . nil))
         ;; Give Helm Help a non-side window because Helm as very peculiar ideas
         ;; about how to display its help
         (,(rx bos "*Helm Help" (* nonl) "*" eos)
@@ -2395,7 +2391,10 @@ the REPL in a new frame instead."
         ;; the filter everytime for full log view
         magit-log-buffer-file-locked t
         ;; This is creepy, Magit
-        magit-revision-show-gravatars nil)
+        magit-revision-show-gravatars nil
+        ;; Show status buffer in fullscreen
+        magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1
+        )
 
   ;; Set Magit's repo dirs for `magit-status' from Projectile's known
   ;; projects.  Initialize the `magit-repository-directories'
