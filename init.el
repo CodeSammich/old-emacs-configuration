@@ -2194,6 +2194,25 @@ the REPL in a new frame instead."
   (setq hindent-style "gibiansky"))
 
 
+;;; Purescript
+(use-package purescript-mode            ; Purescript editing
+  :ensure t
+  :defer t)
+
+(use-package flycheck-purescript        ; Flycheck for Purescript
+  :ensure t
+  :defer t
+  :after flycheck
+  :config (flycheck-purescript-setup))
+
+(use-package psc-ide                    ; IDE features for Purescript
+  :ensure t
+  :defer t
+  :init
+  (add-hook 'purescript-mode-hook #'psc-ide-mode)
+  (add-hook 'purescript-mode-hook #'turn-on-purescript-indentation))
+
+
 ;;; Python
 (use-package python                     ; Python editing
   :defer t
