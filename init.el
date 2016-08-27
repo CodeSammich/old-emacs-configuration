@@ -366,6 +366,7 @@ symbols, emojis, greek letters, as well as fall backs for."
     "C-c l" "language/spelling"
     "C-c m" "major mode"
     "C-c o" "cursors"
+    "C-c o i" "cursors/insert"
     "C-c p" "projects"
     "C-c p s" "projects/search"
     "C-c p x" "projects/execute"
@@ -1219,6 +1220,8 @@ Return the new window for BUFFER."
          ("C-c o a"     . mc/vertical-align)
          ("C-c o e"     . mc/mark-more-like-this-extended)
          ("C-c o h"     . mc/mark-all-like-this-dwim)
+         ("C-c o i n"   . mc/insert-numbers)
+         ("C-c o i l"   . mc/insert-letters)
          ("C-c o l"     . mc/edit-lines)
          ("C-c o n"     . mc/mark-next-like-this)
          ("C-c o p"     . mc/mark-previous-like-this)
