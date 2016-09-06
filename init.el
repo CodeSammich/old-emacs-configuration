@@ -85,6 +85,26 @@
          (lwarn 'emacs :warning "Your Emacs build is more than a week old!"))))))
 
 
+;;; Customization
+(use-package validate                   ; Validate options
+  :ensure t)
+
+(defconst lunaryorn-custom-file (locate-user-emacs-file "custom.el")
+  "File used to store settings from Customization UI.")
+
+(use-package cus-edit
+  :defer t
+  :config
+  (validate-setq
+   custom-file lunaryorn-custom-file
+   custom-buffer-done-kill nil                  ; kill when existing
+   custom-buffer-verbose-help nil               ; Remove redundant help text
+   ;; Show me the real variable name
+   custom-unlispify-tag-names nil
+   custom-unlispify-menu-entries nil)
+  :init (load lunaryorn-custom-file 'no-error 'no-message))
+
+
 ;;; Environment fixup
 (use-package exec-path-from-shell
   :ensure t
@@ -94,24 +114,25 @@
     (when (string-match-p "/zsh$" (getenv "SHELL"))
       ;; Use a non-interactive login shell.  A login shell, because my
       ;; environment variables are mostly set in `.zprofile'.
-      (setq exec-path-from-shell-arguments '("-l")))
+      (validate-setq exec-path-from-shell-arguments '("-l")))
 
-    ;; Import additional environment variables beyond just $PATH
-    (dolist (var '("PYTHONPATH"         ; Python modules
-                   "INFOPATH"           ; Info directories
-                   "JAVA_OPTS"          ; Options for java processes
-                   "SBT_OPTS"           ; Options for SBT
-                   "RUST_SRC_PATH"      ; Rust sources, for racer
-                   "CARGO_HOME"         ; Cargo home, for racer
-                   "EMAIL"              ; My personal email
-                   ))
-      (add-to-list 'exec-path-from-shell-variables var))
+    (validate-setq exec-path-from-shell-variables
+                   '("PYTHONPATH"       ; Python modules
+                     "JAVA_OPTS"        ; Options for java processes
+                     "SBT_OPTS"         ; Options for SBT
+                     "RUST_SRC_PATH"    ; Rust sources, for racer
+                     "CARGO_HOME"       ; Cargo home, for racer
+                     "EMAIL"            ; My personal email
+                     "PATH"             ; Executables
+                     "INFOPATH"         ; Info directories
+                     "MANPATH"          ; Man pages
+                     ))
 
     ;; Initialize Emacs' environment from the shell
     (exec-path-from-shell-initialize)
 
     ;; Tell Emacs about my email address
-    (setq user-mail-address (getenv "EMAIL"))
+    (validate-setq user-mail-address (getenv "EMAIL"))
 
     ;; Re-initialize the `Info-directory-list' from $INFOPATH.  Since package.el
     ;; already initializes info, we need to explicitly add the $INFOPATH
@@ -123,35 +144,20 @@
           (add-to-list 'Info-directory-list dir))))))
 
 
-;;; Customization
-(defconst lunaryorn-custom-file (locate-user-emacs-file "custom.el")
-  "File used to store settings from Customization UI.")
-
-(use-package cus-edit
-  :defer t
-  :config
-  (setq custom-file lunaryorn-custom-file
-        custom-buffer-done-kill nil            ; Kill when existing
-        custom-buffer-verbose-help nil         ; Remove redundant help text
-        ;; Show me the real variable name
-        custom-unlispify-tag-names nil
-        custom-unlispify-menu-entries nil)
-  :init (load lunaryorn-custom-file 'no-error 'no-message))
-
-
 ;;; OS X support
 (use-package ns-win                     ; OS X window support
   :defer t
   :if (eq system-type 'darwin)
   :config
-  (setq ns-pop-up-frames nil            ; Don't pop up new frames from the
+  (validate-setq
+   ns-pop-up-frames nil                 ; Don't pop up new frames from the
                                         ; workspace
-        mac-option-modifier 'meta       ; Option is simply the natural Meta
-        mac-command-modifier 'meta      ; But command is a lot easier to hit
-        mac-right-command-modifier 'left
-        mac-right-option-modifier 'none ; Keep right option for accented input
-        ;; Just in case we ever need these keys
-        mac-function-modifier 'hyper))
+   mac-option-modifier 'meta            ; Option is simply the natural Meta
+   mac-command-modifier 'meta           ; But command is a lot easier to hit
+   mac-right-command-modifier 'left
+   mac-right-option-modifier 'none      ; Keep right option for accented input
+   ;; Just in case we ever need these keys
+   mac-function-modifier 'hyper))
 
 (use-package lunaryorn-osx              ; Personal OS X tools
   :if (eq system-type 'darwin)
@@ -239,9 +245,9 @@ symbols, emojis, greek letters, as well as fall backs for."
 ;; No blinking and beeping, no startup screen, no scratch message and short
 ;; Yes/No questions.
 (blink-cursor-mode -1)
-(setq ring-bell-function #'ignore
-      inhibit-startup-screen t
-      initial-scratch-message "Hello there!\n")
+(validate-setq ring-bell-function #'ignore
+               inhibit-startup-screen t
+               initial-scratch-message "Hello there!\n")
 (fset 'yes-or-no-p #'y-or-n-p)
 ;; Opt out from the startup message in the echo area by simply disabling this
 ;; ridiculously bizarre thing entirely.
@@ -260,17 +266,18 @@ symbols, emojis, greek letters, as well as fall backs for."
   :ensure solarized-theme
   :config
   ;; Disable variable pitch fonts in Solarized theme
-  (setq solarized-use-variable-pitch nil
-        ;; Prefer italics over bold
-        solarized-use-less-bold t
-        solarized-use-more-italic t
-        solarized-distinct-doc-face t ; Emphasize docstrings
-        ;; I find different font sizes irritating.
-        solarized-height-minus-1 1.0
-        solarized-height-plus-1 1.0
-        solarized-height-plus-2 1.0
-        solarized-height-plus-3 1.0
-        solarized-height-plus-4 1.0)
+  (validate-setq
+   solarized-use-variable-pitch nil
+   ;; Prefer italics over bold
+   solarized-use-less-bold t
+   solarized-use-more-italic t
+   solarized-distinct-doc-face t      ; Emphasize docstrings
+   ;; I find different font sizes irritating.
+   solarized-height-minus-1 1.0
+   solarized-height-plus-1 1.0
+   solarized-height-plus-2 1.0
+   solarized-height-plus-3 1.0
+   solarized-height-plus-4 1.0)
 
   (load-theme 'solarized-light 'no-confirm))
 
@@ -318,29 +325,30 @@ symbols, emojis, greek letters, as well as fall backs for."
   :ensure t
   :init (which-key-mode)
   :config
-  (setq which-key-idle-delay 0.4
-        which-key-sort-order 'which-key-prefix-then-key-order
-        ;; Let's go unicode :)
-        which-key-key-replacement-alist
-        '(("<\\([[:alnum:]-]+\\)>" . "\\1")
-          ("up"                    . "↑")
-          ("right"                 . "→")
-          ("down"                  . "↓")
-          ("left"                  . "←")
-          ("DEL"                   . "⌫")
-          ("deletechar"            . "⌦")
-          ("RET"                   . "⏎"))
-        which-key-description-replacement-alist
-        '(("Prefix Command" . "prefix")
-          ;; Lambdas
-          ("\\`\\?\\?\\'"   . "λ")
-          ;; Prettify hydra entry points
-          ("/body\\'"       . "|=")
-          ;; Drop/shorten package prefixes
-          ("\\`lunaryorn-"  . "")
-          ("projectile-"    . "proj-")
-          ("helm-"          . "h-")
-          ("magit-"         . "ma-")))
+  (validate-setq
+   which-key-idle-delay 0.4
+   which-key-sort-order 'which-key-prefix-then-key-order
+   ;; Let's go unicode :)
+   which-key-key-replacement-alist
+   '(("<\\([[:alnum:]-]+\\)>" . "\\1")
+     ("up"                    . "↑")
+     ("right"                 . "→")
+     ("down"                  . "↓")
+     ("left"                  . "←")
+     ("DEL"                   . "⌫")
+     ("deletechar"            . "⌦")
+     ("RET"                   . "⏎"))
+   which-key-description-replacement-alist
+   '(("Prefix Command" . "prefix")
+     ;; Lambdas
+     ("\\`\\?\\?\\'"   . "λ")
+     ;; Prettify hydra entry points
+     ("/body\\'"       . "|=")
+     ;; Drop/shorten package prefixes
+     ("\\`lunaryorn-"  . "")
+     ("projectile-"    . "proj-")
+     ("helm-"          . "h-")
+     ("magit-"         . "ma-")))
 
   (which-key-declare-prefixes
     ;; Prefixes for global prefixes and minor modes
@@ -432,16 +440,17 @@ symbols, emojis, greek letters, as well as fall backs for."
   :bind (("C-c a p" . paradox-list-packages)
          ("C-c a P" . package-list-packages-no-fetch))
   :config
-  (setq paradox-execute-asynchronously nil ; No async update, please
-        paradox-spinner-type 'moon      ; Fancy spinner
-        ;; Show all possible counts
-        paradox-display-download-count t
-        paradox-display-star-count t
-        ;; Don't star automatically
-        paradox-automatically-star nil
-        ;; Hide download button, and wiki packages
-        paradox-use-homepage-buttons nil ; Can type v instead
-        paradox-hide-wiki-packages t))
+  (validate-setq
+   paradox-execute-asynchronously nil   ; No async update, please
+   paradox-spinner-type 'moon           ; Fancy spinner
+   ;; Show all possible counts
+   paradox-display-download-count t
+   paradox-display-star-count t
+   ;; Don't star automatically
+   paradox-automatically-star nil
+   ;; Hide download button, and wiki packages
+   paradox-use-homepage-buttons nil     ; Can type v instead
+   paradox-hide-wiki-packages t))
 
 (use-package bug-hunter                 ; Search init file for bugs
   :ensure t)
@@ -471,13 +480,14 @@ symbols, emojis, greek letters, as well as fall backs for."
 (use-package which-func                 ; Current function name
   :init (which-function-mode)
   :config
-  (setq which-func-unknown "⊥" ; The default is really boring…
-        which-func-format
-        `((:propertize (" ➤ " which-func-current)
-                       local-map ,which-func-keymap
-                       face which-func
-                       mouse-face mode-line-highlight
-                       help-echo "mouse-1: go to beginning\n\
+  (validate-setq
+   which-func-unknown "⊥"               ; The default is really boring…
+   which-func-format
+   `((:propertize (" ➤ " which-func-current)
+                  local-map ,which-func-keymap
+                  face which-func
+                  mouse-face mode-line-highlight
+                  help-echo "mouse-1: go to beginning\n\
 mouse-2: toggle rest visibility\n\
 mouse-3: go to end"))))
 
@@ -514,19 +524,21 @@ mouse-3: go to end"))))
 (use-package powerline                  ; The work-horse of Spaceline
   :ensure t
   :after spaceline-config
-  :config (setq powerline-height (truncate (* 1.0 (frame-char-height)))
-                powerline-default-separator 'utf-8))
+  :config (validate-setq
+           powerline-height (truncate (* 1.0 (frame-char-height)))
+           powerline-default-separator 'utf-8))
 
 
 ;;; Minibuffer and Helm
-(setq history-length 1000               ; Store more history
-      use-dialog-box nil                ; Never use dialogs for minibuffer input
-      )
+(validate-setq
+ history-length 1000                    ; Store more history
+ use-dialog-box nil                     ; Never use dialogs for minibuffer input
+ )
 
 (use-package savehist                   ; Save minibuffer history
   :init (savehist-mode t)
-  :config (setq savehist-save-minibuffer-history t
-                savehist-autosave-interval 180))
+  :config (validate-setq savehist-save-minibuffer-history t
+                         savehist-autosave-interval 180))
 
 (use-package helm                       ; Powerful minibuffer input framework
   :ensure t
@@ -537,7 +549,7 @@ mouse-3: go to end"))))
     (warn "`helm-config' loaded! Get rid of it ASAP!"))
   :config
   ;; Split inside selected window with Helm
-  (setq helm-split-window-in-side-p t)
+  (validate-setq helm-split-window-in-side-p t)
   :diminish helm-mode)
 
 (use-package helm-command               ; Command execution with Helm
@@ -547,12 +559,13 @@ mouse-3: go to end"))))
 
 
 ;;; Buffer, Windows and Frames
-(setq frame-resize-pixelwise t          ; Resize by pixels
-      frame-title-format
-      '(:eval (if (buffer-file-name)
-                  (abbreviate-file-name (buffer-file-name)) "%b"))
-      ;; Size new windows proportionally wrt other windows
-      window-combination-resize t)
+(validate-setq
+ frame-resize-pixelwise t               ; Resize by pixels
+ frame-title-format
+ '(:eval (if (buffer-file-name)
+             (abbreviate-file-name (buffer-file-name)) "%b"))
+ ;; Size new windows proportionally wrt other windows
+ window-combination-resize t)
 
 (setq-default line-spacing 0.2)         ; A bit more spacing between lines
 
@@ -568,42 +581,43 @@ Return the new window for BUFFER."
     window))
 
 ;; Configure `display-buffer' behaviour for some special buffers.
-(setq display-buffer-alist
-      `(
-        ;; Give Helm Help a non-side window because Helm as very peculiar ideas
-        ;; about how to display its help
-        (,(rx bos "*Helm Help" (* nonl) "*" eos)
-         (display-buffer-use-some-window
-          display-buffer-pop-up-window))
-        ;; Nail Helm to the side window
-        (,(rx bos "*" (* nonl) "helm" (* nonl) "*" eos)
-         (display-buffer-in-side-window)
-         (side . bottom)
-         (window-height . 0.4)
-         (window-width . 0.6))
-        ;; Put REPLs and error lists into the bottom side window
-        (,(rx bos
-              (or "*Help"                 ; Help buffers
-                  "*Warnings*"            ; Emacs warnings
-                  "*Compile-Log*"         ; Emacs byte compiler log
-                  "*compilation"          ; Compilation buffers
-                  "*Flycheck errors*"     ; Flycheck error list
-                  "*shell"                ; Shell window
-                  "*sbt"                  ; SBT REPL and compilation buffer
-                  "*ensime-update*"       ; Server update from Ensime
-                  "*SQL"                  ; SQL REPL
-                  "*Cargo"                ; Cargo process buffers
-                  (and (1+ nonl) " output*") ; AUCTeX command output
-                  ))
-         (display-buffer-reuse-window
-          display-buffer-in-side-window)
-         (side            . bottom)
-         (reusable-frames . visible)
-         (window-height   . 0.33))
-        ;; Let `display-buffer' reuse visible frames for all buffers.  This must
-        ;; be the last entry in `display-buffer-alist', because it overrides any
-        ;; later entry with more specific actions.
-        ("." nil (reusable-frames . visible))))
+(validate-setq
+ display-buffer-alist
+ `(
+   ;; Give Helm Help a non-side window because Helm as very peculiar ideas
+   ;; about how to display its help
+   (,(rx bos "*Helm Help" (* nonl) "*" eos)
+    (display-buffer-use-some-window
+     display-buffer-pop-up-window))
+   ;; Nail Helm to the side window
+   (,(rx bos "*" (* nonl) "helm" (* nonl) "*" eos)
+    (display-buffer-in-side-window)
+    (side . bottom)
+    (window-height . 0.4)
+    (window-width . 0.6))
+   ;; Put REPLs and error lists into the bottom side window
+   (,(rx bos
+         (or "*Help"                         ; Help buffers
+             "*Warnings*"                    ; Emacs warnings
+             "*Compile-Log*"                 ; Emacs byte compiler log
+             "*compilation"                  ; Compilation buffers
+             "*Flycheck errors*"             ; Flycheck error list
+             "*shell"                        ; Shell window
+             "*sbt"                          ; SBT REPL and compilation buffer
+             "*ensime-update*"               ; Server update from Ensime
+             "*SQL"                          ; SQL REPL
+             "*Cargo"                        ; Cargo process buffers
+             (and (1+ nonl) " output*")      ; AUCTeX command output
+             ))
+    (display-buffer-reuse-window
+     display-buffer-in-side-window)
+    (side            . bottom)
+    (reusable-frames . visible)
+    (window-height   . 0.33))
+   ;; Let `display-buffer' reuse visible frames for all buffers.  This must
+   ;; be the last entry in `display-buffer-alist', because it overrides any
+   ;; later entry with more specific actions.
+   ("." nil (reusable-frames . visible))))
 
 (use-package frame                      ; Frames
   :bind (("C-c w F" . toggle-frame-fullscreen))
@@ -633,31 +647,32 @@ Return the new window for BUFFER."
                   'lunaryorn-do-not-kill-important-buffers))
 
 (use-package uniquify                   ; Make buffer names unique
-  :config (setq uniquify-buffer-name-style 'forward))
+  :config (validate-setq uniquify-buffer-name-style 'forward))
 
 (use-package ibuffer                    ; Better buffer list
   :bind (([remap list-buffers] . ibuffer))
   ;; Show VC Status in ibuffer
   :config
-  (setq ibuffer-formats
-        '((mark modified read-only vc-status-mini " "
-                (name 18 18 :left :elide)
-                " "
-                (size 9 -1 :right)
-                " "
-                (mode 16 16 :left :elide)
-                " "
-                (vc-status 16 16 :left)
-                " "
-                filename-and-process)
-          (mark modified read-only " "
-                (name 18 18 :left :elide)
-                " "
-                (size 9 -1 :right)
-                " "
-                (mode 16 16 :left :elide)
-                " " filename-and-process)
-          (mark " " (name 16 -1) " " filename))))
+  (validate-setq
+   ibuffer-formats
+   '((mark modified read-only vc-status-mini " "
+           (name 18 18 :left :elide)
+           " "
+           (size 9 -1 :right)
+           " "
+           (mode 16 16 :left :elide)
+           " "
+           (vc-status 16 16 :left)
+           " "
+           filename-and-process)
+     (mark modified read-only " "
+           (name 18 18 :left :elide)
+           " "
+           (size 9 -1 :right)
+           " "
+           (mode 16 16 :left :elide)
+           " " filename-and-process)
+     (mark " " (name 16 -1) " " filename))))
 
 (use-package ibuffer-vc                 ; Group buffers by VC project and status
   :ensure t
@@ -715,43 +730,44 @@ Return the new window for BUFFER."
       (golden-ratio)))
   :bind (("C-c t g" . lunaryorn-toggle-golden-ratio))
   :config
-  (setq golden-ratio-extra-commands '(windmove-up
-                                      windmove-down
-                                      windmove-left
-                                      windmove-right
-                                      ace-window
-                                      ace-delete-window
-                                      ace-select-window
-                                      ace-swap-window
-                                      ace-maximize-window)
-        ;; Exclude a couple of special modes from golden ratio, namely
-        ;; Flycheck's error list, calc
-        golden-ratio-exclude-modes '(flycheck-error-list-mode
-                                     calc-mode
-                                     dired-mode
-                                     ediff-mode
-                                     )
-        ;; Exclude a couple of special buffers from golden ratio, namely Helm,
-        ;; WhichKey, NeoTree, etc.
-        golden-ratio-exclude-buffer-regexp
-        `(,(rx bos "*" (any "h" "H") "elm*" eos)
-          ,(rx bos "*which-key*" eos)
-          ,(rx bos "*NeoTree*" eos)))
+  (validate-setq
+   golden-ratio-extra-commands '(windmove-up
+                                 windmove-down
+                                 windmove-left
+                                 windmove-right
+                                 ace-window
+                                 ace-delete-window
+                                 ace-select-window
+                                 ace-swap-window
+                                 ace-maximize-window)
+   ;; Exclude a couple of special modes from golden ratio, namely
+   ;; Flycheck's error list, calc
+   golden-ratio-exclude-modes '(flycheck-error-list-mode
+                                calc-mode
+                                dired-mode
+                                ediff-mode
+                                )
+   ;; Exclude a couple of special buffers from golden ratio, namely Helm,
+   ;; WhichKey, NeoTree, etc.
+   golden-ratio-exclude-buffer-regexp
+   `(,(rx bos "*" (any "h" "H") "elm*" eos)
+     ,(rx bos "*which-key*" eos)
+     ,(rx bos "*NeoTree*" eos)))
   :diminish (golden-ratio-mode . "ⓖ"))
 
 (use-package ediff-wind                 ; Ediff window management
   :defer t
   :config
   ;; Prevent Ediff from spamming the frame
-  (setq ediff-window-setup-function #'ediff-setup-windows-plain
-        ediff-split-window-function #'split-window-horizontally))
+  (validate-setq ediff-window-setup-function #'ediff-setup-windows-plain
+                 ediff-split-window-function #'split-window-horizontally))
 
 (use-package desktop                    ; Save buffers, windows and frames
   :disabled t
   :init (desktop-save-mode)
   :config
   ;; Save desktops a minute after Emacs was idle.
-  (setq desktop-auto-save-timeout 60)
+  (validate-setq desktop-auto-save-timeout 60)
 
   ;; Don't save Magit and Git related buffers
   (dolist (mode '(magit-mode magit-log-mode))
@@ -781,11 +797,12 @@ Return the new window for BUFFER."
 ;;; File handling
 
 ;; Keep backup and auto save files out of the way
-(setq backup-directory-alist `((".*" . ,(locate-user-emacs-file ".backup")))
-      auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
+(validate-setq
+ backup-directory-alist `((".*" . ,(locate-user-emacs-file ".backup")))
+ auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
 
 ;; Delete files to trash
-(setq delete-by-moving-to-trash t)
+(validate-setq delete-by-moving-to-trash t)
 
 (use-package files                      ; Core commands for files
   :bind (("C-c f z" . revert-buffer)
@@ -793,7 +810,7 @@ Return the new window for BUFFER."
   :config
   ;; Use GNU ls for Emacs
   (when-let (gnu-ls (and (eq system-type 'darwin) (executable-find "gls")))
-    (setq insert-directory-program gnu-ls)))
+    (validate-setq insert-directory-program gnu-ls)))
 
 (use-package helm-files                 ; Manage files with Helm
   :ensure helm
@@ -802,11 +819,12 @@ Return the new window for BUFFER."
          ("C-c f f" . helm-for-files)
          ("C-c f r" . helm-recentf))
   :config
-  (setq helm-recentf-fuzzy-match t
-        ;; Use recentf to manage file name history
-        helm-ff-file-name-history-use-recentf t
-        ;; Find libraries from `require', etc.
-        helm-ff-search-library-in-sexp t)
+  (validate-setq
+   helm-recentf-fuzzy-match t
+   ;; Use recentf to manage file name history
+   helm-ff-file-name-history-use-recentf t
+   ;; Find libraries from `require', etc.
+   helm-ff-search-library-in-sexp t)
 
   (when (eq system-type 'darwin)
     ;; Replace locate with spotlight for `helm-for-files'
@@ -829,16 +847,17 @@ Return the new window for BUFFER."
 (use-package dired                      ; Edit directories
   :defer t
   :config
-  (setq dired-auto-revert-buffer t    ; Revert on re-visiting
-        ;; Better dired flags: `-l' is mandatory, `-a' shows all files, `-h'
-        ;; uses human-readable sizes, and `-F' appends file-type classifiers
-        ;; to file names (for better highlighting)
-        dired-listing-switches "-alhF"
-        dired-ls-F-marks-symlinks t   ; -F marks links with @
-        ;; Inhibit prompts for simple recursive operations
-        dired-recursive-copies 'always
-        ;; Auto-copy to other Dired split window
-        dired-dwim-target t)
+  (validate-setq
+   dired-auto-revert-buffer t           ; Revert on re-visiting
+   ;; Better dired flags: `-l' is mandatory, `-a' shows all files, `-h' uses
+   ;; human-readable sizes, and `-F' appends file-type classifiers to file names
+   ;; (for better highlighting)
+   dired-listing-switches "-alhF"
+   dired-ls-F-marks-symlinks t          ; -F marks links with @
+   ;; Inhibit prompts for simple recursive operations
+   dired-recursive-copies 'always
+   ;; Auto-copy to other Dired split window
+   dired-dwim-target t)
 
   (when (or (memq system-type '(gnu gnu/linux))
             (string= (file-name-nondirectory insert-directory-program) "gls"))
@@ -846,8 +865,9 @@ Return the new window for BUFFER."
     ;; `--group-directories-first' lists directories before files, and `-v'
     ;; sorts numbers in file names naturally, i.e. "image1" goes before
     ;; "image02"
-    (setq dired-listing-switches
-          (concat dired-listing-switches " --group-directories-first -v"))))
+    (validate-setq
+     dired-listing-switches
+     (concat dired-listing-switches " --group-directories-first -v"))))
 
 (use-package dired-x                    ; Additional tools for Dired
   :defer nil
@@ -857,11 +877,11 @@ Return the new window for BUFFER."
   (add-hook 'dired-mode-hook #'dired-omit-mode)
   :after dired
   :config
-  (setq dired-omit-verbose nil)        ; Shut up, dired
+  (validate-setq dired-omit-verbose nil)        ; Shut up, dired
 
   (when (eq system-type 'darwin)
     ;; OS X bsdtar is mostly compatible with GNU Tar
-    (setq dired-guess-shell-gnutar "tar"))
+    (validate-setq dired-guess-shell-gnutar "tar"))
 
   ;; Diminish dired-omit-mode. We need this hack, because Dired Omit Mode has
   ;; a very peculiar way of registering its lighter explicitly in
@@ -874,16 +894,16 @@ Return the new window for BUFFER."
 (use-package neotree
   :ensure t
   :bind (("C-c f t" . neotree-toggle))
-  :config (setq neo-window-width 32
-                neo-create-file-auto-open t
-                neo-banner-message nil
-                neo-show-updir-line nil
-                neo-mode-line-type 'neotree
-                neo-smart-open t
-                neo-dont-be-alone t
-                neo-persist-show nil
-                neo-show-hidden-files t
-                neo-auto-indent-point t))
+  :config (validate-setq neo-window-width 32
+                         neo-create-file-auto-open t
+                         neo-banner-message nil
+                         neo-show-updir-line nil
+                         neo-mode-line-type 'neotree
+                         neo-smart-open t
+                         neo-dont-be-alone t
+                         neo-persist-show nil
+                         neo-show-hidden-files t
+                         neo-auto-indent-point t))
 
 (use-package ignoramus                  ; Ignore uninteresting files everywhere
   :ensure t
@@ -906,43 +926,44 @@ Return the new window for BUFFER."
 (use-package hardhat                    ; Protect user-writable files
   :ensure t
   :init (global-hardhat-mode)
-  :config (setq hardhat-mode-lighter " Ⓗ"))
+  :config (validate-setq hardhat-mode-lighter " Ⓗ"))
 
 (use-package bookmark                   ; Bookmarks for Emacs buffers
   :bind (("C-c f b" . list-bookmarks))
   ;; Save bookmarks immediately after a bookmark was added
-  :config (setq bookmark-save-flag 1))
+  :config (validate-setq bookmark-save-flag 1))
 
 (use-package recentf                    ; Save recently visited files
   :init (recentf-mode)
   :config
-  (setq recentf-max-saved-items 200
-        recentf-max-menu-items 15
-        ;; Cleanup recent files only when Emacs is idle, but not when the mode
-        ;; is enabled, because that unnecessarily slows down Emacs. My Emacs
-        ;; idles often enough to have the recent files list clean up regularly
-        recentf-auto-cleanup 300
-        recentf-exclude (list "/\\.git/.*\\'" ; Git contents
-                              "/elpa/.*\\'" ; Package files
-                              "/itsalltext/" ; It's all text temp files
-                              ;; And all other kinds of boring files
-                              #'ignoramus-boring-p)))
+  (validate-setq
+   recentf-max-saved-items 200
+   recentf-max-menu-items 15
+   ;; Cleanup recent files only when Emacs is idle, but not when the mode
+   ;; is enabled, because that unnecessarily slows down Emacs. My Emacs
+   ;; idles often enough to have the recent files list clean up regularly
+   recentf-auto-cleanup 300
+   recentf-exclude (list "/\\.git/.*\\'"     ; Git contents
+                         "/elpa/.*\\'"       ; Package files
+                         "/itsalltext/"      ; It's all text temp files
+                         ;; And all other kinds of boring files
+                         #'ignoramus-boring-p)))
 
 (use-package saveplace                  ; Save point position in files
   :init (save-place-mode 1))
 
-(setq view-read-only t)                 ; View read-only files
+(validate-setq view-read-only t)                 ; View read-only files
 
 (use-package autorevert                 ; Auto-revert buffers of changed files
   :init (global-auto-revert-mode)
   :config
-  (setq auto-revert-verbose nil         ; Shut up, please!
-        ;; Revert Dired buffers, too
-        global-auto-revert-non-file-buffers t)
+  (validate-setq auto-revert-verbose nil ; Shut up, please!
+                 ;; Revert Dired buffers, too
+                 global-auto-revert-non-file-buffers t)
 
   (when (eq system-type 'darwin)
     ;; File notifications aren't supported on OS X
-    (setq auto-revert-use-notify nil))
+    (validate-setq auto-revert-use-notify nil))
   :diminish (auto-revert-mode . " Ⓐ"))
 
 (use-package image-file                 ; Visit images as images
@@ -981,13 +1002,14 @@ Return the new window for BUFFER."
 
 
 ;;; Navigation and scrolling
-(setq scroll-conservatively 1000        ; Never recenter the screen while scrolling
-      scroll-error-top-bottom t         ; Move to beg/end of buffer before
+(validate-setq
+ scroll-conservatively 1000          ; Never recenter the screen while scrolling
+ scroll-error-top-bottom t           ; Move to beg/end of buffer before
                                         ; signalling an error
-      ;; These settings make trackpad scrolling on OS X much more predictable
-      ;; and smooth
-      mouse-wheel-progressive-speed nil
-      mouse-wheel-scroll-amount '(1))
+ ;; These settings make trackpad scrolling on OS X much more predictable
+ ;; and smooth
+ mouse-wheel-progressive-speed nil
+ mouse-wheel-scroll-amount '(1))
 
 (use-package page                       ; Page navigation
   :bind (("C-x ]" . lunaryorn-pages/forward-page)
@@ -1010,12 +1032,12 @@ Return the new window for BUFFER."
   :defer t
   :bind (("C-c j t" . helm-imenu))
   :config
-  (setq helm-imenu-fuzzy-match t
-        ;; Don't automatically jump to imenu candidate if only one match,
-        ;; because it makes the behaviour of this command unpredictable, and
-        ;; prevents me from getting an overview over the buffer if point is on a
-        ;; matching symbol.
-        helm-imenu-execute-action-at-once-if-one nil))
+  (validate-setq
+   helm-imenu-fuzzy-match t
+   ;; Don't automatically jump to imenu candidate if only one match, because it
+   ;; makes the behaviour of this command unpredictable, and prevents me from
+   ;; getting an overview over the buffer if point is on a matching symbol.
+   helm-imenu-execute-action-at-once-if-one nil))
 
 (use-package ace-link                   ; Fast link jumping
   :ensure t
@@ -1045,7 +1067,7 @@ Return the new window for BUFFER."
   (diminish 'isearch-mode)
 
   ;; Please, isearch, let me scroll during search
-  (setq isearch-allow-scroll t))
+  (validate-setq isearch-allow-scroll t))
 
 (use-package visual-regexp              ; Regexp replace with in-buffer display
   :ensure t
@@ -1063,44 +1085,47 @@ Return the new window for BUFFER."
          ("C-c s S" . helm-multi-swoop)
          ("C-c s C-s" . helm-multi-swoop-all))
   :config
-  (setq helm-swoop-speed-or-color t     ; Colour over speed 8)
-        ;; Split window like Helm does
-        helm-swoop-split-window-function #'helm-default-display-buffer))
+  (validate-setq
+   helm-swoop-speed-or-color t          ; Colour over speed 8)
+   ;; Split window like Helm does
+   helm-swoop-split-window-function #'helm-default-display-buffer))
 
 (use-package grep                       ; Control grep from Emacs
   :defer t
   :config
   (when-let (gnu-find (and (eq system-type 'darwin)
                            (executable-find "gfind")))
-    (setq find-program gnu-find))
+    (validate-setq find-program gnu-find))
 
   (when-let (gnu-xargs (and (eq system-type 'darwin)
                             (executable-find "gxargs")))
-    (setq xargs-program gnu-xargs)))
+    (validate-setq xargs-program gnu-xargs)))
 
 (use-package locate                     ; Search files on the system
   :defer t
   :config
   ;; Use mdfind as locate substitute on OS X, to utilize the Spotlight database
   (when-let (mdfind (and (eq system-type 'darwin) (executable-find "mdfind")))
-    (setq locate-command mdfind)))
+    (validate-setq locate-command mdfind)))
 
 (use-package helm-ag                    ; Helm frontend for Ag
   :ensure t
   :bind (("C-c s a" . helm-ag)
          ("C-c s A" . helm-do-ag))
   :config
-  (setq helm-ag-fuzzy-match t                   ; Fuzzy matching
-        helm-ag-insert-at-point 'symbol         ; Default to symbol at point
-        helm-ag-edit-save t                     ; save buffers after editing
-        ))
+  (validate-setq
+   helm-ag-fuzzy-match t                ; Fuzzy matching
+   helm-ag-insert-at-point 'symbol      ; Default to symbol at point
+   helm-ag-edit-save t                  ; save buffers after editing
+   ))
 
 
 ;;; Rings and registers
-(setq kill-ring-max 200                 ; More killed items
-      kill-do-not-save-duplicates t     ; No duplicates in kill ring
-      ;; Save the contents of the clipboard to kill ring before killing
-      save-interprogram-paste-before-kill t)
+(validate-setq
+ kill-ring-max 200                           ; More killed items
+ kill-do-not-save-duplicates t               ; No duplicates in kill ring
+ ;; Save the contents of the clipboard to kill ring before killing
+ save-interprogram-paste-before-kill t)
 
 (use-package helm-ring                  ; Browse rings and registers with Helm
   :ensure helm
@@ -1119,12 +1144,12 @@ Return the new window for BUFFER."
 (setq-default indent-tabs-mode nil
               tab-width 8)
 ;; Make Tab complete if the line is indented
-(setq tab-always-indent 'complete)
+(validate-setq tab-always-indent 'complete)
 
 ;; Indicate empty lines at the end of a buffer in the fringe, but require a
 ;; final new line
-(setq indicate-empty-lines t
-      require-final-newline t)
+(validate-setq indicate-empty-lines t
+               require-final-newline t)
 
 ;; Configure a reasonable fill column, indicate it in the buffer and enable
 ;; automatic filling
@@ -1230,10 +1255,11 @@ Return the new window for BUFFER."
          ("C-c o C-e"   . mc/edit-ends-of-lines)
          ("C-c o C-s"   . mc/mark-all-in-region))
   :config
-  (setq mc/mode-line
-        ;; Simplify the MC mode line indicator
-        '(:propertize (:eval (concat " " (number-to-string (mc/num-cursors))))
-                      face font-lock-warning-face)))
+  (validate-setq
+   mc/mode-line
+   ;; Simplify the MC mode line indicator
+   '(:propertize (:eval (concat " " (number-to-string (mc/num-cursors))))
+                 face font-lock-warning-face)))
 
 (use-package expand-region              ; Expand region by semantic units
   :ensure t
@@ -1264,7 +1290,7 @@ Return the new window for BUFFER."
   :defer t
   :bind (("C-c t i" . toggle-input-method))
   :config
-  (setq default-input-method "german-postfix"))
+  (validate-setq default-input-method "german-postfix"))
 
 (use-package helm-unicode               ; Unicode input with Helm
   :ensure t
@@ -1343,9 +1369,9 @@ _k_: kill        _s_: split                   _{_: wrap with { }
   :config
   (require 'smartparens-config)
 
-  (setq sp-autoskip-closing-pair 'always
-        ;; Don't kill entire symbol on C-k
-        sp-hybrid-kill-entire-symbol nil)
+  (validate-setq sp-autoskip-closing-pair 'always
+                 ;; Don't kill entire symbol on C-k
+                 sp-hybrid-kill-entire-symbol nil)
   :diminish (smartparens-mode . " ⓟ"))
 
 (use-package lunaryorn-smartparens      ; Personal Smartparens extensions
@@ -1389,9 +1415,10 @@ Disable the highlighting of overlong lines."
   :config
   ;; Highlight tabs, empty lines at beg/end, trailing whitespaces and overlong
   ;; portions of lines via faces.  Also indicate tabs via characters
-  (setq whitespace-style '(face indentation space-after-tab space-before-tab
-                                tab-mark empty trailing lines-tail)
-        whitespace-line-column nil)     ; Use `fill-column' for overlong lines
+  (validate-setq
+   whitespace-style '(face indentation space-after-tab space-before-tab
+                           tab-mark empty trailing lines-tail)
+   whitespace-line-column nil)          ; Use `fill-column' for overlong lines
   :diminish (whitespace-mode . " ⓦ"))
 
 (use-package hl-line                    ; Highlight the current line
@@ -1430,8 +1457,9 @@ Disable the highlighting of overlong lines."
   (dolist (fn '(highlight-symbol-nav-mode highlight-symbol-mode))
     (add-hook 'prog-mode-hook fn))
   :config
-  (setq highlight-symbol-idle-delay 0.4     ; Highlight almost immediately
-        highlight-symbol-on-navigation-p t) ; Highlight immediately after
+  (validate-setq
+   highlight-symbol-idle-delay 0.4          ; Highlight almost immediately
+   highlight-symbol-on-navigation-p t)      ; Highlight immediately after
                                         ; navigation
   :diminish highlight-symbol-mode)
 
@@ -1445,23 +1473,23 @@ Disable the highlighting of overlong lines."
 
 ;; In `completion-at-point', do not pop up silly completion buffers for less
 ;; than five candidates.  Cycle instead.
-(setq completion-cycle-threshold 5)
+(validate-setq completion-cycle-threshold 5)
 
 (use-package hippie-exp                 ; Powerful expansion and completion
   :bind (([remap dabbrev-expand] . hippie-expand))
   :config
   (progn
-    (setq hippie-expand-try-functions-list
-          '(try-expand-dabbrev
-            try-expand-dabbrev-all-buffers
-            try-expand-dabbrev-from-kill
-            try-complete-file-name-partially
-            try-complete-file-name
-            try-expand-all-abbrevs
-            try-expand-list
-            try-complete-lisp-symbol-partially
-            try-complete-lisp-symbol
-            lunaryorn-try-complete-lisp-symbol-without-namespace))))
+    (validate-setq hippie-expand-try-functions-list
+                   '(try-expand-dabbrev
+                     try-expand-dabbrev-all-buffers
+                     try-expand-dabbrev-from-kill
+                     try-complete-file-name-partially
+                     try-complete-file-name
+                     try-expand-all-abbrevs
+                     try-expand-list
+                     try-complete-lisp-symbol-partially
+                     try-complete-lisp-symbol
+                     lunaryorn-try-complete-lisp-symbol-without-namespace))))
 
 (use-package lunaryorn-hippie-exp       ; Custom expansion functions
   :load-path "lisp/"
@@ -1477,10 +1505,11 @@ Disable the highlighting of overlong lines."
   :ensure t
   :init (global-company-mode)
   :config
-  (setq company-tooltip-align-annotations t
-        company-tooltip-flip-when-above t
-        ;; Easy navigation to candidates with M-<n>
-        company-show-numbers t)
+  (validate-setq
+   company-tooltip-align-annotations t
+   company-tooltip-flip-when-above t
+   ;; Easy navigation to candidates with M-<n>
+   company-show-numbers t)
   :diminish company-mode)
 
 (use-package company-quickhelp          ; Show help in tooltip
@@ -1541,23 +1570,24 @@ Disable the highlighting of overlong lines."
   (add-hook 'find-file-hook #'lunaryorn-copyright-update)
   :config
   ;; Use ranges to denote consecutive years
-  (setq copyright-year-ranges t
-        ;; Limit copyright changes to my own copyright
-        copyright-names-regexp (regexp-quote user-full-name)))
+  (validate-setq copyright-year-ranges t
+                 ;; Limit copyright changes to my own copyright
+                 copyright-names-regexp (regexp-quote user-full-name)))
 
 
 ;;; Spelling and syntax checking
 (use-package ispell                     ; Spell checking
   :defer t
   :config
-  (setq ispell-program-name (if (eq system-type 'darwin)
-                                (executable-find "aspell")
-                              (executable-find "hunspell"))
-        ispell-dictionary "en_GB"     ; Default dictionnary
-        ispell-silently-savep t       ; Don't ask when saving the private dict
-        ;; Increase the height of the choices window to take our header line
-        ;; into account.
-        ispell-choices-win-default-height 5)
+  (validate-setq
+   ispell-program-name (if (eq system-type 'darwin)
+                           (executable-find "aspell")
+                         (executable-find "hunspell"))
+   ispell-dictionary "en_GB"            ; Default dictionnary
+   ispell-silently-savep t              ; Don't ask when saving the private dict
+   ;; Increase the height of the choices window to take our header line
+   ;; into account.
+   ispell-choices-win-default-height 5)
 
   (unless ispell-program-name
     (warn "No spell checker available.  Install Hunspell or ASpell for OS X.")))
@@ -1565,21 +1595,22 @@ Disable the highlighting of overlong lines."
 (use-package flyspell                   ; On-the-fly spell checking
   :bind (("C-c t s" . flyspell-mode)
          ("C-c l b" . flyspell-buffer))
-  :init (progn (dolist (hook '(text-mode-hook message-mode-hook))
-                 (add-hook hook 'turn-on-flyspell))
-               (add-hook 'prog-mode-hook 'flyspell-prog-mode))
+  :init
+  (dolist (hook '(text-mode-hook message-mode-hook))
+    (add-hook hook 'turn-on-flyspell))
+  (add-hook 'prog-mode-hook 'flyspell-prog-mode)
   :config
-  (progn
-    (setq flyspell-use-meta-tab nil
-          ;; Make Flyspell less chatty
-          flyspell-issue-welcome-flag nil
-          flyspell-issue-message-flag nil)
+  (validate-setq
+   flyspell-use-meta-tab nil
+   ;; Make Flyspell less chatty
+   flyspell-issue-welcome-flag nil
+   flyspell-issue-message-flag nil)
 
-    ;; Free C-M-i for completion
-    (define-key flyspell-mode-map "\M-\t" nil)
-    ;; Undefine mouse buttons which get in the way
-    (define-key flyspell-mouse-map [down-mouse-2] nil)
-    (define-key flyspell-mouse-map [mouse-2] nil))
+  ;; Free C-M-i for completion
+  (define-key flyspell-mode-map "\M-\t" nil)
+  ;; Undefine mouse buttons which get in the way
+  (define-key flyspell-mouse-map [down-mouse-2] nil)
+  (define-key flyspell-mouse-map [mouse-2] nil)
   :diminish (flyspell-mode . " ⓢ"))
 
 (use-package helm-flyspell              ; Helm interface to Flyspell
@@ -1616,10 +1647,10 @@ Disable the highlighting of overlong lines."
 
   (global-flycheck-mode)
   :config
-  (setq flycheck-standard-error-navigation nil
-        flycheck-display-errors-function
-        #'flycheck-display-error-messages-unless-error-list
-        flycheck-scalastylerc "scalastyle_config.xml")
+  (validate-setq flycheck-standard-error-navigation nil
+                 flycheck-display-errors-function
+                 #'flycheck-display-error-messages-unless-error-list
+                 flycheck-scalastylerc "scalastyle_config.xml")
   :diminish (flycheck-mode . " Ⓢ"))
 
 (use-package lunaryorn-flycheck         ; Personal Flycheck extensions
@@ -1681,19 +1712,20 @@ Disable the highlighting of overlong lines."
   :ensure auctex
   :defer t
   :config
-  (setq TeX-parse-self t                ; Parse documents to provide completion
+  (validate-setq
+   TeX-parse-self t                     ; Parse documents to provide completion
                                         ; for packages, etc.
-        TeX-auto-save t                 ; Automatically save style information
-        TeX-electric-sub-and-superscript t ; Automatically insert braces after
+   TeX-auto-save t                      ; Automatically save style information
+   TeX-electric-sub-and-superscript t   ; Automatically insert braces after
                                         ; sub- and superscripts in math mode
-        TeX-electric-math '("\\(" "\\)")
-        ;; Don't insert magic quotes right away.
-        TeX-quote-after-quote t
-        ;; Don't ask for confirmation when cleaning
-        TeX-clean-confirm nil
-        ;; Provide forward and inverse search with SyncTeX
-        TeX-source-correlate-mode t
-        TeX-source-correlate-method 'synctex)
+   TeX-electric-math '("\\(" "\\)")
+   ;; Don't insert magic quotes right away.
+   TeX-quote-after-quote t
+   ;; Don't ask for confirmation when cleaning
+   TeX-clean-confirm nil
+   ;; Provide forward and inverse search with SyncTeX
+   TeX-source-correlate-mode t
+   TeX-source-correlate-method 'synctex)
   (setq-default TeX-master nil          ; Ask for the master file
                 TeX-engine 'luatex      ; Use a modern engine
                 ;; Redundant in 11.88, but keep for older AUCTeX
@@ -1706,15 +1738,15 @@ Disable the highlighting of overlong lines."
   :ensure auctex
   :defer t
   ;; Don't ask for confirmation when saving before processing
-  :config (setq TeX-save-query nil))
+  :config (validate-setq TeX-save-query nil))
 
 (use-package tex-style                  ; TeX style
   :ensure auctex
   :defer t
   :config
   ;; Enable support for csquotes
-  (setq LaTeX-csquotes-close-quote "}"
-        LaTeX-csquotes-open-quote "\\enquote{"))
+  (validate-setq LaTeX-csquotes-close-quote "}"
+                 LaTeX-csquotes-open-quote "\\enquote{"))
 
 (use-package tex-fold                   ; TeX folding
   :ensure auctex
@@ -1737,14 +1769,15 @@ Disable the highlighting of overlong lines."
   :defer t
   :config
   ;; Teach TeX folding about KOMA script sections
-  (setq TeX-outline-extra `((,(rx (0+ space) "\\section*{") 2)
-                            (,(rx (0+ space) "\\subsection*{") 3)
-                            (,(rx (0+ space) "\\subsubsection*{") 4)
-                            (,(rx (0+ space) "\\minisec{") 5))
-        ;; No language-specific hyphens please
-        LaTeX-babel-hyphen nil)
+  (validate-setq
+   TeX-outline-extra `((,(rx (0+ space) "\\section*{") 2)
+                       (,(rx (0+ space) "\\subsection*{") 3)
+                       (,(rx (0+ space) "\\subsubsection*{") 4)
+                       (,(rx (0+ space) "\\minisec{") 5))
+   ;; No language-specific hyphens please
+   LaTeX-babel-hyphen nil)
 
-  (add-hook 'LaTeX-mode-hook #'LaTeX-math-mode))    ; Easy math input
+  (add-hook 'LaTeX-mode-hook #'LaTeX-math-mode)) ; Easy math input
 
 (use-package auctex-latexmk             ; latexmk command for AUCTeX
   :ensure t
@@ -1788,24 +1821,25 @@ Disable the highlighting of overlong lines."
   :init (add-hook 'LaTeX-mode-hook #'reftex-mode)
   :config
   ;; Plug into AUCTeX
-  (setq reftex-plug-into-AUCTeX t
-        ;; Automatically derive labels, and prompt for confirmation
-        reftex-insert-label-flags '(t t)
-        reftex-label-alist
-        '(
-          ;; Additional label definitions for RefTeX.
-          ("definition" ?d "def:" "~\\ref{%s}"
-           lunaryorn-reftex-find-ams-environment-caption
-           ("definition" "def.") -3)
-          ("theorem" ?h "thm:" "~\\ref{%s}"
-           lunaryorn-reftex-find-ams-environment-caption
-           ("theorem" "th.") -3)
-          ("example" ?x "ex:" "~\\ref{%s}"
-           lunaryorn-reftex-find-ams-environment-caption
-           ("example" "ex") -3)
-          ;; Algorithms package
-          ("algorithm" ?a "alg:" "~\\ref{%s}"
-           "\\\\caption[[{]" ("algorithm" "alg") -3)))
+  (validate-setq
+   reftex-plug-into-AUCTeX t
+   ;; Automatically derive labels, and prompt for confirmation
+   reftex-insert-label-flags '(t t)
+   reftex-label-alist
+   '(
+     ;; Additional label definitions for RefTeX.
+     ("definition" ?d "def:" "~\\ref{%s}"
+      lunaryorn-reftex-find-ams-environment-caption
+      ("definition" "def.") -3)
+     ("theorem" ?h "thm:" "~\\ref{%s}"
+      lunaryorn-reftex-find-ams-environment-caption
+      ("theorem" "th.") -3)
+     ("example" ?x "ex:" "~\\ref{%s}"
+      lunaryorn-reftex-find-ams-environment-caption
+      ("example" "ex") -3)
+     ;; Algorithms package
+     ("algorithm" ?a "alg:" "~\\ref{%s}"
+      "\\\\caption[[{]" ("algorithm" "alg") -3)))
 
   ;; Provide basic RefTeX support for biblatex
   (unless (assq 'biblatex reftex-cite-format-builtin)
@@ -1819,7 +1853,7 @@ Disable the highlighting of overlong lines."
                              (?F . "\\fullcite[]{%l}")
                              (?x . "[]{%l}")
                              (?X . "{%l}"))))
-    (setq reftex-cite-format 'biblatex))
+    (validate-setq reftex-cite-format 'biblatex))
   :diminish reftex-mode)
 
 
@@ -1828,8 +1862,8 @@ Disable the highlighting of overlong lines."
   :defer t
   :config
   ;; Indent with 3 spaces after all kinds of literal blocks
-  (setq rst-indent-literal-minimized 3
-        rst-indent-literal-normal 3)
+  (validate-setq rst-indent-literal-minimized 3
+                 rst-indent-literal-normal 3)
 
   (bind-key "C-=" nil rst-mode-map)
   ;; For similarity with AUCTeX
@@ -1846,12 +1880,12 @@ Disable the highlighting of overlong lines."
   ;; Process Markdown with Pandoc, using a custom stylesheet for nice output
   (let ((stylesheet (expand-file-name
                      (locate-user-emacs-file "etc/pandoc.css"))))
-    (setq markdown-command
-          (mapconcat #'shell-quote-argument
-                     `("pandoc" "--toc" "--section-divs"
-                       "--css" ,(concat "file://" stylesheet)
-                       "--standalone" "-f" "markdown" "-t" "html5")
-                     " ")))
+    (validate-setq markdown-command
+                   (mapconcat #'shell-quote-argument
+                              `("pandoc" "--toc" "--section-divs"
+                                "--css" ,(concat "file://" stylesheet)
+                                "--standalone" "-f" "markdown" "-t" "html5")
+                              " ")))
 
   ;; No filling in GFM, because line breaks are significant.
   (add-hook 'gfm-mode-hook #'turn-off-auto-fill)
@@ -1902,7 +1936,7 @@ Disable the highlighting of overlong lines."
   :ensure t
   :defer t
   :config
-  (setq graphviz-dot-indent-width 4))
+  (validate-setq graphviz-dot-indent-width 4))
 
 
 ;;; Programming utilities
@@ -1912,17 +1946,18 @@ Disable the highlighting of overlong lines."
 (use-package compile                    ; Compile from Emacs
   :bind (("C-c c C" . recompile))
   :config
-  (setq compilation-ask-about-save nil
-        ;; Kill old compilation processes before starting new ones,
-        compilation-always-kill t
-        ;; Automatically scroll
-        compilation-scroll-output 'first-error
-        ;; Skip over warnings and info messages in compilation
-        compilation-skip-threshold 2
-        ;; Don't freeze when process reads from stdin
-        compilation-disable-input t
-        ;; Show three lines of context around the current message
-        compilation-context-lines 3)
+  (validate-setq
+   compilation-ask-about-save nil
+   ;; Kill old compilation processes before starting new ones,
+   compilation-always-kill t
+   ;; Automatically scroll
+   compilation-scroll-output 'first-error
+   ;; Skip over warnings and info messages in compilation
+   compilation-skip-threshold 2
+   ;; Don't freeze when process reads from stdin
+   compilation-disable-input t
+   ;; Show three lines of context around the current message
+   compilation-context-lines 3)
 
   (require 'ansi-color)
 
@@ -1959,7 +1994,7 @@ Taken from http://stackoverflow.com/a/3072831/355252."
   :defer t
   :config
   ;; Do not query before reverting TAGS tables
-  (setq tags-revert-without-query t))
+  (validate-setq tags-revert-without-query t))
 
 (use-package restclient                 ; ReST REPL for Emacs
   :ensure t
@@ -2055,8 +2090,8 @@ Taken from http://stackoverflow.com/a/3072831/355252."
   :ensure t
   :defer t
   :config
-  (setq scala-indent:default-run-on-strategy
-        scala-indent:operator-strategy)
+  (validate-setq scala-indent:default-run-on-strategy
+                 scala-indent:operator-strategy)
 
   (defun lunaryorn-newline-and-indent-with-asterisk ()
     (interactive)
@@ -2074,7 +2109,7 @@ Taken from http://stackoverflow.com/a/3072831/355252."
               ("C-c m b r" . sbt-run-previous-command))
   :config
   ;; Do not pop up SBT buffers automatically
-  (setq sbt:display-command-buffer nil)
+  (validate-setq sbt:display-command-buffer nil)
 
   (defun lunaryorn-scala-pop-to-sbt (new-frame)
     "Open SBT REPL for this project, optionally in a NEW-FRAME.
@@ -2116,7 +2151,7 @@ the REPL in a new frame instead."
   (add-hook 'scala-mode-hook #'ensime-mode)
 
   ;; Compile on save.  My projects are small enough :)
-  (setq ensime-sbt-perform-on-save "test:compile"))
+  (validate-setq ensime-sbt-perform-on-save "test:compile"))
 
 (use-package ensime-expand-region       ; Integrate Ensime into expand-region
   :ensure ensime
@@ -2143,13 +2178,13 @@ the REPL in a new frame instead."
               ("C-c m i a" . haskell-align-imports)
               ;; Recommended Haskell Mode bindings, see
               ;; http://haskell.github.io/haskell-mode/manual/latest/Interactive-Haskell.html
-            )
+              )
   :config
-  (setq haskell-tags-on-save t          ; Regenerate TAGS on save
-        haskell-process-log t           ; Show log for GHCI process
-        ;; Remove unused imports and auto-import modules
-        haskell-process-suggest-remove-import-lines t
-        haskell-process-auto-import-loaded-modules t)
+  (validate-setq haskell-tags-on-save t ; Regenerate TAGS on save
+                 haskell-process-log t  ; Show log for GHCI process
+                 ;; Remove unused imports and auto-import modules
+                 haskell-process-suggest-remove-import-lines t
+                 haskell-process-auto-import-loaded-modules t)
 
   (add-hook 'haskell-mode-hook #'haskell-decl-scan-mode) ; IMenu support
   (add-hook 'haskell-mode-hook #'interactive-haskell-mode))
@@ -2177,7 +2212,7 @@ the REPL in a new frame instead."
               ("<f5>" . haskell-compile))
   :config
   ;; Build with Stack
-  (setq haskell-compile-cabal-build-command "stack build"))
+  (validate-setq haskell-compile-cabal-build-command "stack build"))
 
 (use-package cabal-mode                 ; Cabal files
   :ensure haskell-mode
@@ -2194,7 +2229,7 @@ the REPL in a new frame instead."
   :init
   (add-hook 'haskell-mode-hook #'hindent-mode)
   :config
-  (setq hindent-style "gibiansky"))
+  (validate-setq hindent-style "gibiansky"))
 
 
 ;;; Purescript
@@ -2221,12 +2256,12 @@ the REPL in a new frame instead."
   :defer t
   :config
   ;; PEP 8 compliant filling rules, 79 chars maximum
-  (add-hook 'python-mode-hook (lambda () (setq fill-column 79)))
+  (add-hook 'python-mode-hook (lambda () (validate-setq fill-column 79)))
   (add-hook 'python-mode-hook #'subword-mode)
 
   (let ((ipython (executable-find "ipython")))
     (if ipython
-        (setq python-shell-interpreter ipython)
+        (validate-setq python-shell-interpreter ipython)
       (warn "IPython is missing, falling back to default python"))))
 
 (use-package lunaryorn-virtualenv       ; Personal virtualenv tools
@@ -2271,7 +2306,7 @@ the REPL in a new frame instead."
   :defer t
   :init (add-hook 'rust-mode-hook #'racer-mode)
   :config
-  (setq racer-rust-src-path (getenv "RUST_SRC_PATH"))
+  (validate-setq racer-rust-src-path (getenv "RUST_SRC_PATH"))
   :diminish (racer-mode . "ⓡ"))
 
 (use-package cargo                      ; Control Cargo
@@ -2293,7 +2328,7 @@ the REPL in a new frame instead."
 
 (use-package css-mode                   ; CSS
   :defer t
-  :config (setq css-indent-offset 2))
+  :config (validate-setq css-indent-offset 2))
 
 (use-package js2-mode                   ; Powerful Javascript mode
   :ensure t
@@ -2302,10 +2337,10 @@ the REPL in a new frame instead."
          ("\\.jsx\\'" . js2-jsx-mode))
   :config
   ;; Disable parser errors and strict warnings.  We have Flycheck 8)
-  (setq js2-mode-show-parse-errors nil
-        js2-mode-show-strict-warnings nil
-        js2-highlight-level 3           ; Try to highlight most ECMA built-ins
-        ))
+  (validate-setq js2-mode-show-parse-errors nil
+                 js2-mode-show-strict-warnings nil
+                 js2-highlight-level 3  ; Try to highlight most ECMA built-ins
+                 ))
 
 (use-package js2-refactor               ; Refactor Javascript
   :ensure t
@@ -2334,15 +2369,16 @@ the REPL in a new frame instead."
   :mode ("\\.zsh\\'" . sh-mode)
   :config
   ;; Use two spaces in shell scripts.
-  (setq sh-indentation 2                ; The basic indentation
-        sh-basic-offset 2               ; The offset for nested indentation
-        ))
+  (validate-setq
+   sh-indentation 2                     ; The basic indentation
+   sh-basic-offset 2                    ; The offset for nested indentation
+   ))
 
 (use-package nxml-mode                  ; XML editing
   :defer t
   ;; Complete closing tags, and insert XML declarations into empty files
-  :config (setq nxml-slash-auto-complete-flag t
-                nxml-auto-insert-xml-declaration-flag t))
+  :config (validate-setq nxml-slash-auto-complete-flag t
+                         nxml-auto-insert-xml-declaration-flag t))
 
 (use-package html5-schema               ; HTML5 schemata for NXML
   :ensure t
@@ -2377,7 +2413,7 @@ the REPL in a new frame instead."
   :defer t
   :config
   ;; Always follow symlinks to files in VCS repos
-  (setq vc-follow-symlinks t))
+  (validate-setq vc-follow-symlinks t))
 
 (use-package what-the-commit            ; Insert random commit messages
   :ensure t
@@ -2409,16 +2445,17 @@ the REPL in a new frame instead."
          ("C-c g p" . magit-pull))
   :config
   ;; Shut up, Magit
-  (setq magit-save-repository-buffers 'dontask
-        magit-refs-show-commit-count 'all
-        ;; Use separate buffers for one-file logs so that we don't need to reset
-        ;; the filter everytime for full log view
-        magit-log-buffer-file-locked t
-        ;; This is creepy, Magit
-        magit-revision-show-gravatars nil
-        ;; Show status buffer in fullscreen
-        magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1
-        )
+  (validate-setq
+   magit-save-repository-buffers 'dontask
+   magit-refs-show-commit-count 'all
+   ;; Use separate buffers for one-file logs so that we don't need to reset
+   ;; the filter everytime for full log view
+   magit-log-buffer-file-locked t
+   ;; This is creepy, Magit
+   magit-revision-show-gravatars nil
+   ;; Show status buffer in fullscreen
+   magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1
+   )
 
   ;; Set Magit's repo dirs for `magit-status' from Projectile's known
   ;; projects.  Initialize the `magit-repository-directories'
@@ -2431,8 +2468,8 @@ the REPL in a new frame instead."
       ;; Remove trailing slashes from project directories, because
       ;; Magit adds trailing slashes again, which breaks the
       ;; presentation in the Magit prompt.
-      (setq magit-repository-directories
-            (mapcar #'directory-file-name project-dirs))))
+      (validate-setq magit-repository-directories
+                     (mapcar #'directory-file-name project-dirs))))
 
   (with-eval-after-load 'projectile
     (lunaryorn-magit-set-repo-dirs-from-projectile))
@@ -2475,7 +2512,7 @@ the REPL in a new frame instead."
   :defer t
   ;; Change the default profile.  The profile itself is set up via customize,
   ;; and includes auth data, to prevent it from storing tokens in Git config
-  :config (setq gh-profile-default-profile "lunaryorn"))
+  :config (validate-setq gh-profile-default-profile "lunaryorn"))
 
 (use-package magit-gh-pulls             ; Show Github PRs in Magit
   :ensure t
@@ -2506,8 +2543,8 @@ the REPL in a new frame instead."
   ;; Remove dead projects when Emacs is idle
   (run-with-idle-timer 10 nil #'projectile-cleanup-known-projects)
 
-  (setq projectile-completion-system 'helm
-        projectile-find-dir-includes-top-level t)
+  (validate-setq projectile-completion-system 'helm
+                 projectile-find-dir-includes-top-level t)
 
   (defun lunaryorn-neotree-project-root (&optional directory)
     "Open a NeoTree browser for a project DIRECTORY."
@@ -2528,7 +2565,7 @@ the REPL in a new frame instead."
   :config
   (helm-projectile-on)
 
-  (setq projectile-switch-project-action #'helm-projectile)
+  (validate-setq projectile-switch-project-action #'helm-projectile)
 
   (helm-add-action-to-source "Open NeoTree `C-t'"
                              #'lunaryorn-neotree-project-root
@@ -2547,18 +2584,18 @@ the REPL in a new frame instead."
   :bind ("C-c a c" . calendar)
   :config
   ;; In Europe we start on Monday
-  (setq calendar-week-start-day 1))
+  (validate-setq calendar-week-start-day 1))
 
 (use-package time                       ; Show current time
   :bind (("C-c a c" . display-time-world))
   :config
-  (setq display-time-world-time-format "%H:%M %Z, %d. %b"
-        display-time-world-list '(("Europe/Berlin"    "Berlin")
-                                  ("Europe/London"    "London")
-                                  ("Europe/Istanbul"  "Istanbul")
-                                  ("America/Winnipeg" "Winnipeg (CA)")
-                                  ("America/New_York" "New York (USA)")
-                                  ("Asia/Tokyo"       "Tokyo (JP)"))))
+  (validate-setq display-time-world-time-format "%H:%M %Z, %d. %b"
+                 display-time-world-list '(("Europe/Berlin"    "Berlin")
+                                           ("Europe/London"    "London")
+                                           ("Europe/Istanbul"  "Istanbul")
+                                           ("America/Winnipeg" "Winnipeg (CA)")
+                                           ("America/New_York" "New York (USA)")
+                                           ("Asia/Tokyo"       "Tokyo (JP)"))))
 
 
 ;;; Terminal emulation and shells
@@ -2574,7 +2611,7 @@ the REPL in a new frame instead."
   :defer t
   :config
   ;; Render PDFs at 300dpi
-  (setq doc-view-resolution 300)
+  (validate-setq doc-view-resolution 300)
 
   (defconst lunaryorn-doc-view-mutool-program "mutool")
 
@@ -2655,7 +2692,8 @@ for more information about CALLBACK."
   :ensure sx
   :defer t
   ;; Display questions in the same window
-  :config (setq sx-question-mode-display-buffer-function #'switch-to-buffer))
+  :config (validate-setq sx-question-mode-display-buffer-function
+                         #'switch-to-buffer))
 
 
 ;;; Fun
