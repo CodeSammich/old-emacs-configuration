@@ -1032,12 +1032,7 @@ Return the new window for BUFFER."
   :defer t
   :bind (("C-c j t" . helm-imenu))
   :config
-  (validate-setq
-   helm-imenu-fuzzy-match t
-   ;; Don't automatically jump to imenu candidate if only one match, because it
-   ;; makes the behaviour of this command unpredictable, and prevents me from
-   ;; getting an overview over the buffer if point is on a matching symbol.
-   helm-imenu-execute-action-at-once-if-one nil))
+  (validate-setq helm-imenu-fuzzy-match t))
 
 (use-package ace-link                   ; Fast link jumping
   :ensure t
