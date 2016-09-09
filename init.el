@@ -438,7 +438,7 @@ symbols, emojis, greek letters, as well as fall backs for."
 (use-package paradox                    ; Better package menu
   :ensure t
   :bind (("C-c a p" . paradox-list-packages)
-         ("C-c a P" . package-list-packages-no-fetch))
+         ("C-c a P" . paradox-upgrade-packages))
   :config
   (validate-setq
    paradox-execute-asynchronously nil   ; No async update, please
