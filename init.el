@@ -840,6 +840,7 @@ Return the new window for BUFFER."
   :config (setq ffap-machine-p-known 'reject))
 
 (use-package server                     ; The server of `emacsclient'
+  :if (not noninteractive)
   :defer t
   :init (server-mode)
   :diminish (server-buffer-clients . " ⓒ"))
