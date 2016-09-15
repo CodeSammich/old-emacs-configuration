@@ -2236,12 +2236,6 @@ the REPL in a new frame instead."
   :ensure t
   :defer t)
 
-(use-package flycheck-purescript        ; Flycheck for Purescript
-  :ensure t
-  :defer t
-  :after flycheck
-  :config (flycheck-purescript-setup))
-
 (use-package psc-ide                    ; IDE features for Purescript
   :ensure t
   :defer t
