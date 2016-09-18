@@ -1065,8 +1065,11 @@ Return the new window for BUFFER."
   ;; same reason we have to use `:init', but isearch is always loaded anyways.
   (diminish 'isearch-mode)
 
-  ;; Please, isearch, let me scroll during search
-  (validate-setq isearch-allow-scroll t))
+  (validate-setq
+   ;; Please, isearch, let me scroll during search
+   isearch-allow-scroll t
+   ;; Fold unicode characters to ASCII while searching
+   search-default-mode #'char-fold-to-regexp))
 
 (use-package visual-regexp              ; Regexp replace with in-buffer display
   :ensure t
