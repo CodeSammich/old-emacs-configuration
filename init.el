@@ -145,22 +145,25 @@
 
 
 ;;; OS X support
-(use-package ns-win                     ; OS X window support
-  :defer t
-  :if (eq system-type 'darwin)
-  :config
+(when (eq system-type 'darwin)
   (validate-setq
-   ns-pop-up-frames nil                 ; Don't pop up new frames from the
-                                        ; workspace
    mac-option-modifier 'meta            ; Option is simply the natural Meta
    mac-command-modifier 'meta           ; But command is a lot easier to hit
    mac-right-command-modifier 'left
    ;; FIXME: Temporarily bind right alt to control until karabiner works again
    ;; on macOS sierra and gives me by beloved return/control key combination
    ;; back
-   mac-right-option-modifier 'control ; Keep right option for accented input
+   mac-right-option-modifier 'control   ; Keep right option for accented input
    ;; Just in case we ever need these keys
    mac-function-modifier 'hyper))
+
+(use-package ns-win                     ; OS X window support
+  :defer t
+  :if (eq system-type 'darwin)
+  :config
+  (validate-setq
+   ;; Don't pop up new frames from the workspace
+   ns-pop-up-frames nil))
 
 (use-package lunaryorn-osx              ; Personal OS X tools
   :if (eq system-type 'darwin)
