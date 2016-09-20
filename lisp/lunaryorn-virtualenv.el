@@ -1,6 +1,6 @@
 ;;; lunaryorn-virtualenv.el --- Personal virtualenv tools  -*- lexical-binding: t; -*-
 
-;; Copyright (c) 2015 Sebastian Wiesner <swiesner@lunaryorn.com>
+;; Copyright (c) 2015-2016 Sebastian Wiesner <swiesner@lunaryorn.com>
 ;;
 ;; Author: Sebastian Wiesner <swiesner@lunaryorn.com>
 ;; URL: https://gihub.com/lunaryorn/.emacs.d
@@ -30,8 +30,8 @@
 (require 'projectile)
 (require 'python)
 
-(defvar lunaryorn-virtualenv-workon-home (or (getenv "WORKON_HOME")
-                                             (expand-file-name "~/.virtualenvs"))
+(defvar lunaryorn-virtualenv-workon-home
+  (or (getenv "WORKON_HOME") (expand-file-name "~/.virtualenvs"))
   "The $WORKON_HOME path.")
 
 (defun lunaryorn-virtualenv-init-from-workon-home ()
