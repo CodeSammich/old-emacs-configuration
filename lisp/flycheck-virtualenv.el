@@ -23,6 +23,10 @@
 ;;; Commentary:
 
 ;; Setup Flycheck according to the current virtualenv.
+;;
+;; Enable with:
+;;
+;; (add-hook 'python-mode-hook #'flycheck-virtualenv-setup)
 
 ;;; Code:
 
@@ -41,8 +45,7 @@
 
 (defun flycheck-virtualenv-setup ()
   "Setup Flycheck for the current virtualenv."
-  (setq-local flycheck-executable-find
-              #' flycheck-virtualenv-executable-find))
+  (setq-local flycheck-executable-find #'flycheck-virtualenv-executable-find))
 
 (provide 'flycheck-virtualenv)
 

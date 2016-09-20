@@ -24,6 +24,10 @@
 
 ;; Automatically set the virtualenv root from workon-home if a virtualenv with
 ;; the same name as the current project exists.
+;;
+;; Enable with:
+;;
+;; (add-hook 'python-mode-hook #'lunaryorn-virtualenv-init-from-workon-home)
 
 ;;; Code:
 

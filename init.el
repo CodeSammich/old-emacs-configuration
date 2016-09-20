@@ -2272,7 +2272,7 @@ the REPL in a new frame instead."
   :load-path "lisp/"
   :after python
   :commands (flycheck-virtualenv-setup)
-  :config (add-hook 'flycheck-mode-hook #'flycheck-virtualenv-setup))
+  :config (add-hook 'python-mode-hook #'flycheck-virtualenv-setup))
 
 (use-package anaconda-mode              ; Powerful Python backend for Emacs
   :ensure t
