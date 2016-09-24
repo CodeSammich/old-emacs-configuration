@@ -1741,7 +1741,7 @@ Disable the highlighting of overlong lines."
    TeX-auto-save t                      ; Automatically save style information
    TeX-electric-sub-and-superscript t   ; Automatically insert braces after
                                         ; sub- and superscripts in math mode
-   TeX-electric-math '("\\(" "\\)")
+   TeX-electric-math '("\\(" . "\\)")
    ;; Don't insert magic quotes right away.
    TeX-quote-after-quote t
    ;; Don't ask for confirmation when cleaning
@@ -1798,7 +1798,7 @@ Disable the highlighting of overlong lines."
                        (,(rx (0+ space) "\\subsubsection*{") 4)
                        (,(rx (0+ space) "\\minisec{") 5))
    ;; No language-specific hyphens please
-   LaTeX-babel-hyphen nil)
+   LaTeX-babel-hyphen "")
 
   (add-hook 'LaTeX-mode-hook #'LaTeX-math-mode)) ; Easy math input
 
