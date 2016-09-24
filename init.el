@@ -41,7 +41,18 @@
 
 (require 'package)
 (setq package-enable-at-startup nil)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+(setq package-archives
+      ;; Package archives, the usual suspects
+      '(("GNU ELPA"     . "http://elpa.gnu.org/packages/")
+        ("MELPA Stable" . "https://stable.melpa.org/packages/")
+        ("MELPA"        . "https://melpa.org/packages/")))
+(setq package-archive-priorities
+      ;; Prefer MELPA Stable over GNU over MELPA.  IOW prefer MELPA's stable
+      ;; packages over everything and only fall back to GNU or MELPA if
+      ;; necessary.
+      '(("MELPA Stable" . 10)
+        ("GNU ELPA"     . 5)
+        ("MELPA"        . 0)))
 
 (package-initialize)
 
