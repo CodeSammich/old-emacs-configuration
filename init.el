@@ -84,6 +84,24 @@
        (when (> (time-to-number-of-days time-since-build) 7)
          (lwarn 'emacs :warning "Your Emacs build is more than a week old!"))))))
 
+(defun lunaryorn-check-version-of-emacs-executable ()
+  "Check the `emacs' executable in $PATH.
+
+Warn if the executable is missing, or has the wrong version,
+which happens with Emacs for Mac OS X if you forget to install
+the command line runner."
+  (if-let ((executable (executable-find "emacs")))
+    (let ((version (car (process-lines executable "--version"))))
+      (unless (string-match-p (concat "GNU Emacs "
+                                      (regexp-quote emacs-version))
+                              version)
+        (lwarn 'emacs :warning
+               "Running Emacs %s but the Emacs executable at %s is %s"
+               emacs-version executable version)))
+    (lwarn 'emacs :warning "No Emacs executable in $PATH!")))
+
+(run-with-idle-timer 1 nil #'lunaryorn-check-version-of-emacs-executable)
+
 
 ;;; Customization
 (use-package validate                   ; Validate options
