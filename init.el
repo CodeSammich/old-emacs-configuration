@@ -2543,6 +2543,7 @@ the REPL in a new frame instead."
   :config (validate-setq gh-profile-default-profile "lunaryorn"))
 
 (use-package magit-gh-pulls             ; Show Github PRs in Magit
+  :disabled t
   :ensure t
   :defer t
   :init (add-hook 'magit-mode-hook #'turn-on-magit-gh-pulls))
