@@ -1012,8 +1012,7 @@ Return the new window for BUFFER."
 (use-package sudo-edit                  ; Edit files as root, through Tramp
   :ensure t
   :defer t
-  :bind (("C-c f s" . sudo-edit)
-         ("C-c f S" . sudo-edit-current-file)))
+  :bind (("C-c f s" . sudo-edit)))
 
 (use-package reveal-in-osx-finder       ; Reveal current buffer in finder
   :ensure t
