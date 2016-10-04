@@ -320,7 +320,7 @@ symbols, emojis, greek letters, as well as fall backs for."
 
   (load-theme 'solarized-light 'no-confirm))
 
-(bind-key "C-c t v" #'variable-pitch-mode)
+(bind-key "C-c t V" #'variable-pitch-mode)
 
 (use-package page-break-lines           ; Turn page breaks into lines
   :ensure t
@@ -1251,7 +1251,10 @@ Return the new window for BUFFER."
 (use-package visual-fill-column         ; Fill column wrapping for Visual Line Mode
   :ensure t
   :defer t
-  :init (add-hook 'visual-line-mode-hook #'visual-fill-column-mode))
+  :bind (("C-c t v" . visual-fill-column-mode))
+  :init (add-hook 'visual-line-mode-hook #'visual-fill-column-mode)
+  ;; Center text by default
+  :config (setq-default visual-fill-column-center-text t))
 
 (use-package zop-to-char                ; Better zapping
   :ensure t
