@@ -1248,11 +1248,18 @@ Return the new window for BUFFER."
   :defer t
   :init (add-hook 'visual-line-mode-hook #'adaptive-wrap-prefix-mode))
 
-(use-package visual-fill-column         ; Fill column wrapping for Visual Line Mode
+(use-package visual-fill-column         ; Fill column wrapping for Visual Line
+                                        ; Mode
   :ensure t
   :defer t
   :bind (("C-c t v" . visual-fill-column-mode))
-  :init (add-hook 'visual-line-mode-hook #'visual-fill-column-mode)
+  :init
+  ;; Turn on whenever visual line mode is on, and in all text or prog mode
+  ;; buffers to get centered text
+  (dolist (hook '(visual-line-mode-hook
+                  prog-mode-hook
+                  text-mode-hook))
+    (add-hook hook #'visual-fill-column-mode))
   ;; Center text by default
   :config (setq-default visual-fill-column-center-text t))
 
