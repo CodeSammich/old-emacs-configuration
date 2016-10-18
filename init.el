@@ -30,6 +30,11 @@
 
 ;;; Code:
 
+;; Increase GC threshold to make init.el load faster
+(defvar lunaryorn-default-gc-cons-threshold gc-cons-threshold)
+(setq gc-cons-threshold 100000000)
+
+
 ;;; Debugging
 (setq message-log-max 10000)
 
@@ -2796,6 +2801,12 @@ for more information about CALLBACK."
          ("C-c h D" . dash-at-point-with-docset)))
 
 (bind-key "C-c h b" #'describe-personal-keybindings)
+
+
+;; Restore the default GC threshold
+(setq gc-cons-threshold lunaryorn-default-gc-cons-threshold)
+;; Clear the variable again
+(makunbound 'lunaryorn-default-gc-cons-threshold)
 
 ;; Local Variables:
 ;; coding: utf-8
