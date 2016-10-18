@@ -1222,6 +1222,7 @@ Return the new window for BUFFER."
          ;; Additional utilities
          ("C-c i d"                      . lunaryorn-insert-current-date)
          ("C-c i l a"                    . lunaryorn-insert-apache2)
+         ("C-c i l g"                    . lunaryorn-insert-gpl3)
          ("C-c i l m"                    . lunaryorn-insert-mit/x11))
   :commands (lunaryorn-auto-fill-comments-mode)
   ;; Auto-fill comments in programming modes
