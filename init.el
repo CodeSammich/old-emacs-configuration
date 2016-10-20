@@ -2577,13 +2577,6 @@ the REPL in a new frame instead."
   :ensure t
   :after magit)
 
-(use-package helm-open-github ; Open Github pages for current repo
-  ;; FIXME: Triggers a password prompt during load?!
-  :disabled t
-  :ensure t
-  :bind (("C-c g g i" . helm-open-github-from-issues)
-         ("C-c g g p" . helm-open-github-from-pull-requests)))
-
 (use-package gist                       ; Create and list Gists
   :ensure t
   :bind (("C-c g g l" . gist-list)
