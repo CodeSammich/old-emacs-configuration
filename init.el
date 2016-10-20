@@ -61,7 +61,8 @@
       ;; Pin a couple of my packages to MELPA; I maintain these and know what
       ;; changes
       package-pinned-packages
-      '(("flycheck" . "MELPA")))
+      '(("flycheck" . "MELPA")
+        ("magithub" . "MELPA")))
 
 (package-initialize)
 
@@ -2571,6 +2572,10 @@ the REPL in a new frame instead."
 (use-package github-clone               ; Clone and fork from Github
   :ensure t
   :bind ("C-c g g c" . github-clone))
+
+(use-package magithub                   ; GitHub integration for Magit
+  :ensure t
+  :after magit)
 
 (use-package helm-open-github ; Open Github pages for current repo
   ;; FIXME: Triggers a password prompt during load?!
