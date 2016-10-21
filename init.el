@@ -2574,6 +2574,7 @@ the REPL in a new frame instead."
   :bind ("C-c g g c" . github-clone))
 
 (use-package magithub                   ; GitHub integration for Magit
+  :disabled t
   :ensure t
   :after magit)
 
