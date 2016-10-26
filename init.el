@@ -558,17 +558,12 @@ mouse-3: go to end"))))
      (flycheck-error flycheck-warning flycheck-info)
      (python-pyvenv :fallback python-pyenv)
      ((which-function projectile-root) :separator " @ ")
-     ((minor-modes :separator spaceline-minor-modes-separator) :when active)
-     nyan-cat)
+     ((minor-modes :separator spaceline-minor-modes-separator) :when active))
    ;; Right segment (the unimportant stuff)
    '((version-control :when active)
      battery))
 
   (setq-default mode-line-format '("%e" (:eval (spaceline-ml-lunaryorn)))))
-
-(use-package nyan-mode                  ; NYAN CATS!!!
-  :ensure t
-  :init (nyan-mode))
 
 (use-package powerline                  ; The work-horse of Spaceline
   :ensure t
@@ -2748,16 +2743,6 @@ for more information about CALLBACK."
   ;; Display questions in the same window
   :config (validate-setq sx-question-mode-display-buffer-function
                          #'switch-to-buffer))
-
-
-;;; Fun
-(use-package zone                       ; Emacs screen saver
-  :bind ("C-c z" . zone))
-
-(use-package zone-nyan                  ; Not exactly useful but <3
-  :ensure t
-  :after zone
-  :config (setq zone-programs (vconcat [zone-nyan] zone-programs)))
 
 
 ;;; Online Help
