@@ -506,11 +506,6 @@ symbols, emojis, greek letters, as well as fall backs for."
 (line-number-mode)
 (column-number-mode)
 
-(use-package fancy-battery              ; Fancy battery info for mode line
-  :ensure t
-  :defer t
-  :init (fancy-battery-mode))
-
 (use-package anzu                       ; Position/matches count for isearch
   :ensure t
   :defer 1
@@ -560,8 +555,7 @@ mouse-3: go to end"))))
      ((which-function projectile-root) :separator " @ ")
      ((minor-modes :separator spaceline-minor-modes-separator) :when active))
    ;; Right segment (the unimportant stuff)
-   '((version-control :when active)
-     battery))
+   '((version-control :when active)))
 
   (setq-default mode-line-format '("%e" (:eval (spaceline-ml-lunaryorn)))))
 
