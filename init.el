@@ -74,9 +74,7 @@
 
 ;;; Requires
 
-(eval-when-compile
-  (require 'use-package))
-
+(require 'use-package)
 (require 'subr-x)
 (require 'time-date)
 
@@ -512,19 +510,22 @@ symbols, emojis, greek letters, as well as fall backs for."
 
 (use-package anzu                       ; Position/matches count for isearch
   :ensure t
+  :defer 1
   :bind
   (([remap query-replace] . anzu-query-replace)
    ([remap query-replace-regexp] . anzu-query-replace-regexp)
    :map isearch-mode-map
    ([remap isearch-query-replace] . anzu-isearch-query-replace)
    ([remap isearch-query-replace-regexp] . anzu-isearch-query-replace-regexp))
-  :init (global-anzu-mode)
-  :config (setq anzu-cons-mode-line-p nil)
+  :config
+  (global-anzu-mode)
+  (setq anzu-cons-mode-line-p nil)
   :diminish anzu-mode)
 
 (use-package which-func                 ; Current function name
-  :init (which-function-mode)
+  :defer 1
   :config
+  (which-function-mode)
   (validate-setq
    which-func-unknown "⊥"               ; The default is really boring…
    which-func-format
@@ -685,11 +686,11 @@ Return the new window for BUFFER."
 
 (use-package lunaryorn-buffers          ; Personal buffer tools
   :load-path "lisp/"
-  :demand t                          ; Prevent a mysterious recursive load error
+  :defer t                           ; Prevent a mysterious recursive load error
   :bind (("C-c b k" . lunaryorn-kill-this-buffer))
   :config
   (add-hook 'kill-buffer-query-functions
-                  'lunaryorn-do-not-kill-important-buffers))
+            #'lunaryorn-do-not-kill-important-buffers))
 
 (use-package uniquify                   ; Make buffer names unique
   :config (validate-setq uniquify-buffer-name-style 'forward))
@@ -916,7 +917,7 @@ Return the new window for BUFFER."
      (concat dired-listing-switches " --group-directories-first -v"))))
 
 (use-package dired-x                    ; Additional tools for Dired
-  :defer nil
+  :defer t
   :bind (("C-c f j" . dired-jump)
          ("C-x C-j" . dired-jump))
   :init
@@ -1414,7 +1415,6 @@ _k_: kill        _s_: split                   _{_: wrap with { }
     ("C-<left>" sp-backward-barf-sexp)
     ("C-<right>" sp-backward-slurp-sexp))
 
-  ;; TODO: Define hydra for smartparens!
   (smartparens-global-mode)
   (show-smartparens-global-mode)
 
@@ -1558,8 +1558,10 @@ Disable the highlighting of overlong lines."
 
 (use-package company                    ; Graphical (auto-)completion
   :ensure t
-  :init (global-company-mode)
+  :defer 1
   :config
+  (global-company-mode)
+
   (validate-setq
    company-tooltip-align-annotations t
    company-tooltip-flip-when-above t
@@ -1670,6 +1672,7 @@ Disable the highlighting of overlong lines."
 
 (use-package helm-flyspell              ; Helm interface to Flyspell
   :ensure t
+  :defer t
   :bind
   (:map flyspell-mode-map
         ([remap flyspell-auto-correct-previous-word] . helm-flyspell-correct)
@@ -1687,9 +1690,10 @@ Disable the highlighting of overlong lines."
 
 (use-package flycheck                   ; On-the-fly syntax checking
   :ensure t
+  :defer 1
   :bind (("C-c e" . lunaryorn-flycheck-errors/body)
          ("C-c t f" . flycheck-mode))
-  :init
+  :config
   (defhydra lunaryorn-flycheck-errors ()
     "Flycheck errors."
     ("n" flycheck-next-error "next")
@@ -1701,7 +1705,6 @@ Disable the highlighting of overlong lines."
     ("h" helm-flycheck "list with helm"))
 
   (global-flycheck-mode)
-  :config
   (validate-setq flycheck-standard-error-navigation nil
                  flycheck-display-errors-function
                  #'flycheck-display-error-messages-unless-error-list
@@ -1749,7 +1752,6 @@ Disable the highlighting of overlong lines."
   :bind (("C-c t t" . typo-mode)
          ("C-c l L" . typo-change-language))
   :init
-  (typo-global-mode)
   (add-hook 'text-mode-hook #'typo-mode)
   :config
   ;; TODO: Automatically set from ispell dictionary in
@@ -2081,7 +2083,6 @@ Taken from http://stackoverflow.com/a/3072831/355252."
 
 (use-package flycheck-package           ; Check package conventions with Flycheck
   :ensure t
-  :defer t
   :after flycheck
   :config (flycheck-package-setup))
 
@@ -2393,6 +2394,7 @@ the REPL in a new frame instead."
 
 (use-package js2-refactor               ; Refactor Javascript
   :ensure t
+  :defer t
   :init
   (add-hook 'js2-mode-hook 'js2-refactor-mode)
   :config
@@ -2586,8 +2588,9 @@ the REPL in a new frame instead."
 ;;; Project management with Projectile
 (use-package projectile                 ; Project management for Emacs
   :ensure t
-  :init (projectile-global-mode)
+  :defer 1
   :config
+  (projectile-global-mode)
   ;; Remove dead projects when Emacs is idle
   (run-with-idle-timer 10 nil #'projectile-cleanup-known-projects)
 
