@@ -121,6 +121,9 @@ the command line runner."
 
 (run-with-idle-timer 1 nil #'lunaryorn-check-version-of-emacs-executable)
 
+(add-hook 'after-init-hook (lambda () (message "Time to load init file: %s"
+                                               (emacs-init-time))))
+
 
 ;;; Customization
 (use-package validate                   ; Validate options
