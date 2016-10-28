@@ -393,7 +393,6 @@ symbols, emojis, greek letters, as well as fall backs for."
      ;; Drop/shorten package prefixes
      ("\\`lunaryorn-"  . "")
      ("projectile-"    . "proj-")
-     ("helm-"          . "h-")
      ("magit-"         . "ma-")))
 
   (which-key-declare-prefixes
@@ -413,7 +412,7 @@ symbols, emojis, greek letters, as well as fall backs for."
     "C-c f v" "variables"
     "C-c g" "git"
     "C-c g g" "github/gist"
-    "C-c h" "helm/help"
+    "C-c h" "help"
     "C-c i" "insert"
     "C-c i l" "licenses"
     "C-c j" "jump"
@@ -475,10 +474,6 @@ symbols, emojis, greek letters, as well as fall backs for."
 (use-package hydra                      ; Bindings that stick
   :ensure t)
 
-(use-package helm-descbinds             ; Describe key bindings with Helm
-  :ensure t
-  :init (helm-descbinds-mode))
-
 
 ;; Package manager and init file
 (use-package paradox                    ; Better package menu
@@ -538,8 +533,6 @@ mouse-3: go to end"))))
 (use-package spaceline-config           ; A beautiful mode line
   :ensure spaceline
   :config
-  (spaceline-helm-mode)                 ; Enable a special Helm mode line
-
   (spaceline-compile
    'lunaryorn
    ;; Left side of the mode line (all the important stuff)
@@ -567,7 +560,7 @@ mouse-3: go to end"))))
            powerline-default-separator 'utf-8))
 
 
-;;; Minibuffer and Helm
+;;; Minibuffer
 (validate-setq
  history-length 1000                    ; Store more history
  use-dialog-box nil                     ; Never use dialogs for minibuffer input
@@ -578,22 +571,32 @@ mouse-3: go to end"))))
   :config (validate-setq savehist-save-minibuffer-history t
                          savehist-autosave-interval 180))
 
-(use-package helm                       ; Powerful minibuffer input framework
+(use-package ivy                        ; Minibuffer completion
   :ensure t
-  :bind (("C-c h l" . helm-resume))
-  :init
-  (helm-mode 1)
-  (with-eval-after-load 'helm-config
-    (warn "`helm-config' loaded! Get rid of it ASAP!"))
+  :init (ivy-mode 1)
+  :bind (("C-c b r" . ivy-resume))
   :config
-  ;; Split inside selected window with Helm
-  (validate-setq helm-split-window-in-side-p t)
-  :diminish helm-mode)
+  ;; Include recentf and bookmarks to switch buffer, and tune the count format.
+  (validate-setq ivy-use-virtual-buffers t
+                 ivy-count-format "(%d/%d) "))
 
-(use-package helm-command               ; Command execution with Helm
-  :ensure helm
-  :defer t
-  :bind (([remap execute-extended-command] . helm-M-x)))
+(use-package ivy-hydra                  ; Hydra bindings for ivy buffer
+  :ensure t
+  :after ivy
+  :bind (:map ivy-minibuffer-map
+         ("C-o" . hydra-ivy/bodyl)))
+
+(use-package counsel                    ; Ivy-powered commands
+  :ensure t
+  :bind (([remap execute-extended-command] . counsel-M-x)
+         ([remap find-file] . counsel-find-file)
+         ([remap describe-function] . counsel-describe-function)
+         ([remap describe-variable] . counsel-describe-variable)
+         ([remap info-lookup-symbol] . counsel-info-lookup-symbol)
+         ("C-c f L" . counsel-load-library)
+         ("C-c i 8" . counsel-unicode-char)
+         ("C-c s a" . counsel-ag)
+         ("C-c j t" . counsel-imenu)))
 
 
 ;;; Buffer, Windows and Frames
@@ -622,17 +625,6 @@ Return the new window for BUFFER."
 (validate-setq
  display-buffer-alist
  `(
-   ;; Give Helm Help a non-side window because Helm as very peculiar ideas
-   ;; about how to display its help
-   (,(rx bos "*Helm Help" (* nonl) "*" eos)
-    (display-buffer-use-some-window
-     display-buffer-pop-up-window))
-   ;; Nail Helm to the side window
-   (,(rx bos "*" (* nonl) "helm" (* nonl) "*" eos)
-    (display-buffer-in-side-window)
-    (side . bottom)
-    (window-height . 0.4)
-    (window-width . 0.6))
    ;; Put REPLs and error lists into the bottom side window
    (,(rx bos
          (or "*Help"                         ; Help buffers
@@ -669,12 +661,6 @@ Return the new window for BUFFER."
   :ensure t
   :init (focus-autosave-mode)
   :diminish focus-autosave-mode)
-
-(use-package helm-buffers               ; Manage buffers with Helm
-  :ensure helm
-  :defer t
-  :bind (([remap switch-to-buffer] . helm-mini))
-  :config (setq helm-buffers-fuzzy-matching t))
 
 (use-package lunaryorn-buffers          ; Personal buffer tools
   :load-path "lisp/"
@@ -785,11 +771,8 @@ Return the new window for BUFFER."
                                 dired-mode
                                 ediff-mode
                                 )
-   ;; Exclude a couple of special buffers from golden ratio, namely Helm,
-   ;; WhichKey, NeoTree, etc.
    golden-ratio-exclude-buffer-regexp
-   `(,(rx bos "*" (any "h" "H") "elm*" eos)
-     ,(rx bos "*which-key*" eos)
+   `(,(rx bos "*which-key*" eos)
      ,(rx bos "*NeoTree*" eos)))
   :diminish (golden-ratio-mode . "ⓖ"))
 
@@ -849,27 +832,6 @@ Return the new window for BUFFER."
   ;; Use GNU ls for Emacs
   (when-let (gnu-ls (and (eq system-type 'darwin) (executable-find "gls")))
     (validate-setq insert-directory-program gnu-ls)))
-
-(use-package helm-files                 ; Manage files with Helm
-  :ensure helm
-  :defer t
-  :bind (([remap find-file] . helm-find-files)
-         ("C-c f f" . helm-for-files)
-         ("C-c f r" . helm-recentf))
-  :config
-  (validate-setq
-   helm-recentf-fuzzy-match t
-   ;; Use recentf to manage file name history
-   helm-ff-file-name-history-use-recentf t
-   ;; Find libraries from `require', etc.
-   helm-ff-search-library-in-sexp t)
-
-  (when (eq system-type 'darwin)
-    ;; Replace locate with spotlight for `helm-for-files'
-    (setq helm-for-files-preferred-list
-          (append (delq 'helm-source-locate
-                        helm-for-files-preferred-list)
-                  '(helm-source-mac-spotlight)))))
 
 (use-package ffap                       ; Find files at point
   :defer t
@@ -1058,19 +1020,18 @@ Return the new window for BUFFER."
     ("[" backward-page "backward")
     ("]" forward-page "forward")))
 
+(use-package ivy-pages                  ; Jump to pages with ivy
+  :ensure t
+  :defer t
+  :bind (("C-c j p" . ivy-pages)))
+
 (use-package avy-jump                   ; Jump to characters in buffers
   :ensure avy
+  :defer t
   :bind (("C-c j w" . avy-goto-word-1)
          ("C-c j l" . avy-goto-line)
          ("C-c j b" . avy-pop-mark)
          ("C-c j j" . avy-goto-char-2)))
-
-(use-package helm-imenu                 ; Jump to tags with Helm
-  :ensure helm
-  :defer t
-  :bind (("C-c j t" . helm-imenu))
-  :config
-  (validate-setq helm-imenu-fuzzy-match t))
 
 (use-package ace-link                   ; Fast link jumping
   :ensure t
@@ -1105,26 +1066,15 @@ Return the new window for BUFFER."
    ;; Fold unicode characters to ASCII while searching
    search-default-mode #'char-fold-to-regexp))
 
+(use-package swiper                     ; isearch with overview
+  :ensure t
+  :defer t
+  :bind (([remap isearch-forward] . swiper)))
+
 (use-package visual-regexp              ; Regexp replace with in-buffer display
   :ensure t
   :bind (("C-c s r" . vr/query-replace)
          ("C-c s R" . vr/replace)))
-
-(use-package helm-regexp                ; Regexp search with Helm
-  :ensure helm
-  :defer t
-  :bind (([remap occur] . helm-occur)))
-
-(use-package helm-swoop                 ; Powerful buffer search for Emacs
-  :ensure t
-  :bind (("C-c s s" . helm-swoop)
-         ("C-c s S" . helm-multi-swoop)
-         ("C-c s C-s" . helm-multi-swoop-all))
-  :config
-  (validate-setq
-   helm-swoop-speed-or-color t          ; Colour over speed 8)
-   ;; Split window like Helm does
-   helm-swoop-split-window-function #'helm-default-display-buffer))
 
 (use-package grep                       ; Control grep from Emacs
   :defer t
@@ -1144,17 +1094,6 @@ Return the new window for BUFFER."
   (when-let (mdfind (and (eq system-type 'darwin) (executable-find "mdfind")))
     (validate-setq locate-command mdfind)))
 
-(use-package helm-ag                    ; Helm frontend for Ag
-  :ensure t
-  :bind (("C-c s a" . helm-ag)
-         ("C-c s A" . helm-do-ag))
-  :config
-  (validate-setq
-   helm-ag-fuzzy-match t                ; Fuzzy matching
-   helm-ag-insert-at-point 'symbol      ; Default to symbol at point
-   helm-ag-edit-save t                  ; save buffers after editing
-   ))
-
 
 ;;; Rings and registers
 (validate-setq
@@ -1162,12 +1101,6 @@ Return the new window for BUFFER."
  kill-do-not-save-duplicates t               ; No duplicates in kill ring
  ;; Save the contents of the clipboard to kill ring before killing
  save-interprogram-paste-before-kill t)
-
-(use-package helm-ring                  ; Browse rings and registers with Helm
-  :ensure helm
-  :defer t
-  :bind (([remap yank-pop]        . helm-show-kill-ring)
-         ([remap insert-register] . helm-register)))
 
 (use-package easy-kill                  ; Easy killing and marking on C-w
   :ensure t
@@ -1339,10 +1272,6 @@ Return the new window for BUFFER."
   :bind (("C-c t i" . toggle-input-method))
   :config
   (validate-setq default-input-method "german-postfix"))
-
-(use-package helm-unicode               ; Unicode input with Helm
-  :ensure t
-  :bind ("C-c i 8" . helm-unicode))
 
 
 ;;; Paired delimiters
@@ -1591,15 +1520,6 @@ Disable the highlighting of overlong lines."
 
   (add-hook 'gfm-mode-hook #'lunaryorn-company-emoji-no-unicode))
 
-(use-package helm-company               ; Helm frontend for company
-  :ensure t
-  :defer t
-  :bind (:map company-mode-map
-         ([remap complete-symbol] . helm-company)
-         ([remap completion-at-point] . helm-company)
-         :map company-active-map
-         ("C-:" . helm-company)))
-
 (use-package auto-insert                ; Automatic insertion into new files
   :defer t
   :bind (("C-c i a" . auto-insert)))
@@ -1662,14 +1582,6 @@ Disable the highlighting of overlong lines."
   (define-key flyspell-mouse-map [mouse-2] nil)
   :diminish (flyspell-mode . " ⓢ"))
 
-(use-package helm-flyspell              ; Helm interface to Flyspell
-  :ensure t
-  :defer t
-  :bind
-  (:map flyspell-mode-map
-        ([remap flyspell-auto-correct-previous-word] . helm-flyspell-correct)
-        ("C-c l c" . helm-flyspell-correct)))
-
 (use-package auto-dictionary            ; Automatically infer dictionary
   :ensure t
   ;; Always change dictionary through adict, because it triggers hooks that let
@@ -1692,9 +1604,7 @@ Disable the highlighting of overlong lines."
     ("p" flycheck-previous-error "previous")
     ("f" flycheck-first-error "first")
     ("l" flycheck-list-errors "list")
-    ("w" flycheck-copy-errors-as-kill "copy message")
-    ;; See `helm-flycheck' package below
-    ("h" helm-flycheck "list with helm"))
+    ("w" flycheck-copy-errors-as-kill "copy message"))
 
   (global-flycheck-mode)
   (validate-setq flycheck-standard-error-navigation nil
@@ -1718,10 +1628,6 @@ Disable the highlighting of overlong lines."
   (dolist (hook-fn '(lunaryorn-use-js-executables-from-node-modules
                      lunaryorn-flycheck-set-load-path-for-user-configuration))
     (add-hook 'flycheck-mode-hook hook-fn)))
-
-(use-package helm-flycheck              ; Helm frontend for Flycheck errors
-  :ensure t
-  :after flycheck)
 
 
 ;;; Text editing
@@ -2020,13 +1926,6 @@ Taken from http://stackoverflow.com/a/3072831/355252."
 
   (add-hook 'compilation-filter-hook #'lunaryorn-colorize-compilation-buffer))
 
-(use-package helm-make                  ; Run makefile targets through Helm
-  :ensure t
-  :bind (("C-c c c" . helm-make-projectile)
-         ;; FIXME: Write a more sophisticated command that checks whether a
-         ;; Makefile exists and falls back to an alternative if not.
-         ("<f5>" . helm-make-projectile)))
-
 (use-package elide-head                 ; Elide lengthy GPL headers
   :bind (("C-c t e" . elide-head))
   :init (add-hook 'prog-mode-hook #'elide-head))
@@ -2101,12 +2000,6 @@ Taken from http://stackoverflow.com/a/3072831/355252."
   :bind (:map emacs-lisp-mode-map ("C-c m f" . lunaryorn-elisp-find-cask-file))
   :init
   (add-hook 'emacs-lisp-mode-hook #'lunaryorn-add-use-package-to-imenu))
-
-(use-package helm-elisp                 ; Helm commands for elisp
-  :ensure helm
-  :defer t
-  :bind (([remap apropos-command] . helm-apropos)
-         ("C-c f l" . helm-locate-library)))
 
 (use-package el-search                  ; pcase-based search for elisp
   :ensure t
@@ -2489,6 +2382,7 @@ the REPL in a new frame instead."
   :config
   ;; Shut up, Magit
   (validate-setq
+   magit-completing-read-function #'ivy-completing-read
    magit-save-repository-buffers 'dontask
    magit-refs-show-commit-count 'all
    ;; Use separate buffers for one-file logs so that we don't need to reset
@@ -2544,11 +2438,6 @@ the REPL in a new frame instead."
   :ensure t
   :bind (("C-c g t" . git-timemachine)))
 
-(use-package helm-gitignore             ; Generate gitignore files
-  :ensure t
-  :defer t
-  :bind ("C-c g I" . helm-gitignore))
-
 
 ;;; Github integration
 (use-package gh                         ; Github API library
@@ -2586,7 +2475,7 @@ the REPL in a new frame instead."
   ;; Remove dead projects when Emacs is idle
   (run-with-idle-timer 10 nil #'projectile-cleanup-known-projects)
 
-  (validate-setq projectile-completion-system 'helm
+  (validate-setq projectile-completion-system 'ivy
                  projectile-find-dir-includes-top-level t)
 
   (defun lunaryorn-neotree-project-root (&optional directory)
@@ -2599,20 +2488,11 @@ the REPL in a new frame instead."
         (neotree-find (projectile-project-root)))))
   :diminish projectile-mode)
 
-(use-package helm-projectile            ; Helm frontend for Projectile
+(use-package counsel-projectile         ; Counsel interface to projectile
   :ensure t
   :after projectile
-  :bind (("C-c s p" . helm-projectile-ag)
-         :map helm-projectile-projects-map
-              ("C-t" . lunaryorn-neotree-project-root))
   :config
-  (helm-projectile-on)
-
-  (validate-setq projectile-switch-project-action #'helm-projectile)
-
-  (helm-add-action-to-source "Open NeoTree `C-t'"
-                             #'lunaryorn-neotree-project-root
-                             helm-source-projectile-projects 1))
+  (counsel-projectile-on))
 
 
 ;;; Processes and commands
@@ -2762,16 +2642,6 @@ for more information about CALLBACK."
   ;; tries to cross-reference symbol names in backticks, tries to fontify
   ;; headers, etc.q
   :init (add-hook 'Info-selection-hook #'niceify-info))
-
-(use-package helm-man                   ; Man pages with Helm
-  :ensure helm
-  :defer t
-  :bind (("C-c h m" . helm-man-woman)))
-
-(use-package helm-info                  ; Info pages with Helm
-  :ensure helm
-  :bind (([remap info] . helm-info-at-point)
-         ("C-c h e"    . helm-info-emacs)))
 
 (use-package ansible-doc                ; Documentation lookup for Ansible
   :ensure t
