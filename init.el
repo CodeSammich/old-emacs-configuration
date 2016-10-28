@@ -584,7 +584,7 @@ mouse-3: go to end"))))
   :ensure t
   :after ivy
   :bind (:map ivy-minibuffer-map
-         ("C-o" . hydra-ivy/bodyl)))
+         ("C-o" . hydra-ivy/body)))
 
 (use-package counsel                    ; Ivy-powered commands
   :ensure t
