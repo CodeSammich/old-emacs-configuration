@@ -61,8 +61,7 @@
       ;; Pin a couple of my packages to MELPA; I maintain these and know what
       ;; changes
       package-pinned-packages
-      '(("flycheck" . "MELPA")
-        ("magithub" . "MELPA")))
+      '(("flycheck" . "MELPA")))
 
 (package-initialize)
 
