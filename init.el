@@ -58,10 +58,15 @@
       '(("MELPA Stable" . 10)
         ("GNU ELPA"     . 5)
         ("MELPA"        . 0))
-      ;; Pin a couple of my packages to MELPA; I maintain these and know what
-      ;; changes
+      ;; Pin a couple of packages to MELPA
       package-pinned-packages
-      '(("flycheck" . "MELPA")))
+      '(;; I maintain these and know what changes
+        ("flycheck"  . "MELPA")
+        ;; Last release was a long time ago for these
+        ("ivy"       . "MELPA")
+        ("ivy-hydra" . "MELPA")
+        ("counsel"   . "MELPA")
+        ("swiper"    . "MELPA")))
 
 (package-initialize)
 
