@@ -1430,7 +1430,8 @@ Disable the highlighting of overlong lines."
   :bind
   (("C-c s %" . highlight-symbol-query-replace)
    ("C-c s n" . highlight-symbol-next-in-defun)
-   ("C-c s p" . highlight-symbol-prev-in-defun))
+   ("C-c s p" . highlight-symbol-prev-in-defun)
+   ("C-c s o" . highlight-symbol-occur))
   ;; Navigate occurrences of the symbol under point with M-n and M-p, and
   ;; highlight symbol occurrences
   :init
