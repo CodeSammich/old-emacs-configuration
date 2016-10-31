@@ -2632,6 +2632,10 @@ for more information about CALLBACK."
          ("C-c h V"   . find-variable)
          ("C-c h 4 V" . find-variable-other-window)))
 
+(use-package man                        ; Manpage viewer
+  :defer t
+  :bind ("C-c h m" . man))
+
 (use-package info                       ; Info manual viewer
   :defer t
   :config
