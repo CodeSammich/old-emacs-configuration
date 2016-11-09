@@ -660,7 +660,7 @@ Return the new window for BUFFER."
           ;; Kill `suspend-frame'
           (global-set-key (kbd "C-z") nil)
           (global-set-key (kbd "C-x C-z") nil))
-  :config (add-to-list 'initial-frame-alist '(fullscreen . fullboth)))
+  :config (add-to-list 'initial-frame-alist '(fullscreen . maximized)))
 
 (use-package focus-autosave-mode        ; Save buffers when focus is lost
   :ensure t
