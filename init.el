@@ -339,6 +339,7 @@ symbols, emojis, greek letters, as well as fall backs for."
   :diminish page-break-lines-mode)
 
 (use-package beacon                     ; Highlight cursor position in buffer
+  :disabled t
   :ensure t
   :init (beacon-mode 1)
   :diminish beacon-mode)
