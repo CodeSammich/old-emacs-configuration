@@ -583,7 +583,8 @@ mouse-3: go to end"))))
   :config
   ;; Include recentf and bookmarks to switch buffer, and tune the count format.
   (validate-setq ivy-use-virtual-buffers t
-                 ivy-count-format "(%d/%d) "))
+                 ivy-count-format "(%d/%d) ")
+  :diminish ivy-mode)
 
 (use-package ivy-hydra                  ; Hydra bindings for ivy buffer
   :ensure t
