@@ -2421,6 +2421,16 @@ the REPL in a new frame instead."
   (add-hook 'projectile-switch-project-hook
             #'lunaryorn-magit-set-repo-dirs-from-projectile))
 
+(use-package projectile-git-autofetch   ; Auto-fetch Github repos
+  :ensure t
+  :after magit
+  :config
+  (projectile-git-autofetch-mode)
+  ;; Fetch all open projects every ten minutes
+  (validate-setq projectile-git-autofetch-projects 'open
+                 projectile-git-autofetch-interval 600)
+  :diminish (projectile-git-autofetch-mode . "↓"))
+
 (use-package git-commit                 ; Git commit message mode
   :ensure t
   :defer t
