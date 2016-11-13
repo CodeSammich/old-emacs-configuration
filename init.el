@@ -2634,6 +2634,11 @@ for more information about CALLBACK."
          ("C-c h V"   . find-variable)
          ("C-c h 4 V" . find-variable-other-window)))
 
+(use-package lunaryorn-help             ; Personal extensions to help
+  :load-path "lisp/"
+  :defer t
+  :bind (("C-c h ." . lunaryorn-describe-symbol-at-point)))
+
 (use-package man                        ; Manpage viewer
   :defer t
   :bind ("C-c h m" . man))
