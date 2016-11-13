@@ -2265,14 +2265,18 @@ the REPL in a new frame instead."
 (use-package js2-mode                   ; Powerful Javascript mode
   :ensure t
   :defer t
-  :mode (("\\.js\\'" . js2-mode)
-         ("\\.jsx\\'" . js2-jsx-mode))
+  :mode (("\\.js\\'" . js2-mode))
   :config
   ;; Disable parser errors and strict warnings.  We have Flycheck 8)
   (validate-setq js2-mode-show-parse-errors nil
                  js2-mode-show-strict-warnings nil
                  js2-highlight-level 3  ; Try to highlight most ECMA built-ins
                  ))
+
+(use-package rjsx-mode                  ; JSX mode
+  :ensure t
+  :defer t
+  :mode (("\\.jsx\\'" . rjsx-mode)))
 
 (use-package js2-refactor               ; Refactor Javascript
   :ensure t
