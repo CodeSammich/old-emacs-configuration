@@ -1964,16 +1964,6 @@ Taken from http://stackoverflow.com/a/3072831/355252."
 ;;; Emacs Lisp
 (bind-key "C-c t d" #'toggle-debug-on-error)
 
-(use-package elisp-slime-nav            ; Jump to definition of symbol at point
-  :ensure t
-  :init (add-hook 'emacs-lisp-mode-hook #'elisp-slime-nav-mode)
-  :bind (:map elisp-slime-nav-mode-map
-              ("C-c h ." . elisp-slive-nav-describe-elisp-thing-at-point))
-  :config
-  (dolist (key '("C-c C-d d" "C-c C-d C-d"))
-    (define-key elisp-slime-nav-mode-map (kbd key) nil))
-  :diminish elisp-slime-nav-mode)
-
 (use-package flycheck-cask              ; Setup Flycheck by Cask projects
   :ensure t
   :defer t
