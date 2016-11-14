@@ -1636,6 +1636,17 @@ Disable the highlighting of overlong lines."
                      lunaryorn-flycheck-set-load-path-for-user-configuration))
     (add-hook 'flycheck-mode-hook hook-fn)))
 
+(use-package flycheck-pos-tip           ; Show Flycheck errors in tooltip
+  :ensure t
+  :disabled t
+  :after flycheck
+  :config (flycheck-pos-tip-mode))
+
+(use-package flycheck-title             ; Show Flycheck errors in frame title
+  :ensure t
+  :after flycheck
+  :config (flycheck-title-mode))
+
 
 ;;; Text editing
 (use-package table                      ; Edit tables in text files
