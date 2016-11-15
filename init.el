@@ -1794,7 +1794,7 @@ Disable the highlighting of overlong lines."
   :init (add-hook 'LaTeX-mode-hook #'reftex-mode)
   :config
   ;; Plug into AUCTeX
-  (validate-setq
+  (setq
    reftex-plug-into-AUCTeX t
    ;; Automatically derive labels, and prompt for confirmation
    reftex-insert-label-flags '(t t)
