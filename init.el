@@ -594,6 +594,7 @@ mouse-3: go to end"))))
 
 (use-package counsel                    ; Ivy-powered commands
   :ensure t
+  :init (counsel-mode)
   :bind (([remap execute-extended-command] . counsel-M-x)
          ([remap find-file] . counsel-find-file)
          ([remap describe-function] . counsel-describe-function)
