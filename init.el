@@ -803,7 +803,7 @@ Return the new window for BUFFER."
 
 (use-package writeroom-mode             ; Distraction-free editing
   :ensure t
-  :bind (("C-c t r" . writeroom-mode)))
+  :bind (("C-c t R" . writeroom-mode)))
 
 (use-package popup                      ; Popup menus
   ;; We don't ensure this package, because we definitely don't want to have this
@@ -2532,7 +2532,7 @@ the REPL in a new frame instead."
   (validate-setq calendar-week-start-day 1))
 
 (use-package time                       ; Show current time
-  :bind (("C-c a c" . display-time-world))
+  :bind (("C-c a C" . display-time-world))
   :config
   (validate-setq display-time-world-time-format "%H:%M %Z, %d. %b"
                  display-time-world-list '(("Europe/Berlin"    "Berlin")
