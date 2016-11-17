@@ -600,11 +600,13 @@ mouse-3: go to end"))))
          ([remap describe-function] . counsel-describe-function)
          ([remap describe-variable] . counsel-describe-variable)
          ([remap info-lookup-symbol] . counsel-info-lookup-symbol)
+         ([remap completion-at-point] . counsel-company)
          ("C-c f L" . counsel-load-library)
          ("C-c f r" . counsel-recentf)
          ("C-c i 8" . counsel-unicode-char)
          ("C-c s a" . counsel-ag)
-         ("C-c j t" . counsel-imenu)))
+         ("C-c j t" . counsel-imenu)
+         ("C-c g L" . counsel-git-log)))
 
 
 ;;; Buffer, Windows and Frames
