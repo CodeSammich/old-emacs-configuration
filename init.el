@@ -238,9 +238,9 @@ the command line runner."
 ;; TODO:  Find Emoji and symbol fonts for Linux and Windows
 
 (set-face-attribute 'default nil
-                    :family "Source Code Pro" :height 130)
+                    :family "Source Code Pro" :height 120)
 (set-face-attribute 'variable-pitch nil
-                    :family "Fira Sans" :height 140 :weight 'regular)
+                    :family "Fira Sans" :height 130 :weight 'regular)
 
 ;; Font setup
 (defun lunaryorn-configure-fonts (frame)
