@@ -221,22 +221,6 @@ the command line runner."
 
 
 ;;; Fonts
-
-;; We use these fonts:
-;;
-;; - Monoid (http://larsenwork.com/monoid/) as default
-;; - XITS Math (https://github.com/khaledhosny/xits-math) as fallback for math
-;;
-;; Source Code Pro (https://github.com/adobe-fonts/source-code-pro) is a good
-;; monospace font, too.  An alternative is Consolas.  Another great monospace
-;; font is and Pragmata Pro (http://www.fsd.it/fonts/pragmatapro.htm,
-;; proprietary, around 200$).
-;;
-;; Currently this setup only works for OS X, as we rely on Apple's Emoji and
-;; Symbol fonts.
-;;
-;; TODO:  Find Emoji and symbol fonts for Linux and Windows
-
 (set-face-attribute 'default nil
                     :family "Source Code Pro" :height 120)
 (set-face-attribute 'variable-pitch nil
