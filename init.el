@@ -400,7 +400,7 @@ symbols, emojis, greek letters, as well as fall backs for."
      ("projectile-"    . "proj-")
      ("magit-"         . "ma-")))
 
-  (which-key-declare-prefixes
+  (which-key-add-key-based-replacements
     ;; Prefixes for global prefixes and minor modes
     "C-c @" "outline"
     "C-c !" "flycheck"
@@ -435,7 +435,7 @@ symbols, emojis, greek letters, as well as fall backs for."
     "C-c x" "text")
 
   ;; Prefixes for major modes
-  (which-key-declare-prefixes-for-mode 'markdown-mode
+  (which-key-add-major-mode-key-based-replacements 'markdown-mode
     "C-c TAB" "markdown/images"
     "C-c C-a" "markdown/links"
     "C-c C-c" "markdown/process"
@@ -444,15 +444,15 @@ symbols, emojis, greek letters, as well as fall backs for."
     "C-c C-x" "markdown/structure"
     "C-c m" "markdown/personal")
 
-  (which-key-declare-prefixes-for-mode 'emacs-lisp-mode
+  (which-key-add-major-mode-key-based-replacements 'emacs-lisp-mode
     "C-c m" "elisp/personal"
     "C-c m e" "eval")
 
-  (which-key-declare-prefixes-for-mode 'js2-mode
+  (which-key-add-major-mode-key-based-replacements 'js2-mode
     "C-c m" "js/personal"
     "C-c m r" "refactor")
 
-  (which-key-declare-prefixes-for-mode 'scala-mode
+  (which-key-add-major-mode-key-based-replacements 'scala-mode
     "C-c C-b" "ensime/build"
     "C-c C-d" "ensime/debug"
     "C-c C-r" "ensime/refactor"
@@ -460,14 +460,14 @@ symbols, emojis, greek letters, as well as fall backs for."
     "C-c m" "scala/personal"
     "C-c m b" "scala/build")
 
-  (which-key-declare-prefixes-for-mode 'haskell-mode
+  (which-key-add-major-mode-key-based-replacements 'haskell-mode
     "C-c m" "haskell/personal"
     "C-c m i" "haskell/imports")
 
-  (which-key-declare-prefixes-for-mode 'rust-mode
+  (which-key-add-major-mode-key-based-replacements 'rust-mode
     "C-c C-c" "rust/cargo")
 
-  (which-key-declare-prefixes-for-mode 'web-mode
+  (which-key-add-major-mode-key-based-replacements 'web-mode
     "C-c C-a" "web/attributes"
     "C-c C-b" "web/blocks"
     "C-c C-d" "web/dom"
@@ -2307,6 +2307,7 @@ the REPL in a new frame instead."
   (js2r-add-keybindings-with-prefix "C-c m r"))
 
 (use-package tern                       ; Javascript IDE backend
+  :disabled t
   :ensure t
   :defer t
   :init (add-hook 'js2-mode-hook #'tern-mode)
