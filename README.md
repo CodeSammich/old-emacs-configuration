@@ -1,6 +1,9 @@
+**I'm not using Emacs anymore**. Take a look at my 
+[Atom config](https://github.com/lunaryorn/.atom)
+
 # My personal Emacs configuration #
 
-My own home-grown Emacs configuration with
+My old home-grown Emacs configuration with
 [use-package](https://github.com/jwiegley/use-package).
 
 ## Setup — How do you use it? ##
