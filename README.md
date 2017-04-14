@@ -1,5 +1,5 @@
 **I'm not using Emacs anymore**. Take a look at my 
-[Atom config](https://github.com/lunaryorn/.atom)
+[Neovim config](https://github.com/lunaryorn/dotfiles/blob/master/nvim/.config/nvim/init.vim)
 
 # My personal Emacs configuration #
 
